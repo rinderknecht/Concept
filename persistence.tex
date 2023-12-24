@@ -1,0 +1,609 @@
+\section{Persistance}
+\label{sec_persistence}
+
+La \emph{persistance}\index{persistance} est une propriété
+caractéristique des langages purement fonctionnels. Elle signifie
+simplement que toutes les valeurs sont constantes. Les fonctions
+mettent à jour une structure des données en en créant une nouvelle
+version, au lieu de la modifier sur place et effaçant ainsi son
+histoire. Nous avons vu à la section~\vref{sec_functional} que les
+sous-arbres communs aux deux membres d'une même règle sont partagés.
+Un tel partage est rendu correct grâce à la persistance: il n'y a pas
+moyen de distinguer logiquement la copie d'un sous-arbre et
+l'original.
+
+% Wrapping figure better declared before a paragraph
+%
+\setlength{\intextsep}{0pt}
+\begin{wrapfigure}[6]{r}[0pt]{0pt}
+% [6] vertical lines
+% {r} mandatory right placement (better because of a list)
+\centering
+\includegraphics[bb=71 672 203 721]{red}
+\caption{Réduction\label{fig_red}}
+\end{wrapfigure}
+
+\paragraph{Partage maximum}
+\index{partage}
+
+Une occasion évidente de partage est l'occurrence d'une variable dans
+les deux membres d'une même règle, comme on peut le voir à la
+\fig~\vref{fig_cat_dag} par exemple. Mais ceci ne conduit pas
+nécessairement à un partage maximum, comme la définition de
+\fun{red/1}\index{red@\fun{red/1}} (\emph{réduire}) à la
+\fig~\vref{fig_red} le montre. Cette fonction recopie une pile sans
+ses éléments répétés consécutivement. Par exemple,
+\(\fun{red}([4,1,2,2,2,1,1]) \twoheadrightarrow [4,1,2,1]\). Un graphe
+orienté sans circuit représentant la deuxième règle est montré à la
+\fig~\vref{fig_red_dag1}.
+\begin{figure}[b]
+\centering
+\subfloat[Partage de variables\label{fig_red_dag1}]{%
+  \includegraphics[bb=65 645 163 723]{red_dag1}
+}
+\qquad\qquad
+\subfloat[Partage maximum\label{fig_red_dag2}]{%
+  \includegraphics[bb=60 645 163 723]{red_dag2}
+}
+\caption{Graphe orienté sans circuits de \((\xrightarrow{\smash{\beta}})\)}
+\end{figure}
+Dans cette figure, le partage est fondé sur des occurrences communes
+de variables, mais nous pouvons constater que \(\cons{x}{s}\) n'est
+pas complètement partagé. Considérons la même règle à la
+\fig~\vref{fig_red_dag2} avec un partage maximum, où un sous-arbre
+complet est partagé.
+
+%\setlength{\intextsep}{12pt}
+
+Dans toute discussion sur la gestion de la mémoire, \emph{nous
+  supposerons que le partage est maximum pour chaque règle}, donc, par
+exemple, \fig~\vref{fig_red_dag2} serait le défaut. Mais cette
+propriété n'est pas suffisante pour assurer que le partage est maximum
+entre les arguments d'un appel de fonction et sa valeur. Par exemple,
+\begin{equation*}
+\fun{cp}(\el) \rightarrow \el;\qquad
+\fun{cp}(\cons{x}{s}) \rightarrow \cons{x}{\fun{cp}(s)}.
+\end{equation*}
+fabrique une copie de son argument, mais la valeur de \(\fun{cp}(s)\)
+ne partage que ses éléments avec~\(s\), bien que \(\fun{cp}(s) \equiv
+s\).
+
+\paragraph{Gestion de versions}
+
+Une idée simple pour réaliser des structures de données qui permettent
+de rebrousser chemin (en anglais, \emph{backtracking}), consiste à
+conserver toutes les versions\index{persistance!$\sim$ des
+  versions}. Une pile peut être utilisée à cet effet, appelée ici
+\emph{histoire}\index{persistance!histoire}, et rebrousser chemin se
+réduit alors à une recherche linéaire\index{recherche linéaire} dans
+l'histoire. Par exemple, nous pourrions vouloir conserver une suite de
+piles, chacune étant obtenue de la précédente par un empilage ou un
+dépilage, comme \([[4,2,1],[2,1],[3,2,1],[2,1],[1],\el]\),
+où la pile initiale était vide; puis \(1\)~a été empilé, suivi
+de~\(2\) et~\(3\); ensuite \(3\)~a été dépilé et \(4\)~empilé. De
+cette façon, la \emph{dernière version} est le sommet de l'histoire,
+comme \([4,2,1]\) dans notre exemple. Par ailleurs, nous souhaitons
+que deux versions successives partagent le plus de structure
+possible. (Nous employons le terme «version» plutôt qu'«état» parce
+que dernier se réfère à des valeurs qui ne sont pas persistantes.) Ces
+exigences sont au c{\oe}ur des logiciels dits de \emph{gestion de
+  versions}, utilisés par les programmeurs pour conserver une trace de
+l'évolution de leur programmes.
+
+Nous continuerons avec notre exemple de l'évolution d'une pile, tout
+en gardant à l'esprit que la technique décrite ci-après est applicable
+à toute structure de données. Nous devons écrire deux fonctions,
+\fun{push/2}\index{push@\fun{push/2}} (différente de celle définie à
+la section~\ref{sec_cutting}) et \fun{pop/1}\index{pop@\fun{pop/1}},
+qui, au lieu de traiter une pile, traitent une histoire de
+piles. Soient les définitions suivantes:
+\begin{equation}
+\begin{array}{@{}r@{\;}c@{\;}l@{\quad}r@{\;}c@{\;}l@{}}
+\fun{push}(x,\el) & \rightarrow & [[x],\el];
+& \fun{pop}(\cons{\cons{x}{s}}{h}) & \rightarrow &
+                                     \cons{s,\cons{x}{s}}{h}.\\
+\fun{push}(x,\cons{s}{h}) & \rightarrow &
+\cons{\cons{x}{s},s}{h}. & 
+\fun{top}(\cons{\cons{x}{s}}{h}) & \rightarrow & x.
+\end{array}
+\label{eq_push_pop_persistence}
+\end{equation}
+Les graphes orientés sans circuits (GOSC) associés sont montrés à la
+\fig~\vref{fig_push_pop_dag}.
+\begin{figure}[b]
+\centering
+\includegraphics[bb=70 639 294 726]{push_pop_dag}
+\caption{GOSC de \fun{push/2} et \fun{pop/1} avec partage maximum
+\label{fig_push_pop_dag}}
+\end{figure}
+L'histoire \([[4,2,1],[2,1],[3,2,1],[2,1],[1],\el]\) est montrée
+à la \fig~\ref{fig_history}
+\begin{figure}
+\centering
+\includegraphics[bb=70 575 247 723]{history}
+\caption{L'histoire \([[4,2,1],[2,1],[3,2,1],[2,1],[1],\el]\)
+\label{fig_history}}
+\end{figure}
+comme un graphe orienté sans circuits aussi. Il est le résultat de
+l'évaluation de
+\begin{equation}
+\fun{push}(4, \fun{pop}(\fun{push}(3, \fun{push}(2,
+\fun{push}(1, \el))))).
+\label{ex_history}
+\end{equation}
+
+Soit \(\fun{ver}(k,h)\) \index{ver@\fun{ver/2}} dont valeur est la
+\(k^\text{e}\) version antérieure dans l'histoire~\(h\), de telle
+sorte que \(\fun{ver}(0,h)\) soit la dernière version. Comme on s'y
+attendrait, \fun{ver/2} n'est rien d'autre qu'une recherche linéaire
+avec un compte à rebours:
+\begin{equation*}
+\abovedisplayskip=3pt
+\belowdisplayskip=3pt
+\fun{ver}(0,\cons{s}{h}) \rightarrow s;\qquad
+\fun{ver}(k,\cons{s}{h}) \rightarrow \fun{ver}(k-1,h).
+\end{equation*}
+Notre codage de l'histoire permet à la dernière version d'être
+aisément copiée avec modification, mais pas les plus anciennes. Quand
+toutes les versions d'une structure de donnée sont ainsi modifiables,
+on parle de \emph{persistance complète}\index{persistance!$\sim$
+  complète}; si seule la dernière version est modifiable, on parle de
+\emph{persistance partielle}
+\citep{MehlhornTsakalidis_1990}.\index{persistance!$\sim$ partielle}
+
+\paragraph{Revisiter les mises à jour}
+\index{persistance!rebroussement}
+
+Dans le but de parvenir à la persistance complète, nous devrions
+conserver une histoire des mises à jour\index{persistance!$\sim$ des
+  mises à jour}, \(\ufun{push}(x)\)\index{push@\fun{push/1}} et
+\(\ufun{pop}()\)\index{pop@\fun{pop/0}}, au lieu de versions
+successives partagées le plus possible avec leur successeur. Dans ce
+qui suite, le soulignement évite la confusion avec les fonctions
+\fun{push/2}\index{push@\fun{push/2}} et
+\fun{pop/1}\index{pop@\fun{pop/1}}. Au lieu de
+l'équation~\eqref{ex_history}, on a
+\begin{equation}
+[\ufun{push}(4), \ufun{pop}(), \ufun{push}(3), \ufun{push}(2),
+\ufun{push}(1)].
+\label{ex_history1}
+\end{equation}
+Toutes les suites de \(\ufun{push}(x)\) et \(\ufun{pop}()\) ne sont
+pas valides, comme, par exemple, \([\ufun{pop}(), \ufun{pop}(),
+  \ufun{push}(x)]\) et \([\ufun{pop}()]\). Pour caractériser les
+histoires valides, examinons une représentation graphique des mises à
+jour à la \fig~\vref{fig_push_pop1}.
+\begin{figure}[!b]
+\centering
+\subfloat[$\protect\fun{push}(x)$]{%
+  \includegraphics[bb=71 662 130 715,scale=0.8]{push}}
+\qquad
+\subfloat[$\protect\fun{pop}()$]{%
+  \includegraphics[bb=71 662 130 715,scale=0.8]{pop}}
+\caption{Mises à jour de piles\label{fig_push_pop1}}
+\end{figure}
+Ceci est le même modèle que nous avons employé à la
+section~\ref{sec_queueing} où nous avons étudié les files d'attente
+fonctionnelles (voir en particulier la \fig~\vref{fig_enq_deq}), sauf
+que nous choisissons ici une orientation vers la gauche de manière à
+refléter la notation des piles, dont les sommets sont écrits à
+gauche. Considérons par exemple l'histoire à la
+\fig~\vref{fig_history1}.
+\begin{figure}[t]
+\centering
+\includegraphics[bb=69 577 300 726,scale=0.92]{history1}
+\caption{$[\ufun{pop}(), \ufun{pop}(), \ufun{push}(4),\ufun{push}(3),
+      \ufun{pop}(), \ufun{push}(2), \ufun{push}(1)]$
+\label{fig_history1}}
+\end{figure}
+Il est clair qu'\emph{une histoire valide est une ligne qui ne coupe
+  jamais l'axe des abscisses.} Programmer
+\fun{top/1}\index{top@\fun{top/1}} avec une histoire de mises à jour
+est plus difficile parce que nous devons identifier l'élément au
+sommet de la dernière version sans la construire. L'idée consiste à
+revisiter la ligne historique et déterminer le dernier empilage qui a
+conduit à une version dont la longueur égale celle de la dernière
+version. À la \fig~\ref{fig_history1}, la dernière version
+est~(\(\bullet\)). Si nous tirons une ligne horizontale à partir de ce
+point vers la droite, le premier empilement aboutissant sur la ligne
+est \(\ufun{push}(1)\), donc le sommet de la dernière version
+est~\(1\). Cette expérience de pensée est illustrée à la
+\fig~\vref{fig_topmost}.
+\begin{figure}[b]
+\centering
+\includegraphics[bb=69 577 300 726,scale=0.92]{topmost}
+\caption{Trouver le sommet de la dernière version
+\label{fig_topmost}}
+\end{figure}
+Remarquons que nous n'avons pas besoin de déterminer la longueur de la
+dernière version: la \emph{différence} de longueur avec la version courante, alors que nous reculons, est suffisante. Soient
+\fun{top\(_0\)/1}\index{top0@\fun{top\(_0\)/1}} et
+\fun{pop\(_0\)/1}\index{pop0@\fun{pop\(_0\)/1}} les équivalents de
+\fun{top/1} et \fun{pop/1}, opérant sur des mises à jour au lieu de versions. Leur définition se trouve à la \fig~\vref{fig_pop_top}.
+\begin{figure}[t]
+\begin{equation*}
+\boxed{%
+\begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
+\fun{pop}_0(h)   & \rightarrow          & \cons{\ufun{pop}()}{h}. &
+\fun{top}_0(0,\cons{\ufun{push}(x)}{h}) & \rightarrow             & x;\\
+\fun{top}_0(h)   & \rightarrow          & \fun{top}_0(0,h).       &
+\fun{top}_0(k,\cons{\ufun{push}(x)}{h}) & \rightarrow             & \fun{top}_0(k-1,h);\\
+                 & & &
+\fun{top}_0(k,\cons{\ufun{pop}()}{h})   & \rightarrow            & \fun{top}_0(k+1,h).
+\end{array}}
+\end{equation*}
+\caption{Le sommet et le reste d'une histoire de mises à jour
+\label{fig_pop_top}}
+\end{figure}
+Une fonction auxiliaire
+\fun{top\(_0\)/2}\index{top0@\fun{top\(_0\)/2}} conserve la différence
+entre les longueurs de la dernière version et la version
+courante. Nous avons trouvé l'élément quand la différence est nulle et
+la mise à jour courante est un empilement.
+
+Comme précédemment, nous voulons que l'appel
+\(\fun{ver}_0(k,h)\)\index{ver0@\fun{ver\(_0\)/2}} construise la
+\(k^\text{e}\) version précédente dans~\(h\). Ici, nous devons reculer
+de \(k\)~mises à jour dans le passé,
+\begin{equation*}
+\fun{ver}_0(0,h)           \rightarrow \fun{lst}_0(h);\qquad
+\fun{ver}_0(k,\cons{s}{h}) \rightarrow \fun{ver}_0(k-1,h).
+\end{equation*}
+et construire la dernière version à partir du reste de l'histoire avec
+\fun{lst\(_0\)/1}\index{lst0@\fun{lst\(_0\)/1}}:
+\begin{mathpar}
+\inferrule*{}{\fun{lst}_0(\el) \rightarrow \el};
+\quad
+\inferrule*{}{\fun{lst}_0(\cons{\ufun{push}(x)}{h})
+              \rightarrow \cons{x}{\fun{lst}_0(h)}};
+\quad
+\inferrule
+  {\fun{lst}_0(h)                      \twoheadrightarrow \cons{x}{s}}
+  {\fun{lst}_0(\cons{\ufun{pop}()}{h}) \twoheadrightarrow s}.
+\end{mathpar}
+Soit \(\C{\fun{ver}_0}{k,n}\) le coût de l'appel \(\fun{ver}_0(k,h)\)
+et soit \(\C{\fun{lst}_0}{n}\) le coût de~\(\fun{lst}_0(h)\), où
+\(n\)~est la longueur de~\(h\): \(\C{\fun{lst}_0}{i} = i + 1\) et
+\(\C{\fun{ver}_0}{k,n} = (k+1) + \C{\fun{lst}_0}{n-k} = n + 2\).
+
+Quelle est la quantité totale de mémoire
+allouée?\index{partage}\index{mémoire|see{partage}} Plus précisément,
+nous souhaitons connaître le nombre d'empilements effectués. La seule
+règle de \fun{lst\(_0\)/1} qui use d'un empilement dans son membre
+droit est la seconde, donc le nombre de n{\oe}uds d'empilage est le
+nombre d'empilages. Mais ceci est un gâchis dans certains cas, par
+exemple, quand la version construite est vide, comme avec l'histoire
+\([\ufun{pop}(),\ufun{push}(6)]\). La méthode optimale est d'allouer
+exactement autant que la valeur finale a besoin.
+
+% Wrapping figure better declared before a paragraph
+%
+\setlength{\intextsep}{0pt}
+\begin{wrapfigure}[]{r}[0pt]{0pt}
+% {r} mandatory right placement
+\centering
+\includegraphics[bb=71 644 257 721]{lst1}
+\caption{Dernière version\label{fig_lst1}}
+\end{wrapfigure}
+\hspace*{-1pt}Nous pouvons réaliser cette optimalité de la mémoire
+avec \fun{lst\(_1\)/1} définie à la \fig~\ref{fig_lst1} en conservant
+des caractéristiques à la fois de
+\fun{top\(_0\)/1}\index{top0@\fun{top\(_0\)/1}} et de
+\fun{lst\(_0\)/1}. Alors\index{lst1@$\C{\fun{lst}_1}{n}$}
+\(\C{\fun{lst}_1}{n} = \C{\fun{lst}_0}{n} = n + 1\), et le nombre de
+n{\oe}uds d'empilage\index{partage|(} créés est alors la longueur de
+la dernière version. Nous avons là encore un exemple de coût qui
+dépend de la taille du résultat, comme pour
+\fun{flat\(_0\)/1}\index{flat0@\fun{flat$_0$/1}} à la
+section~\vref{sec_flattening}.
+
+Une amélioration est encore possible si la ligne historique atteint
+l'axe des abscisses, parce qu'il n'y a alors aucune raison de visiter
+les mises à jour \emph{antérieures} à un dépilage résultant en une
+version vide; comme par exemple à la \fig~\vref{fig_back2zero},
+\begin{figure}
+\centering
+\includegraphics[bb=69 606 300 726,scale=0.9]{back2zero}
+\caption{Dernière version $[3]$ trouvée en quatre pas\label{fig_back2zero}}
+\end{figure}
+il est inutile d'aller au-delà de
+\(\ufun{push}(3)\)\index{push@\fun{push/1}} pour déterminer que la
+dernière version est~\([3]\). Mais, pour détecter si la ligne
+historique rencontre l'axe des abscisses, nous avons besoin
+d'augmenter l'histoire~\(h\) avec la longueur~\(n\) de la dernière
+version, c'est-à-dire, de travailler avec \(\pair{n}{h}\), et modifier
+\fun{push/2}\index{push@\fun{push/2}}
+et~\fun{pop/1}\index{pop@\fun{pop/1}} en conséquence:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{push}_2(x,\pair{n}{h}) & \rightarrow &
+\pair{n\!+\!1}{\cons{\ufun{push}(x)}{h}}.\\
+\fun{pop}_2(\pair{n}{h}) & \rightarrow &
+\pair{n\!-\!1}{\cons{\ufun{pop}()}{h}}.
+\end{array}
+\end{equation*}
+Nous devons réécrire~\fun{ver/2}\index{ver2@\fun{ver\(_2\)/2}} de
+telle sorte qu'elle conserve la longueur de la dernière version:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{ver}_2(0,\pair{n}{h}) & \rightarrow & \fun{lst}_1(0,h);\\
+\fun{ver}_2(k,\pair{n}{\cons{\ufun{pop}()}{h}})
+                      & \rightarrow & \fun{ver}_2(k-1,\pair{n+1}{h});\\
+\fun{ver}_2(k,\pair{n}{\cons{\ufun{push}(x)}{h}})
+                      & \rightarrow & \fun{ver}_2(k-1,\pair{n-1}{h}).
+\end{array}
+\end{equation*}
+Nous pouvons réduire l'emploi de la mémoire\index{partage|)} en
+séparant l'histoire courante~\(h\) et la longueur~\(n\) de la dernière
+version, de façon à n'allouer aucune paire, et nous pouvons nous
+arrêter lorsque la version courante est~\(\el\), comme prévu, à la
+\fig~\vref{fig_ver_no_pair}.
+\begin{figure}
+\begin{equation*}
+\boxed{%
+\begin{array}{r@{\;}l@{\;}l}
+\fun{ver}_3(k,\pair{n}{h}) & \rightarrow & \fun{ver}_3(k,n,h).\\
+\fun{ver}_3(0,n,h) & \rightarrow & \fun{lst}_3(0,n,h);\\
+\fun{ver}_3(k,n,\cons{\ufun{pop}()}{h})
+                      & \rightarrow & \fun{ver}_3(k-1,n+1,h);\\
+\fun{ver}_3(k,n,\cons{\ufun{push}(x)}{h})
+                      & \rightarrow & \fun{ver}_3(k-1,n-1,h).\\
+\fun{lst}_3(\pair{n}{h}) & \rightarrow & \fun{lst}_3(0,n,h).\\
+\fun{lst}_3(k,0,h) & \rightarrow & \el;\\
+\fun{lst}_3(0,n,\cons{\ufun{push}(x)}{h}) & \rightarrow
+                      & \cons{x}{\fun{lst}_3(0,n-1,h)};\\
+\fun{lst}_3(k,n,\cons{\ufun{push}(x)}{h}) & \rightarrow
+                      & \fun{lst}_3(k-1,n-1,h);\\
+\fun{lst}_3(k,n,\cons{\ufun{pop}()}{h}) & \rightarrow
+                      & \fun{lst}_3(k+1,n+1,h).
+\end{array}}
+\end{equation*}
+\caption{Requête d'une version sans paires\label{fig_ver_no_pair}}
+\end{figure}
+
+On pourrait se demander si cela vaut la peine d'accoupler~\(n\)
+et~\(h\) pour les séparer à nouveau, ce qui va à l'encontre du
+principe d'abstraction des données. Cet exemple démontre que
+l'abstraction est désirable pour les appelants, mais les fonctions
+appelées peuvent la briser à cause du filtrage de motif. Nous
+pourrions aussi nous rendre compte que le choix d'une pile pour
+conserver les mises à jour n'est pas le meilleur en termes d'usage de
+la mémoire. À la place, nous pouvons directement enchaîner les mises à
+jour avec l'aide d'un argument supplémentaire qui dénote la mise à
+jour précédente, donc, par exemple, au lieu de
+l'équation~\eqref{ex_history1}:
+\begin{equation*}
+\pair{3}{\ufun{push}(4, \ufun{pop}(\ufun{push}(3, \ufun{push}(2, \ufun{push}(1,\el)))))}.
+\end{equation*}
+Ce nouveau codage\index{pile!codage avec des \(n\)-uplets} reflète
+bien l'appel~\eqref{ex_history} à la page~\pageref{ex_history} et
+économise \(n\)~n{\oe}uds d'empilage dans une histoire de
+longueur~\(n\). Voir la \fig~\ref{fig_ver}.
+\begin{figure}
+\begin{equation*}
+\boxed{%
+\begin{array}{r@{\;}l@{\;}l}
+\fun{ver}_4(k,\pair{n}{h}) & \rightarrow & \fun{ver}_4(k,n,h).\\
+\fun{ver}_4(0,n,h) & \rightarrow & \fun{lst}_4(0,n,h);\\
+\fun{ver}_4(k,n,\ufun{pop}(h))
+                      & \rightarrow & \fun{ver}_4(k-1,n+1,h);\\
+\fun{ver}_4(k,n,\ufun{push}(x,h))
+                      & \rightarrow & \fun{ver}_4(k-1,n-1,h).\\
+\fun{lst}_4(\pair{n}{h}) & \rightarrow & \fun{lst}_4(0,n,h).\\
+\fun{lst}_4(k,0,h) & \rightarrow & \el;\\
+\fun{lst}_4(0,n,\ufun{push}(x,h)) & \rightarrow
+                      & \cons{x}{\fun{lst}_4(0,n-1,h)};\\
+\fun{lst}_4(k,n,\ufun{push}(x,h)) & \rightarrow
+                      & \fun{lst}_4(k-1,n-1,h);\\
+\fun{lst}_4(k,n,\ufun{pop}(h)) & \rightarrow 
+                      & \fun{lst}_4(k+1,n+1,h).
+\end{array}}
+\end{equation*}
+\caption{Requête d'une version sans pile\label{fig_ver}}
+\end{figure}
+\begin{equation*}
+\fun{push}_4(x,\pair{n}{h}) \rightarrow
+\pair{n\!+\!1}{\ufun{push}(x,h)}.\quad
+\fun{pop}_4(\pair{n}{h}) \rightarrow \pair{n\!-\!1}{\ufun{pop}(h)}.
+\end{equation*}
+
+Maintenant, il existe un coût minimum et maximum. Le pire des cas est
+quand l'élément au fond dans la dernière version est le premier
+élément empilé dans l'histoire, donc
+\fun{lst\(_4\)/3}\index{lst4@\fun{lst\(_4\)/3}} doit retourner jusqu'à
+l'origine. En d'autres termes, la ligne historique n'atteint jamais
+l'axe des abscisses après le premier empilage. Nous avons alors le
+même coût que précédemment: \(\W{\fun{lst}_4}{n} = n +
+1\). \index{lst4@$\W{\fun{lst}_4}{n}$} Le meilleur des cas se produit lorsque la dernière version est vide. Dans ce cas, \(\B{\fun{lst}_4}{n} =
+1\)\index{lst4@$\B{\fun{lst}_4}{n}$} et c'est la sorte d'amélioration que nous avions en tête.
+
+%\mypar{Average cost}
+
+\paragraph{Persistance complète}
+\index{persistance!$\sim$ complète}
+
+La méthode conservant les mises à jour dans l'histoire est
+complètement persistante parce qu'elle permet de modifier une version
+passée comme suit: traversons l'histoire jusqu'au moment adéquat,
+dépilons la mise à jour, empilons-en une autre et remettons à leur
+place les mises à jours précédemment traversées, qui ont été stockées
+dans un accumulateur. Mais changer le passé ne doit pas créer une
+histoire contenant une version qui n'est pas constructible,
+c'est-à-dire que la ligne historique ne doit pas croiser l'axe des
+abscisses après la modification. Si le changement consiste à replacer
+un dépilage par un empilage, il n'y aucune raison de s'inquiéter, car
+cela hissera de~\(2\) ordonnées le point terminal de la ligne. C'est
+le changement inverse qui demande un peu d'attention, car il abaisse
+de~\(2\) le point terminal. Cette différence verticale de~\(\pm 2\)
+niveaux provient de la différence entre les points terminaux d'un
+empilement et d'un dépilement de même origine et peut facilement être
+visualisée à la \fig~\vref{fig_push_pop1} en posant l'une sur l'autre
+les sous-figures. Par conséquent, à la \fig~\ref{fig_history1}, la
+dernière version a pour longueur~\(1\), ce qui implique qu'il est
+impossible de remplacer un empilage par un dépilage, à n'importe quel
+moment du passé.
+
+Considérons l'histoire à la \fig~\ref{fig_history2}.
+\begin{figure}[b]
+\centering
+\includegraphics[bb=69 578 272 726,scale=0.9]{history2}%[]
+\caption{$\ufun{pop}(\ufun{push}(4,\ufun{push}(3,
+          \ufun{pop}(\ufun{push}(2,\ufun{push}(1,\el))))))$
+\label{fig_history2}}
+\end{figure}
+Soit \(\fun{chg}(k,u,\pair{n}{h})\)\index{chg@\fun{chg/3}} l'histoire modifiée, où \(k\)~est l'index de la mise à jour que nous voulons changer, en indexant la dernière avec~\(0\); soit~\(u\) la nouvelle mise à jour que nous voulons insérer; finalement, soit~\(n\) la longueur de la dernière version de l'histoire~\(h\). L'appel
+\begin{equation*}
+\fun{chg}(3,\ufun{push}(5),
+  \pair{2}{\ufun{pop}(\ufun{push}(4,\ufun{push}(3,
+           \ufun{pop}(\ufun{push}(2,\fun{push}(1,\el))))))})
+\end{equation*}
+résulte en
+\(\pair{4}{\ufun{pop}(\ufun{push}(4,\ufun{push}(3,\ufun{push}(5,
+  \ufun{push}(2,\ufun{push}(1,\el))))))}\). Cet appel réussi
+parce qu'à la \fig~\ref{fig_pop2push}
+\begin{figure}
+\centering
+\subfloat[Un dépilage devient un empilage\label{fig_pop2push}]{
+  \includegraphics[bb=69 521 270 726,scale=0.8]{pop2push}}
+\quad
+\subfloat[Un empilage devient un dépilage\label{fig_push2pop}]{
+  \includegraphics[bb=69 577 270 726,scale=0.8]{push2pop}}
+\caption{Changement de mises à jour}
+\end{figure}
+la nouvelle ligne historique ne croise pas l'axe des abscisses. Nous
+pouvons voir à la \fig~\ref{fig_push2pop} le résultat de l'appel
+\begin{equation*}
+\fun{chg}(2,\ufun{pop}(),
+            \pair{2}{\ufun{pop}(\ufun{push}(4,\ufun{push}(3,
+                     \ufun{pop}(\ufun{push}(2,\ufun{push}(1,\el))))))}).
+\end{equation*}
+Tous ces exemples nous aident à deviner la propriété caractéristique
+d'un remplacement valide:
+\begin{itemize}
+
+  \item le remplacement d'un dépilage par un empilage, d'un dépilage par
+  un dépilage, d'un empilage par un empilage est toujours valide;
+
+  \item le remplacement d'un empilage par un dépilage à la position
+    \(k>0\) est valide si, et seulement si, la ligne historique entre
+    les mises à jour \(0\) et~\(k-1\) se maintient au-dessus ou touche
+    sans la traverser la ligne horizontale d'ordonnée~\(2\).
+
+\end{itemize}
+Nous pouvons concevoir un algorithme procédant en deux phases. Tout
+d'abord, la mise à jour qui doit être à remplacée doit être localisée,
+mais, la différence avec \fun{ver\(_4\)/3} est que nous pourrions
+avoir besoin de savoir si la ligne historique, avant d'atteindre la
+mise à jour, est bien entièrement située au-dessus de la ligne
+horizontale d'ordonnée~\(2\). Ceci est facile à vérifier si nous
+conservons, à travers les appels récursifs, l'ordonnée la plus petite
+atteinte par la ligne. La seconde phase, quant à elle, substitue la mise à jour et vérifie que l'histoire résultant est valide.
+
+Réalisons la première phase. D'abord, nous projetons \(n\)~et~\(h\)
+hors de \(\pair{n}{h}\) de manière à économiser un peu de mémoire, et
+l'ordonnée la plus basse est~\(n\), que nous passons comme un argument
+supplémentaire à une autre fonction
+\fun{chg/5}\index{chg@\fun{chg/5}|(}:
+\begin{equation*}
+\fun{chg}(k,u,\pair{n}{h}) \rightarrow \fun{chg}(k,u,n,h,n).
+\end{equation*}
+La fonction~\fun{chg/5} traverse~\(h\) tout en décrémentant~\(k\),
+jusqu'à ce que \(k=0\), ce qui signifie que la mise à jour a été
+trouvée. En même temps, la longueur de la version courante est
+calculée (troisième argument) et comparée à la précédente ordonnée la
+plus basse (cinquième argument), qui est mise à jour en
+conséquence. Nous pourrions essayer le canevas suivant:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{chg}(0,u,n,h,m) & \rightarrow & \fbcode{CCCCCCC}\,;\\
+\fun{chg}(k,u,n,\ufun{pop}(h),m) & \rightarrow
+                                 & \fun{chg}(k-1,u,n+1,h,m);\\
+\fun{chg}(k,u,n,\ufun{push}(x,h),m) & \rightarrow 
+                   & \fun{chg}(k-1,u,n-1,h,m),\qquad \text{si \(m < n\)};\\
+\fun{chg}(k,u,n,\ufun{push}(x,h),m) & \rightarrow
+                                    & \fun{chg}(k-1,u,n-1,h,n-1).
+\end{array}
+\end{equation*}
+\index{chg@\fun{chg/5}|)}
+
+Le problème est que nous oublions l'histoire jusqu'à la mise à jour
+recherchée. Deux techniques sont envisageables pour la conserver: soit
+nous utilisons un accumulateur\index{langage fonctionnel!accumulateur}
+et nous nous conformons à une définition avec des appels
+terminaux\index{langage fonctionnel!forme terminale} (conception à
+petits pas\index{conception!petits pas}), soit nous remettons à sa
+place une mise à jour après la conclusion d'un appel récursif
+(conception à grand pas\index{conception!grands pas}). La seconde
+option est plus rapide, car il n'y a pas alors besoin de retourner
+l'accumulateur quand nous avons fini; la première option nous permet
+de partager l'histoire jusqu'à la mise à jour quand l'histoire
+résultante est structurellement équivalente, en payant le prix d'un
+argument supplémentaire qui est l'histoire originelle. Nous avons déjà
+rencontré ce dilemme quand nous avions comparé
+\fun{sfst/2}\index{sfst@\fun{sfst/2}} et
+\fun{sfst\(_0\)/2}\index{sfst0@\fun{sfst\(_0\)/2}} à la
+section~\ref{sec_skipping}, page~\pageref{sec_skipping}. Choisissons
+une conception à grands pas, à la \fig~\ref{fig_chg}.
+\begin{figure}[b]
+\centering
+\framebox[\columnwidth]{\vbox{%
+\begin{gather*}
+\inferrule*{}{\fun{chg}(0,u,n,h,m) \rightarrow \fun{rep}(u,h,m)}
+\;\;
+\inferrule
+  {\fun{chg}(k-1,u,n+1,h,m) \twoheadrightarrow \pair{n'}{h'}}
+  {\fun{chg}(k,u,n,\ufun{pop}(h),m) \twoheadrightarrow 
+                                    \pair{n'}{\ufun{pop}(h')}}
+\\
+\inferrule
+  {\fun{chg}(k-1,u,n-1,h,m) \twoheadrightarrow \pair{n'}{h'}\\
+   m < n}
+  {\fun{chg}(k,u,n,\ufun{push}(x,h),m) \twoheadrightarrow
+                              \pair{n'}{\ufun{push}(x,h')}}
+\\
+\inferrule
+  {\fun{chg}(k-1,u,n-1,h,n-1) \twoheadrightarrow \pair{n'}{h'}}
+  {\fun{chg}(k,u,n,\ufun{push}(x,h),m) \twoheadrightarrow 
+                               \pair{n'}{\ufun{push}(x,h')}}
+\end{gather*}
+}}
+\caption{Changer une version antérieure (grands pas)\label{fig_chg}}
+\end{figure}
+Remarquons comment la longueur~\(n'\) de la nouvelle histoire est
+simplement passée vers le bas dans les règles d'inférence. Elle peut
+facilement être comprise:
+\begin{itemize}
+
+  \item remplacer un dépilage par un dépilage ou un empilage par un
+    empilage laisse la longueur originelle invariante;
+
+  \item remplacer un dépilage par un empilage accroît la longueur
+    originelle de~\(2\);
+
+  \item remplacer un empilage par un dépilage, en supposant que cela
+    soit valide, fait décroître la longueur originelle de~\(2\).
+
+\end{itemize}
+Cette tâche est dédiée à la
+fonction~\fun{rep/3}\index{rep@\fun{rep/3}|(} (anglais,
+\emph{replace}), qui réalise la seconde phase. Le dessein est de lui
+faire construire une paire faite de la différence de longueur~\(d\) et
+de la nouvelle histoire~\(h'\):
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{rep}(\ufun{pop}(),\ufun{pop}(h),m)
+     & \rightarrow & \pair{0}{\ufun{pop}(h)};\\
+\fun{rep}(\ufun{push}(x),\ufun{push}(y,h),m)
+     & \rightarrow & \pair{0}{\ufun{push}(x,h)};\\
+\fun{rep}(\ufun{push}(x),\ufun{pop}(h),m)
+     & \rightarrow & \pair{2}{\ufun{push}(x,h)};\\
+\fun{rep}(\ufun{pop}(),\ufun{push}(y,h),m)
+     & \rightarrow & \pair{-2}{\ufun{pop}(h)}.
+\end{array}
+\end{equation*}
+\index{rep@\fun{rep/3}|)} Cette définition implique que nous devons
+redéfinir~\fun{chg/3}\index{chg@\fun{chg/3}} comme suit:
+\begin{mathpar}
+\inferrule{\fun{chg}(k,u,n,h,n) \twoheadrightarrow \pair{d}{h'}}
+          {\fun{chg}(k,u,\pair{n}{h}) \twoheadrightarrow \pair{n+d}{h'}}.
+\end{mathpar}

@@ -1,0 +1,1322 @@
+\chapter{OCaml}
+
+Commençons par présenter un sous-ensemble du noyau fonctionnel de OCaml: mini-ML. Une \emph{phrase} est définie par les cas suivants où $e$ dénote une expression, $x$ et $f$ des variables et \Xlet et \Xrec sont des mots-clés:
+
+\begin{tabular}{rll}
+    $\bullet$ 
+  & \emph{définition globale}
+  & \phrase{$e$}\\
+  &
+  & \phrase{$\Xlet \,\, x = e$}\\
+    $\bullet$
+  & \emph{définition globale récursive}
+  & \phrase{$\Xlet \,\, \Xrec \,\, f = e$}
+\end{tabular}
+
+Les phrases sont terminées par «~\textsf{;;}~» et un \emph{programme}
+est une suite de phrases. Lorsque l'on écrit que $e$ est une
+expression, on veut dire que $e$ désigne une portion de phrase OCaml
+qu'on classe syntaxiquement (c'est-à-dire d'après leur forme) dans les
+expressions. On dit que $e$ est une \emph{méta-variable} car, étant un
+nom c'est une variable, mais cette variable n'existe pas dans le
+langage décrit (OCaml): elle existe dans le langage de
+\emph{description}. Autrement dit, ce n'est pas du OCaml mais une
+notation pour décrire des fragments de OCaml (éventuellement une
+infinité). Ainsi la méta-variable $x$ désigne un ensemble (peut-être
+infini) de variables OCaml, et il ne faut pas la confondre avec la
+variable OCaml \ident{x}. De même, la méta-variable $e_1$ désigne une
+infinité d'expressions.
+
+\mypar{Expressions}
+
+Une expression $e$ est définie \emph{récursivement} par les cas
+suivants:
+
+\begin{tabular}{rll}
+    $\bullet$
+  & \emph{variable}
+  & $f, g, h$ (fonctions); $x, y, z$ (autres). \\
+    $\bullet$
+  & \emph{fonction} (ou \emph{abstraction})
+  & $\Xfun \,\, x \rightarrow e$\\
+    $\bullet$ 
+  & \emph{appel} (ou \emph{application})
+  & $e_1 \,\, e_2$ \\ 
+    $\bullet$
+  & \emph{opérateur arithmétique}
+  & \lpar\texttt{+}\rpar \ \lpar\texttt{-}\rpar \ \lpar\texttt{/}\rpar
+    \ \lpar\texttt{*}\rpar\\
+    $\bullet$
+  & \emph{opération arithmétique}
+  & $e_1$ \texttt{+} $e_2$ ou $e_1$ \texttt{-} $e_2$\\
+ && ou $e_1$ \texttt{/} $e_2$ ou $e_1$ \texttt{*} $e_2$\\
+    $\bullet$
+  & \emph{unité ou constante entière}
+  & \unit \ ou \textsf{0} ou \textsf{1} ou \textsf{2} etc.\\
+    $\bullet$
+  & \emph{parenthèse}
+  & $\lpar{e}\rpar$\\
+    $\bullet$
+  & \emph{définition locale}
+  & $\Xlet \,\, x = e_1 \,\, \Xin \,\, e_2$
+\end{tabular}
+
+\noindent\remarques \ Ce que nous écrivons joliment $\rightarrow$ s'écrit
+\verb+->+ en \textsc{ascii}.
+
+\bigskip
+
+\noindent Voici un exemple de programme:
+
+{\small
+\phrase{let x = 0}
+
+\phrase{let id = fun x -> x}
+
+\phrase{let y = 2 in id y}
+
+\phrase{let x = (fun x -> fun y -> x + y) 1 2}
+
+\phrase{x+1}
+}
+
+\bigskip
+
+\noindent\remarques
+
+\begin{itemize}
+
+  \item Les variables doivent débuter par une minuscule.
+
+  \item La flèche est associative à \emph{droite}: ainsi l'expression
+    \begin{equation*}
+      \Xfun \,\, x_1 \rightarrow \Xfun \,\, x_2 \rightarrow \ldots
+      \rightarrow \Xfun \,\, x_n \rightarrow e
+    \end{equation*}
+    équivaut à
+     \(\Xfun \,\, x_1 \rightarrow \textbf{(}\Xfun \,\, x_2 \rightarrow
+     \textbf{(}\ldots \rightarrow \textbf{(}\Xfun \,\, x_n \rightarrow
+  e\textbf{)) \ldots)}\).
+
+
+  \item L'appel de fonction est associatif à \emph{gauche}:
+    ainsi l'expression\\
+    \(e_1 \, e_2 \, e_3 \, \ldots \, e_n\)
+    équivaut à \(\textbf{((\ldots (}e_1 \, e_2\textbf{)} \, e_3\textbf{)} 
+    \ldots \textbf{)} \, e_n\textbf{)}\).
+
+  \item L'application des fonctions est prioritaire par rapport à
+    celle des opérateurs:
+    \texttt{f 3 + 4} \ équivaut à \ \texttt{\textbf{(}f 3\textbf{)} +
+      4}.
+
+  \item L'application des opérateurs est prioritaire par rapport à
+    l'abstraction:
+    \texttt{fun x -> x + y} \ équivaut à \ \texttt{fun x ->
+    \textbf{(}x + y\textbf{)}}.
+
+\end{itemize}
+
+\bigskip
+
+\noindent Un programme, c'est-à-dire une suite de définitions globales, peut toujours se réécrire en une seule phrase à l'aide de définitions locales imbriquées. L'exemple précédent est ainsi équivalent à
+\begin{alltt}
+let x = 0 \textbf{in}
+  let id = fun x -> x \textbf{in}
+  \textbf{let _ =} let y = 2 in id y \textbf{in}
+  let x = (fun x -> fun y -> x + y) 1 2 
+\textbf{in} x+1;;
+\end{alltt}
+Le symbole «\verb|_|» désigne une variable dont le nom est unique et différent de toutes les autres. Sans perte de généralité, nous étudierons donc les programmes réduit à une seule expression. Le résultat du programme est l'\emph{évaluation} de \verb|x+1|.
+
+\section{Arbres de syntaxe asbtraite}
+
+\label{arbres_de_prog}
+
+Comme dans n'importe quel langage de programmation, avant d'aborder l'exécution des programmes mini-ML, nous devons préciser la notion de \emph{portée des variables}, c'est-à-dire à quoi se refère une variable donnée. Pour cela, une représentation graphique des programmes (les expressions suffisent) sous forme d'arbres est très commode.
+\begin{center}
+\begin{tabular}{l|c}
+    Expression & Arbre\\
+ \hline
+    $x$
+  & $x$\\
+    $\Xfun \,\, x \rightarrow e$
+  & \includegraphics{fun_tree}\\
+    $e_1 \,\, e_2$ 
+  & \includegraphics{app_tree}
+\end{tabular}
+\end{center}
+
+Intuitivement, la méthode générale pour construire les arbres de syntaxe abstraite consiste d'abord à parenthèser complètement l'expression qui fait le programme. Chaque parenthèse correspond à une sous-expression et chaque sous-expression correspond à un sous-arbre. On construit l'arbre de la racine vers les feuilles en parcourant les sous-expressions parenthèsées de la plus externe à la plus imbriquée. Par exemple, l'expression \verb|(1+2)*(5/1)| se représente
+\begin{center}
+\includegraphics{arith_tree1}
+\end{center}
+et \verb|let x = 1 in (1+2)*(5/1)| devient (attention: \verb+x+ et $x$
+sont différents):
+\begin{center}
+\includegraphics{arith_tree2}
+\end{center}
+L'expression \verb|let x = 1 in ((let x = 2 in x) + x)| est
+\begin{center}
+\includegraphics{arith_tree3}
+\end{center}
+Qu'en est-il de \verb|fun y -> x + (fun x -> x) y|? Et de
+{\small
+\begin{verbatim}
+let x = 1 in
+  let f = fun y -> x + y in
+  let x = 2
+in f x
+\end{verbatim}
+}
+
+\mypar{Liaison statique et environnement}
+
+Une phrase associe une expression $e$ à une variable $x$: on parle de
+\emph{liaison}, notée $x \mapsto e$. Un sous-programme définit donc un
+ensemble de liaisons appelé \emph{environnement}. Une liaison est
+\emph{statique} si l'on peut déterminer à la compilation (c'est-à-dire
+en examinant le code source) à quelle expression une variable donnée
+fait référence. Par exemple dans {\small
+\begin{verbatim}
+let x = 0 in
+  let id = fun x -> x in
+  let y = id x in
+  let x = (fun x -> fun y -> x + y) 1 2 
+in x+1;;
+\end{verbatim}
+}
+à quelle expression fait référence \verb+x+ dans \verb|x+1|?
+
+Les liaisons sont ordonnées dans l'environnement \emph{par ordre de
+définition}. Ainsi
+\begin{enumerate}
+
+  \item l'environnement est initialement vide: \{\}
+
+  \item après {\small \verb|let x = 0 in |} il vaut $\{\ident{x} \mapsto
+    0\}$
+
+  \item après {\small \verb|let id = fun x -> x in |} il vaut
+    $\{\ident{id} \mapsto \Xfun \,\, \ident{x} \rightarrow \ident{x}; 
+     \ident{x} \mapsto 0\}$
+
+  \item après {\small \verb|let y = id x in |} il vaut $\{\ident{y}
+  \mapsto \ident{id} \, \lpar\ident{x}\rpar; \ident{id} \mapsto \Xfun \,\,
+  \ident{x} \rightarrow \ident{x}; \ident{x} \mapsto 0\}$
+
+  \item après {\small \verb|let x = ...|} il vaut    
+    $\{\underline{\ident{x} \mapsto \ldots}; \ident{y} \mapsto \ident{id} \, \lpar\ident{x}\rpar;
+   \ident{id} \mapsto \Xfun \,\, \ident{x} \rightarrow \ident{x};
+   \underline{\ident{x} \mapsto 0}\}$
+
+\end{enumerate}
+\emph{La liaison $\ident{x} \mapsto 0$ est donc cachée, ou hors de portée, dans \texttt{x+1}.} On notera $\rho(x)$ la première liaison de $x$ dans l'environnement $\rho$ (si elle existe).
+
+\mypar{Variables libres}
+
+La définition locale \Xlet $x$ = $e_1$ \Xin $e_2$ lie $e_1$ à $x$, noté $x \mapsto e_1$, dans $e_2$. Il se peut que dans $e_2$ une autre définition locale lie la même variable... Pour y voir plus clair on applique le procédé suivant sur l'arbre de programme. À partir de chaque occurrence de variable, remontons vers la racine. Si nous trouvons un premier \Xlet liant cette variable, créons un arc entre son occurrence et ce \Xlet. Si, à la racine, aucun \Xlet n'a été trouvé, la variable est dite \emph{libre} dans l'expression. On notera ${\cal L} (e)$ l'ensemble des variables libres de $e$. 
+\begin{center}
+\includegraphics{free_var1}
+\end{center}
+
+Une situation similaire se pose avec les fonctions \Xfun $x \rightarrow e$: dans leur corps $e$ le paramètre $x$ cache une éventuelle variable $x$ liée plus haut dans l'arbre. Il nous faut alors considérer que \Xfun est un lieur comme \Xlet. Reprenons \verb|fun y -> x + (fun x -> x) y|: \begin{center}
+\includegraphics{free_var2}
+\end{center}
+
+\mypar{Expressions closes}
+
+Une expression \emph{close} est une expression sans variables
+libres. Seul un programme clos peut être évalué (exécuté). En effet,
+quel serait la valeur du programme réduit à la simple expression
+\verb|x|? C'est pourquoi la première analyse statique des compilateurs consiste à déterminer les variables libres des expressions. Si le programme
+n'est pas clos, il est rejeté. Dans le cas de \verb|x|, le compilateur
+OCaml imprimerait 
+\begin{center}
+\texttt{Unbound value x}
+\end{center}
+(c'est-à-dire «~Valeur \texttt{x} non liée~») et s'arrêterait. L'intérêt est que cette expression non close est rejetée à la compilation et ne provoque donc pas une erreur à l'exécution.
+
+\section{Évaluation}
+
+L'évaluation d'une expression (donc d'un programme) est une fonction partielle des expressions vers les \emph{valeurs}. Le fait que la fonction soit partielle modélise le fait qu'une évaluation peut ne pas terminer ou s'interrompre pour cause d'erreur. Les valeurs $v$ de mini-ML sont presqu'un sous-ensemble strict des expressions défini récursivement par les cas suivants:
+
+\begin{tabular}{rll}
+    $\bullet$
+  & \emph{unité ou constante entière}
+  & \unit \ ou \textsf{0} ou \textsf{1} ou \textsf{2} etc.\\
+    $\bullet$
+  & \emph{fermeture}
+  & $\langle\Xfun \,\, x \rightarrow e, \rho\rangle$\\
+ && où $\rho$ est un environnement.\\
+  & 
+  & Pour les opérateurs: $\langle\lpar{\texttt{+}}\rpar, \rho\rangle$ etc.
+\end{tabular}
+
+Une \emph{fermeture} est une sorte de paire faite d'une fonction et
+d'un environnement. Cela signifie en particulier que les fonctions
+font partie des valeurs, c'est-à-dire qu'elles peuvent être le
+résultat de l'évaluation d'un programme mini-ML: \emph{c'est la
+  caractéristique d'un langage fonctionnel}.
+
+Pour définir l'évaluation nous devons modifier le concept de liaison: une liaison associe maintenant une variable à une \emph{valeur} (et non plus une expression). L'évaluation (donc peut-être la valeur) dépendra de l'environnement au lieu où se trouve l'expression. Notons $(x \mapsto v) \oplus \rho$ l'ajout d'une liaison $x \mapsto v$ dans $\rho$ (en tête).
+
+Pour chaque expression $e$ nous définissons une règle d'évaluation
+dans un environnement $\rho$ qui donne la valeur $v$:
+
+\begin{tabular}{rll}
+    $\bullet$
+  & $x$ 
+  & Chercher la \emph{première} valeur associée à $x$\\
+ && dans $\rho$.\\
+    $\bullet$
+  & $\Xfun \,\, x \rightarrow e$
+  & La valeur est $\langle\Xfun \,\, x \rightarrow e, \rho\rangle$.\\
+    $\bullet$
+  & \texttt{+} \ \texttt{-} \ \texttt{/} \ \texttt{*}
+  & La valeur est $\langle\lpar\texttt{+}\rpar, \rho\rangle$ etc.\\
+    $\bullet$
+  & $e_1$ \texttt{+} $e_2$ \ etc.
+  & Évaluer $e_1$ et $e_2$ dans $\rho$ et sommer, etc.\\
+    $\bullet$
+  & \unit \ ou \textsf{0} ou \textsf{1} ou \textsf{2} etc.
+  & La valeur est \unit ou \textsf{0} ou \textsf{1} etc.\\
+    $\bullet$
+  & $\lpar{e}\rpar$
+  & Évaluer $e$ en $v$ dans $\rho$.\\
+    $\bullet$
+  & $\Xlet \,\, x = e_1 \,\, \Xin \,\, e_2$
+  & Évaluer $e_1$ en $v_1$ dans $\rho$;\\
+  & 
+  & évaluer $e_2$ en $v$ dans $(x \mapsto v_1) \oplus \rho$.\\
+    $\bullet$
+  & $e_1 \,\, e_2$
+  & Évaluer $e_1$ et $e_2$ en $v_1$ et $v_2$ dans $\rho$\\
+  &
+  & (l'ordre n'est pas spécifié);\\
+  &
+  & $v_1$ doit être de la forme $\langle\Xfun \,\, x \rightarrow
+    e,\rho'\rangle$;\\
+  &
+  & évaluer $e$ dans $(x \mapsto v_2) \oplus \rho'$:\\
+  & & la valeur est $v$.
+\end{tabular}
+
+\mypar{Exemple}
+
+L'environnement est initialement vide: $\rho = \{\}$. Évaluons
+{\small
+\begin{verbatim}
+let x = 0 in
+  let id = fun x -> x in
+  let y = id x in
+  let x = (fun x -> fun y -> x + y) 1 2 
+in x+1;;
+\end{verbatim}
+}
+\begin{itemize}
+
+  \item L'évaluation de {\small \verb|let x = 0 in ...|} impose
+  d'évaluer d'abord \texttt{0} qui vaut $0$. Ensuite on crée la
+  liaison $\ident{x} \mapsto 0$, on l'ajoute à $\rho$ ce qui donne
+  $\{\ident{x} \mapsto 0\}$, et on évalue la sous-expression élidée avec
+  ce nouvel environnement.
+
+  \item L'évaluation de {\small \verb|let id = fun x -> x in ...|} se
+  fait dans l'environnement $\{\ident{x} \mapsto 0\}$. La valeur $v$ est
+  alors la fermeture $\langle\Xfun \,\, \ident{x} \rightarrow \ident{x},
+  \{\ident{x} \mapsto 0\}\rangle$. On étend l'environnement courant avec
+  $\ident{id} \mapsto v$ et on évalue la sous-expression avec.
+
+  \item L'évaluation de {\small \verb|let y = id (x) in ...|} se fait
+  dans l'environnement $\{\ident{id} \mapsto \langle\Xfun \,\, \ident{x}
+  \rightarrow \ident{x}, \{\ident{x} \mapsto 0\}\rangle; \ident{x} \mapsto
+  0\}$. 
+  \begin{itemize}
+
+    \item On évalue d'abord \verb|id(x)| dans l'environnement 
+    courant. Pour cela on évalue \texttt{id} et \texttt{x}
+    séparément. Ce sont tous deux des variables, donc on cherche dans
+    l'environnement la première liaison de même nom. La valeur de
+    \texttt{id} est donc $\ident{id} \mapsto \langle\Xfun \,\, \ident{x}
+    \rightarrow \ident{x}, \{\ident{x} \mapsto 0\}\rangle$ et celle de
+    \texttt{x} est 0. Il faut évaluer \texttt{x} dans l'environnement
+    $(\ident{x} \mapsto 0) \oplus \{\ident{x} \mapsto 0\}$, ce qui donne 0.
+
+    \item On crée la liaison $\ident{y} \mapsto 0$, on l'ajoute à
+    l'environnement courant et on évalue la sous-expression élidée
+    avec le nouvel environnement.
+ 
+  \end{itemize}
+
+  \item L'évaluation de {\small
+    \verb|let x = (fun x -> fun y -> x + y) 1 2 in ...|} se fait
+ dans l'environnement $\{\ident{y} \mapsto 0; \ident{id} \mapsto
+ \langle\Xfun \,\, \ident{x} \rightarrow \ident{x}, \{\ident{x}
+ \mapsto 0\}\rangle; \ident{x} \mapsto 0\}$.
+
+\end{itemize}
+
+\mypar{Définition formelle}
+
+Si on note $\evalf{e}{\rho}$ la valeur obtenue en évaluant
+l'expression $e$ dans l'environnement $\rho$, alors nous pouvons
+résumer l'évaluation des programmes mini-ML ainsi:
+\begin{align*}
+\evalf{\overline{n}}{\rho} &= \dot{n} \ \ \textnormal{où $\overline{n}$
+  est un entier mini-ML et $\dot{n} \in \mathbb{N}$}\\
+\evalf{e_1 \texttt{+} \, e_2}{\rho} &= \evalf{e_1}{\rho} +
+\evalf{e_2}{\rho} \ \ \textnormal{etc.}\\ 
+\evalf{\lpar{e}\rpar}{\rho} &= \evalf{e}{\rho}\\
+\evalf{x}{\rho} &= \rho(x) \ \ \textnormal{(la première liaison de $x$ dans $\rho$)}\\
+\evalf{\Xfun \,\, x \rightarrow e}{\rho} &= \langle\Xfun \,\, x
+\rightarrow e, \rho\rangle\\
+\evalf{\Xlet \,\, x = e_1 \,\, \Xin \,\, e_2}{\rho} &= \evalf{e_2}{((x
+  \mapsto \evalf{e_1}{\rho}) \oplus \rho)}\\
+\evalf{e_1 \,\, e_2}{\rho} &= \evalf{e}{((x \mapsto \evalf{e_2}{\rho})
+  \oplus \rho')}\\
+&\phantom{=\llbracket} \textnormal{où} \ \ \evalf{e_1}{\rho} = \langle\Xfun \,\, x
+\rightarrow e,\rho'\rangle
+\end{align*}
+L'évaluation consiste à appliquer les équations de la gauche vers la
+droite jusqu'à la terminaison (s'il y a) ou une erreur (à
+l'exécution).
+
+On établit directement que $\evalf{\lpar\Xfun \; x \rightarrow
+  e_2\rpar \; e_1}{\rho} = \evalf{\Xlet \,\, x = e_1 \,\, \Xin \,\,
+  e_2}{\rho}$, c'est-à-dire que la liaison locale n'est pas nécessaire
+en théorie.
+
+\mypar{Applications}
+
+Si les fonctions sont des valeurs, elles peuvent être retournées en
+résultat (c'est-à-dire être la valeur d'une application). Par exemple:
+{\small
+\begin{verbatim}
+let add = fun x -> fun y -> x + y in
+  let incr = add 1  (* incr est une fonction *)
+in incr 5;;
+\end{verbatim}
+}
+On parle d'application \emph{partielle}, par opposition à application
+\emph{complète}, qui ne retourne pas de fonction, comme
+\verb|add 1 5|. Les opérateurs peuvent aussi être utilisés en position
+préfixe dans une expression en les parenthèsant: $\lpar\texttt{+}\rpar \;
+\num{1} \; \num{2}$. Comme toute application, les opérations peuvent
+être aussi partiellement évaluées:
+{\small
+\begin{verbatim}
+let incr = (+) 1  (* incr est une fonction *)
+in incr 5;;
+\end{verbatim}
+}
+
+\mypar{Terminaison}
+
+En théorie, nous pouvons d'ores et déjà calculer avec mini-ML tout ce
+qui est calculable avec l'ordinateur sous-jacent. Par exemple, nous
+avons déjà la récurrence, comme le montre le programme suivant qui ne
+termine pas:
+\begin{center}
+\verb|let omega = fun f -> f f in omega omega|
+\end{center}
+Cela se manifeste par
+\begin{gather*}
+\evalf{\texttt{\small let omega = fun f -> f f in omega omega}}{\rho}\\
+\begin{align*}
+&= \evalf{\texttt{\small omega omega}}{((\texttt{\small omega} \mapsto
+\evalf{\texttt{\small fun f -> f f}}{\rho}) \oplus \rho)}\\
+&= \evalf{\texttt{\small f f}}{((\texttt{\small f} \mapsto
+    \langle\texttt{\small fun f -> f f},\rho\rangle) \oplus \rho)}\\
+&= \textnormal{\emph{idem}}
+\end{align*}
+\end{gather*}
+
+\mypar{Récursivité}
+
+Pour mettre en évidence la puissance de mini-ML, voyons comment
+définir des fonctions récursives à l'aide de la fonction
+auto-applicative \texttt{\small omega}.
+
+Définissons d'abord une fonction \texttt{\small fix},
+traditionnellement appelée le \emph{combinateur Y de point fixe de
+Curry}:
+\begin{verbatim}
+let omega = fun f -> f f;;
+let fix = fun g -> omega (fun h -> fun x -> g (h h) x);;
+\end{verbatim}
+
+On démontre (péniblement) que pour toute fonction $f$ et variable $x$:
+\begin{equation*}
+\evalf{\lpar\ident{fix} \; f\rpar{} \, x}{\rho} = \evalf{f \;
+  \lpar\ident{fix} \; f\rpar{} \, x}{\rho}.
+\end{equation*}
+En d'autre termes, pour tout \ident{x} on a $\lpar\ident{fix} \;
+f\rpar{} \; x \, \equiv f \; \lpar\ident{fix} \; f\rpar{} \; x$, soit
+$\lpar\ident{fix} \; f\rpar{} \equiv f \; \lpar\ident{fix} \;
+f\rpar$. D'autre part, par définition, le point fixe $p$ d'une
+fonction $f$ vérifie $p = f(p)$. Donc le point fixe d'une fonction
+\ident{f}, \emph{s'il existe}, est \lpar\ident{fix} \ident{f}\rpar{}.
+
+Il est possible de définir la sémantique (l'évaluation) d'une famille
+d'opérateurs de point fixes (et non d'un seul comme précédemment) en
+posant qu'un tel opérateur doit satisfaire:
+\begin{equation*}
+\evalf{\ident{fix} \,\, e}{\rho} = \evalf{e_1}{(f \mapsto
+  \evalf{\ident{fix} \, \lpar\Xfun \, f \rightarrow e_1\rpar}{\rho}
+  \oplus \rho')}
+\end{equation*}
+où $\evalf{e}{\rho} = \langle\Xfun \, f \rightarrow e_1,\rho'\rangle$.
+
+Considérons les définitions suivantes:
+{\small
+\begin{alltt}
+let pre_fact =
+  \emph{fun f ->} fun n -> if n=1 then 1 else n * \emph{f}(n-1);;
+let fact = fix pre_fact;;
+\end{alltt}
+}
+Donc \texttt{\small fact} est le point fixe de \texttt{\small
+pre\_fact}, s'il existe, c'est-à-dire
+\begin{align*}
+\evalf{\texttt{\small fact}}{\rho} &= \evalf{\texttt{\small pre\_fact
+    (fact)}}{\rho}\\
+&= \evalf{\texttt{\small fun n -> if n=1 then 1 else n * fact(n-1)}}{\rho}
+\end{align*}
+Donc \texttt{\small fact} est la fonction factorielle (équation de
+récurrence). On peut alors prédéfinir un opérateur de point fixe
+\texttt{\small fix} (qui n'est pas forcément celui de Curry) et
+permettre au programmeur de s'en servir directement, mais nous allons
+plutôt doter mini-ML d'une liaison récursive native:
+\begin{equation*}
+\evalf{\Xlet \, \Xrec \; f = e_1 \, \Xin \, e_2}{\rho} =
+\evalf{\Xlet \; f = \textsf{fix} \, \lpar\Xfun \, f \rightarrow
+e_1\rpar \, \Xin \, e_2}{\rho}.
+\end{equation*}
+
+\section{Extensions à mini-ML}
+
+Ajoutons les expressions suivantes à mini-ML:
+
+\begin{tabular}{rll} 
+    $\bullet$
+  & \emph{constante booléenne}
+  & \Xtrue{} ou \Xfalse\\
+    $\bullet$
+  & \emph{opérateurs booléens}
+  & \texttt{\&\&} ou \texttt{||} ou \textsf{not}\\
+    $\bullet$
+  & \emph{$n$-uplet}
+  & $e_1, \ldots, e_n$\\
+    $\bullet$
+  & \emph{conditionnelle}
+  & \Xif{} $e_0$ \Xthen{} $e_1$ \Xelse{} $e_2$\\
+    $\bullet$
+  & \emph{liaison locale récursive}
+  & \Xlet{} \Xrec{} $f$ = $e_1$ \Xin{} $e_2$
+\end{tabular}
+
+\bigskip
+
+\remarque \ \ Les parenthèses sont recommandées autour des $n$-uplets.
+
+De plus généralisons les variables $x$ après \Xlet{} et \Xfun{} en
+\emph{motifs irréfutables}, que nous notons $\ipat{p}$:
+
+\begin{tabular}{rll}
+    $\bullet$
+  & \emph{fonction}
+  & $\Xfun \,\, \ipat{p} \rightarrow e$\\
+    $\bullet$
+  & \emph{définition locale}
+  & $\Xlet \,\, \textrm{[}\Xrec\textrm{]} \,\, \ipat{p} = e_1 \,\,
+    \Xin \,\, e_2$
+\end{tabular}
+
+\mypar{Motifs irréfutables}
+
+Un \emph{motif irréfutable} $\ipat{p}$ est défini \emph{récursivement}
+par les cas suivants:
+
+\begin{tabular}{rll}
+    $\bullet$
+  & \emph{variable}
+  & $f, g, h$ (fonctions) et $x, y, z$ (autres). \\
+    $\bullet$
+  & \emph{unité}
+  & \unit\\
+    $\bullet$
+  & \emph{$n$-uplet}
+  & $\ipat{p}_1, \ldots, \ipat{p}_n$\\
+    $\bullet$
+  & \emph{parenthèse}
+  & $\lpar\ipat{p}\rpar$\\
+    $\bullet$
+  & \emph{joker}
+  & {\Large \_}
+\end{tabular}
+
+\bigskip
+
+\remarques
+
+\begin{itemize}
+
+  \item Les parenthèses sont recommandées autour des $n$-uplets.
+
+  \item Du point de vue syntaxique, les motifs irréfutables sont des
+  cas particuliers d'expressions --- hormis le joker.
+
+   \item Un joker est un cas spécial pour que la phrase ne crée pas
+   de liaison.
+
+\end{itemize}
+
+\paragraph{Règles additionelles sur les expressions}
+
+\begin{itemize}
+
+  \item La virgule est prioritaire sur la flèche:\\
+        $\Xfun \,\, x \rightarrow x, y$ \ \ équivaut à \ \ 
+        $\Xfun \,\, x \rightarrow (x,y)$
+
+  \item Pour alléger la notation $\Xfun \,\, \ipat{p}_1 \rightarrow
+  \Xfun \,\, \ipat{p}_2 \rightarrow \ldots \rightarrow \Xfun \,\,
+  \ipat{p}_n \rightarrow e$\\
+  on définit les constructions équivalentes
+
+        \begin{tabular}{rll}
+            $\bullet$
+          & \phrase{$\Xlet \,\,
+            \textrm{[}\Xrec\textrm{]} \,\, f 
+            = \Xfun \,\, \ipat{p}_1 \, \ipat{p}_2 \, \underline{\ldots
+            \, \ipat{p}_n} \rightarrow e$}
+          & (nouvelle expression)\\
+            $\bullet$
+          & \phrase{$\Xlet \,\,
+            \textrm{[}\Xrec\textrm{]} \,\, f 
+            \,\, \ipat{p}_1 \, \ipat{p}_2 \, \underline{\ldots \,
+            \ipat{p}_n} = e$}
+          & (nouvelle phrase)
+        \end{tabular}
+
+  \item Exemple:
+  {\small
+   \begin{verbatim}
+let f = fun x y -> x + y in
+  let g x y = x + y in
+  let rec fact n = if n = 1 then 1 else n * fact(n-1)
+in f 1 2 - g 3 4;;
+  \end{verbatim}
+  }
+  
+\end{itemize}
+
+Nous étendons la syntaxe pour alléger certaines expressions. Ainsi,
+par définition
+
+\begin{tabular}{rl}
+    $\bullet$
+  & \phrase{$\Xlet \,\, \ipat{p}_1 = e_1 \,\,
+    \underline{\Xand \,\, \ipat{p}_2 = e_2 \, \ldots \,\,
+    \Xand \,\, \ipat{p}_n = e_n} \,\, \Xin \,\, e$}\\
+  & équivaut à\\
+    $\bullet$
+  & \phrase{$\Xlet \,\, (\ipat{p}_1, \ldots, \ipat{p}_n) =
+    (e_1, \ldots, e_n) \,\, \Xin \,\, e$}
+\end{tabular}
+
+De même nous introduisons les définitions mutuellement récursives:
+\begin{itemize}
+
+  \item \phrase{$\Xlet \,\, \Xrec \,\, \ipat{p}_1 = e_1 \,\,
+  \underline{\Xand \,\, \ipat{p}_2 = e_2 \, \ldots \,\, \Xand \,\,
+  \ipat{p}_n = e_n} \,\, \Xin \,\, e$}
+
+\end{itemize}
+De plus, la phrase \ \ \phrase{$e$} \ \, équivaut à \ \
+\phrase{$\Xlet \,\, \_ = e$}
+
+Considérons le cas où les motifs irréfutables sont des variables:
+
+\centerline{\Xlet{} $x$ \equal{} $e_1$ \Xand{} $y$ \equal{}
+$e_2$ \Xin{} $e$ \ où $x \neq y$}
+Si $x \in {\cal L} (e_2)$, nous la définissons comme étant équivalente à
+\begin{center}
+\begin{minipage}{0.3\linewidth}
+\begin{tabbing}
+\underline{\Xlet} \= \underline{$z$ \equal{} $x$ \Xin}\\
+\> \Xlet{} $x$ \equal{} $e_1$ \Xin\\
+\> \Xlet{} $y$ \equal{} \underline{\Xlet{} $x$ \equal{} $z$ \Xin} $e_2$\\
+\Xin $e$
+\end{tabbing}
+\end{minipage}
+\end{center}
+où $z \not\in {\cal L} (e_1) \cup {\cal L} (e_2) \cup {\cal L} (e)$,
+pour n'être capturé ni par $e_1$, ni par $e_2$, ni par $e$. Ce n'est
+donc pas une construction élémentaire.
+
+Le \Xlet{} \Xrec{} multiple (avec \Xand) peut toujours se ramener à un
+\Xlet{} \Xrec{} simple (avec \Xin) en paramétrant l'une des
+définitions par rapport à l'autre. Posons que
+\[
+\Xlet \; \Xrec \; x \; \equal \; e_1 \; \Xand \; y \; \equal \; e_2 \;
+\Xin \; e
+\]
+où $x \neq y$, est équivalent (par définition) à
+\begin{center}
+\begin{minipage}{0.3\linewidth}
+\begin{tabbing}
+\Xlet{} \= \Xrec{} $x$ \equal{} \underline{\Xfun{} $y$
+  $\rightarrow$} $e_1$ \Xin\\
+\> \Xlet{} \Xrec{} $y$ \equal{} \underline{\Xlet{} $x$ \equal{} $x$ \lpar$y$\rpar{} \Xin} $e_2$ \Xin\\
+\> \underline{\Xlet{} $x$ \equal{} $x$ \lpar$y$\rpar}\\
+\underline{\Xin} $e$
+\end{tabbing}
+\end{minipage}
+\end{center}
+Ce n'est donc pas une construction élémentaire non plus
+
+L'ajout de nouvelles expressions au langage nous oblige à étendre les
+valeurs qui sont maintenant définies par
+
+\begin{tabular}{rll}
+    $\bullet$
+  & \emph{unité ou constantes}
+  & \unit \ ou \textsf{0} ou \Xtrue{} etc.\\
+    $\bullet$
+  & \emph{fermeture}
+  & $\langle\Xfun \,\, x \rightarrow e, \rho\rangle$ où $\rho$ est un
+    environnement.\\
+  & 
+  & Pour les opérateurs: $\langle\lpar{\texttt{+}}\rpar, \rho\rangle$
+    etc.\\
+    $\bullet$
+  & \emph{$n$-uplet}
+  & $v_1, \ldots, v_n$
+\end{tabular}
+
+\mypar{Fonctions curryfiées}
+
+Une fonction est dite \emph{curryfiée} (du nom d'un logicien) si elle
+retourne une fonction. Cela permet d'effectuer des applications
+partielles. En passant, n'oublions pas qu'une fonction OCaml prend
+toujours un seul argument. Si l'on souhaite le passage simultané de
+plusieurs valeurs il faut alors employer une structure de donnée, par
+exemple un $n$-uplet. Ainsi
+
+\topin{let add x y = x + y}
+
+\topout{val add~:~int $\rightarrow$ int $\rightarrow$ int}
+
+\topin{let add' (x,y) = x + y}
+
+\topout{val add'~:~int $\times$ int $\rightarrow$ int}
+
+\bigskip
+
+La fonction \texttt{\small add} est curryfiée et \texttt{\small add'}
+ne l'est pas.
+
+Nous avons présenté une analyse statique qui nous donne les variables
+libres d'une expression. Nous avons vu qu'une expression close ne peut
+échouer par absence de liaison. Tous les compilateurs (comme OCaml)
+rejettent les programmes non-clos, mais, du coup, rejettent
+d'innocents programmes, comme \Xif{} \Xtrue{} \Xthen{} \num{1}
+\Xelse{} \ident{x}.
+
+Pour accepter ce type d'exemple (non-clos), il faudrait pouvoir
+prédire le flot de contrôle (ici, quelle branche de la conditionnelle
+est empruntée pour toutes les exécutions). Dans le cas ci-dessus cela
+est trivial, mais en général le problème est indécidable, et ce ne
+peut donc être une analyse statique (car la compilation doit toujours
+terminer).
+
+\section{Types}
+
+Un type $t$ est défini \emph{récursivement} par les cas:
+
+\begin{tabular}{rll}
+    $\bullet$
+  & \emph{simple}
+  & \textsf{char}, \textsf{bool}, \textsf{int}, \textsf{string},
+    \textsf{float}, \textsf{unit}\\
+    $\bullet$
+  & \emph{produit cartésien}
+  & $t_1 \times \ldots \times t_n$\\
+    $\bullet$
+  & \emph{fonctionnel}
+  & $t_1 \rightarrow t_2$\\
+    $\bullet$
+  & \emph{parenthésé}
+  & $(t)$\\
+    $\bullet$
+  & \emph{variable libre}
+  & $\alpha$, $\beta$, $\gamma$ etc. \\
+    $\bullet$
+  & \emph{type paramétré}
+  & $\alpha$ \textsf{list}
+\end{tabular}
+
+\bigskip
+
+\remarque 
+
+Jusqu'à présent nous n'avons pas rencontré de valeurs de type
+\textsf{float}, \textsf{char} ou \textsf{string}.
+
+\begin{itemize}
+
+  \item Nous notons $\times$ ce qui s'écrit \textsf{*} en
+  \textsc{ascii}.
+
+   \item Nous notons $\times$, $\alpha$, $\beta$ etc. ce qui s'écrit
+   respectivement \textsf{*}, \textsf{'a}, \textsf{'b} etc. en
+   \textsc{ascii}.
+
+  \item Le produit cartésien est n-aire, et non binaire comme en
+  mathématiques car $\times$ n'est pas associatif en OCaml: $t_1
+  \times t_2 \times t_3 \neq (t_1 \times t_2) \times t_3 \neq t_1
+  \times (t_2 \times t_3)$
+
+\item La flèche est utilisée aussi dans les expressions. Elle associe
+  à droite: $t_1 \rightarrow t_2 \rightarrow \ldots \rightarrow t_n$ 
+  équivaut à $t_1 \rightarrow \underline{(}t_2 \rightarrow
+  \underline{(} \ldots \underline{(}t_{n-1} \rightarrow
+  t_n\underline{)) \ldots )}$
+
+\item Le produit cartésien est prioritaire sur la flèche: $t_1 \times
+  t_2 \rightarrow t_3$ équivaut à $(t_1 \times t_2) \rightarrow t_3$
+
+\end{itemize}
+
+Les compilateur associe un type à chaque expression du programme: on
+parle d'\emph{inférence de types statique}. Pour les constantes
+simples, nous avons
+\begin{center}
+\begin{tabular}{|l|l|c|}
+\hline
+    \textsf{unit}
+  & \unit
+  & \\
+    \textsf{bool}
+  & \Xtrue \ \Xfalse
+  & \texttt{\&\&} \ \texttt{||} \ \texttt{not} \\
+    \textsf{int}
+  & \textsf{1} \, \textsf{2} \ \textsf{max\_int} \ etc.
+  & \texttt{+} \ \texttt{-} \ \texttt{*} \ \texttt{/} \ etc.\\
+    \textsf{float}
+  & \textsf{1.0} \, \textsf{2.} \ \textsf{1e4} \ etc.
+  & \texttt{+.} \ \texttt{-.} \ \texttt{*.} \ \texttt{/.} \
+    \texttt{cos} \ etc.\\
+    \textsf{char}
+  & \textsf{'a'} \ \textsf{'}\verb+\+\textsf{n'} \
+    \textsf{'}\verb+\+\textsf{097'} \ etc.
+  & \textsf{Char.code} \, \textsf{Char.chr} \ etc.\\
+    \textsf{string}
+  & \textsf{"a}\verb+\+\textsf{tb}\verb+\+\textsf{010c}\verb+\+\textsf{n"}
+    \ etc.
+  & \verb+^+ \, \textsf{s.[i]} \, \textsf{s.[i] $\leftarrow$ c} \ etc.\\
+\hline
+\end{tabular}
+\end{center}
+Les opérations sur les flottants sont notées différemment de leurs
+homologues sur les entiers. Ce que nous notons joliment $\leftarrow$
+s'écrit \verb+<-+ en \textsc{ascii}.
+
+On étend la syntaxe des phrases pour permettre de lier un type à un
+nom, comme on peut le faire pour les expressions.
+
+\begin{tabular}{rll}
+    $\bullet$
+  & \emph{liaison de type}
+  & \phrase{$\textsf{type} \,\, q = t$}
+\end{tabular}
+
+où $q$ dénote une variable de type (commençant par une minuscule).
+
+\begin{tabular}{rll}
+    $\bullet$
+  & \emph{types récursifs}
+  & \phrase{$\textsf{type} \,\, q_1 = t_1 \,\, \textrm{[}\Xand
+     \,\, q_2 = t_2 \,\, \ldots\textrm{]}$}
+\end{tabular}
+
+Pour utiliser ces variables, il faut étendre la syntaxe des types:
+
+\begin{tabular}{rll}
+    $\bullet$
+  & \emph{variable}
+  & $q$
+\end{tabular}
+
+On peut maintenant écrire 
+
+\phrase{type abscisse = float}
+
+\phrase{type ordonnée = float}
+
+\phrase{type point = abscisse * ordonnée}
+
+
+\mypar{Inférence de types}
+
+Les $n$-uplets sont homogènes et leur arité est fixée par leur type:
+\begin{center}
+\begin{tabular}{lrcl}
+    une paire
+  & \textsf{(1,2)}
+  & de type
+  & \textsf{int} $\times$ \textsf{int}\\
+    et un triplet
+  & \textsf{(1,2,3)}
+  & de type
+  & \textsf{int} $\times$ \textsf{int} $\times$ \textsf{int}
+\end{tabular}
+\end{center}
+sont incompatibles.
+
+\topin{let milieu x y = (x+y)/2}
+
+\topout{val milieu~:~int $\rightarrow$ int $\rightarrow$ int}
+
+\topin{let milieu (x,y) = (x+y)/2}
+
+\topout{val milieu~:~int $\times$ int $\rightarrow$ int}
+
+\mypar{Polymorphisme}
+
+Les projections sont polymorphes sur les $n$-uplets de \emph{même arité}:
+\begin{center}
+\begin{tabular}{rcl}
+    \Xfun $(x, y, z) \rightarrow x$
+  & a pour type
+  & $(\alpha \times \beta \times \gamma) \rightarrow \alpha$
+\end{tabular}
+\end{center}
+
+\begin{alltt}
+\textbf{\#} let rec power f n =
+    if n <= 0 then fun x -> x
+              else compose f (power f (n-1))\textbf{;;}
+\end{alltt}
+\topout{val power~:~($\alpha \rightarrow \alpha$) $\rightarrow$ int
+  $\rightarrow$ ($\alpha \rightarrow \alpha$) = $\topclos$}
+
+\noindent\topin{let compose f g = fun x -> f (g (x))}
+
+\noindent\topout{val compose~: $(\alpha \rightarrow \beta) \rightarrow (\gamma
+\rightarrow \alpha) \rightarrow \gamma \rightarrow \beta = \topclos$}
+
+\bigskip
+
+\noindent Le type de la fonction \textsf{compose} se construit ainsi:
+\begin{itemize}
+
+  \item le premier argument \textsf{f} est une fonction quelconque,
+  donc de type $\alpha \rightarrow \beta$; 
+
+  \item le second argument \textsf{g} est une fonction dont le
+  résultat doit être passé en argument à \textsf{f}, donc de type
+  $\alpha$; 
+
+  \item le domaine de \textsf{g} est quelconque, donc \textsf{g} est
+  de type $\gamma \rightarrow \alpha$; 
+
+  \item la fonction \textsf{compose} prend un argument \texttt{x} qui
+  doit être passé à \textsf{g}, donc du type $\gamma$; finalement, le
+  résultat de \textsf{compose} est retouné par \textsf{f}, donc de
+  type $\beta$.
+
+\end{itemize}
+
+\noindent L'opérateur d'égalité est polymorphe et ne peut être défini
+en OCaml:
+
+\bigskip
+
+\noindent\topin{( = )}
+
+\noindent\topout{- : $\alpha \rightarrow \alpha \rightarrow \texttt{bool} = \topclos$}
+
+\bigskip
+
+Donc attention à ce qu'il coïncide avec \emph{votre} notion d'égalité.
+
+C'est l'égalité mathématique: deux valeurs sont égales si elles ont la
+même structure et si leurs parties respectives sont égales. Ne marche
+pas avec les expressions fonctionnelles (problème indécidable).
+
+\bigskip
+
+\topin{1 = 1 \&\& [|2|] = [|2|] \&\& \str{oui} = \str{oui}}
+
+\topout{- : bool = true}
+
+\topin{(fun x -> x) = (fun x -> x)}
+
+\error{Exception: Invalid\_argument "equal: functional value".}
+
+\bigskip
+
+On note \texttt{<>} la négation de l'égalité.
+
+
+\section{Filtrage par motifs}
+
+Étendons encore les expressions de mini-ML par les \emph{filtres} et
+les \emph{motifs}:
+\begin{itemize}
+ 
+  \item \Xmatch{} $e$ \Xwith{} $p_1 \rightarrow e_1 \mid \ldots \mid
+    p_n \rightarrow e_n$
+ 
+  \item où les $p_i$ sont des motifs.
+
+\end{itemize}
+
+\bigskip
+
+Les motifs sont définis récursivement par les cas suivants:
+
+\bigskip
+
+\begin{tabular}{rll}
+    $\bullet$
+  & \emph{variable}
+  & $f, g, h$ (fonctions) et $x, y, z$ (autres). \\
+    $\bullet$
+  & \emph{unité ou constante}
+  & \unit \ ou \textsf{0} ou \Xtrue{} etc.\\
+    $\bullet$
+  & \emph{$n$-uplet}
+  & $p_1, \ldots, p_n$\\
+    $\bullet$
+  & \emph{parenthèse}
+  & $\lpar{p}\rpar$\\
+    $\bullet$
+  & \emph{joker}
+  & {\Large \_}
+\end{tabular}
+
+\bigskip
+
+\remarque \quad Les motifs irréfutables sont des motifs particuliers.
+
+Typiquement, on se sert des filtres pour faire des définitions par cas
+de fonctions (mais pas uniquement), comme en mathématiques. Par exemple:
+{\small
+\begin{verbatim}
+let rec fib n =
+  match n with
+    0 -> 1
+  | 1 -> 1
+  | _ -> fib(n-1) + fib(n-2)
+\end{verbatim}
+} 
+Comme en mathématiques, les cas sont ordonnés par l'ordre d'écriture
+et la définition précédente se lit: «~Si la valeur de \texttt{n}
+\emph{a la forme} de \texttt{0} alors \texttt{fib(n)} est la valeur de
+\texttt{1}, si la valeur de \texttt{n} \emph{a la forme} de \texttt{1}
+alors \texttt{fib(n)} est la valeur de \texttt{1}, sinon
+\texttt{fib(n)} vaut la valeur de \texttt{fib(n-1) + fib(n-2)}~».
+
+Que signifie la relation «~$v$ a la forme de $p$~» (ou «~$p$ filtre
+$v$~»)?
+\begin{itemize}
+
+  \item Une constante a la forme de la constante identique dans un
+  motif.
+
+  \item L'unité \unit a la forme de \unit dans un motif.
+
+  \item Un $n$-uplet a la forme d'un $n$-uplet dans un motif.
+
+  \item \textbf{Toute valeur a la forme d'une variable de motif ou du
+  joker {\Large \_}.}
+
+\end{itemize}
+
+\remarques 
+
+\begin{itemize}
+
+\item Les motifs ne filtrent aucune fermeture, c'est-à-dire que $e$
+  dans \Xmatch{} $e$ \Xwith{} ne doit pas s'évaluer en une fermeture.
+
+  \item Dans le cas des constantes et \unit, la relation se confond
+  avec l'égalité.
+
+\end{itemize}
+
+Le \emph{filtrage} est l'évaluation d'un filtre. Informellement,
+l'évaluation de
+ 
+\centerline{\Xmatch{} $e$ \Xwith{} $p_1 \rightarrow e_1 \mid \ldots
+  \mid p_n \rightarrow e_n$} commence par celle de $e$ en $v$.
+
+Ensuite $v$ est confrontée aux différents motifs $p_i$ dans l'ordre
+d'écriture. Si $p_i$ est le premier motif à filtrer $v$, alors la
+valeur du filtre est la valeur de $e_i$.
+
+Par exemple, voici la définition curryfiée de la disjonction logique:
+{\small
+\begin{verbatim}
+let or = fun (x,y) ->
+  match (x,y) with
+   (false, false) -> false
+  | _ -> true
+\end{verbatim}
+}
+
+\mypar{Types variants}
+
+Les types variants s'apparentent aux énumérations, aux \textsf{union}
+du langage C. Par exemple, les valeurs booléeennes peuvent être
+définies ainsi:
+{\small
+\begin{verbatim}
+type booléen = Vrai | Faux
+let v = Vrai and f = Faux
+\end{verbatim}
+}
+\textbf{Les constructeurs ont pour première lettre une majuscule.}
+
+Le \emph{filtrage} permet d'examiner les valeurs d'un type variant:
+{\small
+\begin{verbatim}
+let int_of_booléen = fun b ->
+  match b with
+     Vrai -> 1 
+   | Faux -> 0
+\end{verbatim}
+}
+
+Les constructeurs peuvent aussi transporter de l'information, dont
+l'interprétation complète alors celle du constructeur lui-même. Par
+exemple, un jeu de cartes peut être défini par
+{\small
+\begin{verbatim}
+type carte = Carte of ordinaire | Joker
+and ordinaire = couleur * figure
+and couleur = Coeur | Carreau | Pique | Trefle
+and figure = As | Roi | Reine | Valet | Simple of int
+\end{verbatim}
+}
+
+Définissons des cartes et des fonction construisant des cartes:
+
+\bigskip
+
+\topin{let valet\_de\_pique = Carte (Pique,Valet)}
+
+\topout{val valet\_de\_pique : carte = Carte (Pique,Valet)}
+
+\topin{let carte f c = Carte (c,f)}
+
+\topout{val carte : figure $\rightarrow$ couleur $\rightarrow$ carte =
+  $\topclos$}
+
+\topin{let roi = carte Roi}
+
+\topout{val roi : couleur $\rightarrow$ carte = $\topclos$}
+
+{\small
+\begin{verbatim}
+let valeur c = match c with
+  Carte (As)       -> 14
+| Carte (Roi)      -> 13
+| Carte (Reine)    -> 12
+| Carte (Valet)    -> 11
+| Carte (Simple k) -> k
+| Joker            -> 0
+\end{verbatim}
+}
+
+Un motif peut capturer plusieurs cas:
+{\small
+\begin{verbatim}
+let est_petite c = match c with
+  Carte (Simple _) -> true
+| _ -> false
+\end{verbatim}
+}
+
+\mypar{Filtres incomplets}
+
+\noindent \emph{Rappel} Lorsqu'une valeur $v$ est filtrée par $p_1
+\rightarrow e_1 \mid \ldots \mid p_n \rightarrow e_n$, l'expression
+$e_i$ associée au premier motif $p_i$ qui filtre $v$ est évaluée dans
+l'environnement courant étendu par les liaisons éventuelles créées par
+le filtrage de $v$ par $p_i$.
+
+Le filtre est \emph{incomplet} s'il existe au moins une valeur qui n'est
+filtrée par aucun motif. Dans ce cas, un message d'avertissement est
+indiqué à la compilation:
+
+\topin{let simple c = match c with Carte (\_,Simple k) -> k}
+
+\error{Characters 15-51}
+
+\error{Warning: this pattern-matching is not exhaustive.}
+
+\error{Here is an example of a value that is not matched:
+  Joker}
+
+\topout{val simple : carte $\rightarrow$ int = $\topclos$}
+
+\emph{Il est préférable d'éviter les définitions incomplètes.}
+
+\mypar{Linéarité}
+
+\emph{Une variable ne peut être liée deux fois dans le même motif.}
+
+\bigskip
+
+\topin{fun (x,y) -> match (x,y) with  (Carte z, z) -> true}
+
+\error{Characters 41-42}
+
+\error{This variable is bound several times in this matching.}
+
+\bigskip
+
+Un tel motif est dit \emph{non linéaire}.
+
+\mypar{Listes}
+
+Les listes peuvent être définies comme un type variant polymorphe
+récursif:
+{\small
+\begin{verbatim}
+type 'a liste = Nil | Cons of 'a * 'a liste
+\end{verbatim}
+}
+Les noms de ces constructeurs sont traditionnels dans la communauté
+des langages fonctionnels. Le premier, \texttt{\small Nil}, dénote la
+liste vide; le second, \texttt{\small Cons}, dénote la liste non
+vide. Une liste non vide est alors modélisée par une paire dont la
+première projection est un élément de la liste (de type \texttt{\small
+'a}) et la seconde la sous-liste restante (donc de type \texttt{\small
+'a liste}). Par exemple:
+{\small
+\begin{verbatim}
+let liste_vide= Nil
+let liste_singleton = Cons ('a', Nil)
+let liste_singleton_bis = Cons (7, Nil)
+let liste_longue = Cons (1, Cons (2, Cons (3, Cons (4, Nil))))
+\end{verbatim}
+}
+
+Par défaut, le système prédéfinit un type \texttt{\small 'a list},
+dont le constructeur de liste vide est \verb+[]+, et celui de liste
+non vide est \verb+::+ (utilisé en position infixe). La fonction de
+concaténation de deux listes est notée \verb+@+ (\textbf{Ce n'est pas
+un constructeur.}). Exemples de formes équivalentes:
+{\small
+\begin{verbatim}
+let l = 1 :: (2 :: 3 :: (4 :: []))
+let l = 1 :: 2 :: 3 :: 4 :: []
+let l = [1;2;3;4]
+\end{verbatim}
+}
+
+La biliothèque \textsf{List} fournit des fonctions sur les listes.
+
+Exemple: Une fonction qui renverse une liste.
+
+{\small
+\begin{verbatim}
+let rec reverse = function
+  [] -> []
+| h::l -> (reverse l) @ [h]
+\end{verbatim}
+}
+
+\bigskip
+
+ou, plus efficacement:
+{\small
+\begin{verbatim}
+let reverse l = 
+  let rec reverse_aux acc = function
+    [] -> acc
+  | h::t -> reverse_aux (h::acc) t
+in reverse_aux [] l
+\end{verbatim}
+}
+
+\section{Exceptions}
+
+Les exceptions de ML ont servi de modèle pour celles du langage \cpp. 
+{\small
+\begin{verbatim}
+exception Perdu
+
+let rec cherche_la_clé k = function
+  (h,v)::t -> if h = k then v else cherche_la_clé k t
+| [] -> raise Perdu
+  
+let k = 
+  try 
+    cherche_la_clé "Louis" [("Georges",14); ("Louis",5)]
+  with Perdu -> 10
+\end{verbatim}
+}
+
+\begin{center}
+\begin{tabular}{ll}
+  Définition (phrase) & \phrase{exception $C$ [of $t$]}\\
+  \hline
+  Lancement (expression) & \phrase{raise $e$}\\
+  Filtrage (expression) & \phrase{try $e$ with $p_1 \rightarrow e_1
+  \mid \ldots \mid p_n \rightarrow e_n$}
+\end{tabular}
+\end{center}
+Remarquez l'analogie avec le filtrage des valeurs. Les exceptions sont
+toutes de type \textsf{exn}.
+
+\emph{The Core Library}
+\begin{center}
+\small
+\begin{tabular}{l|l}
+Constructeur & Usage\\
+\hline
+\excerpt{Invalid\_argument of string} & Argument hors bornes\\
+\excerpt{Failure of string} & Fonction indéfinie pour un argument\\
+\excerpt{Not\_found} & Échec de fonctions de recherche\\
+\excerpt{Match\_failure of ...} & Échec de filtrage\\
+\excerpt{End\_of\_file} & Fin de fichier
+\end{tabular}
+\end{center}
+
+Sémantique des exceptions
+
+\begin{itemize}
+
+  \item Le type \textsf{exn} est le seul type somme \emph{extensible}.
+
+  \item Le lancement d'une exception arrête l'évaluation et retourne
+        une valeur exceptionnelle (c'est-à-dire de type \textsf{exn}).
+
+  \item Une exception ne peut être éventuellement filtrée que si
+        l'expression a été encadrée par un bloc \textsf{try $e$ with
+        $m$}:
+        \begin{itemize}
+ 
+          \item Si l'évaluation de $e$ retourne une valeur normale,
+                celle-ci est retournée sans passer par le filtre $m$.
+
+          \item Sinon, l'exception est passée au filtre $m$. Si un des
+                motifs $p_i$ filtre l'exception, alors $e_i$ est
+                évaluée, sinon l'exception est propagée (\textbf{Les
+                filtres d'exceptions ne sont pas forcément
+                complets.}).
+
+        \end{itemize}
+
+   \item On peut observer une exception (c'est-à-dire la filtrer puis la
+         relancer):\\
+         \excerpt{try f x with Failure s as x -> prerr\_string s; raise x}
+
+\end{itemize}

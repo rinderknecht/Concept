@@ -1,0 +1,1224 @@
+\chapter{Recherche de motifs}
+\label{chap_factoring}
+\index{recherche de motifs|(}
+
+Nous appellerons \emph{alphabet}\index{recherche de motifs!alphabet}
+un ensemble fini non-vide de symboles, appelés
+\emph{lettres}\index{recherche de motifs!lettre}, que nous composerons
+avec une police linéale, par exemple \word{a}, \word{b} etc. Un
+\emph{mot}\index{recherche de motifs!mot} est une suite finie de
+lettres, comme \word{mot}; en particulier, une lettre est un mot,
+comme en français. Nous dénotons la répétition d'une lettre ou d'un
+mot avec un exposant, par exemple, \(\word{a}^3 = \word{aaa}\). Les
+mots, tout comme les lettres, peuvent être joints pour former des
+mots: le mot \(u \cdot v\) est constitué des lettres du mot~\(u\)
+suivies des lettres du mot~\(v\); par exemple, si \(u=\word{or}\) et
+\(v=\word{ange}\), alors \(u \cdot v = \word{orange}\). Cette
+opération est associative: \((u \cdot v) \cdot w = u \cdot (v \cdot
+w)\). Pour abréger, l'opérateur peut être omis: \((uv)w = u(vw)\). La
+concaténation de mots se comporte comme un produit non-commutatif,
+donc elle a un élément neutre \(\varepsilon\), appelé le \emph{mot
+  vide}: \(u \cdot \varepsilon = \varepsilon \cdot u = u\).
+
+Un mot~\(x\) est un \emph{facteur}\index{recherche de motifs!facteur}
+d'un mot~\(y\) s'il existe deux mots \(u\)~et~\(v\) tels que \(y =
+uxv\). Le mot~\(x\) est un \emph{préfixe}\index{recherche de
+  motifs!préfixe} de~\(y\), noté \(x \prefeq y\),
+si~\(u=\varepsilon\), c'est-à-dire si \(y = xv\). De plus, si \(v \neq
+\varepsilon\), c'est un \emph{préfixe propre}, noté \(x \pref
+y\). Étant donné \(y = uxv\), le mot~\(x\) est un
+\emph{suffixe}\index{recherche de motifs!suffixe} de~\(y\) si \(v =
+\varepsilon\). Si, en plus, \(u \neq \varepsilon\), il est un
+\emph{suffixe propre}. Soit~\(a\) une lettre quelconque et \(x\),
+\(y\)~des mots quelconques; alors la relation de préfixe est facile à
+définir par un système d'inférence comme suit:
+\begin{mathpar}
+\inferrule*{}{\varepsilon \prefeq y}
+\qquad
+\inferrule{x \prefeq y}{a \cdot x \prefeq a \cdot y}
+\end{mathpar}
+
+Le but étant d'écrire un programme pour chercher un facteur dans un
+texte, nous avons besoin de traduire les mots et les opérations en
+termes du langage fonctionnel. Une lettre est traduite en un
+constructeur constant; par exemple, \word{a} devient \(\fun{a}()\). Un
+mot de plus d'une lettre est traduit en une pile de lettres traduites,
+comme \word{je} dans \([\fun{j}(),\fun{e}()]\). La concaténation d'une
+lettre et d'un mot est traduite par un empilage, ainsi \(\word{a}
+\cdot \word{mie}\) devient \([\fun{a}(), \fun{m}(), \fun{i}(),
+\fun{e}()]\). La concaténation de deux mots est traduite par la
+concaténation de piles, donc \(\word{ab} \cdot \word{cd}\) mène
+à\index{cat@\fun{cat/2}}
+\(\fun{cat}([\fun{a}(),\fun{b}()],[\fun{c}(),\fun{d}()])\).
+
+% The transposition of a word is the reversal of the stack implementing
+% the word.
+
+Comme toujours, la traduction du système d'inférence définissant
+\((\prefeqName)\) en une fonction \fun{pre/2}\index{pre@\fun{pre/2}}
+requiert que les cas correspondant aux axiomes s'évaluent en
+\(\fun{true}()\) et que les cas qui ne sont pas spécifiés
+\((\nprefeqName)\) s'évaluent en \(\fun{false}()\):
+\begin{equation*}
+\fun{pre}(\el,y) \rightarrow \fun{true}();\quad
+\fun{pre}(\cons{a}{x},\cons{a}{y}) \rightarrow \fun{pre}(x,y);\quad
+\fun{pre}(x,y) \rightarrow \fun{false}().
+\end{equation*}
+Le système d'inférence est alors une spécification formelle du
+programme.
+
+Une lettre d'un mot peut être caractérisée de façon unique par un
+entier naturel appelé \emph{index}\index{recherche de motifs!index},
+en supposant que la première lettre a pour index~\(0\)
+\citep{Dijkstra_1982}. Si \(x=\word{pot}\), alors la lettre à
+l'index~\(0\) est \(\ind{x}{0}=\word{p}\) et celle à l'index~\(2\) est
+\(\ind{x}{2}=\word{t}\). Un facteur~\(x\) de~\(y\) peut être identifié
+par l'index de~\(\ind{x}{0}\) dans~\(y\). La fin du facteur peut aussi
+être isolée; par exemple, \(x=\word{fin}\) est un facteur de
+\(y=\word{affiner}\) à l'index~\(2\), noté \(\ind{y}{2,4} = x\) et
+signifiant \(\ind{y}{2} = \ind{x}{0}\), \(\ind{y}{3} = \ind{x}{1}\) et
+\(\ind{y}{4} = \ind{x}{2}\).
+
+La recherche de motifs est courante dans l'édition de textes, bien
+qu'elle soit mieux connue en tant que \emph{recherche d'occurrences},
+un sujet d'études en \emph{algorithmique du texte}, appelé parfois en
+anglais \emph{stringology}
+\citep{CharrasLecroq_2004,CrochemoreHancartLecroq_2007}
+\citep[\S{}32]{CLRS_2009}. Dû à la nature asymétrique de la recherche,
+le mot~\(p\) est appelé le \emph{motif}\index{recherche de
+  motifs!motif} (à ne pas confondre avec le motif d'une règle de
+réécriture) et le mot~\(t\) est le \emph{texte}\index{recherche de
+  motifs!texte}.
+
+\section{Recherche na\"{\i}ve}
+\label{sec_naive_factoring}
+\index{recherche de motifs!$\sim$ na\"{\i}ve|(}
+
+À la section~\ref{def_linear_search}, \vpageref{def_linear_search},
+nous avons présenté la recherche linéaire\index{recherche linéaire},
+c'est-à-dire la recherche pas à pas de l'occurrence d'un élément dans
+une pile. Nous pouvons la généraliser à la recherche d'une suite
+d'éléments contigus dans une pile, c'est-à-dire qu'elle résout alors
+le problème de la recherche d'un mot. Cette approche est qualifiée de
+na\"{\i}ve parce qu'elle est une extension simple d'une idée simple,
+et il est sous-entendu qu'elle n'est pas la plus efficace. Tout
+commence avec la comparaison de~\(\ind{p}{0}\) et~\(\ind{t}{0}\),
+puis, en supposant que \(\ind{p}{0} = \ind{t}{0}\), les lettres
+\(\ind{p}{1}\) et~\(\ind{t}{1}\) sont à leur tour comparées etc.
+jusqu'à ce qu'un des mots soit vide ou une inégalité se produise. En
+supposant que \(p\)~est plus court que~\(t\), le premier cas signifie
+que \(p\)~est un préfixe de~\(t\). Dans le dernier cas, \(p\)~est
+décalé de telle sorte que \(\ind{p}{0}\) soit aligné avec
+\(\ind{t}{1}\) et les comparaisons reprennent à partir de ce
+point. Si~\(p\) ne peut être décalé davantage parce que son extrémité
+dépasserait la fin de~\(t\), alors il n'est pas un facteur. L'essence
+de cette procédure est résumée à la \fig~\vref{fig_naive},
+\begin{figure}[t]
+\centering
+\includegraphics[bb=75 621 352 715]{naive}
+\caption{Recherche na\"{\i}ve du motif~\(p\) dans le texte~\(t\) 
+(échec grisé)\label{fig_naive}}
+\end{figure}
+où \(\ind{p}{i} \neq \ind{t}{j}\) (les lettres \word{a}~et~\word{b} ne
+sont pas significatives en elles-mêmes).
+
+La \fig~\vref{fig_loc0}
+\begin{figure}[t]
+\centering 
+\includegraphics[bb=71 548 253 721]{loc0}
+\caption{Recherche na\"{\i}ve avec \fun{loc\(_0\)/2}
+\label{fig_loc0}}
+\end{figure}
+montre un programme fonctionnel réalisant ce plan. L'appel
+\(\fun{loc}_0(p,t)\)\index{loc0@\fun{loc\(_0\)/2}} est évalué en
+\(\fun{absent}()\) si le motif~\(p\) n'est pas un facteur du
+texte~\(t\), sinon en \(\fun{factor}(k)\), où \(k\)~est l'index
+dans~\(t\) où~\(p\) apparaît en premier. Du point de vue conceptuel,
+ce dessein consiste à combiner une recherche linéaire de la première
+lettre du motif et un test de préfixe pour le reste du motif et du
+texte. Il est important de vérifier si les invariants implicites en
+général ne sont pas brisés en présence de cas aux limites. Par
+exemple, dans le traitement de piles, utilisons des piles vides
+partout où cela est possible et interprétons chaque réécriture et
+l'évaluation complète. Nous avons ainsi \(\fun{pre}(\el,t)
+\twoheadrightarrow \fun{true}()\), parce que \(t = \varepsilon \cdot
+t\). Mais aussi \(\fun{loc}_0(\el,t) \twoheadrightarrow \fun{factor}(0)\).
+
+\paragraph{Raffinements}
+
+Bien que la composition de ce programme soit intuitive, elle est trop
+longue. Nous pourrions remarquer qu'après un appel à
+\fun{pre/2}\index{pre@\fun{pre/2}} s'évalue en \(\fun{true}()\),
+l'évaluation s'achève avec \(\fun{factor}(j)\). De même, une valeur
+\(\fun{false}()\) est suivie par l'appel
+\(\fun{loc}_0(p,t,j+1)\)\index{loc0@\fun{loc\(_0\)/3}}. Par
+conséquent, au lieu d'appeler \fun{pre/2} et puis inspecter la valeur
+résultante pour déterminer la suite, nous pourrions donner
+l'initiative à \fun{pre/2}. Ceci implique qu'elle a besoin de recevoir
+des arguments supplémentaires pour pouvoir terminer avec
+\(\fun{factor}(j)\) ou recommencer avec \(\fun{loc}_0(p,t,j+1)\),
+comme on s'y attend. Le programme correspondant est montré à la
+\fig~\ref{fig_loc1}.
+\begin{figure}[t]
+\begin{equation*}
+\boxed{%
+\begin{array}{r@{\;}l@{\;}l}
+\fun{loc}_1(p,t)   & \rightarrow & \fun{loc}_1(p,t,0).\\
+\\
+\fun{loc}_1(\cons{a}{p},\el,j) & \rightarrow & \fun{absent}();\\
+\fun{loc}_1(p,t,j) & \rightarrow & \fun{pre}_1(p,t,p,t,j).\\
+\\
+\fun{pre}_1(\el,t,p',t',j) & \rightarrow & \fun{factor}(j);\\
+\fun{pre}_1(\cons{a}{p},\cons{a}{t},p',t',j)
+                   & \rightarrow & \fun{pre}_1(p,t,p',t',j);\\
+\fun{pre}_1(p,t,p',\cons{a}{t'},j) & \rightarrow & \fun{loc}_1(p',t',j+1).
+\end{array}}
+\end{equation*}
+\caption{Raffinement de la \fig~\vref{fig_loc0}
+\label{fig_loc1}}
+\end{figure}
+
+Un examen plus approfondi révèle que nous pouvons mêler
+\fun{loc\(_1\)/3}\index{loc1@\fun{loc\(_1\)/3}} et
+\fun{pre\(_1\)/5}\index{pre1@\fun{pre\(_1\)/5}} en
+\fun{pre/5}\index{pre@\fun{pre/5}} à\index{recherche de motifs!$\sim$
+  na\"{\i}ve!programme} la \fig~\vref{fig_loc}. Cette sorte de
+conception progressive, où un programme est transformé en une série de
+programmes équivalents est un \emph{raffinement}. Ici, chaque
+raffinement est plus efficace que le précédent, mais moins lisible que
+l'original, donc chaque étape doit être vérifiée attentivement.
+\begin{figure}[h]
+\begin{equation*}
+\boxed{%
+\begin{array}{r@{\;}l@{\;}l}
+\fun{loc}(p,t)   & \xrightarrow{\smash{\pi}} & \fun{pre}(p,t,p,t,0).\\
+\\
+\fun{pre}(\el,t,p',t',j) & \xrightarrow{\smash{\rho}}
+                         & \fun{factor}(j);\\
+\fun{pre}(p,\el,p',t',j) & \xrightarrow{\smash{\sigma}}
+                         & \fun{absent}();\\
+\fun{pre}(\cons{a}{p},\cons{a}{t},p',t',j)
+                         & \xrightarrow{\smash{\tau}}
+                         & \fun{pre}(p,t,p',t',j);\\
+\fun{pre}(p,t,p',\cons{b}{t'},j) & \xrightarrow{\smash{\upsilon}}
+                         & \fun{pre}(p',t',p',t',j+1).
+\end{array}}
+\end{equation*}
+\caption{Raffinement de la \fig~\vref{fig_loc1}
+\label{fig_loc}}
+\end{figure}
+
+\paragraph{Terminaison}
+\index{recherche de motifs!$\sim$ na\"{\i}ve!terminaison|(}
+
+On veut montrer que l'index dans le texte augmente toujours, qu'une
+comparaison échoue ou non, donc nous définissons un ordre
+lexicographique sur les paires de dépendance de \fun{pre/5}
+\index{terminaison!paire de dépendance} constituées par le quatrième
+et le deuxième argument (définition~\eqref{def_lexico}
+\vpageref{def_lexico}), avec \(s \succ t\) si~\(t\) est la sous-pile
+immédiate de~\(s\). La troisième règle satisfait \((t',\cons{a}{t})
+\succ (t',t)\). La quatrième est ordonnée aussi: \((\cons{b}{t'},t)
+\succ (t',t')\).\index{recherche de motifs!$\sim$
+  na\"{\i}ve!terminaison|)}\hfill\(\Box\)
+
+\paragraph{Complétude}
+\index{recherche de motifs!$\sim$ na\"{\i}ve!complétude|(}
+\index{induction!exemple|(}
+
+Remarquons comment, à la règle~\(\sigma\), le motif~\(p\) ne peut pas
+être vide car les règles sont ordonnées et ce cas serait alors filtré
+par la règle~\(\rho\). La complétude de la définition de \fun{pre/5}
+requiert un examen attentif et nous devons justifier pourquoi l'appel
+\(\fun{pre}(\cons{a}{p},\cons{b}{t},p',\el,j)\), où \(a \neq b\), ne
+peut se produire.
+
+Il est peut-être surprenant qu'une assertion plus générale soit plus
+facile à établir:
+\begin{center}
+\(\fun{loc}(p,t) \twoheadrightarrow \fun{pre}(p_0,t_0,p_0',t_0',j)\)
+\textsl{implique} \(t_0' \succcurlyeq t_0\),
+\end{center}
+où (\(\succcurlyeq\)) est la relation de sous-pile réflexive. 
+Prouvons cette propriété par \emph{induction sur la longueur de la
+  dérivation}.\index{induction!$\sim$ sur la longueur de la
+  dérivation} Plus précisément, nous voulons établir la proposition
+\begin{equation*}
+\pred{Comp}{n} \colon \fun{loc}(p,t) \xrightarrow{\smash{n}}
+\fun{pre}(p_0,t_0,p_0',t_0',j) \Rightarrow t_0' \succcurlyeq t_0.
+\index{Comp@\predName{Comp}}
+\end{equation*}
+\begin{itemize}
+
+  \item La base \(\pred{Comp}{0}\) est aisément prouvée sans induction
+  grâce à la règle~\(\pi\): \(\fun{loc}(p,t) \xrightarrow{\smash{\pi}}
+  \fun{pre}(p,t,p,t,0)\) et \(t \succcurlyeq t\) est triviale.
+
+  \item L'hypothèse d'induction est \(\pred{Comp}{n}\) et nous voulons
+  montrer que, avec cette hypothèse, \(\pred{Comp}{n+1}\) est vraie
+  aussi. Autrement dit, supposons que \(\fun{loc}(p,t)
+  \xrightarrow{\smash{n}} \fun{pre}(p_0,t_0,p_0',t_0',j)\) implique
+  \(t_0' \succcurlyeq t_0\) et nous voulons prouver que
+  \(\fun{pre}(p_0,t_0,p_0',t_0',j) \rightarrow
+  \fun{pre}(p_1,t_1,p_1',t_1',k)\) implique \(t_1' \succcurlyeq
+  t_1\). Cette réécriture ne peut être que via~\(\tau\)
+  ou~\(\upsilon\).
+  \begin{itemize}
+
+    \item Si~\(\tau\), l'hypothèse d'induction appliquée au membre
+    gauche entraîne \(t' \succcurlyeq \cons{a}{t}\), donc \(t'
+    \succcurlyeq t\) dans le membre droit;
+
+    \item sinon, le membre droit de~\(\upsilon\) satisfait clairement
+    \(t' \succcurlyeq t'\).
+
+      \end{itemize}
+\end{itemize}
+En somme, \(\pred{Comp}{0}\) est vraie et \(\pred{Comp}{n} \Rightarrow
+\pred{Comp}{n+1}\). Par conséquent, le principe d'induction implique
+\(\forall n.\pred{Comp}{n}\), qui, à son tour, entraîne notre
+formulation avec~(\(\twoheadrightarrow\)). Notons comment, dans ce
+cas, cette technique de preuve se réduit à une induction sur les
+entiers naturels.\hfill\(\Box\) \index{induction!exemple|)}
+\index{recherche de motifs!$\sim$ na\"{\i}ve!complétude|)}
+
+\addcontentsline{toc}{subsection}{Coût}
+\paragraph{Coût}
+
+Dans l'analyse de coût qui suit, soit~\(m\) la taille du motif~\(p\)
+et~\(n\) la longueur du texte~\(t\). De plus, comme c'est souvent le
+cas avec les algorithmes de recherche, nous discriminerons selon que
+\(p\)~est un facteur de~\(t\) ou non.
+
+\paragraph{Coût minimum}
+\index{recherche de motifs!$\sim$ na\"{\i}ve!coût minimum}
+
+Si \(m \leqslant n\), le meilleur cas se produit quand le motif est un
+préfixe du texte, donc la trace d'évaluation est \(\pi\tau^m\rho\) et
+sa longueur \(\B{\fun{loc}}{m,n} = m + 2\). Si \(m > n \), le coût
+minimum est \(\B{\fun{loc}}{m,n} = \len{\pi\tau^n\sigma} = n +
+2\). Nous pouvons regrouper ces deux cas en une seule formule:
+\begin{equation*}
+\B{\fun{loc}}{m,n} = \min\{m,n\} + 2.\index{loc@$\B{\fun{loc}}{m,n}$}
+\end{equation*}
+
+\paragraph{Coût maximum}
+\index{recherche de motifs!$\sim$ na\"{\i}ve!coût maximum|(}
+
+Pour trouver le coût maximum, étudions les cas où le motif est un
+facteur du texte et quand il ne l'est pas.
+\begin{itemize}
+
+\item \emph{Le texte contient le motif.} La découverte du motif doit
+  être retardée le plus possible, donc le pire des cas est quand
+  \(w\)~est un suffixe de~\(t\) et chaque inégalité de lettre porte
+  sur la dernière lettre du motif. Par exemple, prenons \(p =
+  \word{a}^{m-1}\word{b}\) et \(t = \word{a}^{n-1}\word{b}\). La trace
+  d'évaluation est \(\pi (\tau^{m-1}\upsilon)^{n-m} \tau^m\rho\), de
+  longueur \(mn-m^2+m+2\).
+
+  \item \emph{Le texte ne contient pas le motif.} Le motif n'est le
+  préfixe d'aucun suffixe du texte. La comparaison la plus tardive qui
+  échoue se produit sur la dernière lettre du motif, comme avec \(p =
+  \word{a}^{m-1}\word{b}\) et \(t = \word{a}^{n}\). Le coût est
+  \(\len{\pi(\tau^{m-1}\upsilon)^{n-m+1}\tau^{m-1}\sigma} = mn - m^2 +
+  2m + 1\).
+
+\end{itemize}
+Par conséquent, le coût maximum est \(\W{\fun{loc}}{m,n} = mn - m^2 +
+2m + 1\) \index{loc@$\W{\fun{loc}}{m,n}$}, quand le motif n'est pas un
+facteur du texte et \(m \geqslant 1\). L'analyse précédente suggère
+une amélioration dans ce cas, mais qui empirerait le cas où le texte
+contient le motif: juste après la règle~\(\tau\), ajoutons
+\index{recherche de motifs!$\sim$ na\"{\i}ve!coût maximum|)}
+\begin{equation*}
+\belowdisplayskip=0pt
+\fun{pre}([a],[b],p',t',j) \rightarrow \fun{absent}();\index{pre@\fun{pre/5}}
+\end{equation*}
+
+\paragraph{Coût moyen}
+\index{recherche de motifs!$\sim$ na\"{\i}ve!coût moyen|(}
+
+Supposons que \(0 < m \leqslant n\) et que les lettres de
+\(p\)~et~\(t\) sont puisées dans un même alphabet de cardinal
+\(\breve{a} > 1\). La recherche de motifs na\"{\i}ve consiste à
+confronter un motif et les préfixes des suffixes du texte, par
+longueurs décroissantes. Soit~\(\OM{\breve{a}}{m}\)
+\index{loc@$\OM{\breve{a}}{n}$} le nombre moyen de comparaisons de
+lettres pour comparer deux mots de longueur~\(m\), de
+l'alphabet~\(\breve{a}\). Le nombre moyen \(\OM{\fun{loc}}{m,n}\) de
+comparaisons pour la recherche na\"{\i}ve est
+\begin{equation}
+\OM{\fun{loc}}{m,n} = (n-m+1)\OM{\breve{a}}{m} + \OM{\breve{a}}{m-1},
+\label{eq_loc}
+\end{equation}
+car il y a \(n-m+1\) suffixes de longueur au moins~\(m\) et
+\(1\)~suffixe de longueur~\(m-1\), avec lesquels le motif est comparé.
+La détermination de \(\OM{\breve{a}}{m}\) est obtenue en figeant le
+motif~\(p\) et en laissant le texte~\(t\) prendre toutes les formes
+possibles. Il y a \(\breve{a}^{m}\)~comparaisons entre \(\ind{p}{0}\)
+et~\(\ind{t}{0}\), autant qu'il y a de textes différents; si
+\(\ind{p}{0}=\ind{t}{0}\), il y a \(\breve{a}^{m-1}\)~comparaisons
+entre \(\ind{p}{1}\) et~\(\ind{t}{1}\), autant qu'il a de différents
+\(\ind{t}{1,m-1}\) etc. Au total, il y a \(\breve{a}^{m} +
+\breve{a}^{m-1} + \dots + \breve{a} = \breve{a}(\breve{a}^{m} -
+1)/(\breve{a}-1)\) comparaisons. Il y a \(\breve{a}^m\)~textes
+possibles, donc la moyenne est
+\begin{equation*}
+\OM{\breve{a}}{m}
+ = \frac{\breve{a}(\breve{a}^{m}-1)}{\breve{a}^m(\breve{a}-1)}
+ = \frac{\breve{a}}{\breve{a}-1}\left(1
+                          - \frac{1}{\breve{a}^{m}}\right)
+ < \frac{\breve{a}}{\breve{a}-1}
+ \leqslant 2.
+\end{equation*}
+Puisque \(\OM{\breve{a}}{1} = 1\), il vient l'encadrement suivant
+grâce à l'équation~\eqref{eq_loc}:
+\begin{equation*}
+n - m + 2 \leqslant \OM{\fun{loc}}{m,n} < 2(n-m+2) \leqslant 2n + 4.
+\end{equation*}
+La recherche na\"{\i}ve est donc efficace en moyenne, mais son
+hypothèse n'est pas applicable à un corpus en français. Le coût moyen
+est d'autant moindre que l'alphabet est grand car \(\lim_{\breve{a}
+  \rightarrow \infty}\OM{\breve{a}}{m} = 1\).\index{recherche de
+  motifs!$\sim$ na\"{\i}ve!coût moyen|)} \index{recherche de
+  motifs!$\sim$ na\"{\i}ve|)}
+
+
+\section{Algorithme de Morris et Pratt}
+\index{recherche de motifs!algorithme de Morris et Pratt|(}
+
+En cas d'échec de comparaison, la recherche na\"{\i}ve recommence à
+comparer les premières lettres de~\(p\) sans utiliser l'information du
+succès partiel, à savoir: \(\ind{p}{0,i-1} = \ind{t}{j-i,j-1}\) et
+\(\ind{p}{i} \neq \ind{t}{j}\) (voir \fig~\vref{fig_naive}). La
+comparaison de~\(p\) avec \(\ind{t}{j-i+1,j-1}\) pourrait réutiliser
+\(\ind{t}{j-i+1,j-1} = \ind{p}{1,i-1}\), en d'autres termes,
+\(\ind{p}{0,i-2}\)~est comparé à~\(\ind{p}{1,i-1}\): le motif~\(p\)
+est comparé à une partie de lui-même. Si nous connaissons un
+index~\(k\) tel que \(\ind{p}{0,k-1} = \ind{p}{i-k,i-1}\),
+c'est-à-dire si \(\ind{p}{0,k-1}\)~est un \emph{bord}
+de~\(\ind{p}{0,i-1}\), alors nous pouvons recommencer à comparer
+\(\ind{t}{j}\) avec~\(\ind{p}{k}\). Clairement, plus~\(k\) est grand,
+plus on évite de comparaisons, donc nous voulons trouver le \emph{bord
+  maximum} de chaque préfixe de~\(p\).
+
+\paragraph{Bord}
+\index{recherche de motifs!bord|(}
+
+Le bord d'un mot non-vide~\(y\) est un préfixe propre de~\(y\) qui est
+aussi un suffixe. Par exemple, le mot \word{abacaba} a trois bords:
+\(\varepsilon\), \word{a}~et~\word{aba}. Ce dernier est le bord (de
+longueur) maximum et nous écrivons
+\(\Border{}{\underline{\word{aba}}\word{c}\underline{\word{aba}}} =
+\word{aba}\). Un autre exemple est \(\Border{}{\word{abac}} =
+\varepsilon\), car \(\word{abac} =
+\underline{\varepsilon}\word{abac}\underline{\varepsilon}\). Les bords
+maximums peuvent se recouvrir partiellement, par exemple
+\(\Border{}{\underline{\word{aaa}}\word{a}} =
+\Border{}{\word{a}\underline{\word{aaa}}} = \word{aaa}\).
+
+L'accélération apportée par Morris et Pratt à la recherche na\"{\i}ve
+est illustrée à la \fig~\vref{fig_mp}.
+\begin{figure}[b]
+\centering
+\includegraphics[bb=74 621 367 717]{mp}
+\caption{L'algorithme de Morris et Pratt (échec grisé)
+\label{fig_mp}}
+\end{figure}
+Notons que, contrairement à la recherche na\"{\i}ve, les lettres du
+texte sont comparées en ordre strictement croissant (on ne rebrousse
+jamais chemin). Considérons l'exemple de la \fig~\vref{fig_mp_ex} où,
+à la fin,
+\begin{figure}[t]
+\centering
+\includegraphics{mp_ex}
+\caption{L'algorithme de Morris et Pratt au travail
+\label{fig_mp_ex}}
+\end{figure}
+\(p\)~est n'est pas trouvé dans~\(t\). Comme d'habitude, les lettres
+sur fond gris correspondent à des échecs de comparaisons. Il est clair
+que \(\Border{}{a} = \varepsilon\), pour toute lettre~\(a\).
+
+Nous pouvons chercher soit \(\Border{}{ay}\), soit \(\Border{}{ya}\),
+où \(y\)~est un mot non-vide. Puisque que nous souhaitons trouver le
+bord maximum de chaque préfixe d'un motif donné, le second choix est
+plus adéquat (\(y \pref ya\)). L'idée est de considérer récursivement
+\(\Border{}{y} \cdot a\): si c'est un préfixe de~\(y\), alors
+\(\Border{}{ya} = \Border{}{y} \cdot a\); sinon, nous cherchons le
+bord maximum du bord maximum de~\(y\), c'est-à-dire \(\Border{2}{y}
+\cdot a\) etc. jusqu'à ce que \(\Border{q}{y} \cdot a\) soit un
+préfixe de~\(y\) ou \(\Border{q}{y} = \varepsilon\). Par exemple,
+\(\Border{}{y \cdot \word{a}} = \Border{3}{y} \cdot \word{a}\) à la
+\fig~\vref{fig_max_B}.
+\begin{figure}[b]
+\centering
+\includegraphics{max_B}
+\caption{\(\Border{}{y \cdot \word{a}}
+   = \Border{}{\Border{}{y} \cdot \word{a}}
+   = \Border{}{\Border{2}{y} \cdot \word{a}}
+   = \Border{3}{y} \cdot \word{a}\).
+\label{fig_max_B}}
+\end{figure}
+
+Mathématiquement, pour tout mot \({y \neq \varepsilon}\) et toute lettre~\(a\),
+\begin{equation}
+  \Border{}{a}         := \varepsilon;\qquad
+  \Border{}{y \cdot a} := \left\{
+    \begin{aligned}
+      & \Border{}{y} \cdot a,
+      && \text{si \(\Border{}{y} \cdot a \prefeq y\)};\\
+      & \Border{}{\Border{}{y} \cdot a},
+      && \text{sinon.}
+    \end{aligned}
+  \right.
+\label{eq_Border}
+\end{equation}
+Considérons les exemples suivants où \(y\)~et~\(\Border{}{y}\) sont donnés:
+\begin{align*}
+  y             &= \word{abaabb},
+& \Border{}{y}  &= \varepsilon,
+& \Border{}{y \cdot \word{b}}
+                &= \Border{}{\Border{}{y} \cdot \word{b}}
+                 = \Border{}{\word{b}} = \varepsilon;\\
+  y             &= \word{baaaba},
+& \Border{}{y}  &= \word{ba},
+& \Border{}{y \cdot \word{a}}
+                &= \Border{}{y} \cdot \word{a}
+                 = \word{baa};\\
+  y             &= \word{abbbab},
+& \Border{}{y}  &= \word{ab},
+& \Border{}{y \cdot \word{a}}
+                &= \Border{}{\Border{}{y} \cdot \word{a}}
+                 = \Border{2}{y} \cdot \word{a}
+                 = \word{a}.
+\end{align*}
+\index{recherche de motifs!bord|)}
+
+\paragraph{Fonction de suppléance}
+\index{recherche de motifs!fonction de suppléance|(}
+
+Notons~\(\wlen{y}\) la longueur du mot~\(y\). Pour un mot~\(x\) donné,
+définissons une fonction \(\MPfailureName_{x}\), pour tous ses
+préfixes:
+\begin{equation}
+  \MPfailure{x}{}{\wlen{y}}
+:= \wlen{\Border{}{y}},\,\; \text{pour tout
+    \(x\) et \(y \neq \varepsilon\) tels
+    que \(y \prefeq x\)}.\label{eq_MP_failure}
+\end{equation}
+Pour des raisons qui deviendront claires bientôt, cette fonction est
+appelée la \emph{fonction de suppléance} de~\(x\). Une définition
+équivalente est
+\begin{equation*}
+  \MPfailure{x}{}{i}
+= \wlen{\Border{}{\ind{x}{0,i-1}}}, \,\;
+\text{pour tout \(x\) et \(i\) tels que
+\(0 < i \leqslant \wlen{x}\)}.
+\end{equation*}
+Par exemple, à la \fig~\vref{fig_mp_fail}, nous trouvons la table des
+bords maximums des préfixes du mot \word{abacabac}.
+\begin{figure}
+\centering
+\includegraphics{mp_fail}
+\caption{Fonction de suppléance de \word{abacabac}
+\label{fig_mp_fail}}
+\end{figure}
+À la \fig~\vref{fig_mp}, la longueur du bord maximum est~\(k\), donc
+\(k=\MPfailure{p}{}{i}\) et \(\smash{\Ind{p}{\MPfailure{p}{}{i}}}\)
+est la première lettre à être comparée avec~\(\ind{t}{j}\) après le
+décalage. Par ailleurs, la figure présuppose que \({i>0}\), donc le
+bord en question est défini. Les équations \eqref{eq_Border}
+\vpageref{eq_Border} qui définissent le bord maximum peuvent être
+déroulées de la manière suivante:
+\begin{align*}
+   \Border{}{ya}
+&= \Border{}{\Border{}{y} \cdot a},
+& \Border{}{y} \cdot a &\nprefeq y;\\
+   \Border{}{\Border{}{y} \cdot a}
+&= \Border{}{\Border{2}{y} \cdot a},
+&  \Border{2}{y} \cdot a &\nprefeq \Border{}{y};\\
+&\;\;\smash{\vdots} & &\;\;\smash{\vdots}\\
+   \smash{\Border{}{\Border{p-1}{y} \cdot a}}
+&= \smash{\Border{}{\Border{p}{y} \cdot a}},
+& \smash{\Border{p}{y} \cdot a} &\nprefeq \smash{\Border{p-1}{y}};
+\end{align*}
+et \(\varepsilon \not\in \{y,\Border{}{y}, \dots,
+\Border{p-1}{y}\}\). Par transitivité, les équations impliquent
+\(\Border{}{ya} = \Border{}{\Border{p}{y} \cdot a}\). Deux cas sont
+possibles: soit \(\Border{p}{y} = \varepsilon\), soit \(\Border{}{ya}
+= \Border{}{a} = \varepsilon\), ou bien la recherche continue jusqu'à
+ce que nous trouvions le plus petit \(q > p\) tel que
+\(\Border{}{\Border{q-1}{y} \cdot a} = \Border{}{\Border{q}{y} \cdot
+  a}\) avec \(\Border{q}{y} \cdot a \prefeq \Border{q-1}{y}\). Étant
+donné qu'un bord est un préfixe propre, c'est-à-dire que
+\(\Border{}{y} \pref y\), nous avons \(\Border{2}{y} =
+\Border{}{\Border{}{y}} \pref \Border{}{y}\), ce qui entraîne
+\(\Border{q}{y} \cdot a \prefeq \Border{q-1}{y} \pref \dots \pref
+\Border{}{y} \pref y\). Par conséquent \(\Border{q}{y} \cdot a \prefeq
+y\), car \({q > 0}\), et \(\Border{}{ya} = \Border{q}{y} \cdot a\). Ce
+raisonnement établit que
+\begin{equation*}
+\Border{}{ya} = 
+\left\{
+  \begin{aligned}
+   & \Border{q}{y} \cdot a,
+   && \text{si \(\Border{q}{y} \cdot a \prefeq y\)};\\
+   & \varepsilon, 
+   && \text{sinon;}
+  \end{aligned}
+\right.
+\end{equation*}
+avec la contrainte additionnelle que \(q\)~doit être aussi petit que
+possible. Cette forme de la définition de~\(\BorderName\) est plus
+simple parce qu'elle ne contient pas un appel imbriqué comme
+\(\Border{}{\Border{}{y} \cdot a}\). Nous pouvons maintenant prendre
+la longueur de chaque côté des équations:
+\begin{equation*}
+\wlen{\Border{}{ya}} = 
+\left\{
+  \begin{aligned}
+   & \wlen{\Border{q}{y} \cdot a} = 1 + \wlen{\Border{q}{y}},
+   && \text{si \(\Border{q}{y} \cdot a \prefeq y\)};\\
+   & \wlen{\varepsilon} = 0,
+   && \text{sinon.}
+  \end{aligned}
+\right.
+\end{equation*}
+Si \({ya \prefeq x}\), alors \(\wlen{\Border{}{ya}} =
+\MPfailure{x}{}{\wlen{ya}} = \MPfailure{x}{}{\wlen{y}+1}\). Posons \(i
+:= \wlen{y} > 0\).
+\begin{equation*}
+\MPfailure{x}{}{i+1} =
+\left\{
+  \begin{aligned}
+   & 1 + \wlen{\Border{q}{y}},
+   && \text{si \(\Border{q}{y} \cdot a \prefeq y\)};\\
+   & 0,
+   && \text{sinon.}
+  \end{aligned}
+\right.
+\end{equation*}
+Nous avons à présent besoin de travailler
+sur~\(\wlen{\Border{q}{y}}\). De la définition de~\(\MPfailureName\)
+par l'équation~\eqref{eq_MP_failure} \vpageref{eq_MP_failure}, nous
+déduisons
+\begin{equation}
+\MPfailure{x}{q}{\wlen{y}} = \wlen{\Border{q}{y}},
+\,\; \text{avec \(y \prefeq x\)},
+\label{eq_MP_failure_p}
+\end{equation}
+que nous prouvons par induction sur~\(q\). Appelons cette propriété
+\(\pred{P}{q}\). Trivialement, \(\pred{P}{0}\) est vraie. Supposons
+donc \(\pred{P}{n}\) pour tout \(n \leqslant q\): ce sera l'hypothèse
+d'induction. Supposons \(y \prefeq x\) et prouvons alors
+\(\pred{P}{q+1}\):
+\begin{equation*}
+  \MPfailure{x}{q+1}{\wlen{y}}
+= \MPfailure{x}{q}{\MPfailure{x}{}{\wlen{y}}} 
+= \MPfailure{x}{q}{\wlen{\Border{}{y}}}
+\doteq \wlen{\Border{q}{\Border{}{y}}}
+= \wlen{\Border{q+1}{y}},
+\end{equation*}
+où \((\smash{\doteq})\)~est une application valide de l'hypothèse
+d'induction parce que \(\Border{}{y} \pref y \prefeq x\). Ceci prouve
+\(\pred{P}{q+1}\) et le principe d'induction entraîne la validité de
+\(\pred{P}{n}\) pour tout \(n \geqslant 0\). Par conséquent,
+l'équation \eqref{eq_MP_failure_p} nous permet de raffiner notre
+définition de \(\MPfailure{x}{}{i+1}\) de la manière suivante, avec
+\(i>0\):
+\begin{equation*}
+\MPfailure{x}{}{i+1} =
+\left\{
+  \begin{aligned}
+   & 1 + \MPfailure{x}{q}{i},
+   && \text{si \(\Border{q}{y} \cdot a \prefeq y\)};\\
+   & 0,
+   && \text{sinon.}
+  \end{aligned}
+\right.
+\end{equation*}
+Nous n'avons pas mis à profit une partie de la
+définition~\eqref{eq_Border} \vpageref{eq_Border}: \({\Border{}{a} :=
+  \varepsilon}\). Elle entraîne \(\MPfailure{x}{}{1} =
+\MPfailure{x}{}{\wlen{a}} = \wlen{\Border{}{a}} = \wlen{\varepsilon} =
+0\) et, puisque la définition de~\(\MPfailureName\) implique
+\(\MPfailure{x}{}{1} = 1 + \MPfailure{x}{}{0}\), on a
+\(\MPfailure{x}{}{0} = -1\). La propriété «\(\Border{q}{y} \cdot a
+\prefeq y\) et \({ya \prefeq x}\) et \({\wlen{y} = i}\)» implique les
+égalités \(\smash{\Ind{y}{\wlen{\Border{q}{y}}}} = a \Leftrightarrow
+\smash{\Ind{y}{\MPfailure{x}{q}{i}}} = a \Leftrightarrow
+\smash{\Ind{x}{\MPfailure{x}{q}{i}}} = \smash{\Ind{x}{\wlen{y}}}
+\Leftrightarrow \smash{\Ind{x}{\MPfailure{x}{q}{i}}} =
+\ind{x}{i}\). Nous savons maintenant que
+\begin{equation*}
+ \MPfailure{x}{}{0}   = -1\quad\text{et}\quad
+ \MPfailure{x}{}{i+1} =
+   \left\{
+     \begin{aligned}
+       & 1 + \MPfailure{x}{q}{i},
+       && \text{si \(\Ind{x}{\MPfailure{x}{q}{i}} = \ind{x}{i}\)};\\
+       & 0,
+       && \text{sinon;}
+     \end{aligned}
+   \right.
+\end{equation*}
+où \(q\)~est le plus petit entier naturel non nul satisfaisant la
+condition. Nous pouvons simplifier davantage:
+\begin{equation*}
+\MPfailure{x}{}{0} = -1
+\quad \text{et} \quad
+\MPfailure{x}{}{i+1} = 1 + \MPfailure{x}{q}{i},
+\end{equation*}
+où~\(i \geqslant 0\) et \(q>0\) est le plus petit entier naturel tel
+que \(\MPfailure{x}{q}{i} = -1\) ou
+\(\smash{\Ind{x}{\MPfailure{x}{q}{i}}} = \ind{x}{i}\).
+
+\mypar{Prétraitement}
+\index{recherche de motifs!prétraitement de Morris et Pratt!définition|(}
+
+L'appel de fonction
+\(\fun{fail}_0(x,i)\)\index{fail0@\fun{fail\(_0\)/2}}, définie à la
+\fig~\vref{fig_fail0}, réalise \(\MPfailure{x}{}{i}\).
+\begin{figure}[t]
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
+\framebox[\columnwidth]{\vbox{%
+\begin{gather*}
+\fun{fail}_0(x,0) \rightarrow -1;\quad
+\fun{fail}_0(x,i) \rightarrow
+          1 + \fun{fp}(x,\fun{nth}(x,i-1),\fun{fail}_0(x,i-1)).\\
+\fun{nth}(\cons{a}{x},0) \rightarrow a;\quad
+\fun{nth}(\cons{a}{x},i) \rightarrow \fun{nth}(x,i-1).
+\\
+\inferrule*{}{\fun{fp}(x,a,-1) \rightarrow -1;}
+\quad
+\inferrule
+  {\fun{nth}(x,k) \twoheadrightarrow a}
+  {\fun{fp}(x,a,k) \twoheadrightarrow k}
+\,;\quad
+\fun{fp}(x,a,k) \rightarrow \fun{fp}(x,a,\fun{fail}_0(x,k)).
+\end{gather*}
+}}
+\caption{La fonction de suppléance \(\MPfailureName\) par \fun{fail\(_0\)/2}
+\label{fig_fail0}}
+\end{figure}
+La fonction \fun{fp/3}\index{fp@\fun{fp/3}} (anglais, \emph{fixed
+  point}) calcule \(\MPfailure{x}{q}{i-1}\), en commençant avec
+\(\fun{fail}_0(x,i-1)\) et
+\(\fun{nth}(x,i-1)\)\index{nth@\fun{nth/2}}, qui dénote
+\(\ind{x}{i-1}\) et est nécessaire pour vérifier la condition
+\(\smash{\Ind{x}{\MPfailure{x}{q}{i-1}}} = \ind{x}{i-1}\). Le test
+d'égalité \(\MPfailure{x}{q}{i-1} = -1\) est effectué par la première
+règle de \fun{fp/3}.\index{recherche de motifs!fonction de
+  suppléance|)}
+
+L'algorithme de Morris et Pratt nécessite le calcul de
+\(\MPfailure{x}{}{i}\) pour tous les index~\(i\) du motif~\(x\) et,
+puisqu'il dépend des valeurs de certains appels
+\(\MPfailure{x}{}{j}\), où \(j < i\), il est plus efficace de calculer
+\(\MPfailure{x}{}{i}\) pour des valeurs croissantes de la
+variable~\(i\) et de les mémoriser, de telle sorte qu'elles peuvent
+être réutilisées au lieu d'être recalculées. Cette technique est
+appelée \emph{mémoïsation}\index{mémoïsation} (à ne pas confondre avec
+mémorisation, au sens plus général). Dans ce cas, l'évaluation de
+\(\MPfailure{x}{}{i}\) repose sur le mémo
+\begin{equation*}
+[\pair{\ind{x}{i-1}}{\MPfailure{x}{}{i-1}},
+\pair{\ind{x}{i-2}}{\MPfailure{x}{}{i-2}}, \dots,
+\pair{\ind{x}{0}}{\MPfailure{x}{}{0}}].
+\end{equation*}
+La version avec mémoïsation de \fun{fail\(_0\)/2} est appelée
+\fun{fail/2}\index{fail@\fun{fail/2}} à la \fig~\ref{fig_fail}.
+\begin{figure}[b]
+\centering
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
+\framebox[0.85\columnwidth]{\vbox{%
+\begin{gather*}
+\fun{fail}(p,0) \rightarrow -1;
+\quad
+\fun{fail}(\cons{\pair{a}{k}}{p},i) \rightarrow 
+\fun{fp}(p,a,k,i-1).
+\\
+\inferrule*{}{\fun{fp}(p,a,-1,i) \rightarrow 0;}\quad
+\inferrule
+  {\fun{suf}(p,i-k-1) \twoheadrightarrow \cons{\pair{a}{k'}}{p'}}
+  {\fun{fp}(p,a,k,i) \twoheadrightarrow k+1}\,;\\
+\inferrule
+  {\fun{suf}(p,i-k-1) \twoheadrightarrow \cons{\pair{b}{k'}}{p'}}
+  {\fun{fp}(p,a,k,i) \twoheadrightarrow \fun{fp}(p',a,k',k)}\,.
+\\
+\fun{suf}(p,0) \rightarrow p;\quad
+\fun{suf}(\cons{a}{p},i) \rightarrow \fun{suf}(p,i-1).
+\end{gather*}
+}}
+\caption{Fonction de suppléance avec mémoïsation\label{fig_fail}}
+\end{figure}
+Ici, nous travaillons avec le mémo~\(p\), qui est un préfixe retourné,
+au lieu de~\(x\), donc nous devons connaître sa longueur~\(i\) pour
+savoir combien de lettres doivent être ignorées par
+\fun{suf/2}\index{suf@\fun{suf/2}} (\emph{suffixe}):
+\(\fun{suf}(x,i-k-1)\) au lieu de \(\fun{fail}_0(x,k)\). Grâce au
+mémo, \fun{fp/4} n'a pas besoin d'appeler \fun{fail/2}, seulement
+d'examiner~\(p\) avec \fun{suf/2}. Remarquons que nous avons apporté
+une petite amélioration cosmétique en déplaçant l'incrément: au lieu
+de \(1 + \fun{fp}(\dots)\) et \(\dots \twoheadrightarrow k\), nous
+avons maintenant \(\fun{fp}(\dots)\) et \(\dots \twoheadrightarrow
+k+1\).
+
+Nommons \fun{pp/1}\index{pp@\fun{pp/1}} (anglais,
+\emph{preprocessing}) la fonction calculant la pile
+\begin{equation*}
+[\pair{\ind{x}{0}}{\MPfailure{x}{}{0}},
+\pair{\ind{x}{1}}{\MPfailure{x}{}{1}}, \dots,
+\pair{\ind{x}{m-1}}{\MPfailure{x}{}{m-1}}]
+\end{equation*}
+pour un motif~\(x\) de taille~\(m\). Sa définition est montrée à la
+\fig~\vref{fig_pp},
+\begin{figure}[t]
+\begin{equation*}
+\boxed{%
+\begin{array}{r@{\;}l@{\;}l}
+\fun{pp}(x) & \rightarrow & \fun{pp}(x,\el,0).\\
+\\
+\fun{pp}(\el,p,i) & \rightarrow & \fun{rev}(p);\\
+\fun{pp}(\cons{a}{x},p,i)
+  & \rightarrow
+  & \fun{pp}(x,\cons{\pair{a}{\fun{fail}(p,i)}}{p},i+1).
+\end{array}}
+\end{equation*}
+\caption{Prétraitement d'un motif~\(y\) par \fun{pp/1}
+\label{fig_pp}}
+\end{figure}
+où \fun{rev/1}\index{rev@\fun{rev/1}} est la fonction de retournement
+(définition~\eqref{def_rev} \vpageref{def_rev}), et
+\fun{pp/1}\index{pp@\fun{pp/1}} simplement appelle la fonction de
+suppléance \fun{fail/2} pour chaque nouvel index~\(i\) du mémo
+courant~\(p\) et créé un nouveau mémo en accouplant l'index de l'échec
+avec la lettre courante puis empile le mémo courant
+(\(\cons{\pair{a}{\fun{fail}(p,i)}}{p}\)). Le retournement de pile à
+la fin est nécessaire parce que le mémo contient les lettres en ordre
+inverse par rapport au motif. L'exemple à la \fig~\vref{fig_mp_fail}
+mène à l'évaluation suivante:
+\begin{equation*}
+\fun{pp}(x) \twoheadrightarrow
+[\pair{\word{a}}{-1}, \pair{\word{b}}{0},
+\pair{\word{a}}{0}, \pair{\word{c}}{1},
+\pair{\word{a}}{0}, \pair{\word{b}}{1},
+\pair{\word{a}}{2}, \pair{\word{c}}{3}],
+\end{equation*}
+où \(x=\word{abacabac}\). Si \(x=\word{ababaca}\), alors
+\begin{equation*}
+\abovedisplayskip=2pt
+\belowdisplayskip=0pt
+\fun{pp}(x) \twoheadrightarrow
+[\pair{\word{a}}{-1}, \pair{\word{b}}{0},
+\pair{\word{a}}{0}, \pair{\word{b}}{1},
+\pair{\word{a}}{2}, \pair{\word{c}}{3},
+\pair{\word{a}}{0}].
+\end{equation*}
+\index{recherche de motifs!prétraitement de Morris et Pratt!définition|)}
+
+%\addcontentsline{toc}{subsection}{Cost}
+\paragraph{Coût minimum}
+\index{recherche de motifs!prétraitement de Morris et Pratt!coût minimum|(}
+
+Il est clair que, d'après la définition~\eqref{eq_Border}
+\vpageref{eq_Border}, la détermination du bord maximum d'un mot
+non-vide requiert le bord maximum de tout ou partie de ses préfixes
+propres, donc, si le mot contient \(n\)~lettres, au moins \(n-1\)
+comparaisons sont nécessaires, car le bord de la première lettre seule
+n'a besoin d'aucune comparaison. Cette borne inférieure peut être
+atteinte, comme le raisonnement suivant le démontre. Appelons
+\emph{comparaison positive}\index{recherche de
+  motifs!comparaison!$\sim$ positive} le succès d'un test de préfixe,
+tel que nous le trouvons dans la définition de~\(\BorderName\), soit
+\(\Border{}{y} \cdot a \prefeq y\). Par dualité, une \emph{comparaison
+  négative}\index{recherche de motifs!comparaison!$\sim$ positive} est
+l'échec d'un test de préfixe. De façon à minimiser le nombre d'appels
+pour évaluer \(\Border{}{ya}\), nous pourrions remarquer qu'une
+comparaison positive n'entraîne que l'évaluation de~\(\Border{}{y}\),
+alors qu'une comparaison négative demande deux appels:
+\(\Border{}{\Border{}{y} \cdot a}\). Par conséquent, une première idée
+serait de supposer que nous n'avons que des comparaisons positives:
+\begin{equation*}
+\Border{}{x} \!\eqn{n-2}\! 
+\Border{}{\ind{x}{0,n-2}} \cdot \ind{x}{n-1}
+\!\eqn{n-1}\!\! \dots
+\eqn{0}\! \Border{}{\ind{x}{0}} \cdot \ind{x}{1,n-1}
+\!=\! \ind{x}{1,n\!-\!1},
+\end{equation*}
+où \((\smash{\eqn{i}})\)~implique \(\Border{}{\ind{x}{0,i}} \cdot
+\ind{x}{i+1} \prefeq \ind{x}{0,i}\), pour \(0 \leqslant i \leqslant
+n-2\). D'abord, \(i=0\) et la comparaison positive correspondante
+entraîne \(\ind{x}{0} = \ind{x}{1}\). Les autres comparaisons
+entraînent \(\ind{x}{0} = \ind{x}{1} = \dots = \ind{x}{n-1}\), donc un
+cas parmi les meilleurs est \(x=a^n\), pour toute lettre~\(a\).
+
+Mais il existe un autre cas, parce que l'appel le plus externe
+à~\(\BorderName\) après une comparaison négative n'implique pas de
+comparaisons si son argument est une unique lettre:
+\begin{align*}
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
+\Border{}{x}
+&\eqn{n-2} \Border{}{\Border{}{\ind{x}{0,n-2}} \cdot \ind{x}{n-1}}\\
+&\eqn{n-3} \Border{}{\Border{}{\Border{}{\ind{x}{0,n-3}} \cdot
+    \ind{x}{n-2}} \cdot \ind{x}{n-1}}\\
+&\;\;\;\smash{\vdots}\\
+&\;\mathrel{\stackrel{\smash[t]{0}}{=}}
+  \Border{}{\Border{}{\ldots \Border{}{\Border{}{\ind{x}{0}} \cdot
+        \ind{x}{1}} \dots} \cdot \ind{x}{n-1}}\\
+&\,\,\doteq
+  \Border{}{\Border{}{\ldots \Border{}{\Border{}{\ind{x}{1}} \cdot
+            \ind{x}{2}} \dots} \cdot \ind{x}{n-1}}\\
+&\;\;\;\smash{\vdots}\\
+&\,\,\doteq \Border{}{\ind{x}{n-1}} = \varepsilon.
+\end{align*}
+où \((\smash{\eqn{i}})\)~implique \(\Border{}{\ind{x}{0,i}} \cdot
+\ind{x}{i+1} \nprefeq \ind{x}{0,i}\), pour \(0 \leqslant i \leqslant
+n-2\) et \((\smash{\doteq})\) ne contient aucune
+comparaison. Commencer avec \(i=0\) nous amène à \(\ind{x}{1} \neq
+\ind{x}{0}\), donc \(i=1\) mène à \(\ind{x}{2} \neq \ind{x}{0}\)
+etc. ainsi les effets de toutes ces comparaisons négatives sont
+\(\ind{x}{0} \neq \ind{x}{i}\), pour \(1 \leqslant i \leqslant
+n-2\). Le nombre de comparaisons négatives est \(n-1\), donc minimum,
+mais la structure du mot est différente du cas précédent, car la
+première lettre doit différer de toutes les suivantes. Soit
+\(\OB{\fun{pp}}{n}\)\index{pp@$\OB{\fun{pp}}{n}$} le nombre minimum de
+comparaisons impliquées dans l'évaluation de
+\(\fun{pp}(x)\)\index{pp@\fun{pp/1}}, où la longueur du motif~\(x\)
+est~\(n\). C'est le même nombre que le nombre de comparaisons pour
+évaluer \(\Border{}{\ind{x}{0,n-2}}\) quand \(\ind{x}{0,n-2}\) est un
+cas parmi les meilleurs. Par conséquent,
+%\begin{equation*}
+\(\OB{\fun{pp}}{n} = n - 2\).
+%\end{equation*}
+\index{recherche de motifs!prétraitement de Morris et Pratt!coût minimum|)}
+
+\paragraph{Coût maximum}
+\index{recherche de motifs!prétraitement de Morris et Pratt!coût maximum|(}
+
+%Trouver le bord maximum d'un mot nécessite le bord maximum de tous ses
+%préfixes propres, donc, p
+
+Pour maximiser le nombre de comparaisons, nous
+devons calculer le plus de bords possibles. Pour ce faire,
+l'évaluation de \(\Border{}{x}\) amènerait à chercher le bord maximum
+d'un facteur de longueur \(n-1\), où \(n\)~est la longueur
+de~\(x\). Le meilleur des cas \(x=a^{n}\) montre que \(\Border{}{x} =
+\ind{x}{1,n-1}\), ce qui sied à notre but, sauf que nous voudrions
+\(\Border{}{\ind{x}{1,n-1}}\). En d'autres termes, nous ajoutons la
+contrainte d'une première comparaison négative:
+\begin{align*}
+\Border{}{x}
+&\eqn{n-1} \Border{}{\Border{}{\ind{x}{0,n-2}} \cdot \ind{x}{n-1}}\\
+&\eqn{n-2} \Border{}{\Border{}{\ind{x}{0,n-3}} \cdot \ind{x}{n-2,n-1}}\\
+&\;\;\;\smash{\vdots}\\
+&\;\mathrel{\stackrel{\smash[t]{1}}{=}}
+  \Border{}{\Border{}{\ind{x}{0}} \cdot \ind{x}{1,n-1}}
+= \Border{}{\ind{x}{1,n-1}},
+\end{align*}
+où \((\smash{\eqn{n-1}})\) suppose \(\Border{}{\ind{x}{0,n-2}} \cdot
+\ind{x}{n-1} \nprefeq \ind{x}{0,n-2}\), et \((\smash{\eqn{i}})\), avec
+\(1 \leqslant i \leqslant n-2\), correspond à
+\(\Border{}{\ind{x}{0,i}} \cdot \ind{x}{i+1} \prefeq
+\ind{x}{0,i}\). Ces contraintes impliquent \(\ind{x}{0} = \ind{x}{1} =
+\dots = \ind{x}{n-2} \neq \ind{x}{n-1}\), c'est-à-dire un motif
+\(x=a^{n-1}b\), avec \(a \neq b\). Jusqu'à présent, le nombre de
+comparaisons est \(n-1\), comme dans le cas minimal, mais l'évaluation
+se poursuit ainsi:
+\begin{equation*}
+\Border{}{a^{i}b}
+\eqn{i} \Border{}{\Border{}{a^{i}} \cdot b}\\
+\doteq \Border{}{\Border{}{a^{i-1}} \cdot ab}\\
+\doteq \dots \doteq \Border{}{a^{i-1}b},
+\end{equation*}
+où \(1 \leqslant i \leqslant n-2\) et \((\smash{\eqn{i}})\) causent
+les comparaisons négatives \({\Border{}{a^{i}} \cdot b \nprefeq a^{i}}\)
+et les comparaisons positives \((\smash{\doteq})\), que nous ne
+comptons pas car nous avons pour objectif de trouver
+\(\OW{\fun{pp}}{n}\)\index{pp@$\OW{\fun{pp}}{n}$}, donc des
+évaluations répétées du même bord n'entraînent pas de comparaisons
+répétées grâce à la mémoïsation\index{mémoïsation}. Par conséquent,
+nous avons \(n-2\) comparaisons négatives jusqu'à ce que
+\(\Border{}{b} = \varepsilon\), qui, avec les \(n-1\) comparaisons
+positives précédentes, font un total de \(2n-3\). Puisque
+\(\OW{\fun{pp}}{n}\) est le nombre de comparaisons pour calculer
+\(\Border{}{\ind{x}{0,n-2}}\) sans répétitions, nous avons
+\begin{equation*}
+\belowdisplayskip=0pt
+\OW{\fun{pp}}{n} = 2(n-1)-3 = 2n - 5.
+\end{equation*}
+\index{recherche de motifs!prétraitement de Morris et Pratt!coût maximum|)}
+
+\vspace*{-20pt}
+
+\mypar{Recherche}
+\index{recherche de motifs!algorithme de Morris et Pratt!recherche|(}
+
+Nous avons trouvé ci-dessus: \(n-2 \leqslant \OC{\fun{pp}}{n}
+\leqslant 2n - 5\), où les bornes sont atteignables si \(n \geqslant
+3\). Pour employer la valeur de \(\fun{pp}(p)\), nous pourrions
+commencer par modifier la recherche linéaire de la
+section~\ref{sec_naive_factoring}, en particulier le programme à la
+\fig~\ref{fig_loc} \vpageref{fig_loc}, tout en gardant un {\oe}il sur
+la \fig~\vref{fig_mp}. Le résultat est montré à la
+\fig~\vref{fig_mp_def}.
+\begin{figure}[b]
+\centering
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
+\framebox[0.8\columnwidth]{\vbox{%
+\begin{gather*}
+\inferrule
+  {\fun{pp}(p) \twoheadrightarrow p'}
+  {\fun{mp}(p,t) \twoheadrightarrow \fun{mp}(p',t,p',0,0)}.
+\\
+\begin{array}{r@{\;}l@{\;}l}
+\fun{mp}(\el,t,p',i,j)   & \rightarrow & \fun{factor}(j-i);\\
+\fun{mp}(p,\el,p',i,j)   & \rightarrow & \fun{absent}();\\
+\fun{mp}(\cons{\pair{a}{k}}{p},\cons{a}{t},p',i,j)
+                         & \rightarrow & \fun{mp}(p,t,p',i+1,j+1);\\
+\fun{mp}(\cons{\pair{a}{-1}}{p},\cons{b}{t},p',0,j)
+                         & \rightarrow & \fun{mp}(p',t,p',0,j+1);\\
+\fun{mp}(\cons{\pair{a}{k}}{p},t,p',i,j)
+                         & \rightarrow
+                         & \fun{mp}(\fun{suf}(p',k),t,p',k,j).
+\end{array}
+\end{gather*}}}
+\caption{L'algorithme de Morris et Pratt (recherche)\label{fig_mp_def}}
+\end{figure}
+Notons comment le premier argument de \fun{mp/5}\index{mp@\fun{mp/5}},
+\(p\), est la copie de travail et le troisième, \(p'\), est l'original
+qui demeure invariant (il est utilisé pour restaurer~\(p\) après
+l'échec d'une comparaison). Les index~\(i\), \(j\)~et~\(k\) sont les
+mêmes qu'à la \fig~\vref{fig_mp}. Le dernier n'est autre que la valeur
+calculée par la fonction de suppléance; les variables \(i\)~et~\(j\)
+sont incrémentées à chaque fois qu'une lettre du motif est identique à
+une lettre du texte (troisième règle de \fun{mp/5}) et \(j\)~est aussi
+incrémentée à chaque inégalité de la première lettre du motif
+(quatrième règle de \fun{mp/5}).\index{recherche de
+  motifs!algorithme de Morris et Pratt!recherche|)}
+
+
+\addcontentsline{toc}{subsection}{Coût}
+\paragraph{Coût minimum}
+\index{recherche de motifs!algorithme de Morris et Pratt!coût minimum|(}
+
+Soit
+\(\smash[t]{\OB{\fun{mp/5}}{m,n}}\)\index{mp@$\OB{\fun{mp/5}}{m,n}$}
+le nombre minimum de comparaisons effectuées durant une évaluation de
+\fun{mp/5}, où \(m\)~est la longueur du motif et \(n\)~est la longueur
+du texte. Tout comme avec la recherche na\"{\i}ve, le meilleur des cas
+est quand le motif est un préfixe du texte, donc
+\(\OB{\fun{mp/5}}{m,n} = m\). En prenant en compte le prétraitement,
+le nombre de comparaisons
+\(\OB{\fun{mp}}{m,n}\)\index{mp@$\OB{\fun{mp}}{m,n}$} de
+\fun{mp/2}\index{mp@\fun{mp/2}} est
+\begin{equation*}
+\belowdisplayskip=0pt
+\OB{\fun{mp}}{m,n} = \OB{\fun{pp}}{m} + \OB{\fun{mp/5}}{m,n} = (m-2)
++ m = 2m - 2.
+\end{equation*}
+\index{recherche de motifs!algorithme de Morris et Pratt!coût minimum|)}
+
+\vspace*{-10pt}
+
+\paragraph{Coût maximum}
+\index{recherche de motifs!algorithme de Morris et Pratt!coût maximum|(}
+
+Puisque l'algorithme de Morris et Pratt seulement lit le texte vers
+l'avant, le pire des cas doit maximiser le nombre de fois que les
+lettres du texte~\(t\) sont comparées avec une lettre du
+motif~\(p\). Par conséquent, la première lettre du motif ne peut
+différer de toutes les lettres du texte, sinon chaque lettre du texte
+serait comparée exactement une fois. Supposons l'exact opposé:
+\(\ind{p}{0} = \ind{t}{i}\), avec \(i \geqslant 0\). Mais ceci
+impliquerait aussi une comparaison par lettre du texte. Pour forcer le
+motif à se décaler le moins possible, nous imposons en plus
+\(\ind{p}{1} \neq \ind{t}{i}\), pour \(i>0\). En bref, cela signifie
+que \(ab \prefeq p\), avec des lettres \(a\)~et~\(b\) telles que \(a
+\neq b\) et \(t=a^n\). Un simple diagramme suffit pour révéler que
+cette configuration produit le nombre maximum de comparaisons
+\(\OW{\fun{mp/5}}{m,n} = 2n - 1\)\index{mp@$\OW{\fun{mp/5}}{m,n}$},
+car chaque lettre du texte est comparée deux fois, sauf la première,
+qui n'est comparée qu'une fois. En tenant compte du prétraitement, le
+nombre maximum de comparaisons \(\OW{\fun{mp}}{m,n}\)
+\index{mp@$\OW{\fun{mp}}{m,n}$} de \fun{mp/2}\index{mp@\fun{mp/2}} est
+\begin{equation*}
+\belowdisplayskip=0pt
+\OW{\fun{mp}}{m,n} = \OW{\fun{pp}}{m} + \OB{\fun{mp/5}}{m,n} = (2m-5)
++ (2n-1) = 2(n + m - 3).
+\end{equation*}
+\index{recherche de motifs!algorithme de Morris et Pratt!coût maximum|)}
+
+\vspace*{-10pt}
+
+\mypar{Métaprogrammation}
+\index{recherche de motifs!algorithme de Morris et Pratt!métaprogrammation|(}
+
+L'étude précédente mène à des programmes pour le prétraitement et la
+recherche qui obscurcissent plutôt l'idée principale derrière
+l'algorithme de Morris et Pratt, à savoir, le recours aux bords
+maximums des préfixes propres du motif et la lecture unidirectionnelle
+du texte. La raison de cette infortune est que, pour des impératifs
+d'efficacité, nous devons mémoïser\index{mémoïsation} les valeurs de
+la fonction de suppléance et, au lieu de travailler avec le motif
+originel, nous en traitons une version qui a été augmentée avec ces
+valeurs. Par ailleurs, l'emploi de piles pour modéliser le motif
+ralentit et obscurcit la lecture des lettres et les décalages.
+
+Si le motif est fixe, une approche plus lisible est possible,
+consistant en la modification du prétraitement de telle sorte qu'un
+programme dédié est produit. Ce type de méthode sur mesure, où un
+programme est le résultat de l'exécution d'un autre, est appelé
+\emph{métaprogrammation}\index{métaprogrammation}. Bien entendu, il
+n'est envisageable que si le temps nécessaire pour émettre, compiler
+et exécuter le programme est amorti à long terme, ce qui implique pour
+le problème traité que le motif et le texte sont assez longs ou que la
+recherche est répétée avec le même motif sur d'autres textes (ou le
+reste du même texte, après qu'une occurrence du motif a été trouvée).
+
+% Wrapping figure better declared before a paragraph
+%
+\setlength{\intextsep}{0pt}
+\begin{wrapfigure}[30]{r}[0pt]{0pt}
+% 29 vertical lines
+% {r} mandatory right placement
+% [0pt] of margin overhang
+\centering
+\includegraphics[bb=71 360 238 723]{metaprog}
+\caption{Recherche de \word{abacabac} dans~\(t\)% with a metaprogram
+\label{fig_metaprog}}
+\end{wrapfigure}
+Il existe une convention graphique commode pour le contenu de la table
+de suppléance à la \fig~\vref{fig_mp_fail}, appelée \emph{automate
+  fini déterministe}\index{recherche de motifs!algorithme de Morris et
+  Pratt!automate}\index{automate fini!$\sim$ déterministe} et montrée
+à la \fig~\vref{fig_abacabac}.
+\begin{figure}[b]
+\centering
+\includegraphics[bb=80 651 390 710]{abacabac}
+\caption{Automate de Morris et Pratt du motif \word{abacabac}
+\label{fig_abacabac}}
+\end{figure}
+Nous ne décrirons ici que de manière sommaire les automates; pour un
+traitement mathématique et très approfondi, voir
+\cite{VanLeeuwen_1990c, HopcroftMotwaniUllman_2003} et
+\cite{Sakarovitch_2003}. Imaginons que les cercles, appelés
+\emph{états}\index{état}, contiennent les valeurs de~\(i\) d'après la
+table. Les arcs, appelés \emph{transitions}\index{transition}, entre
+deux états sont de deux sortes: soit continus et annotés par une
+lettre appelée \emph{label}\index{label}, soit en pointillés et
+orientés à gauche. La succession des états à travers des arcs continus
+forme le mot \(x=\word{abacabac}\). L'état le plus à droite est
+distingué par deux cercles concentriques parce qu'il marque la fin
+de~\(x\). Par définition, si \(\MPfailure{x}{}{i} = j\), il y a une
+transition rétrograde entre l'état~\(i\) et~\(j\). L'état le plus à
+gauche est la cible d'un arc continu sans source et est la source d'un
+arc pointillé sans cible. Le premier dénote simplement le début du mot
+et le dernier correspond à la valeur spéciale \(\MPfailure{x}{}{0} =
+-1\).
+
+Ce qui est important pour nous est que le support intuitif qu'apporte
+un automate mène aussi à une réalisation intuitive, où chaque état
+correspond à une fonction et les transitions sont associées aux
+différentes règles de la définition de la fonction pour l'état d'où
+elles sortent.
+
+L'exemple \word{abacabac} est montré à la \fig~\ref{fig_metaprog}. Les
+états de l'automate, \(0\), \(1\), jusqu'à \(7\), correspondent aux
+fonctions \fun{zero/2}, \fun{one/2} etc. jusqu'à \fun{seven/2}. Notons
+comment \fun{mp\(_0\)/1}\index{mp0@\fun{mp\(_0\)/1}} met l'index
+à~\(0\) quand elle initialise le premier état, c'est-à-dire, par
+l'appel à \fun{zero/2}\index{zero@\fun{zero/2}}. L'index~\(j\) joue le
+même rôle que dans la \fig~\ref{fig_mp} \vpageref{fig_mp}. La première
+règle de chaque fonction correspond à une transition vers la droite
+dans l'automate de la \fig~\vref{fig_abacabac} et la deuxième règle
+est une transition rétrograde, donc un échec, sauf dans \fun{zero/2},
+où elle signifie que le motif est décalé d'une lettre. La fonction
+\fun{zero/2} possède une troisième règle traitant le cas où le motif
+n'est pas un facteur du texte. Nous pourrions ajouter une règle
+similaire aux autres définitions, pour les accélérer, mais nous
+choisissons la brièveté et nous laissons les règles pour les échecs
+successifs nous ramener à \fun{zero/2}\index{zero@\fun{zero/2}}. La
+première règle de \fun{seven/2}\index{seven@\fun{seven/2}} est
+spéciale aussi, parce qu'elle est utilisée quand le motif a été
+trouvé. Finalement, remarquons l'index \(j-6\), qui montre clairement
+que la longueur du motif fait partie du programme, qui est donc un
+métaprogramme.\index{recherche de motifs!algorithme de Morris et
+  Pratt!métaprogrammation|)} \index{recherche de motifs!algorithme de
+  Morris et Pratt|)}
+
+\mypar{Variante de Knuth}
+\index{recherche de motifs!algorithme de Knuth, Morris et Pratt|(}
+
+Un coup d'{\oe}il à la \fig~\vref{fig_mp}, devrait nous fournir
+matière à réflexion. Que se passerait-il si \(a = \word{a}\)?  Alors
+le décalage mènerait immédiatement à une comparaison négative. Donc,
+comparons \(\smash{\Ind{p}{\MPfailure{p}{}{i}}}\) à~\(\ind{t}{j}\)
+seulement si \(\smash{\Ind{p}{\MPfailure{p}{}{i}}} \neq
+\ind{p}{i}\). Sinon, nous prenons le bord maximum du bord maximum
+etc. jusqu'à ce que nous trouvions le plus petit~\(q\) tel que
+\(\smash{\Ind{p}{\MPfailure{p}{q}{i}}} \neq \ind{p}{i}\). Ceci est une
+amélioration proposée par \cite{KnuthMorrisPratt_1977}. Une édition
+mise à jour a été publiée par \cite{Knuth_2010} et un traitement fondé
+sur la théorie des automates par \cite{CrochemoreHancartLecroq_2007},
+à la section~2.6. Voir aussi une dérivation du programme par
+raffinements algébriques dans le livre de \cite{Bird_2010}.
+
+Dans l'automate de recherche, quand un échec se produit à l'état~\(i\)
+sur la lettre~\(a\), nous suivons une transition arrière vers l'état
+\(\MPfailure{x}{}{i}\), mais, si la transition normale est~\(a\) à
+nouveau, nous suivons à nouveau la transition rétrograde etc. jusqu'à
+ce que nous trouvions une transition normale dont le label n'est
+pas~\(a\) ou alors nous devons décaler le motif. L'amélioration
+proposée par Knuth consiste à remplacer toutes ces transitions
+d'échecs successifs par une seule.
+
+Par exemple, l'automate de la \fig~\vref{fig_abacabac} est amélioré de
+cette façon à la \fig~\vref{fig_kmp_abac}.
+\begin{figure}
+\centering
+\includegraphics[bb=80 645 390 735]{kmp_abac}
+\caption{Automate de Knuth, Morris et Pratt pour \word{abacabac}
+\label{fig_kmp_abac}}
+\end{figure}
+\index{recherche de motifs!algorithme de Knuth, Morris et Pratt|)}
+\index{recherche de motifs|)}
+
+\paragraph{Exercices}
+
+\begin{enumerate}
+
+  \item Cherchez \(\M{\fun{loc}}{m,n}\).
+
+  \item Prouvez que \fun{pp/1} et \fun{mp/2} terminent.
+
+  \item Prouvez \(\fun{loc/2} = \fun{mp/2}\) (correction de
+    l'algorithme de Morris et Pratt).
+
+  \item Trouvez \(\B{\fun{pp}}{m}\) et \(\W{\fun{pp}}{m}\). (Attention
+    au coût de \fun{suf/2}.)
+
+  \item Cherchez \(\B{\fun{mp}}{m,n}\) et \(\W{\fun{mp}}{m,n}\).
+
+  \item Proposez une simple modification pour éviter l'appel à
+    \fun{rev/1} à la \fig~\vref{fig_pp}.\label{factoring_trick}
+
+  \item Modifiez \fun{fail/2} de telle manière que \fun{mp/2} réalise
+    l'algorithme de Knuth, Morris et Pratt. Étudiez les cas meilleurs
+    et pires de cette variante et montrez que \(\OW{\fun{pp}}{m} =
+    2m-6\), pour \(m \geqslant 3\).
+
+  \item Écrivez le métaprogramme correspondant à l'automate à la
+    \fig~\vref{fig_kmp_abac}.
+
+  \item Écrivez une fonction \fun{rlw/2}\index{rlw@\fun{rlw/2}}
+    (anglais, \emph{remove the last word}) telle que l'appel
+    \(\fun{rlw}(w,t)\) est réécrit en le texte~\(t\) si le mot~\(w\)
+    est absent, sinon en~\(t\) sans la dernière occurrence de~\(t\).
+
+\end{enumerate}

@@ -1,0 +1,753 @@
+\chapter{Arbres de Catalan}
+\label{chap_Catalan}
+
+Dans la partie~\ref{part_linear} de ce livre, nous traitons des
+structures linéaires, comme les piles et les files d'attente, mais,
+pour vraiment comprendre les programmes qui opèrent sur ces
+structures, nous avons besoin du concept d'arbre. C'est pourquoi nous
+avons présenté très tôt les arbres de syntaxe
+abstraite\index{arbre!$\sim$ de syntaxe abstraite}, les graphes
+orientés sans circuits (\fig~\vref{fig_cat_dag}), les arbres de
+comparaison (\fig~\vref{fig_cmp_tree}), les arbres binaires
+(\fig~\vref{fig_comp_tree}), les arbres de preuve
+(\fig~\vref{fig_perm_proof}), les arbres d'évaluation
+(\fig~\vref{fig_2way_unbal}) et les arbres d'interclassement
+(\fig~\vref{fig_bot_up1}). Ces arbres étaient des méta-objets, ou
+concepts, employés pour comprendre la structure linéaire à l'étude.
+
+Dans ce chapitre, nous prenons un point de vue plus abstrait et nous
+considérons la classe générale des \emph{arbres de Catalan}, ou arbres
+généraux. Nous les étudierons comme des objets mathématiques dans le
+but de transférer nos résultats aux arbres utilisés comme structures
+de données pour réaliser des algorithmes. En particulier, nous nous
+intéresserons à les mesurer, à les compter, et à déterminer quelques
+paramètres moyens relatifs à leur taille, la raison étant que la
+connaissance de ce à quoi ressemble un arbre moyen nous informera sur
+le coût de le traverser de différentes façons.
+
+% Wrapping figure better declared before a paragraph
+%
+\begin{wrapfigure}[9]{r}[0pt]{0pt}
+% [9] vertical lines
+% {r} mandatory right placement
+% [0pt] of margin overhang
+\centering
+\includegraphics[bb=71 646 160 716]{catalan_tree}
+\caption{Arbre de Catalan de hauteur~5\label{fig_catalan_tree}}
+\end{wrapfigure}
+Les arbres de Catalan sont un type spécial de graphe, soit un objet
+constitué de \emph{n{\oe}uds} (appelés aussi \emph{sommets}) reliés
+par des \emph{arcs}, sans orientation (seule la connexion importe). Ce
+qui fait un arbre de Catalan est la distinction d'un n{\oe}ud, appelé
+la \emph{racine}, et l'absence de cycles, c'est-à-dire de chemins
+fermés contenant des n{\oe}uds reliés successivement. Les arbres de
+Catalan sont souvent appelés \emph{arbres ordonnés} (anglais,
+\emph{ordered trees} ou \emph{planted plane trees}), en théorie des
+graphes, et \emph{arbres généraux} (anglais, \emph{unranked trees}, ou
+\emph{\(n\)-ary trees}) en théorie de la programmation. Un exemple est
+donné à la \fig~\ref{fig_catalan_tree}. Remarquons que la racine est
+le n{\oe}ud situé en haut de la figure et qu'elle possède quatre
+sous-arbres ordonnés, dont les racines sont nommées
+\emph{enfants}. Les n{\oe}uds dessinés comme des disques blancs
+\((\circ)\) constituent un chemin maximal commençant à la racone (le
+nombre de n{\oe}uds le long de celui-ci est maximal). Le n{\oe}ud
+terminal n'a pas d'enfants; il y a précisément~\(8\) n{\oe}uds de ce
+genre au total, appelés \emph{feuilles}. Le nombre de disques blancs
+est la \emph{hauteur} de l'arbre de Catalan (il peut y avoir plusieurs
+chemins maximaux de même longueur), donc l'exemple donné a pour
+hauteur~\(5\).
+
+Les programmeurs mettent en {\oe}uvre les arbres de Catalan comme une
+structure de donnée, par exemple via l'usage de \textsf{XML}, auquel
+cas, des informations sont logées dans les n{\oe}uds et leur recherche
+peut exiger l'atteinte d'une feuille, dans la circonstance la plus
+défavorable. Le coût maximum d'une recherche est donc proportionnel à
+la hauteur de l'arbre et la détermination de la hauteur moyenne
+devient pertinente lorsque l'on réalise une série de recherches
+aléatoires \citep{VitterFlajolet_1990}. Pour mener à bien ce type
+d'analyse, nous devons d'abord déterminer le nombre d'arbres de
+Catalan d'une taille donnée. Il y a deux mesures usuelles de la
+taille: soit nous quantifions les arbres par le nombre de leurs
+n{\oe}uds, ou bien nous comptons le nombre d'arcs. En fait, le choix
+de l'une ou l'autre mesure n'est dicté que par des considérations de commodité ou de style: il y a \(n\)~arcs s'il y a \(n+1\) n{\oe}uds, tout simplement parce que chaque n{\oe}ud, sauf la racine, possède un parent. Il arrive fréquemment que les formules à propos des arbres de Catalan soient un peu plus simples lorsqu'elles font référence au nombre d'arcs, donc ce sera là notre mesure de la taille dans ce chapitre.
+
+\section{Énumeration}
+\label{sec_Catalan_enumeration}
+
+Un grand nombre de manuels \cite[\S~5.1
+\&~5.2]{SedgewickFlajolet_1996} montre comment déterminer le nombre
+d'arbres de Catalan avec \(n\)~arcs au moyen d'outils mathématiques
+puissants connus sous le nom de \emph{fonctions génératrices}
+\index{dénombrement combinatoire!fonction génératrice}
+\cite[chap.~7]{GrahamKnuthPatashnik_1994}. À leur place, pour des
+raisons didactiques, nous choisissons une technique plus intuitive
+issue du dénombrement combinatoire\index{dénombrement combinatoire}
+qui consiste à construire une bijection entre deux ensembles finis, le
+cardinal de l'un étant donc le cardinal de l'autre. Pour une taille
+donnée, nous allons associer chaque arbre de Catalan à un objet de
+manière exclusive, et aucun objet ne sera laissé de côté. De plus, ces
+objets doivent être aisément dénombrables.
+
+% Wrapping figure better declared before a paragraph
+%
+\begin{wrapfigure}[11]{r}[0pt]{0pt}
+% [11] vertical lines
+% {r} mandatory right placement
+% [0pt] of margin overhang
+\centering
+\subfloat[Chemin de Dyck\label{fig_dyck}]{%
+  \includegraphics[bb=71 634 158 712]{dyck}}
+\quad
+\subfloat[Arbre de Catalan\label{fig_ctree}]{%
+\includegraphics[bb=65 663 127 721]{ctree}
+}
+\caption{Bijection\label{fig_bijection}}
+\end{wrapfigure}
+Les objets qui conviennent le mieux à notre objectif sont ici les
+\emph{chemins monotones dans un trellis}, \index{chemin monotone dans
+  un treillis|see{chemin de Dyck}} c'est-à-dire une grille carrée
+\citep{Mohanty_1979,Humphreys_2010}. Ces chemins sont constitués d'une
+suite de pas orientés vers le haut (\(\uparrow\)), appelés
+\emph{montées}, et de pas vers la droite (\(\rightarrow\)), appelés
+\emph{descentes}, et ils commencent au coin en bas à gauche
+\((0,0)\). Les \emph{chemins de Dyck}\index{chemin de Dyck} de
+longueur~\(2n\) sont les chemins se aboutissant à \((n,n)\) et qui
+restent au-dessus de la diagonale, ou la touchent. Nous souhaitons
+montrer qu'\emph{il existe une bijection entre les chemins de Dyck de
+  longueur~\(2n\) et les arbres de Catalan avec \(n\)~arcs.}
+
+\begin{wrapfigure}[7]{r}[0pt]{0pt}
+\centering
+\includegraphics[bb=71 661 128 720]{ctree_pre}
+\caption{\label{fig_ctree_pre}}
+\end{wrapfigure}
+Pour comprendre cette bijection, nous devons d'abord présenter un type
+particulier de \emph{parcours}\index{arbre!parcours}, ou
+\emph{traversée}\index{arbre!traversée|see{parcours}}, de l'arbre de
+Catalan. Imaginons qu'un arbre est une carte routière où les n{\oe}uds
+dénotent des villes et les arcs des routes. Un parcours complet de
+l'arbre consiste alors à commencer notre voyage à la racine et, en
+suivant les arcs, à visiter tous les n{\oe}uds. (Il est permis de
+passer plusieurs fois par le même n{\oe}ud, puisqu'il n'y a pas de
+cycles.) Bien entendu, il existe de nombreuses façons de réaliser
+cette tournée et celle que nous envisagerons ici est dite un
+\emph{parcours en préordre}.
+
+À chaque n{\oe}ud, nous prenons l'arc le plus à gauche qui n'a pas
+encore été emprunté et nous parcourons le sous-arbre correspondant en
+préordre; lorsque nous sommes de retour, nous itérons le choix avec
+les enfants qui restent. Pour plus de clarté, nous montrons à la
+\fig~\ref{fig_ctree_pre} la \emph{numérotation en
+  préordre}\index{arbre!$\sim$ de Catalan!numérotation en préordre} de
+la \fig~\ref{fig_ctree}, où l'ordre dans lequel un n{\oe}ud est
+rencontré la première fois remplace le disque noir \((\bullet)\).
+
+La première partie de la bijection est une injection des arbres de
+Catalan avec \(n\)~arcs vers les chemins de Dyck de
+longueur~\(2n\). En parcourant l'arbre en préordre, nous associons une
+montée à chaque arc en descendant, et une descente sur le même arc en
+montant. Clairement, il y a \(2n\)~pas dans le chemin de Dyck. La
+surjection consiste simplement à inverser le procédé en lisant le
+chemin de Dyck pas à pas, de la gauche vers la droite, et en
+construisant l'arbre correspondant.
+
+Nous devons maintenant compter le nombre de chemins de Dyck de
+longueur~\(2n\), dons nous savons maintenant qu'il est aussi le nombre
+d'arbres de Catalan avec \(n\)~arcs.
+
+\begin{wrapfigure}[14]{r}[0pt]{0pt}
+% [14] vertical lines
+% {r} mandatory right placement
+% [0pt] of margin overhang
+\centering
+\includegraphics[bb=71 591 186 721]{reflection}
+\caption{Réflexion d'un préfixe par rapport à \(y = x - 1\)
+\label{fig_reflection}}
+\end{wrapfigure}
+Le nombre total de chemins monotones de longueur~\(2n\) est le nombre
+de choix de \(n\)~montées parmi \(2n\)~pas, soit
+\(\binom{2n}{n}\). Nous devons ensuite soustraire le nombre de chemins
+qui débutent par une montée et qui traversent la diagonale. Un tel
+chemin est montré à la \fig~\ref{fig_reflection}, dessiné avec un
+trait continu et gras. Le premier point atteint sous la diagonale est
+utilisé pour tracer une ligne en pointillés parallèle à la
+diagonale. Tous les pas depuis ce point vers \((0,0)\) sont alors
+changés en leur contrepartie: une montée par une descente et
+vice-versa. Le segment résultant est figuré par une ligne
+hachurée. Cette opération est nommée une \emph{réflexion}
+\citep{Renault_2008}. Le point crucial est que nous pouvons faire se
+réfléchir tout chemin monotone qui traverse la diagonale et obtenir un
+chemin distinct de \((1,-1)\) à \((n,n)\). De plus, tout chemin
+réfléchi peut être réfléchi lorsqu'il atteint la ligne en pointillés
+vers leur contrepartie originelle. En d'autres termes, la réflexion
+est bijective. (Une autre approche visuelle et intuitive de ce même
+fait a été publiée par \cite{Callan_1995}.) Par conséquent, il y a
+autant de chemins monotones de \((0,0)\) à \((n,n)\) qui coupent la
+diagonale qu'il y a de chemins monotones de \((1,-1)\) à \((n,n)\). Ces derniers sont aisément énumérés: \(\binom{2n}{n-1}\). En conclusion, le nombre de chemins de Dyck de longueur~\(2n\) 
+est\label{eq_Ann}
+\begin{align*}
+C_n &= \binom{2n}{n} - \binom{2n}{n-1}
+= \binom{2n}{n} - \frac{(2n)!}{(n-1)!(n+1)!}\\
+&= \binom{2n}{n} - \frac{n}{n+1} \cdot \frac{(2n)!}{n!n!}
+ = \binom{2n}{n} - \frac{n}{n+1} \binom{2n}{n} = \frac{1}{n+1}\binom{2n}{n}.
+\end{align*}
+Les nombres \(C_n\) sont les \emph{nombres de Catalan}\index{nombres
+  de Catalan@$C_n$|see{nombres de Catalan}}\index{nombres de Catalan}.
+En employant la formule de Stirling \index{formule de Stirling}, vue à
+l'équation~\eqref{eq_Stirling} à la page~\pageref{eq_Stirling}, nous trouvons que le nombre d'arbres de Catalan avec \(n\)~arcs est
+\begin{equation}
+  C_n = \frac{1}{n+1}\binom{2n}{n} \sim \frac{4^n}{n\sqrt{\pi n}}.
+\label{eq_Cn}
+\end{equation}
+
+\section{Hauteur moyenne}
+\label{sec_Catalan_height}
+
+Comme mentionné plus haut, la \emph{hauteur} d'un arbre est le nombre
+de n{\oe}uds sur un chemin maximal de la racine à une feuille,
+c'est-à-dire un n{\oe}ud sans sous-arbres; par exemple, nous pouvons
+suivre vers le bas et compter les n{\oe}uds~\((\circ)\) dans la
+\fig~\ref{fig_catalan_tree}. Un arbre réduit à une unique feuille a
+pour hauteur~\(0\).
+
+Nous commençons par l'observation clé qu'un arbre de Catalan avec
+\(n\)~arcs et de hauteur~\(h\) est en bijection avec un chemin de Dyck
+de longueur~\(2n\) \emph{et de hauteur \(h-1\)} (voir
+\fig~\vref{fig_catalan_tree} et \fig~\ref{fig_bijection}). Ce simple
+fait nous permet de raisonner sur la hauteur des chemins de Dyck et de
+transférer le résultat vers les arbres de Catalan de départ.
+
+Soit~\(h_n\) la hauteur moyenne des arbres de Catalan avec \(n\)~arcs
+et soit \(H_{n,h}\) le nombre d'arbres de Catalan avec \(n\)~arcs et
+de hauteur~\(h\). Nous avons alors \(h_n = S_n/C_{n}\), où \(S_n :=
+\sum_{h \geqslant 1} h \cdot H_{n,h}\). Nous devons saisir cette
+somme. Par exemple, nous pourrions définir~\(A_{n,h}\) comme étant le
+nombre d'arbres avec \(n\)~arcs et de hauteur inférieure ou égale
+à~\(h\). Bien sûr, \(A_{n,h} = A_{n,n+1} = C_{n}\), si \(h >
+n\). Alors \(H_{n,h} = A_{n,h}-A_{n,h-1}\). Les formules peuvent être
+davantage simplifiées en définissant \(B_{n,h}\) comme étant le nombre
+d'arbres avec \(n\)~arcs et de hauteur supérieure à~\(h\):
+\begin{equation}
+S_n = \sum_{h \geqslant 1}h(A_{n,h}-A_{n,h-1})
+    = \sum_{h \geqslant 1}h(B_{n,h-1}-B_{n,h}) = \sum_{h\geqslant 0} B_{n,h}.
+\label{eq_Sn}
+\end{equation} 
+
+Avec la détermination de~\(A_{n,h}\) en tête, considérons à la
+\fig~\ref{fig_height} un chemin de Dyck de longueur~\(2n\) et
+hauteur~\(h-1\).
+\begin{figure}[!b]
+\centering
+\subfloat[Chemin de Dyck de longueur~\(2n\) et
+de hauteur \(h-1\) \label{fig_height}]{
+\includegraphics[scale=0.9,bb=71 565 247 721]{height}}
+\quad
+\subfloat[Chemin de \(A\) à \(\Omega\) évitant \(y=x+s\) et
+\(y=x-t\)\label{fig_mohanty}]{
+\includegraphics[scale=0.9,bb=71 621 219 721]{mohanty}}
+\caption{Chemins évitant des frontières diagonales\label{fig_boundaries}}
+\end{figure}
+Les lignes doubles sont des frontières qui ne peuvent être atteintes
+par le chemin. Ceci est en fait un cas particulier d'un chemin
+monotone entre deux frontières diagonales, comme on peut le voir à la
+\fig~\ref{fig_mohanty}, où \(s\)~dénote la distance verticale à partir
+de~\(A\), et \(t\)~est la distance horizontale à partir de~\(A\). Il
+est bien connu que le nombre de chemins monotones s'étendant
+de~\(A(0,0)\) à~\(\Omega(a,b)\) et évitant les frontières est
+\begin{equation}
+\left\lvert\mathcal{L}(a,b;t,s)\right\rvert = \sum_{k \in \mathbb{Z}}\left[\binom{a+b}{b+k(t+s)} - \binom{a+b}{b+k(t+s)+t}\right].
+\label{eq_mohanty}
+\end{equation}
+
+La preuve par \citet[p.~6]{Mohanty_1979} de cette formule est fondée
+sur le principe de réflexion et le principe d'inclusion et
+d'exclusion, par lequel un sur-ensemble est pris et un sous-ensemble
+est soustrait parce que ces deux ensembles sont plus aisément
+énumérables que le tout (nous avons employé ce principe implicitement
+pour parvenir à la formule~\eqref{eq_Cn}). Nous reproduisons verbatim
+sa preuve ici parce qu'elle n'est pas facile à trouver de nos jours.
+\begin{proof}
+  (\textbf{Mohanty}) Pour faire bref, nommons les frontières \(x=y+t\)
+  et \(x=y-s\), \(\mathcal{L}^{+}\) et \(\mathcal{L}^{-}\),
+  respectivement. Dénotons par~\(A_1\) l'ensemble des chemins qui
+  atteignent \(\mathcal{L}^{+}\), par~\(A_2\) l'ensemble des chemins
+  qui atteignent \(\mathcal{L}^{+}\), \(\mathcal{L}^{-}\) dans cet
+  ordre, et en général par~\(A_i\) l'ensemble des chemins qui
+  atteignent \(\mathcal{L}^{+}\), \(\mathcal{L}^{-}\),
+  \(\mathcal{L}^{+}\), \ldots (\(i\)~fois) dans l'ordre indiqué. De la
+  même manière, soit~\(B_i\) l'ensemble des chemins atteignant
+  \(\mathcal{L}^{-}\), \(\mathcal{L}^{+}\), \(\mathcal{L}^{-}\),
+  \ldots (\(i\)~fois) dans l'ordre spécifié. Une application de la
+  méthode usuelle d'inclusion\--exclusion donne
+  \begin{equation}
+    \left\lvert\mathcal{L}(a,b;t,s)\right\rvert = \binom{a+b}{b} +
+    \sum_{i \leqslant 1}(-1)^{i}(\lvert{A_i}\rvert +
+    \lvert{B_i}\rvert),\label{eq_L}
+  \end{equation}
+  où~\(\lvert{A_i}\rvert\) et~\(\lvert{B_i}\rvert\) sont évalués
+  répétitivement au moyen du principe de réflexion. Par exemple,
+  considérez~\(A_3\). Puisque chaque chemin dans~\(A_3\) doit
+  atteindre~\(\mathcal{L}^{+}\), \(A_3\) lorsqu'il est réfléchi par
+  rapport à \(\mathcal{L}^{+}\) devient l'ensemble des chemins de
+  \((t,-t)\) à \((a,b)\), chacun atteignant \(\mathcal{L}^{+}\) après
+  avoir atteint \(\mathcal{L}^{-}\). Une autre réflexion par rapport à
+  \(\mathcal{L}^{-}\) rendrait~\(A_3\) équivalent à l'ensemble des
+  chemins de \((-s-t,s+t)\) à \((a,b)\) qui
+  atteignent~\(\mathcal{L}^{+}\), qui à son tour peut s'écrire
+  \(R(a+s+t,b-s-t; 2s+3t)\). [Note: \(R(a,b;t)\) est l'ensemble des
+    chemins de \((0,0)\) à \((a,b)\) réfléchis par rapport
+    à~\(\mathcal{L}^{+}\).] Par conséquent, puisque
+  \(\lvert{R(a,b;t)}\rvert = \binom{a+b}{a-t}\),
+  \begin{equation*}
+    \left\lvert{A_3}\right\rvert = \binom{a+b}{a-s-2t},
+  \end{equation*}
+  et, plus généralement,
+  \begin{equation*}
+    \left\lvert{A_{2j}}\right\rvert = \binom{a+b}{a+j(s+t)}
+    \quad\text{et}\quad \left\lvert{A_{2j+1}}\right\rvert =
+    \binom{a+b}{a-j(s+t)-t}.
+  \end{equation*}
+  Les expressions pour \(\lvert{B_{2j}}\rvert\),
+  \(\lvert{B_{2j+1}}\rvert\), \(j=0, 1, 2, \dots\), avec
+  \(\lvert{A_0}\rvert\), \(\lvert{B_0}\rvert\) étant
+  \(\binom{a+b}{b}\), sont obtenues en interchangeant \(a\)~et~\(b\)
+  et \(s\)~avec~\(t\). La substitution de ces valeurs
+  dans~\eqref{eq_L} donne~\eqref{eq_mohanty} après quelques
+  simplifications.
+\end{proof}
+
+En reprenant le fil de notre argumentation, si nous faisons se
+correspondre les figures dans la \fig~\ref{fig_boundaries}, nous
+déduisons que \(s=h\), \(t=1\), \(a=b=n\), d'où \(a+b=2n\) et
+\(b+k(s+t)=n+k(h+1)\), que nous remplaçons dans la
+formule~\eqref{eq_mohanty} où nous changeons \(h\)~en \(h-1\):
+\begin{equation*}
+A_{n,h-1} = \sum_{k \in \mathbb{Z}}\left[\binom{2n}{n+kh} -
+           \binom{2n}{n+1+kh}\right].
+\end{equation*}
+Après la partition de la somme en les cas \(k<0\), \(k=0\) et \(k>0\),
+puis le changement de signe de~\(k\) dans le premier cas, ensuite en
+utilisant \(\binom{p}{q} = \binom{p}{p-q}\) dans le second et dernier
+cas, puis enfin en regroupant les sommes restantes indexées par \(k
+\geqslant 1\), nous obtenons
+\begin{align*}
+A_{n,h-1}
+  &= - \sum_{k \geqslant 1}\left[\binom{2n}{n+1-kh} -
+    2\binom{2n}{n-kh} + \binom{2n}{n-1-kh}\right]\\
+  &\phantom{=}\; + \binom{2n}{n} - \binom{2n}{n-1}.
+\end{align*}
+Nous reconnaissons \(C_n\) de la page~\pageref{eq_Ann}, et nous
+réécrivons
+\begin{equation*}
+C_n - A_{n,h-1}
+  = \sum_{k \geqslant 1}\left[\binom{2n}{n+1-kh} -
+    2\binom{2n}{n-kh} + \binom{2n}{n-1-kh}\right].
+\end{equation*}
+Finalement, nous souvenant que \(B_{n,h} = A_{nn} - A_{n,h}\) et \(C_n =
+A_{n,n+1}\), nous parvenons à la formule
+\begin{equation}
+B_{n,h-1} = \sum_{k \geqslant 1}
+            \left[\binom{2n}{n+1-kh} - 2\binom{2n}{n-kh}
+            + \binom{2n}{n-1-kh}\right].
+\label{eq_Bn}
+\end{equation}
+
+\citet*{KnuthdeBruijnRice_1972} ont publié un article majeur où ils
+obtiennent le même résultat en employant des mathématiques bien plus
+compliquées. Ils commencent par modéliser le problème avec une
+fonction génératrice \citep{Wilf_1990} qui satisfait une équation de
+récurrence dont la solution exprime la fonction génératrice en termes
+de fractions continuées de polynômes de Fibonacci. Ils utilisent alors
+l'intégration sur le plan complexe pour trouver la
+formule~\eqref{eq_Bn}. Alternativement, les fonctions génératrices
+peuvent être employées sur les chemins monotones dans des treillis, au
+lieu des arbres de Catalan \citep[page~64]{Kemp_1984}
+\citep{FlajoletNebelProdinger_2006}.
+
+\citet*{SedgewickFlajolet_1996} \citep{FlajoletSedgewick_2009} utilisent l'analyse combinatoire et l'analyse réelle pour obtenir l'approximation asymptotique de~\(B_{n,h}\). Ils écrivent~\cite[p.~260]{SedgewickFlajolet_1996}: «Cette analyse est la plus difficile de celles que nous menons dans ce livre. Elle combine des techniques pour résoudre des récurrences linéaires et des fractions continuées, des développements limités de fonctions génératrices, en particulier au moyen du théorème d'inversion de Lagrange, les approximations binomiales et les sommes d'Euler\--Maclaurin.» Il n'est pas possible d'entrer dans les détails ici, mais nous pouvons esquisser comment une approximation asymptotique peut être menée à bien.
+
+L'équation~\eqref{eq_Sn} implique \(S_{n} = \sum_{h \geqslant 1}
+B_{n,h-1}\), d'où
+\begin{equation*}
+S_{n} = \sum_{k' \geqslant 1}d(k') \cdot
+         \left[\binom{2n}{n+1-k'} - 2\binom{2n}{n-k'}
+         + \binom{2n}{n-1-k'}\right],
+\end{equation*}
+où~\(d(k')\) est le nombre de diviseurs positifs de~\(k'\), mais une
+analyse sur les nombres complexes est nécessaire
+\citep{KnuthdeBruijnRice_1972,FlajoletGourdonDumas_1995}. Une autre
+approche consiste à exprimer les coefficients binomiaux en termes de
+\(\binom{2n}{n-kh}\) comme suit:
+\begin{align*}
+\binom{2n}{n-m+1} &= \frac{(2n)!}{(n-m+1)!\,(n+m-1)!}\\
+                  &= \frac{(2n)!\,(n+m)}{(n-m)!\,(n-m+1)(n+m)!} 
+                   = \frac{n+m}{n-m+1}\binom{2n}{n-m},\\
+\binom{2n}{n-m-1} &= \frac{(2n)!}{(n-m-1)!\,(n+m+1)!}\\
+                  &= \frac{(2n)!\,(n-m)}{(n-m)!\,(n+m)!\,(n+m+1)}
+                   = \frac{n-m}{n+m+1}\binom{2n}{n-m}.
+\end{align*}
+Par conséquent,
+\begin{equation*}
+\binom{2n}{n-m+1} - 2\binom{2n}{n-m} + \binom{2n}{n-m-1}
+= 2 \cdot \frac{2m^2-(n+1)}{(n+1)^2-m^2}\binom{2n}{n-m}.
+\end{equation*}
+Posons \(F_n(m) = (2m^2-n)/(n^2-m^2)\). Nous avons
+\begin{equation*}
+S_{n} = 2 \cdot \sum_{h \geqslant 1}\sum_{k \geqslant 1} F_{n+1}(kh)
+\cdot \binom{2n}{n-kh},
+\end{equation*}
+De l'équation~\eqref{eq_Cn} et de \(h_n = S_n/C_n\), nous tirons
+\(h_{n} = (n+1)S_{n}{\binom{2n}{n}}^{-1}\), donc nous devons approcher
+\((n+1)F_{n+1}(m)\) et \(\binom{2n}{n-m}\binom{2n}{n}^{-1}\). D'une
+part, nous avons
+\begin{equation*}
+F_{n+1}(m) \sim \frac{2m^2-n}{n^2} \sim \frac{2m^2-n}{n(n+1)},
+\end{equation*}
+donc \((n+1)F_{n+1}(kh) \sim 2k^2h^2\!/n-1\). D'une autre part,
+\citet*[4.6, 4.8]{SedgewickFlajolet_1996} montrent que
+\begin{equation*}
+\binom{2n}{n-m}{\binom{2n}{n}}^{-1} \sim e^{-m^2\!/n}.
+\end{equation*}
+En supposant que les termes d'erreur implicites des deux
+approximations précédentes diminuent exponentiellement, nous avons
+\begin{equation*}
+h_{n} \sim \sum_{h \geqslant 1}\sum_{k \geqslant 1}
+(4k^2h^2\!/n - 2)e^{-k^2h^2\!/n}
+= \sum_{h \geqslant 1}H(h/\!\sqrt{n}), 
+\end{equation*}
+avec \(H(x) := \sum_{k \geqslant
+  1}(4k^2x^2-2)e^{-k^2x^2}\). Finalement,
+\citet*[5.9]{SedgewickFlajolet_1996}, tout comme
+\citet*[9.6]{GrahamKnuthPatashnik_1994}, font usage d'analyse réelle
+pour conclure
+\begin{equation*}
+h_{n} \sim \sum_{h \geqslant 1}H(h/\!\sqrt{n})
+\sim \sqrt{n} \int_0^{\infty}\!\!H(x) dx \sim \sqrt{\pi n}.
+\end{equation*}
+Après que \(B_{n,h-1}\) a été obtenu, la fin de notre dérivation est
+difficile et même pas entièrement formelle parce que les termes
+d'erreur dans l'approximation asymptotique bivaluée devraient être
+prudemment vérifiés, comme les auteurs référencés le
+font. Malheureusement, ceci aussi veut dire que cette partie a peu de
+chance d'être simplifiée davantage.
+
+\section{Longueur moyenne des chemins}
+
+La \emph{longueur des chemins} d'un arbre de Catalan est la somme des
+longueurs des chemins depuis la racine. Nous avons vu ce concept dans
+le contexte des arbres binaires, où il était décliné en deux
+variantes, la \emph{longueur interne}
+(page~\pageref{insertion__internal_path_length}) et la \emph{longueur
+  externe} (page~\pageref{sorting__external_path_length}), selon que
+le n{\oe}ud final était interne ou externe. Dans le cas des arbres de
+Catalan, la distinction pertinente entre n{\oe}uds est d'être une
+\emph{feuille} (c'est-à-dire un n{\oe}ud sans sous-arbre) ou non, mais
+certains auteurs parlent néanmoins de longueur externe lorsqu'ils se
+réfèrent aux distances des feuilles, et de longueur interne pour les
+non-feuilles, donc nous devons garder présent à l'esprit si le
+contexte est les arbres de Catalan ou les arbres binaires.
+
+Dans le but d'étudier la longueur moyenne (des chemins) des arbres de
+Catalan, et quelques paramètres voisins, nous pourrions suivre
+\cite{DershowitzZaks_1981} en recherchant d'abord le nombre moyen de
+n{\oe}uds de degré~\(d\) au niveau~\(l\) dans un arbre de Catalan
+avec \(n\)~arcs. Le \emph{degré d'un n{\oe}ud} est le nombre de ses
+enfants et son \emph{niveau} est sa distance jusqu'à la racine,
+comptée en arcs, sachant que la racine se trouve au niveau~\(0\). (À
+contraster avec la définition de la hauteur, où ce sont les n{\oe}uds
+qui sont comptés.)
+
+Le premier pas de notre méthode pour obtenir la longueur moyenne (des
+chemins) nécessite la définition d'une nouvelle bijection entre les
+arbres de Catalan et les chemins de Dyck. À la \fig~\vref{fig_ctree},
+nous voyons un arbre de Catalan équivalent au chemin de Dyck à la
+\fig~\ref{fig_dyck}, construit à partir du parcours en préordre de cet
+arbre. La \fig~\ref{fig_ctree_deg}
+\begin{figure}
+\centering
+\subfloat[Chemin de Dyck\label{fig_dyck_deg}]{%
+  \includegraphics[bb=71 634 158 721]{dyck_deg}}
+\qquad
+\subfloat[Arbre de Catalan\label{fig_ctree_deg}]{%
+\includegraphics[bb=58 660 140 721]{ctree_deg}
+}
+\caption{Bijection fondée sur les degrés\label{fig_bijection_deg}}
+\end{figure}
+montre le même arbre, où le contenu des n{\oe}uds est leur degré. Le
+parcours en préordre (des degrés) est \([3,0,0,2,1,0,0]\). Puisque le
+dernier degré est toujours~\(0\) (une feuille), nous l'éliminons et
+conservons \([3,0,0,2,1,0]\). Un autre chemin de Dyck équivalent est
+obtenu en traduisant les degrés de cette liste en suites de montées
+(\(\uparrow\)) suivies d'une descente (\(\rightarrow\)), donc, par
+exemple, \(3\)~est traduit en (\(\uparrow, \uparrow, \uparrow,
+\rightarrow\)) et \(0\)~en (\(\rightarrow\)). À la fin,
+\([3,0,0,2,1,0]\) est traduit en \([\uparrow, \uparrow, \uparrow,
+\rightarrow, \rightarrow, \rightarrow, \uparrow, \uparrow,
+\rightarrow, \uparrow, \rightarrow, \rightarrow]\), ce qui correspond
+au chemin de Dyck à la \fig~\ref{fig_dyck_deg}. Il est aisé de se
+convaincre soi-même que nous pouvons reconstruire l'arbre à partir du
+chemin de Dyck, par conséquent, nous avons bien là une bijection.
+
+La raison d'être de cette nouvelle bijection est la nécessité de
+trouver le nombre moyen de n{\oe}uds dans un arbre de Catalan dont la
+racine possède un degré donné. Ce nombre nous aidera à parvenir à la
+longueur moyenne des chemins, en appliquant une idée de
+\cite{Ruskey_1983}. D'après la bijection, il est clair que le nombre
+d'arbres dont la racine a pour degré~\(r=3\) est le nombre de chemins
+de Dyck contenant le segment de \((0,0)\) à \((0,r)\), suivi d'une
+descente (voir le point \((1,r)\) à la \fig~\ref{fig_dyck_deg}), et
+ensuite tous les chemins monotones au-dessus de la diagonale jusqu'au
+coin en haut à droite \((n,n)\).  Par conséquent, nous devons
+déterminer le nombre de ces chemins.
+
+Nous avons vu à la section~\vref{sec_Catalan_height} la réflexion
+bijective de chemins et l'énumération à l'aide du principe d'inclusion
+et d'exclusion. Ajoutons maintenant à notre arsenal une bijection de
+plus qui se révèle souvent utile: le \emph{retournement}. Elle
+consiste simplement à renverser l'ordre des pas constitutifs d'un
+chemin. Considérons par exemple la \fig~\ref{fig_path_reversal}.
+\begin{figure}
+\centering
+\subfloat[Retournement de la
+\fig~\ref{fig_reflection} \label{fig_path_reversal}]{
+\includegraphics[bb=71 606 188 721]{path_reversal}}
+\qquad
+\subfloat[Retournement et réflexion de la \fig~\ref{fig_dyck_deg} après \((1,3)\)\label{fig_path_deg}]{
+\includegraphics[bb=62 634 168 721]{path_deg}}
+\caption{Retournements et réflexions}
+\end{figure}
+Bien entendu, la composition de deux bijections étant une bijection,
+la composition d'un retournement et d'une réflexion est bijective,
+donc les chemins monotones au-dessus de la diagonale de \((1,r)\) à
+\((n,n)\) sont en bijection avec les chemins monotones au-dessus de la
+diagonale de \((0,0)\) à \((n-r,n-1)\). Par exemple, la
+\fig~\ref{fig_path_deg} montre le retournement et la réflexion du
+chemin de Dyck de la \fig~\ref{fig_dyck_deg} après le point \((1,3)\),
+distingué par un disque noir (\(\bullet\)).
+
+En nous souvenant que les arbres de Catalan avec \(n\)~arcs sont en
+bijection avec les chemins de Dyck de longueur~\(2n\)
+(section~\vref{sec_Catalan_enumeration}), nous savons à présent que le
+nombre d'arbres de Catalan avec \(n\)~arcs et dont la racine a pour
+degré~\(r\) est le nombre de chemins monotones au-dessus de la
+diagonale du point \((0,0)\) à \((n-r,n-1)\). Nous pouvons trouver ce
+nombre en utilisant la même technique que pour le nombre total~\(C_n\)
+de chemins de Dyck. Le principe d'inclusion et d'exclusion dit que
+nous devrions compter le nombre total de chemins avec les mêmes
+extrémités et soustraire le nombre de chemins qui traversent la
+diagonale. Le premier nombre est \(\binom{2n-r-1}{n-1}\), qui énumère
+les façons d'interclasser \(n-1\)~montées (\(\uparrow\)) avec \(n-r\)
+descentes (\(\rightarrow\)). Le dernier nombre est le même que le
+nombre de chemins monotones de \((1,-1)\) à \((n-r,n-1)\), comme on
+peut le voir en faisant se réfléchir les chemins jusqu'à leur première
+traversée de la diagonale, soit \(\binom{2n-r-1}{n}\); en d'autres
+termes, c'est le nombre d'interclassements de \(n\)~montées avec
+\(n-r-1\) descentes. Finalement, en imitant la dérivation de
+l'équation~\eqref{eq_Cn}, le nombre \(\mathcal{R}_n(r)\) d'arbres avec
+\(n\)~arcs et racine de degré~\(r\) est
+\begin{equation*}
+\mathcal{R}_n(r) = \binom{2n-r-1}{n-1} - \binom{2n-r-1}{n} 
+                 = \frac{r}{2n-r} \binom{2n-r}{n}.
+\end{equation*}
+
+Soit \(\mathcal{N}_n(l,d)\) le nombre d'arbres de Catalan avec
+\(n\)~arcs au niveau~\(l\) et de degré~\(d\). Ce nombre constitue
+l'étape suivante dans la détermination de la longueur moyenne des
+chemins parce que \cite{Ruskey_1983} a trouvé une jolie bijection qui
+le met en relation avec \(\mathcal{R}_n(r)\) dans l'équation suivante:
+\begin{equation*}
+\mathcal{N}_n(l,d) = \mathcal{R}_{n+l}(2l+d).
+\end{equation*}
+À la \fig~\ref{fig_level_deg}
+\begin{figure}
+\centering
+\subfloat[\(n\)~arcs, (\(\bullet\)) de degré~\(d\) et niveau~\(l\) \label{fig_level_deg}]{%
+  \includegraphics[bb=71 594 150 721]{level_deg}}
+\quad
+\subfloat[\(n+l\) arcs, racine de degré~\(2l+d\)
+\label{fig_lifted_node}]{%
+\includegraphics[bb=71 663 295 721]{lifted_node}
+}
+\caption{Bijection\label{fig_bij_root_level}}
+\end{figure}
+se trouve le motif général d'un arbre de Catalan avec un n{\oe}ud
+(\(\bullet\)) au niveau~\(d\) et de degré~\(d\). Les arcs doubles
+dénotent un ensemble d'arcs, donc \(\mathcal{L}_i\), \(\mathcal{R}_i\)
+et \(\mathcal{B}_i\) représentent en fait des forêts. À la
+\fig~\ref{fig_lifted_node}, nous voyons un arbre de Catalan en
+bijection avec le premier, obtenu de celui-ci en élevant le n{\oe}ud
+qui nous intéresse (\(\bullet\)) pour en faire la racine, les forêts
+\(\mathcal{L}_i\) avec leurs parents respectifs sont attachées
+en-dessous, ensuite les \(\mathcal{B}_i\), et, finalement, les
+\(\mathcal{R}_i\) pour lesquelles de nouveaux parents sont nécessaires
+(dans un cadre hachuré dans la figure). Il est clair que la nouvelle
+racine a pour degré \(2l+d\) et il y a \(n+l\) arcs. Il est essentiel
+de comprendre que la transformation peut être inversée pour tout arbre
+(elle est injective et surjective), donc est elle bien bijective. Nous
+en déduisons
+\begin{equation*}
+\mathcal{N}_n(l,d) = \frac{2l+d}{2n-d}\binom{2n-d}{n+l}
+= \binom{2n-d-1}{n+l-1} - \binom{2n-d-1}{n+l},
+\end{equation*}
+où la dernière étape résulte de l'expression du coefficient binomial en termes de la fonction factorielle. En particulier, ceci entraîne que le nombre total de n{\oe}uds au niveau~\(l\) dans tous les arbres de Catalan avec \(n\)~arcs est
+\begin{equation*}
+\sum_{d=0}^{n}\mathcal{N}_n(l,d)
+  = \sum_{d=0}^{n}\binom{2n-d-1}{n+l-1}
+    - \sum_{d=0}^{n}\binom{2n-d-1}{n+l}.
+\end{equation*}
+Tournons notre attention vers la première somme:
+\begin{equation*}
+\sum_{d=0}^{n}\binom{2n-d-1}{n+l-1}
+  = \sum_{i=n-1}^{2n-1}\binom{i}{n+l-1}
+  = \sum_{i=n+l-1}^{2n-1}\binom{i}{n+l-1}.
+\end{equation*}
+Nous pouvons maintenant employer l'identité \eqref{eq_binom_sum}
+\vpageref{eq_binom_sum}, qui équivaut à \(\sum_{i=j}^{k}\binom{i}{j} =
+\binom{k+1}{j+1}\), donc \(j=n+l-1\) et \(k=2n-1\) entraînent
+\begin{equation*}
+\sum_{d=0}^{n}\binom{2n-d-1}{n+l-1} = \binom{2n}{n+l}.
+\end{equation*}
+De plus, en remplaçant \(l\)~par \(l+1\) donne
+\(\sum_{d=0}^{n}\binom{2n-d-1}{n+l} = \binom{2n}{n+l+1}\), donc le
+nombre total de n{\oe}uds au niveau~\(l\) dans tous les arbres de
+Catalan avec \(n\)~arcs est
+\begin{equation}
+\sum_{d=0}^{n}\mathcal{N}_n(l,d)
+ = \binom{2n}{n+l} - \binom{2n}{n+l+1}
+ = \frac{2l+1}{2n+1}\binom{2n+1}{n-l}.
+\label{eq_N_n_l_d}
+\end{equation}
+
+Soit \(\Expected{P_n}\) la \emph{longueur moyenne des chemins} d'un
+arbre de Catalan avec \(n\)~arcs. Nous avons
+\begin{equation*}
+  \Expected{P_n} = \frac{1}{C_{n}} \cdot \sum_{l=0}^{n}l\sum_{d=0}^{n}\mathcal{N}_n(l,d),
+\end{equation*}
+parce qu'il y a \(C_n\)~arbres et la double somme est la somme des
+longueurs des chemins de tous les arbres. Si nous moyennons encore par
+le nombre de n{\oe}uds, soit \(n+1\), nous obtenons le niveau moyen
+d'un n{\oe}ud dans un arbre de Catalan aléatoire, et nous devons
+prendre garde car certains auteurs choisissent cette quantité comme la
+définition de la longueur moyenne. Alternativement, si nous
+choisissons au hasard des arbres de Catalan distincts avec \(n\)~arcs,
+puis choisissons des n{\oe}uds distincts dans ceux-ci,
+\(\Expected{P_n}/(n+1)\) est la limite du coût moyen pour les
+atteindre depuis la racine. En usant des équations \eqref{eq_N_n_l_d}
+et~\eqref{eq_Cn} \vpageref{eq_Cn}, alors
+\begin{align*}
+\Expected{P_n} \cdot C_n
+ &= \sum_{l=0}^{n}l\left[\binom{2n}{n+l} - \binom{2n}{n+l+1}\right]\\
+ &= \sum_{l=1}^{n}l \binom{2n}{n+l} - \sum_{l=0}^{n-1}l \binom{2n}{n+l+1}\\
+ &= \sum_{l=1}^{n}l \binom{2n}{n+l} - \sum_{l=1}^{n}(l-1)\binom{2n}{n+l}\\
+ &= \sum_{l=1}^{n}\binom{2n}{n+l}
+  = \sum_{i=n+1}^{2n}\binom{2n}{i}.
+\end{align*}
+La somme restante est facile à débloquer parce qu'elle est la somme de
+la moitié d'une ligne paire dans le triangle de Pascal. Nous voyons à
+la \fig~\vref{fig_pascal_triangle} que la première moitié égale la
+seconde, seul l'élément central restant (il y a un nombre impair
+d'éléments dans une ligne paire). Ceci est vite vu:
+\(\sum_{j=0}^{n-1}\binom{2n}{j} = \sum_{j=0}^{n-1}\binom{2n}{2n-j} =
+\sum_{i=n+1}^{2n}\binom{2n}{i}\). Par conséquent,
+\begin{equation*}
+\sum_{i=0}^{2n}\binom{2n}{i} = 2 \cdot \!\! \sum_{i=n+1}^{2n}\binom{2n}{i}
++ \binom{2n}{n},
+\end{equation*}
+et nous pouvons poursuivre comme suit:
+\begin{equation*}
+\frac{\Expected{P_n}}{n+1}
+  = \frac{1}{2}\binom{2n}{n}^{-1}\left[\sum_{i=0}^{2n}\binom{2n}{i} -
+    \binom{2n}{n}\right]
+  = \frac{1}{2}\left[\binom{2n}{n}^{-1}\sum_{i=0}^{2n}\binom{2n}{i} - 1\right].
+\end{equation*}
+La somme restante est peut-être l'identité combinatoire la plus
+fameuse parce qu'elle est un corollaire du vénérable \emph{théorème
+  binomial}, qui établit que, pour tous nombres réels \(x\)~et~\(y\),
+et tout entier positif~\(n\), nous avons l'égalité suivante:
+\begin{equation*}
+(x+y)^n = \sum_{k=0}^{n}\binom{n}{k}x^{n-k}y^k.
+\end{equation*}
+La vérité de cette proposition apparaît grâce au raisonnement
+suivant. Puisque, par définition, \((x+y)^n =
+\underline{(x+y)(x+y)\ldots(x+y)}_{\text{\(n\) fois}}\), chaque terme
+dans le développement de \((x+y)^{n}\) a la forme \(x^{n-k}y^k\), pour
+un certain~\(k\) variant de~\(0\) à~\(n\), inclus. Le coefficient de
+\(x^{n-k}y^{k}\) pour un~\(k\) donné est simplement le nombre de choix
+de~\(k\) variables~\(y\) parmi les \(n\)~facteurs de \((x+y)^{n}\),
+les variables~\(x\) provenant des \(n-k\) facteurs restants.
+
+Poser \(x=y=1\) entraîne l'identité \(2^n =
+\sum_{k=0}^{n}\binom{n}{k}\), qui, finalement, débloque notre dernière
+étape:
+\begin{equation}
+\Expected{P_n} = \frac{n+1}{2}\left[4^{n}\binom{2n}{n}^{-1} - 1\right].
+\label{eq_EPn}
+\end{equation}
+En nous souvenant de~\eqref{eq_Cn} \vpageref{eq_Cn}, nous obtenons le
+développement asymptotique suivant:
+\begin{equation*}
+\Expected{P_n} \sim \frac{1}{2}n\sqrt{\pi n}.
+\end{equation*}
+Remarquons que cette équivalence est vraie aussi si~\(n\) dénote un
+nombre de n{\oe}uds, au lieu d'un nombre d'arcs. La formule exacte
+donnant la longueur moyenne des chemins d'un arbre de Catalan avec
+\(n\)~n{\oe}uds est \(\Expected{P_{n-1}}\) car il possède alors
+\(n-1\) arcs.
+
+Pour certaines applications, il est utile de connaître les longueurs
+externes et internes, qui sont, respectivement, les longueurs des
+chemins jusqu'aux feuilles et aux n{\oe}uds internes (à ne pas
+confondre avec les longueurs externes et internes des arbres
+binaires). Soit \(\Expected{E_n}\) la première et \(\Expected{I_n}\)
+la seconde. Nous avons:
+\begin{align*}
+\Expected{E_n} \cdot C_n
+  &= \sum_{l=0}^{n} l \cdot \mathcal{N}_n(l,0)
+   = \sum_{l=0}^{n}l\left[\binom{2n-1}{n+l-1} -
+     \binom{2n-1}{n+l}\right]\\
+  &= \sum_{l=0}^{n-1}(l+1)\binom{2n-1}{n+l} -
+     \sum_{l=0}^{n-1}l \binom{2n-1}{n+l}
+   = \sum_{l=0}^{n-1}\binom{2n-1}{n+l},\\
+\Expected{E_n} \cdot C_n
+  &= \sum_{i=n}^{2n-1}\binom{2n-1}{i}
+   = \frac{1}{2}\sum_{j=0}^{2n-1}\binom{2n-1}{j} = 4^{n-1},
+\end{align*}
+où la dernière égalité procède du fait qu'une ligne impaire dans le
+triangle de Pascal contient un nombre pair de coefficients et les deux
+moitiés ont des sommes égales. Nous concluons:
+\begin{equation}
+\Expected{E_n} = (n+1) 4^{n-1}\binom{2n}{n}^{-1} \sim
+\frac{1}{4}n\sqrt{\pi n}.
+\label{eq_EEn}
+\end{equation}
+La dérivation de \(\Expected{I_n}\) est:
+\begin{align}
+  \Expected{I_n} \cdot C_n
+  &= \sum_{l=0}^{n}l\sum_{d=1}^{n}\mathcal{N}_n(l,d)
+   = \sum_{l=0}^{n}l\left[\binom{2n-1}{n+l} -
+     \binom{2n-1}{n+l+1}\right]\notag\\
+  &= \sum_{l=1}^{n-1}\binom{2n-1}{n+l} = \Expected{E_n} \cdot C_n -
+  \binom{2n-1}{n}\notag\\
+  &= 4^{n-1} - \frac{1}{2}\binom{2n}{n}
+   = 4^{n-1} - \frac{1}{2}(n+1)C_n.\notag
+\intertext{Par conséquent,}
+\Expected{I_n}
+  &= (n+1)4^{n-1}\binom{2n}{n}^{-1} - \frac{n+1}{2} \sim
+  \frac{1}{4}n\sqrt{\pi n}.
+\label{eq_EIn}
+\end{align}
+Des formules \eqref{eq_EEn} et~\eqref{eq_EIn}, nous tirons
+\begin{equation*}
+\Expected{E_n} = \Expected{I_n} + \frac{n+1}{2}.
+\end{equation*}
+On peut montrer que \((n+1)/2\) est le nombre moyen de feuilles dans
+un arbre Catalan avec \(n\)~arcs, c'est-à-dire que la moitié des
+n{\oe}uds sont des feuilles en moyenne.
+
+À l'asymptote, les formules \eqref{eq_EPn}, \eqref{eq_EEn}
+et~\eqref{eq_EIn} entraînent
+\begin{equation*}
+\Expected{I_n} \sim \Expected{E_n} \sim \frac{1}{2}\Expected{P_n}.
+\end{equation*}
+Pour appronfondir le sujet, nous recommandons les articles de
+\citet*{DershwowitzZaks_1980,DershowitzZaks_1981,DershowitzZaks_1990}.

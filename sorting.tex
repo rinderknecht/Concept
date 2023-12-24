@@ -1,0 +1,680 @@
+\section{Tri optimal}
+\label{sec_opt_sort}
+\index{tri}
+
+Trier consiste à arranger une suite donnée d'objets, appelés
+\emph{clés}\index{tri!clé}, pour qu'ils satisfassent un ordre
+prédéfini. D'après \cite{Knuth_1998}, Les premiers algorithmes de tri
+ont été inventés et automatisés dans des tabulateurs à la fin du
+dix-neuvième siècle pour l'établissement du recensement des États-Unis
+d'Amérique.
+
+\paragraph{Permutations}
+\label{par_permutations}
+\index{permutation}
+
+\hspace*{-10pt} Nous avons vu \vpageref{par_mean_sort} que le coût
+moyen d'un algorithme de tri opérant par comparaisons est défini comme
+étant la moyen\-ne arithmétique des coûts du tri de toutes les
+permutations d'une taille fixe. Une permutation de \((1,2,\dots,n)\)
+est un \(n\)-uplet \((a_1,a_2,\dots,a_n)\) tel que \(a_i \in
+\{1,\dots,n\}\) et \({a_i \neq a_j}\) pour tout \({i \neq j}\). Par
+exemple, toutes les permutations de \((1,2,3)\) sont
+\begin{equation*}
+(1,2,3) \quad (1,3,2) \quad (2,1,3) \quad (2,3,1) \quad (3,1,2) \quad
+(3,2,1).
+\end{equation*}
+Étant donné toutes les permutations de \((1,2,\dots,n-1)\),
+construisons inductivement toutes les permutations de
+\((1,2,\dots,n)\). Si \((a_1,a_2,\dots,a_{n-1})\) est une permutation
+de \((1,2,\dots,n-1)\), alors nous pouvons construire
+\(n\)~permutations de \((1,2,\dots,n)\) en insérant~\(n\) entre toutes
+les paires d'objets consécutifs dans \((a_1,a_2,\dots,a_{n-1})\):
+\begin{equation*}
+(\boldsymbol{n},a_1,a_2,\dots,a_{n-1})\quad
+(a_1,\boldsymbol{n},a_2,\dots,a_{n-1})\quad \ldots \quad
+(a_1,a_2,\dots,a_{n-1},\boldsymbol{n}).
+\end{equation*}
+Par exemple, il est clair que toutes les permutations de \((1,2)\)
+sont \((1,2)\) et \((2,1)\). La méthode nous conduit de \((1,2)\) à
+\((\boldsymbol{3},1,2)\), \((1,\boldsymbol{3},2)\) et
+\((1,2,\boldsymbol{3})\); et de \((2,1)\) à \((\boldsymbol{3},2,1)\),
+\((2,\boldsymbol{3},1)\) et \((2,1,\boldsymbol{3})\). Si nous
+nommons~\(p_n\) le nombre de permutations de \(n\)~éléments, nous
+tirons de ce qui précède la récurrence \(p_n = n \cdot p_{n-1}\), qui,
+avec l'ajout de l'évidente égalité \(p_1 = 1\), produit \(p_n = n!\),
+pour tout \({n > 0}\), exactement comme nous nous y attendions. Si les
+\(n\)~objets à permuter ne sont pas \((1,2,\dots,n)\) mais, par
+exemple, \((\textsf{b},\textsf{d},\textsf{a},\textsf{c})\), il suffit
+alors simplement d'associer à chacun d'eux leur index dans le
+\(n\)-uplet, par exemple \textsf{b}~est représenté par~\(1\),
+\textsf{d}~par~\(2\), \textsf{a}~par~\(3\) et \textsf{c}~par~\(4\),
+donc le \(n\)-uplet est associé à \((1,2,3,4)\) et, par exemple, la
+permutation \((4,1,2,3)\) est alors le codage de
+\((\textsf{c},\textsf{b},\textsf{d},\textsf{a})\).
+
+\paragraph{Factorielle}\index{factorielle}
+
+Nous avons rencontré la fonction factorielle dans l'introduction et
+ici encore. Voici un simple calcul, proposé par
+\cite{GrahamKnuthPatashnik_1994}, pour caractériser sa croissance
+asymptotique:
+\begin{equation*}
+n!^2 = (1 \cdot 2 \cdot \ldots \cdot n) (n \cdot \ldots \cdot 2 \cdot
+1) = \prod_{k=1}^{n}{k(n+1-k)}.
+\end{equation*}
+La parabole \(P(k) := k(n+1-k) = -k^2 + (n+1)k\) atteint son maximum
+là où sa dérivée s'annule: \(P'(k_{\max}) = 0 \Leftrightarrow
+k_{\max}=(n+1)/2\). L'ordonnée correspondante est \(P(k_{\max}) =
+((n+1)/2)^2 = k_{\max}^2\). Quand \(k\)~varie de~\(1\) à~\(n\),
+l'ordonnée minimum, \(n\), est atteinte aux points d'abscisses
+\(1\)~et~\(n\), comme le montre la \fig~\vref{fig_parabola}.
+\begin{figure}
+\centering
+\includegraphics[bb=55 563 205 730]{parabola}
+\caption{Parabole \(P(k) := k(n+1-k)\)\label{fig_parabola}}
+\end{figure}
+Donc, \(1 \leqslant k \leqslant k_{\max}\) implique
+\begin{equation*}
+P(1) \leqslant P(k) \leqslant P(k_{\max}),\quad \text{c'est-à-dire,}
+\quad n \leqslant k(n+1-k) \leqslant \left(\frac{n+1}{2}\right)^2.
+\end{equation*}
+En multipliant les côtés pour des valeurs de la variable~\(k\)
+décrivant l'intervalle discret \([1..n]\) produit
+\begin{gather*}
+n^n = \prod_{k=1}^{n}{n} \leqslant n!^2 
+\leqslant
+\prod_{k=1}^{n}{\left(\!\frac{n+1}{2}\!\right)^2} \!\!=
+\left(\!\frac{n+1}{2}\!\right)^{2n}
+\!\!\!\Rightarrow\!
+n^{n/2} \leqslant n! \leqslant \left(\!\frac{n+1}{2}\!\right)^n.
+\end{gather*}
+Il clair maintenant que \(n!\)~est \emph{exponentielle}, donc sa
+croissance asymptotique domine celle de tout polynôme. Concrètement,
+une fonction dont le coût est proportionnel à la factorielle est
+inutile même pour de petites données. Pour les cas où une équivalence
+est préférée, la formule de Stirling\index{Stirling (formule de)}
+affirme
+\begin{equation}
+n! \sim n^n e^{-n} \sqrt{2\pi n}.\label{eq_Stirling}
+\end{equation}
+
+\paragraph{Dénombrer les permutations}
+
+Nous voulons écrire un programme qui forme toutes les permutations
+d'une pile donnée. Nous définissons la
+fonction~\fun{perm/1}\index{perm@\fun{perm/1}} telle que
+\(\fun{perm}(s)\) est la pile de toutes les permutations des éléments
+de la pile~\(s\). Nous allons employer la méthode inductive vue
+ci-dessus et qui opérait en insérant un nouvel objet dans tous les
+intervalles possibles d'une permutation plus courte.
+\begin{equation*}
+\fun{perm}(\el)         \xrightarrow{\smash{\alpha}} \el;\quad
+\fun{perm}([x])         \xrightarrow{\smash{\beta}} [[x]];\quad
+\fun{perm}(\cons{x}{s}) \xrightarrow{\gamma}
+                          \fun{dist}(x,\fun{perm}(s)).
+\end{equation*}
+La fonction~\fun{dist/2}\index{dist@\fun{dist/2}} (\emph{distribuer})
+est telle que \(\fun{dist}(x,s)\) est la pile de toutes les piles
+obtenues en insérant l'élément~\(x\) à toutes les positions dans la
+pile~\(s\). Puisqu'une telle insertion dans une permutation de
+longueur~\(n\) résulte en une permutation de longueur~\(n+1\), nous
+devons ajouter ces nouvelles permutations à celles de même longueur
+déjà formées:
+\begin{equation*}
+\fun{dist}(x,\el)         \xrightarrow{\smash{\delta}} \el;\quad
+\fun{dist}(x,\cons{p}{t}) \xrightarrow{\smash{\epsilon}}
+                            \fun{cat}(\fun{ins}(x,p),\fun{dist}(x,t)).
+\end{equation*}
+L'appel~\(\fun{ins}(x,p)\)\index{ins@\fun{ins/2}} calcule la pile de
+permutations qui résultent de l'insertion de~\(x\) à toutes les
+positions dans la permutation~\(p\). Par conséquent, il vient
+\begin{equation*}
+\fun{ins}(x,\el) \xrightarrow{\smash{\zeta}} [[x]];\quad
+\fun{ins}(x,\cons{j}{s}) \xrightarrow{\smash{\eta}}
+ \cons{\cons{x,j}{s}}{\fun{push}(j,\fun{ins}(x,s))}.
+\end{equation*}
+où la fonction~\fun{push/2}\index{push@\fun{push/2}} (à ne pas
+confondre avec la fonction de même nom et arité à la
+section~\ref{sec_persistence}) est telle que tout
+appel~\(\fun{push}(x,t)\) empile l'élément~\(x\) sur toutes les
+permutations de la pile de permutation~\(t\). Leur ordre reste
+invariant:
+\begin{equation*}
+\fun{push}(x,\el) \xrightarrow{\smash{\theta}} \el;\quad
+\fun{push}(x,\cons{p}{t}) \xrightarrow{\smash{\iota}}
+ \cons{\cons{x}{p}}{\fun{push}(x,t)}.
+\end{equation*}
+Maintenant, nous pouvons produire toutes les permutations de
+\((4,1,2,3)\) ou \((\fun{c}, \fun{b}, \fun{d}, \fun{a})\) en appelant
+\(\fun{perm}([4,1,2,3])\) ou \(\fun{perm}([\fun{c}, \fun{b}, \fun{d},
+\fun{a}])\). Nous pouvons remarquer qu'après la formation des
+permutations de longueur \(n+1\), les permutations de longueur~\(n\)
+ne sont plus nécessaires, ce qui permet à un environnement d'exécution
+de réutiliser la mémoire correspondante pour d'autres usages (un
+processus appelé \emph{glanage de cellules}\index{glanage de
+  cellules}). En ce qui concerne les coûts, la définition de
+\fun{push/2} implique
+\begin{equation*}
+\C{\fun{push}}{0} \eqn{\theta} 1;\qquad
+\C{\fun{push}}{n+1} \eqn{\iota} 1 + \C{\fun{push}}{n},\quad
+\text{avec \(n \geqslant 0\)}.
+\end{equation*}
+Nous déduisons aisément \(\C{\fun{push}}{n} = n +
+1\).\index{push@$\C{\fun{push}}{n}$} Nous savons que le résultat de
+\(\fun{ins}(x,p)\) est une pile de longueur~\(n+1\) si \(p\)~est une
+permutation de \(n\)~objets dans laquelle nous insérons un objet
+supplémentaire~\(x\). Par conséquent, la définition de \fun{ins/2}
+donne lieu aux récurrences suivantes:
+\begin{equation*}
+\C{\fun{ins}}{0}   \eqn{\zeta} 1;\quad
+\C{\fun{ins}}{k+1} \eqn{\eta} 1 + \C{\fun{push}}{k+1} +
+\C{\fun{ins}}{k} = 3 + k + \C{\fun{ins}}{k}, \quad \text{où \(k
+                    \geqslant 0\)},
+\end{equation*}
+et~\(\C{\fun{ins}}{k}\) est le coût de \(\fun{ins}(x,p)\) avec~\(p\)
+de longueur~\(k\). En sommant membre à membre pour toutes les valeurs
+de~\(k\) allant de~\(0\) à~\(n-1\), avec \({n>0}\):
+\begin{equation*}
+\sum_{k=0}^{n-1}{\C{\fun{ins}}{k+1}}
+  = \sum_{k=0}^{n-1}{3} + \sum_{k=0}^{n-1}{k}
+     + \sum_{k=0}^{n-1}{\C{\fun{ins}}{k}}.
+\end{equation*}
+En éliminant les termes identiques dans
+\(\sum_{k=0}^{n-1}{\C{\fun{ins}}{k+1}}\) et
+\(\sum_{k=0}^{n-1}{\C{\fun{ins}}{k}}\), nous
+déduisons\index{ins@$\C{\fun{ins}}{n}$}
+\begin{equation*}
+\C{\fun{ins}}{n}
+  = 3n + \tfrac{1}{2}n(n-1) + \C{\fun{ins}}{0}
+  = \tfrac{1}{2}{n^2} + \tfrac{5}{2}{n} + 1.
+\end{equation*}
+Cette dernière équation est en fait valide même si \({n = 0}\).
+Soit~\(\C{\fun{dist}}{n!}\) le coût de la distribution d'un élément
+parmi \(n!\)~permutations de longueur~\(n\). La définition de
+\fun{dist/2}\index{dist@\fun{dist/2}} montre qu'elle itère des appels
+à \fun{cat/2}\index{cat@\fun{cat/2}} et
+\fun{ins/2}\index{ins@\fun{ins/2}} dont les argument sont toujours de
+longueur \(n+1\)~et~\(n\), respectivement, parce que toutes les
+permutations traitées ici ont la même longueur. Nous déduisons,
+pour~\(k \geqslant 0\), les récurrences suivantes:
+\begin{equation*}
+\C{\fun{dist}}{0} \eqn{\delta} 1;\quad
+\C{\fun{dist}}{k+1}
+  \eqn{\epsilon} 1 + \C{\fun{cat}}{n+1} + \C{\fun{ins}}{n}
+                    + \C{\fun{dist}}{k}
+  = \tfrac{1}{2}{n^2} + \tfrac{7}{2}{n} + 4 + \C{\fun{dist}}{k},
+\end{equation*}
+puisque nous savons déjà que \(\C{\fun{cat}}{n} = n +
+1\)\index{cat@$\C{\fun{cat}}{n}$} et nous connaissons la valeur
+de~\(\C{\fun{ins}}{n}\). En sommant membre à membre la dernière
+équation pour toutes les valeurs de~\(k\) allant de~\(0\) à~\(n!-1\),
+nous pouvons éliminer la plupart des termes et obtenir une définition
+non-récurrente de
+\(\C{\fun{dist}}{n!}\)\index{dist@$\C{\fun{dist}}{n}$}:
+\begin{align*}
+\sum_{k=0}^{n!-1}{\C{\fun{dist}}{k+1}}
+   &= \sum_{k=0}^{n!-1}{\left(\frac{1}{2}{n^2}
+      + \frac{7}{2}{n} + 4\right)}
+      + \sum_{k=0}^{n!-1}{\C{\fun{dist}}{k}},\\
+\C{\fun{dist}}{n!}
+  &= \left(\frac{1}{2}{n^2}+\frac{7}{2}{n}+4\right)n! +
+\C{\fun{dist}}{0} = \frac{1}{2}(n^2 + 7n + 8)n! + 1.
+\end{align*}
+Évaluons finalement le coût de \(\fun{perm}(s)\), noté
+\(\C{\fun{perm}}{k}\)\index{perm@$\C{\fun{perm}}{n}$|(}, où \(k\)~est
+la longueur de la pile~\(s\). D'après les règles de~\clause{\alpha}
+à~\clause{\gamma}, nous déduisons les équations récurrentes suivantes,
+où \(k > 0\):
+\begin{align*}
+\C{\fun{perm}}{0}   &\eqn{\alpha} 1;\qquad
+\C{\fun{perm}}{1}   \eqn{\beta} 1;\\
+\C{\fun{perm}}{k+1}
+  &\eqn{\gamma} 1 + \C{\fun{perm}}{k} + \C{\fun{dist}}{k!}
+   = \tfrac{1}{2}(k^2 + 7k + 8)k! + 2 + \C{\fun{perm}}{k}.
+\intertext{Sommant membre à membre, la plupart des termes s'annulent:}
+\sum_{k=1}^{n-1}{\C{\fun{perm}}{k+1}}
+  &= \frac{1}{2}\sum_{k=1}^{n-1}{(k^2+7k+8)k!} + \sum_{k=1}^{n-1}{2}
+     + \sum_{k=1}^{n-1}{\C{\fun{perm}}{k}},\\
+\C{\fun{perm}}{n}
+  &= \frac{1}{2}\sum_{k=1}^{n-1}{(k^2 + 7k + 8)k!}
+     + 2(n-1) + \C{\fun{perm}}{1}\\
+  &= \frac{1}{2}\sum_{k=1}^{n-1}{((k+2)(k+1)+6+4k)k!} + 2n - 1\\
+  &= \frac{1}{2}\sum_{k=1}^{n-1}{(k+2)(k+1)k!}
+     + 3 \sum_{k=1}^{n-1}{k!} + 2 \sum_{k=1}^{n-1}{kk!} + 2n - 1\\
+  &= \frac{1}{2}\sum_{k=1}^{n-1}{(k+2)!}
+     + 3 \sum_{k=1}^{n-1}{k!} + 2 \sum_{k=1}^{n-1}{kk!} + 2n - 1\\
+  &= \frac{1}{2}\sum_{k=3}^{n+1}{k!}
+     + 3 \sum_{k=1}^{n-1}{k!} + 2 \sum_{k=1}^{n-1}{kk!} + 2n - 1\\
+%  &= \left(\frac{1}{2}((n+1)! + n! - 2! - 1!)
+%     + \frac{1}{2}\sum_{k=1}^{n-1}{k!}\right)
+%     + 3 \sum_{k=1}^{n-1}{k!}\\
+%  &\phantom{= x} + 2 \sum_{k=1}^{n-1}{kk!} + 2n - 1.\\
+  &= \frac{1}{2}{(n+2)n!} + \frac{7}{2}\sum_{k=1}^{n-1}{k!}
+     + 2 \sum_{k=1}^{n-1}{kk!} + 2n - \frac{5}{2}.
+\end{align*}
+Cette dernière équation est en fait valide même si~\(n = 1\). Une des
+sommes a une forme close simple:
+\begin{equation*}
+\sum_{k=1}^{n-1}{kk!} = \sum_{k=1}^{n-1}((k+1)! - k!) =
+\sum_{k=2}^{n}{k!} - \sum_{k=1}^{n-1}{k!} = n! - 1.
+\end{equation*}
+Précisons alors notre dérivation précédente:
+\begin{align*}
+\C{\fun{perm}}{n}
+  &= \frac{1}{2}{nn!} + n! + \frac{7}{2}\sum_{k=1}^{n-1}{k!}
+     + 2(n! - 1) + 2n - \frac{5}{2}\\
+  &= \frac{1}{2}{nn!} + 3n! 
+     + 2n - \frac{9}{2} + \frac{7}{2}\sum_{k=1}^{n-1}{k!},\quad
+     \text{où \(n > 0\)}.
+\end{align*}
+La somme restante est appelée la \emph{factorielle gauche}
+\citep{Kurepa_1971}\index{factorielle!$\sim$ gauche} et elle est notée
+habituellement comme suit:
+\begin{equation*}
+!n := \sum_{k=1}^{n-1}{k!},\quad \text{avec \(n > 0\)}.
+\end{equation*}
+Malheureusement, on ne connaît pas de forme close pour la factorielle
+gauche.  C'est en fait une situation courante lorsque l'on détermine
+le coût de fonctions relativement complexes. La meilleure suite à
+adopter est alors de trouver une approximation asymptotique du
+coût. D'abord, \(n!  \leqslant !(n+1)\). Ensuite,
+\begin{equation*}
+!(n+1) - n! \leqslant (n-2) \cdot (n-2)! + (n-1)! \leqslant
+(n-1) \cdot (n-2)! + (n-1)! = 2 (n-1)!
+\end{equation*}
+Par conséquent,
+\begin{equation*}
+1 \leqslant \frac{!(n+1)}{n!} \leqslant \frac{n! + 2(n-1)!}{n!} = 1 +
+\frac{2}{n} \;\Rightarrow\; !n \sim (n-1)!
+\end{equation*}
+Nous avons \((n+1)! = (n+1)n!\), d'où \((n+1)!/(nn!) = 1 + 1/n\), et
+\(nn!  \sim (n+1)!\). Donc,
+\begin{equation*}
+\abovedisplayshortskip=0pt
+\abovedisplayskip=0pt
+%\belowdisplayskip=0pt
+\C{\fun{perm}}{n} \sim \frac{1}{2}(n+1)! + 3n! + \frac{7}{2}(n-1)!
++ 2n - \frac{9}{2} \sim \frac{1}{2}(n+1)!
+\end{equation*}
+C'est un programme à la lenteur insupportable, comme on s'y
+attendrait. Nous ne devrions même pas espérer calculer facilement
+\(\C{\fun{perm}}{11}\) \index{perm@$\C{\fun{perm}}{n}$|)} et il n'y a
+pas moyen d'améliorer significativement le coût parce le nombre de
+permutations qu'il forme est intrinsèquement exponentiel, donc il
+suffirait ne serait-ce que d'un appel de fonction par permutation pour
+tout de même engendrer un coût exponentiel. En d'autres termes, la
+mémoire nécessaire pour contenir le résultat a une taille qui est
+exponentielle en fonction de la taille de la donnée, parce qu'au moins
+un appel de fonction par permutation est nécessaire. Pour une étude
+approfondie du calcul de toutes les permutations d'une taille donnée,
+se référer au travail encyclopédique de \cite{Knuth_2011}.
+
+\paragraph{Permutations et tri}
+
+Les permutations\index{permutation|(} sont un sujet digne d'être
+étudier en détail à cause de leur lien intime avec le tri. Une
+permutation peut être conçue comme le bouleversement de clés
+originellement ordonnées et une permutation de tri les remet à leur
+place. Une notation légèrement différente pour les permutations se
+révèle utile ici, une qui montre les index et les clés ensemble. Par
+exemple, au lieu d'écrire \(\pi_1 = (2,4,1,5,3)\), nous écrivons
+\begin{equation*}
+\pi_1 =
+\begin{pmatrix}
+1 & 2 & 3 & 4 & 5\\
+2 & 4 & 1 & 5 & 3
+\end{pmatrix}.
+\end{equation*}
+La première ligne est faite des index ordonnés et la seconde ligne
+contient les clés. En général, une permutation \(\pi =
+(a_1,a_2,\dots,a_n)\) équivaut à
+\begin{equation*}
+\pi =
+\begin{pmatrix}
+     1 &      2 & \dots &     n\\
+\pi(1) & \pi(2) & \dots & \pi(n)
+\end{pmatrix},
+\end{equation*}
+où~\(a_i = \pi(i)\), pour tout~\(i\) allant de~\(1\) à~\(n\). La
+permutation suivante~\(\pi_s\) trie les clés de~\(\pi_1\):
+\begin{equation*}
+\pi_s =
+\begin{pmatrix}
+1 & 2 & 3 & 4 & 5\\
+3 & 1 & 5 & 2 & 4
+\end{pmatrix}.
+\end{equation*}
+Pour voir comment, nous définissons la composition
+\index{permutation!composition} de deux
+permutations\index{permutation} \(\pi_a\)~et~\(\pi_b\) ainsi:
+\begin{equation*}
+\pi_b \circ \pi_a :=
+\begin{pmatrix}
+              1 &               2 & \dots & n\\
+\pi_b(\pi_a(1)) & \pi_b(\pi_a(2)) & \dots & \pi_b(\pi_a(n)) 
+\end{pmatrix}.
+\end{equation*}
+Alors \(\pi_s~\circ~\pi_1 = \mathcal{I}\), où la \emph{permutation
+  identité}~\(\mathcal{I}\)\index{permutation!identité} est telle que
+\(\mathcal{I}(k) = k\), pour tous les index~\(k\). En d'autres termes,
+\(\pi_s = \pi_1^{-1}\), c'est-à-dire que \emph{trier une permutation
+  consiste à construire son inverse}\index{permutation!inverse}:
+\begin{equation*}
+\begin{pmatrix}
+1 & 2 & 3 & 4 & 5\\
+3 & 1 & 5 & 2 & 4
+\end{pmatrix}
+\circ
+\begin{pmatrix}
+1 & 2 & 3 & 4 & 5\\
+2 & 4 & 1 & 5 & 3
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 & 2 & 3 & 4 & 5\\
+1 & 2 & 3 & 4 & 5
+\end{pmatrix}.
+\end{equation*}
+
+Une autre représentation graphique des permutations et de leur
+composition\index{permutation!composition} se fonde sur la vue
+qu'elles sont des bijections d'un intervalle discret sur lui-même. On
+parle alors de \emph{graphes bipartis}\index{graphe!$\sim$
+  biparti}\index{permutation!bigraphe}, aussi appelés
+\emph{bigraphes}\index{bigraphe|see{graphe, biparti}}. De tels
+graphes sont faits de deux ensembles disjoints de n{\oe}uds de même
+cardinal, les index et les clés, et les arcs joignent un index et une
+clé, sans partager des n{\oe}uds avec d'autres arcs. Par exemple, la
+permutation ~\(\pi_1\) est montrée à la \fig~\vref{fig_perm1}
+\begin{figure}
+\centering
+\subfloat[Bigraphe de \(\pi_1 = (2,4,1,5,3)\)\label{fig_perm1}]{%
+\includegraphics[bb=79 662 210 721]{perm1}
+}
+\qquad\qquad
+\subfloat[Bigraphe de \(\pi_1^{-1} = (3,1,5,2,4)\)\label{fig_perm3}]{%
+\includegraphics[bb=77 662 214 721]{perm3}
+}
+\caption{Permutation \(\pi_1\) et son inverse \(\pi_1^{-1}\)
+\label{fig_pi_1}\index{permutation!inverse}}
+\end{figure}
+et son inverse \(\pi_1^{-1}\) est visible à la
+\fig~\vref{fig_perm3}. La composition\index{permutation!composition}
+de~\(\pi_1^{-1}\) et~\(\pi_1\) est obtenue en identifiant les clés
+de~\(\pi_1\) avec les index de~\(\pi_1^{-1}\), comme montré à la
+\fig~\vref{fig_perm4}.
+\begin{figure}[t]
+\centering
+\subfloat[\(\pi_1^{-1} \circ \pi_1\)\label{fig_perm4}]{%
+\includegraphics[bb=81 634 204 721]{perm4}
+}%
+\qquad\qquad
+\subfloat[\(\mathcal{I} = \pi_1^{-1} \circ \pi_1\)\label{fig_perm2}]{%
+\includegraphics[bb=81 634 204 721]{perm2}
+}
+\caption{Application de \(\pi_1\) à \(\pi_1^{-1}\).}
+\end{figure}
+La permutation identité\index{permutation!identité} est obtenue en
+remplaçant deux arcs adjacents par leur clôture transitive
+\index{clôture transitive} et en effaçant le n{\oe}ud intermédiaire,
+comme montré à la \fig~\vref{fig_perm2}. Notons qu'une permutation
+peut être son propre inverse, comme
+\begin{equation*}
+\pi_3 =
+\begin{pmatrix}
+1 & 2 & 3 & 4 & 5\\
+3 & 4 & 1 & 2 & 5
+\end{pmatrix}.
+\end{equation*}
+À la \fig~\ref{fig_involution}
+\begin{figure}
+\centering
+\subfloat[\(\pi_3 \circ \pi_3\)\label{fig_inv1}]{%
+\includegraphics[bb=81 634 204 721]{inv1}
+}
+\qquad\qquad
+\subfloat[\(\pi_3 \circ \pi_3\)]{%
+\includegraphics[bb=81 634 204 721]{inv2}
+}
+\caption{L'involution \(\pi_3\) se trie elle-même\label{fig_involution}}
+\end{figure}
+est montré que \(\pi_3~\circ~\pi_3 = \pi_3\), donc \(\pi_3\) est une
+\emph{involution}.\index{permutation!involution}\index{permutation!inverse}
+
+L'étude des permutations et de leur propriétés fondamentales permet de
+comprendre les algorithmes de tri et, en particulier, leur coût
+moyen. Elle permet aussi de quantifier le désordre. Étant donné
+\((1,3,5,2,4)\), nous voyons que seules les paires de clés \((3,2)\),
+\((5,2)\) et~\((5,4)\) ne sont pas ordonnées. En général, étant donné
+\((a_1, a_2, \dots, a_n)\), les paires \((a_i,a_j)\) telles que~\(i <
+j\) et~\(a_i > a_j\) sont appelées
+\emph{inversions}\index{permutation!inversion}. Plus il y a
+d'inversions, plus le désordre est grand. Sans surprise, la
+permutation identité\index{permutation!identité} ne possède aucune
+inversion et la permutation \(\pi_1 = (2,4,1,5,3)\), que nous avons
+étudiée précédemment, en a~\(4\). Lorsque nous considérons les
+bigraphes de permutations\index{graphe!$\sim$
+  biparti}\index{permutation!bigraphe}, une
+inversion\index{permutation!inversion} correspond à l'intersection de
+deux arcs, plus précisément, elle est la paire constituée des clés
+pointées par deux arcs. Par conséquent, le nombre d'inversions
+\index{permutation!inversion} est le nombre de croisement d'arcs,
+donc, par exemple, \(\pi_1^{-1}\) a~\(4\) inversions. En fait,
+l'\emph{inverse\index{permutation!inverse} d'une permutation a le même
+  nombre d'inversions\index{permutation!inversion} que la
+  permutation\index{permutation} elle-même}. Cela est clairement vu
+par la comparaison des bigraphes\index{permutation!bigraphe}
+de~\(\pi_1\) et~\(\pi_1^{-1}\) à la \fig~\vref{fig_pi_1}: pour déduire
+le bigraphe de~\(\pi_1^{-1}\) de celui correspondant à~\(\pi_1\),
+inversons l'orientation de chaque arc, puis échangeons les index et
+les clés, c'est-à-dire les deux lignes de n{\oe}uds. Une autre façon
+est d'imaginer que nous plions vers les bas la feuille de papier le
+long de la ligne des clés, puis regardons à travers et inversons les
+arcs. De toute façon, les intersections sont invariantes. La symétrie
+horizontale est évidente aux \figs~\ref{fig_perm4} et~\ref{fig_inv1}.
+
+\paragraph{Minimiser le coût maximum}
+\label{par_minimax}
+
+Après l'analyse du coût d'un algorithme de tri opérant par
+comparaisons, nous aurons besoin de savoir dans quelle mesure son
+efficacité est proche de celle d'un algorithme
+optimal.\index{tri!optimalité|(} Le premier problème théorique que
+nous examinerons est celui de minimiser le coût maximum. La
+\fig~\vref{fig_cmp_tree}
+\begin{figure}
+\centering
+\includegraphics[bb=71 636 327 723]{cmp_tree}
+\caption{Un arbre de comparaisons pour trois clés\label{fig_cmp_tree}}
+\end{figure}
+montre l'arbre de toutes les comparaisons possibles
+\index{arbre!$\sim$ de comparaison|see{tri}} pour trier trois
+nombres. Les \emph{n{\oe}uds externes}\index{arbre
+  binaire!n{\oe}ud externe}
+\label{def_external_node} sont toutes les
+permutations\index{permutation|)} de \((a_1,a_2,a_3)\). Les
+\emph{n{\oe}uds internes}\index{arbre binaire!n{\oe}ud interne} sont
+des comparaisons entre deux clés \(a_i\)~et~\(a_j\), notée
+\(a_i?a_j\). Remarquons que les feuilles, dans ce cadre, sont les
+n{\oe}uds internes avec deux enfants qui sont des n{\oe}uds externes.
+Si \({a_i < a_j}\), alors cette propriété est vraie partout dans le
+sous-arbre gauche, sinon \({a_i > a_j}\) est avérée dans le sous-arbre
+droit. Cet arbre n'est qu'un arbre parmi d'autres: il correspond à un
+algorithme qui commence par comparer \(a_1\)~et~\(a_2\) et il y a,
+bien sûr, bien d'autres stratégies. Mais il ne contient pas de
+comparaisons redondantes: si un chemin de la racine à une feuille
+inclut \({a_i < a_j}\) et \({a_j < a_k}\), nous n'avons pas besoin d'y
+trouver la comparaison \({a_i < a_k}\). La \fig~\vref{fig_red_cmp}
+\begin{figure}
+\centering
+\includegraphics[bb=71 638 217 723]{red_cmp}
+\caption{Inutilité de \(a_1 > a_3\)\label{fig_red_cmp}}
+\end{figure}
+%\end{wrapfigure}
+montre un arbre de comparaisons avec une telle comparaison
+redondante. Le n{\oe}ud externe spécial~\(\bot\) ne correspond à
+aucune permutation parce qu'une comparaison \({a_1 < a_3}\) ne peut
+échouer car elle est impliquée par transitivité par les comparaisons
+précédentes sur le chemin depuis la racine.
+\begin{quote}
+  \emph{Un arbre de comparaisons non-redondantes pour \(n\)~clés
+    a \(n!\)~n{\oe}uds externes.}
+\end{quote}
+Étant donné que nous étudions ici comment trier \(n\)~clés avec un
+nombre minimum de comparaisons, nous considérerons par la suite les
+arbres de comparaisons optimaux avec \(n!\)~n{\oe}uds externes. De
+plus, parmi eux, nous voulons déterminer les arbres pour lesquels le
+nombre maximum de comparaisons est minimum.
+
+Un \emph{chemin externe}\index{arbre binaire!chemin externe} est un
+chemin de la racine à un n{\oe}ud externe. Nous dirons que la
+\emph{hauteur}\index{arbre binaire!hauteur} d'un arbre est la
+longueur, comptée en nombre d'arcs, de son chemin externe le plus
+long. À la \fig~\ref{fig_cmp_tree}, la hauteur est~\(3\) et il y
+a~\(4\) chemins externes de longueur~\(3\), par exemple \((a_1 < a_2)
+\rightarrow (a_2 > a_3) \rightarrow (a_1 > a_3) \rightarrow
+(a_3,a_1,a_2)\).
+
+La contrainte de maximalité signifie que nous devons porter notre
+attention sur la hauteur de l'arbre de comparaisons parce que le
+nombre de n{\oe}uds internes (comparaisons) le long des chemins
+externes maximaux est un majorant du nombre de comparaisons
+nécessaires pour trier \emph{toutes} les
+permutations.\index{permutation}\index{tri}
+
+La contrainte de minimalité dans l'énoncé du problème signifie alors
+que \emph{nous voulons un minorant de la hauteur d'un arbre de
+  comparaisons avec \(n!\)~n{\oe}uds externes}.
+
+% Wrapping figure better declared before a paragraph
+%
+%\setlength{\intextsep}{0pt}
+Un \emph{arbre binaire parfait}\index{arbre binaire!$\sim$ parfait}
+est un arbre binaire dont les n{\oe}uds internes ont des enfants qui
+sont deux n{\oe}uds internes ou bien deux n{\oe}uds
+\begin{wrapfigure}[]{r}[0pt]{0pt}
+% {r} mandatory right placement (better because of a list)
+\centering
+\includegraphics{comp_tree}
+\caption{Arbre binaire parfait de hauteur~\(3\)\label{fig_comp_tree}}
+\end{wrapfigure}
+externes. Si un tel arbre a hauteur~\(h\), alors il a
+\(2^h\)~n{\oe}uds externes. Par exemple, la \fig~\vref{fig_comp_tree}
+illustre le cas où la hauteur~\(h\) est~\(3\) et nous constatons qu'il
+y a en effet \(2^h=8\) n{\oe}uds externes, figurés par des
+carrés. Puisque, par définition, les arbres minimisant les
+comparaisons ont \(n!\)~n{\oe}uds externes et hauteur~\(S(n)\), ils
+contiennent nécessairement moins de n{\oe}uds externes qu'un arbre
+binaire parfait de même hauteur, c'est-à-dire que \(n! \leqslant
+2^{S(n)}\), donc
+\begin{equation*}
+S(n) \geqslant \ceiling{\lg n!},
+\end{equation*}
+où \(\ceiling{x}\) (\textsl{partie entière par excès de~\(x\)})
+\index{partie entière par excès@$\ceiling{x}$|see{partie entière par
+    excès}} \index{partie entière par excès} est le plus petit entier
+qui est plus grand ou égal à~\(x\). Pour obtenir un bon minorant
+de~\(S(n)\), nous avons besoin du théorème suivant, admis sans
+démonstration.  \setlength{\intextsep}{12pt}
+\begin{thm}[Somme et intégrale]
+\label{thm:integral_bounds}
+Soit \(f\colon [a,b] \rightarrow \mathbb{R}\) une fonction croissante,
+monotone et intégrable au sens de Riemann. Alors
+\begin{equation}
+\abovedisplayskip=0pt
+\sum_{k=a}^{b-1}f(k) \leqslant \int_{a}^{b}{\!\!f(x)} \,dx
+                   \leqslant \sum_{k=a+1}^{b}{\!\!\!f(k)}.
+\tag*{\(\blacksquare\)}
+\end{equation}
+\end{thm}
+\noindent Prenons \(a := 1\), \(b := n\) et \(f(x) := \lg x\). Le
+théorème implique donc
+\begin{equation*}
+n\lg n - \frac{n}{\ln 2} + \frac{1}{\ln 2}
+= \int_{1}^{n}{\!\!\lg x} \,dx \leqslant \sum_{k=2}^{n}{\lg k}
+= \lg n! \leqslant S(n).
+\end{equation*}
+Une approche plus puissante mais bien plus compliquée, connue sous le
+nom de sommation d'Euler-Maclaurin, produit la formule de Stirling
+\citep[chap.~4]{SedgewickFlajolet_1996}\index{Stirling (formule de)},
+un grand minorant de \(\lg n!\):
+\begin{equation}
+\Big(n + \frac{1}{2}\Big)\lg n - \frac{n}{\ln 2} + \lg\sqrt{2\pi}
+< \lg n! \leqslant S(n).
+\label{ineq_S_lower}
+\end{equation}
+
+\paragraph{Minimiser le coût moyen}
+\label{par_opt_sort_minimean}
+\index{arbre binaire!longueur externe|(}
+
+Nous examinons ici la tâche consistant à minimiser le coût
+moyen. Nommons \emph{longueur
+  externe}\label{sorting__external_path_length} \index{arbre
+  binaire!longueur externe} la somme des longueurs de tous les chemins
+externes d'un arbre donné. Le nombre moyen de comparaisons est la
+longueur externe moyenne. À la \fig~\vref{fig_cmp_tree}, elle vaut
+\((2+3+3+3+3+2)/3!=8/3\). Notre problème ici est donc de déterminer la
+forme de l'arbre de comparaisons optimal de longueur externe minimum.
+
+Ces arbres ont leurs n{\oe}uds externes sur un ou deux niveaux
+successifs et sont donc \emph{presque parfaits}.\index{arbre
+  binaire!$\sim$ presque parfait} Pour comprendre pourquoi,
+considérons un arbre binaire ne vérifiant pas cette propriété, donc
+ses n{\oe}uds externes les plus près de la racine sont situés au
+niveau~\(l\) et ceux les plus près des feuilles sont au niveau~\(L\),
+avec \(L \geqslant l + 2\). Si nous échangeons une feuille au
+niveau~\(L-1\) avec un n{\oe}ud externe au niveau~\(l\), la longueur
+externe est diminuée de la quantité \((l+2L) - (2(l+1) + (L-1)) = L -
+l - 1 \geqslant 1\). En répétant ces échanges, on abouti à la forme
+annoncée.
+
+Les chemins externes sont faits de \(p\)~chemins se terminant au
+pénultième niveau~\(h-1\) et de \(q\)~chemins finissant au niveau le
+plus bas~\(h\). (La racine a pour niveau~\(0\).) Cherchons deux
+équations dont les solutions sont \(p\)~et~\(q\).
+\begin{itemize}
+
+  \item D'après le problème ci-dessus de la minimisation du coût
+    maximum, nous savons qu'un arbre de comparaison optimal de
+    \(n\)~clés a \(n!\)~n{\oe}uds externes: \(p+q=n!\).
+
+  \item Si nous remplaçons les n{\oe}uds externes au niveau \(h-1\)
+    par des feuilles, le niveau~\(h\) devient complet, avec~\(2^h\)
+    n{\oe}uds externes, donc \(2p+q=2^h\).
+
+\end{itemize}
+Nous avons maintenant deux équations linéaires satisfaites par~\(p\)
+et~\(q\), dont les solutions sont \(p=2^h-n!\) et \(q=2n!-2^h\). De
+plus, nous pouvons maintenant exprimer la longueur externe minimum
+comme suit: \((h-1)p + hq = (h+1)n! - 2^h\).
+
+Finalement, nous devons déterminer la hauteur~\(h\) de l'arbre en
+fonction de~\(n!\). Ceci peut être accompli en remarquant que, par
+construction, le dernier niveau peut être incomplet, donc \(0 < q
+\leqslant 2^h\), ou, de manière équivalente, \(h = \ceiling{\lg
+  n!}\). Nous concluons que la longueur externe minimum est
+\begin{equation*}
+(\ceiling{\lg n!} + 1) n! - 2^{\ceiling{\lg n!}}.
+\end{equation*}
+Soit \(M(n)\) \label{def_Mn} le plus petit nombre moyen de
+comparaisons effectuées par un algorithme de tri optimal. Nous avons
+alors
+\begin{equation*}
+M(n) = \ceiling{\lg n!} + 1 - \frac{1}{n!}2^{\ceiling{\lg n!}}.
+\end{equation*}
+Puisque \(\ceiling{\lg n!} = \lg n! + x\), avec \(0 \leqslant x < 1\),
+si nous posons la fonction \(\theta(x) := 1 + x - 2^x\), nous
+déduisons
+\begin{equation*}
+M(n) = \lg n! + \theta(x).
+\end{equation*}
+Nous avons \(\max_{0\leqslant x < 1}\theta(x) = 1 - (1 + \ln\ln
+2)/\!\ln 2 \simeq 0.08607\), donc
+\begin{equation}
+\lg n! \leqslant M(n) < \lg n! + 0.09.
+\label{ineq_Mn}
+\end{equation}
+\index{tri!optimalité|)}
+\index{arbre binaire!longueur externe|)}

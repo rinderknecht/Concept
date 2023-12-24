@@ -1,0 +1,1042 @@
+\section{Concaténation}
+
+\begin{quote}
+\small[\textsl{Ce redémarrage lent peut être ignoré par les lecteurs impatients.}]
+\end{quote}
+Dans l'introduction, nous n'avons pas expliqué la conception de
+\fun{cat/2}, la fonction qui effectue la concaténation de deux
+piles. Recommençons et avançons lentement.
+
+Considérons l'écriture d'une fonction \fun{join/2} (\emph{joindre})
+qui se comporte comme \fun{cat/2}. Tout d'abord, l'exigence devrait
+être exprimée en français comme une fonction qui prend deux piles et
+calcule une pile contenant tous les éléments de la première pile,
+suivis par tous les éléments de la seconde, tout en conservant l'ordre
+relatif des éléments. En d'autres termes, tous les appels de fonction 
+\(\fun{join}(s,t)\) sont réécrits en une pile contenant tous les
+éléments de~\(s\), suivis par tous les éléments de~\(t\). Une exigence
+serait incomplète sans quelques exemples. Par exemple,
+\begin{equation*}
+\fun{join}([3,5],[2]) \twoheadrightarrow [3,5,2].
+\end{equation*}
+Néanmoins, si cela est encore un peu vague, nous devrions essayer des
+cas extrêmes, c'est-à-dire des configurations très particulières des
+arguments, de façon à comprendre plus précisément ce qui est attendu
+de cette fonction. Il vient naturellement à l'esprit qu'une pile est
+nécessairement vide ou non et, puisque les deux arguments sont des
+piles, alors nous sommes amenés à distinguer quatre cas: deux piles
+vides; la première pile vide et l'autre non; la première pile n'est
+pas vide et la seconde l'est; les deux ne sont pas vides:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{join}(\el,\el) & \phantom{\rightarrow} & \phantom{\el;}\\
+\fun{join}(\el,\cons{y}{t}) & \phantom{\rightarrow} & \phantom{\cons{y}{t};}\\
+\fun{join}(\cons{x}{s},\el) & \phantom{\rightarrow} & \phantom{\cons{x}{s};}\\
+\fun{join}(\cons{x}{s},\cons{y}{t}) & \phantom{\rightarrow} &
+  \phantom{\cons{x}{\fun{join}(s,\cons{y}{t})}.}
+\end{array}
+\end{equation*}
+Il est crucial de ne pas se précipiter pour écrire les membres
+droits. Est-ce que des cas ont été oubliés? Non, parce qu'il y a
+exactement deux arguments qui peuvent chacun être vides ou non, ce qui
+fait \(2 \cdot 2 = 4\) cas. Nous pouvons alors préparer le canevas
+suivant:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{join}(\el,\el) & \rightarrow & \fbcode{CCCCCCCCCC}\,;\\
+\fun{join}(\el,\cons{y}{t}) & \rightarrow & \fbcode{CCCCCCCCCC}\,;\\
+\fun{join}(\cons{x}{s},\el) & \rightarrow & \fbcode{CCCCCCCCCC}\,;\\
+\fun{join}(\cons{x}{s},\cons{y}{t}) & \rightarrow & \fbcode{CCCCCCCCCC}\,.
+\end{array}
+\end{equation*}
+Privilégions la règle qui semble la plus aisée, car il n'y a aucune
+obligation de les compléter dans l'ordre d'écriture. Quand nous lisons
+les filtres, une représentation mentale claire de la situation devrait
+surgir. Ici, il semble que la première règle soit la plus facile car
+elle ne contient aucune variable du tout: quelle est la pile faite de
+tous les éléments de la (première) pile vide, suivis de tous les
+éléments de la (seconde) pile vide? Puisque la pile vide, par
+définition, ne contient aucun élément, la réponse est la pile vide:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{join}(\el,\el) & \rightarrow & \el;\\
+\fun{join}(\el,\cons{y}{t}) & \rightarrow & \fbcode{CCCCCCCCCC}\,;\\
+\fun{join}(\cons{x}{s},\el) & \rightarrow & \fbcode{CCCCCCCCCC}\,;\\
+\fun{join}(\cons{x}{s},\cons{y}{t}) & \rightarrow & \fbcode{CCCCCCCCCC}\,.
+\end{array}
+\end{equation*}
+Nous pourrions peut-être nous demander si ce cas ne devrait pas être
+supprimé. En d'autres termes, est-ce un cas signifiant? Oui, car la
+description en français du comportement de \fun{join/2} impose que le
+résultat soit toujours une pile d'éléments d'autres piles (les
+arguments), donc, en l'absence d'éléments à «mettre» dans le résultat,
+la pile finale «reste» vide.
+
+Il devrait être évident maintenant que la deuxième et troisième règle
+sont symétriques, car il revient au même d'ajouter une pile non-vide à
+la droite d'une pile vide que de l'ajouter à gauche: le résultat
+est toujours la pile non-vide en question.
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{join}(\el,\el) & \rightarrow & \el;\\
+\fun{join}(\el,\cons{y}{t}) & \rightarrow & \cons{y}{t};\\
+\fun{join}(\cons{x}{s},\el) & \rightarrow & \cons{x}{s};\\
+\fun{join}(\cons{x}{s},\cons{y}{t}) & \rightarrow & \fbcode{CCCCCCCCCC}\,.
+\end{array}
+\end{equation*}
+La dernière règle est la plus difficile. Que révèle le motif sur le
+cas présent? Que les deux piles ne sont pas vides et, plus
+précisément, que le sommet de la première est dénoté par la
+variable~\(x\), le reste (qui peut être vide ou non) est~\(s\), et de
+même pour la seconde pile avec~\(y\) et~\(t\). Est-ce que ces briques
+sont suffisantes pour construire le membre droit, c'est-à-dire, le pas
+suivant vers la valeur finale? Nous savons que la concaténation de
+deux piles \(p\)~et~\(q\) préserve dans le résultat l'ordre total des
+éléments présents dans les deux, mais aussi l'ordre relatif des
+éléments de~\(p\) par rapport à ceux de~\(q\). En d'autres termes, les
+éléments de \(p=\cons{x}{s}\) doivent être présents dans le résultat
+avant les éléments de \(q=\cons{y}{t}\) et les éléments de~\(p\)
+doivent être dans le même ordre que dans~\(p\) (idem pour~\(q\)). Avec
+cet ordonnancement en tête, il est peut-être naturel d'esquisser ce
+qui suit:
+\begin{equation*}
+\fun{join}(\cons{x}{s},\cons{y}{t}) \rightarrow \fbcode{II} \; x \;
+\fbcode{II} \; s \; \fbcode{II} \; y \; \fbcode{II} \; t \; \fbcode{II}.
+\end{equation*}
+En une réécriture, l'élément~\(x\) peut-il être placé à sa place
+finale, c'est-à-dire, à une position qu'il n'a pas besoin de quitter
+ensuite? La réponse est oui: il doit être mis au sommet du résultat.
+\begin{equation*}
+\fun{join}(\cons{x}{s},\cons{y}{t}) \rightarrow \cons{x}{\fbcode{II}
+  \; s \; \fbcode{II} \; y \; \fbcode{II} \; t \; \fbcode{II}}.
+\end{equation*}
+Qu'en est-il de l'autre sommet, la variable~\(y\)? Il devrait demeurer
+sur le sommet de~\(t\):
+\begin{equation*}
+\fun{join}(\cons{x}{s},\cons{y}{t}) \rightarrow \cons{x}{\fbcode{II}
+  \; s \; \fbcode{II} \; \cons{y}{t}}.
+\end{equation*}
+Quelle est la relation entre \(s\)~et~\(\cons{y}{t}\)? Nous pourrions
+être tentés par
+\begin{equation*}
+\fun{join}(\cons{x}{s},\cons{y}{t}) \rightarrow 
+  \cons{x}{\cons{s}{\cons{y}{t}}}.
+\end{equation*}
+qui est erroné. La raison est que, bien qu'une pile puisse être un
+élément d'une autre pile (en d'autres termes, les piles peuvent être
+arbitrairement imbriquées dans d'autres piles), \(s\)~ne devrait pas
+être employée comme un élément ici, comme nous le ferions en écrivant
+\(\cons{s}{\cons{y}{t}}\). Considérons l'exemple filé
+\(\fun{join}([3,5],[2])\): ici, le membre gauche de la règle en
+question lie \(x\)~à~\(3\), \(s\)~à~\([5]\), \(y\)~à~\(2\) et
+\(t\)~à~\(\el\), par conséquent, le membre droit supposé
+\(\cons{x}{\cons{s}{\cons{y}{t}}}\) est en réalité
+\erlcode{[3|[\textbf{[5]}|[2|[]]]]}, ce qui diffère du résultat
+\erlcode{[3|[\textbf{5}|[2|[]]]]} en ce que \erlcode{[5]} n'est
+pas~\erlcode{5}.
+
+Comment peuvent \(s\)~et~\(\cons{y}{t}\) être joints? Bien entendu,
+cela est le but même de la fonction \fun{join/2} en cours de
+définition. Donc, ce dont nous avons besoin ici est un appel récursif:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{join}(\el,\el) & \rightarrow & \el;\\
+\fun{join}(\el,\cons{y}{t}) & \rightarrow & \cons{y}{t};\\
+\fun{join}(\cons{x}{s},\el) & \rightarrow & \cons{x}{s};\\
+\fun{join}(\cons{x}{s},\cons{y}{t}) & \rightarrow & \underline{\cons{x}{\fun{join}(s,\cons{y}{t})}}.
+\end{array}
+\end{equation*}
+
+\paragraph{Correction et complétude}
+\index{correction|(}
+\index{complétude|(}
+
+Il est extrêmement fréquent, lors de la conception d'une fonction, que
+nous nous concentrions sur un aspect, sur une règle, et puis sur
+d'autres parties du code, et la forêt pourrait alors cacher un
+arbre. Lorsque nous acquiesçons à une définition de fonction, l'étape
+suivante consiste à vérifier si elle est correcte et complète par
+rapport à la compréhension que nous avions a priori de son
+comportement.
+
+Nous disons qu'une définition est \emph{correcte} si tous les appels
+de fonction qui peuvent être réécrits en une étape peuvent être
+davantage réécrits en le résultat attendu, \emph{et} si tout appel qui
+échoue était bien prévu. Par échec, nous entendons l'obtention d'une
+expression contenant un appel de fonction qui ne peut être réécrit
+davantage.
+
+Nous disons qu'une définition est \emph{complète} si tout appel de
+fonction que nous nous attendons à être calculable est en effet
+calculable. En d'autres termes, nous devons aussi nous assurer que la
+définition permet de réécrire en une valeur toute entrée que nous
+jugeons acceptable.
+
+Comment vérifions-nous que la dernière définition de \fun{join/2} est
+correcte et complète? Si le concept de «résultat attendu» n'est pas
+formellement défini, typiquement par des mathématiques, nous mettons
+en place une \emph{revue de code} et des \emph{tests}. Un aspect
+important du passage en revue du code consiste à vérifier à nouveau
+les membres gauches de la définition et à voir si toutes les entrées
+possibles sont acceptées. Dans le cas où certaines entrées ne sont pas
+filtrées par les motifs, nous devons justifier ce fait et garder une
+trace écrite en commentaire. Les membres gauches de \fun{join/2}
+filtrent toutes les combinaisons de deux piles, qu'elles soient vides
+ou non, et c'est exactement ce que nous voulions: ni plus, ni
+moins. L'étape suivante est l'inspection des membres droits en nous
+posant deux questions: (1)~Est-ce que les membres droits sont réécrits
+en le type attendu de valeur, pour tous les appels de fonctions?
+(2)~Est-ce que les appels de fonctions reçoivent bien le type attendu
+d'argument? Ces vérifications procèdent du fait que certains langages
+fonctionnels, comme \Erlang, ne comportent pas d'\emph{inférence de
+  type} à la compilation. D'autres langages fonctionnels, comme \OCaml
+et \Haskell, ont des compilateurs qui établissent automatiquement ces
+propriétés. L'examen des membres droits dans la définition de
+\fun{join/2} confirme que
+\begin{itemize}
+
+\item les membres droits des trois premières règles sont des piles
+  contenant le même type d'éléments que les arguments;
+
+\item les arguments de l'unique appel récursif dans la dernière règle
+  sont des piles faites d'éléments provenant des paramètres;
+
+\item en supposant que l'appel récursif possède le type attendu, nous
+  déduisons que le membre droit de la dernière règle est une pile
+  constituée d'éléments des arguments.
+
+\end{itemize}
+En conclusion, nous avons répondu positivement aux deux questions
+ci-dessus. Remarquons comment nous avons dû supposer que l'appel
+récursif avait déjà le type que nous essayions d'établir pour la
+définition courante. Il n'y a rien d'erroné dans ce raisonnement,
+appelé \emph{inductif}, et il est même omniprésent en
+mathématiques. Nous revisiterons l'induction dans différents
+contextes. 
+
+L'étape suivante consiste à tester la définition. Cela signifie
+définir un ensemble d'entrées qui mènent à un ensemble de résultats et
+d'échecs qui sont tous attendus. Par exemple, il est attendu que
+\(\fun{join}(\el,\el) \twoheadrightarrow \el\), donc nous pourrions
+sonder la validité de cette assertion en exécutant le code, et l'appel
+de fonction en effet passe le test avec succès. Comment choisir les
+entrées de façon pertinente? Il n'y a pas de règles générales, mais
+des conseils sont utiles. L'un est de considérer le cas vide ou le
+plus petit des cas, quelqu'en soit le sens dans le contexte de la
+fonction. Par exemple, si un argument est une pile, alors il faudrait
+essayer la pile vide. Si un autre argument est un entier naturel,
+alors essayons zéro. Un autre conseil est d'avoir des \emph{plans de
+  test}, c'est-à-dire des appels de fonction dont les valeurs sont
+connues à l'avance et qui font usage de chaque règle. Dans le cas de
+\fun{join/2}, il y a quatre règles à couvrir avec le plan de test.
+\index{correction|)} \index{complétude|)}
+
+\paragraph{Amélioration}
+
+Une fois que nous sommes convaincus que la fonction qui vient tout
+juste d'être définie est correcte et complète, il est souvent utile de
+considérer à nouveau le code en vue d'éventuels amendements. Il y a
+différentes directions possible pour apporter des améliorations
+souvent appelées \emph{optimisations} bien que leur effet ne soit pas
+toujours optimal:
+\begin{itemize}
+
+\item Pouvons-nous réécrire la définition de telle sorte que tous les
+  cas, ou au moins certains d'entre eux, soient plus efficaces?
+
+\item Existe-t-il une définition équivalente qui requiert moins de
+  mémoire dans tout ou partie des cas?
+
+\item Pouvons-nous raccourcir la définition en utilisant moins de
+  règles (peut-être certaines sont inutiles ou redondantes) ou des
+  membres droits plus brefs?
+
+\item Pouvons-nous employer moins de paramètres dans la définition?
+  (Ceci est en relation avec l'usage de la mémoire.)
+
+\end{itemize}
+Considérons à nouveau \fun{join/2}:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{join}(\el,\el) & \rightarrow & \el;\\
+\fun{join}(\el,\cons{y}{t}) & \rightarrow & \cons{y}{t};\\
+\fun{join}(\cons{x}{s},\el) & \rightarrow & \cons{x}{s};\\
+\fun{join}(\cons{x}{s},\cons{y}{t}) & \rightarrow & \cons{x}{\fun{join}(s,\cons{y}{t})}.
+\end{array}
+\end{equation*}
+et concentrons notre attention sur les deux premières règles, dont le
+point commun est d'avoir la première pile vide. Il est clair
+maintenant que les membres droits sont, dans les deux règles, la
+seconde pile, quelle soit vide (première règle) ou non (seconde
+règle). Par conséquent, nous n'avons pas besoin de discriminer la
+structure de la seconde pile lorsque la première est vide et nous
+pouvons alors écrire de manière équivalente:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{join}(\el,t) & \rightarrow & t,\;\text{où \(t\) est une pile};\\
+\fun{join}(\cons{x}{s},\el) & \rightarrow & \cons{x}{s};\\
+\fun{join}(\cons{x}{s},\cons{y}{t}) & \rightarrow &
+  \cons{x}{\fun{join}(s,\cons{y}{t})}.
+\end{array}
+\end{equation*}
+Remarquons comment cette nouvelle définition n'affirme pas
+formellement que \(t\)~est une pile ---~d'où le commentaire~--- donc
+elle n'est pas strictement équivalente à la définition originelle:
+maintenant \(\fun{join}(\el,5) \rightarrow 5\). Acceptons ce compromis
+en préférant la concision de la dernière version ou en supposant
+l'existence d'une inférence de types.
+
+Considérons ensuite les deux dernières règles et cherchons des motifs
+communs. Il se trouve que, dans la pénultième règle, la première pile
+est filtrée par \(\cons{x}{s}\), mais rien n'est fait avec
+\(x\)~et~\(s\), à part \emph{reconstruire} \(\cons{x}{s}\) dans le
+membre droit. Ceci suggère que nous devrions simplifier la règle
+comme suit:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{join}(\el,t) & \rightarrow & t;\\
+\fun{join}(s,\el) & \rightarrow & s,\;
+  \text{où \(s\) est une pile non-vide};\\
+\fun{join}(\cons{x}{s},\cons{y}{t}) & \rightarrow &
+  \cons{x}{\fun{join}(s,\cons{y}{t})}.
+\end{array}
+\end{equation*}
+Nous devons vérifier que changer \(\cons{x}{s}\) en~\(s\) n'affecte
+pas le filtrage par motifs, c'est-à-dire que les entrées qui étaient
+filtrées auparavant le sont toujours maintenant. En effet, il serait
+possible en théorie que la nouvelle variable~\(s\) filtrât une pile
+vide. Pouvons-nous établir que \(s\)~n'est jamais vide? Le membre
+gauche de la pénultième règle filtre seulement si la règle précédente
+n'a pas filtré, en d'autres termes, les règles sont essayées dans
+l'ordre d'écriture, soit du haut vers le bas. Par conséquent, nous
+savons que~\(s\) ne peut être liée à la pile vide, parce que
+\(\el\)~est utilisée dans la règle précédente \emph{et} le second
+paramètre peut être n'importe quelle pile. Néanmoins, comme cela s'est
+produit antérieurement, \(s\)~n'est plus nécessairement une pile, par
+exemple, \(\fun{join}(5,\el) \rightarrow 5\). À nouveau, nous
+ignorerons cet effet secondaire et choisirons la concisions de la
+dernière définition.
+
+Dans la dernière règle, nous observons que le second argument, filtré
+par \(\cons{y}{t}\), est simplement retransmis à l'appel récursif,
+donc il se révèle inutile de distinguer \(y\)~et~\(t\), et nous
+pouvons avancer
+\begin{equation*}
+\fun{join}(\el,t) \rightarrow t;\quad
+\fun{join}(s,\el) \rightarrow s;\quad
+\fun{join}(\cons{x}{s},\underline{t}) \rightarrow
+\cons{x}{\fun{join}(s,\underline{t})}.
+\end{equation*}
+(Est-ce que~\(t\) peut être vide?) Ici encore, nous devons nous
+assurer que~\(t\) ne peut être liée à une pile vide: elle ne peut être
+vide parce que, sinon, le motif précédent aurait filtré l'appel. Mais,
+tel quel, le pénultième motif est inclus dans le dernier, c'est-à-dire
+que toutes les données qui sont filtrées par le pénultième sont aussi
+filtrées par le dernier, ce qui nous amène à nous demander si la
+définition serait encore correcte si~\(t\) pouvait être liée à la pile
+vide, après tout. Étiquetons les règles comme suit:
+\begin{equation*}
+\fun{join}(\el,t) \xrightarrow{\smash{\alpha}} t;\quad
+\fun{join}(s,\el) \xrightarrow{\smash{\beta}} s;\quad
+\fun{join}(\cons{x}{s},t) \xrightarrow{\smash{\gamma}}
+\cons{x}{\fun{join}(s,t)}.
+\end{equation*}
+Soit~\(s\) une pile contenant \(n\)~éléments, ce que nous écrivons de
+manière informelle ainsi: \(s = [x_0, x_1, \dots,
+x_{n-1}]\). L'indice~\(i\) dans~\(x_i\) est la \emph{position} de
+l'élément dans la pile, le sommet se trouvant à la
+position~\(0\). Alors nous réécrivons en une étape:
+\begin{equation*}
+\fun{join}(s,\el) \smashedrightarrow{\beta} s.
+\end{equation*}
+Si la règle~\clause{\beta} avait été éliminée, nous aurions obtenu à
+la place:
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}l}
+\fun{join}(s,\el) 
+& \smashedrightarrow{\gamma} &
+  [x\sb{0}|\fun{join}([x\sb{1},\ldots,x\sb{n-1}],\el)]\\
+& \smashedrightarrow{\gamma} & 
+  [x\sb{0}|[x\sb{1}|\fun{join}([x\sb{2},\ldots,x\sb{n-1}],\el)]]\\
+& = & [x\sb{0},x\sb{1}|\fun{join}([x\sb{2},\ldots,x\sb{n-1}],\el)]\\
+& \smashedrightarrow{\gamma} &
+  [x\sb{0},x\sb{1}|[x\sb{2}|\fun{join}([x\sb{3},\ldots,x\sb{n-1}],\el)]]\\
+& = & [x\sb{0},x\sb{1},x\sb{2}|\fun{join}([x\sb{3},\ldots,x\sb{n-1}],\el)]\\
+& \smash{\vdots} &\\
+& \smashedrightarrow{\gamma} & 
+  [x\sb{0},x\sb{1},\ldots,x\sb{n-1}|\fun{join}(\el,\el)]\\
+& \smashedrightarrow{\alpha} & [x\sb{0},x\sb{1},\ldots,x\sb{n-1}|\el]\\
+& = & [x\sb{0},x\sb{1},\ldots,x\sb{n-1}]\\
+& = & s.
+\end{array}
+\end{equation*}
+En bref, nous avons trouvé: \(\fun{join}(s,\el) \twoheadrightarrow s\).
+Ceci signifie que la règle~\clause{\beta} est inutile, puisque sa
+suppression nous permet d'atteindre le même résultat~\(s\), bien que
+plus lentement: \(n\)~pas par la règle~\clause{\gamma} plus~\(1\) par
+la règle~\clause{\alpha}, au lieu d'un pas par la
+règle~\clause{\beta}. Nous nous trouvons donc dans une situation où la
+définition originelle était spécialisée pour plus d'efficacité quand
+la seconde pile est vide. Si nous ôtons la règle~\clause{\beta}, le
+programme est plus court mais devient plus lent dans ce cas
+particulier.
+
+Cette sorte de dilemme est assez fréquent en programmation et il n'y a
+pas toujours de choix clair. Peut-être un autre argument peut ici
+faire pencher la balance du côté de la suppression. En effet, bien que
+l'élimination ralentit certains appels, elle rend le nombre de
+réécritures plus facile à retenir: c'est le nombre d'éléments de la
+première pile, plus~\(1\); en particulier, la longueur du second
+argument n'est pas pertinente. Décidons donc en faveur de la
+suppression et rebaptisons la définition finale:
+\begin{equation*}
+\fun{cat}(\el,t) \xrightarrow{\alpha} t;\quad
+\fun{cat}(\cons{x}{s},t) \xrightarrow{\beta} \cons{x}{\fun{cat}(s,t)}.
+\end{equation*}
+Remarquons en passant que \(\fun{cat}(5,\el)\) échoue à nouveau, comme
+cela se produisait dans la version originelle.
+
+Lorsque l'on programme des applications moyennes ou grandes, il est
+recommandé d'employer des variables évocatrices,
+comme~\erlcode{PileDeProc}, au lieu de noms énigmatiques ou
+génériques, comme~\(s\). Mais, dans ce livre, nous nous intéressons
+principalement aux programmes courts, pas à l'ingénierie du logiciel,
+donc des variables courtes nous conviendrons tout à fait. Néanmoins,
+nous devons établir et suivre une convention pour que nous
+reconnaissions aisément le type des variables d'une définition à
+l'autre.
+
+\mypar{Forme terminale}
+
+Comme la réécriture de \(\fun{cat}(s,\el)\) le montre, le membre droit
+de la règle~\clause{\beta} de \fun{cat/2} contient un appel dont le
+\emph{contexte} est \(\cons{x}{\text{\textvisiblespace}}\), où le
+symbole~\textvisiblespace{} dénote le lieu de l'appel
+\(\fun{cat}(s,t)\). Quand tous les membres droits d'une définition
+sont soit des valeurs, ou des expressions arithmétiques, ou des
+expressions constituées seulement de constructeurs de données, ou bien
+encore des appels dont les arguments sont des valeurs, ou des
+expressions arithmétiques ou des constructeurs de données, la
+définition est dite en \emph{forme terminale}.
+
+Nous pourrions nous demander si une variante en forme terminale est
+nécessaire ou non, et nous envisagerons cette question
+ultérieurement. Pour le moment, saisissons cette occasion comme un
+exercice de style et, au lieu de présenter une transformation
+systématique, envisageons une approche pragmatique. Dans le cas de
+\fun{cat/2}, comme nous l'avons déclaré plus haut, le seul contexte
+est \(\cons{x}{\text{\textvisiblespace}}\) et
+l'opérateur~(\erlcode{|}) n'est pas associatif, c'est-à-dire que
+\(\cons{x}{\cons{y}{z}} \not\equiv \cons{\cons{x}{y}}{z}\). L'idée est
+d'ajouter un paramètre dans lequel nous conserverons les valeurs du
+contexte, et quand les données initiales seront épuisées, nous
+reconstruirons ce contexte à partir de ce paramètre, appelé un
+\emph{accumulateur}. Ici, nous souhaitons une nouvelle fonction
+\fun{cat/3} dont la définition a pour forme
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}l}
+\fun{cat}(\el,t,\underline{u}) & \rightarrow & \fbcode{CCCCCCC}\,;\\
+\fun{cat}(\cons{x}{s},t,\underline{u}) & \rightarrow & \fbcode{CCCCCCC}\,.
+\end{array}
+\end{equation*}
+Le nouveau paramètre~\(u\) est l'accumulateur en question. Puisque
+nous voulons y stocker des~\(x\), ce doit être une pile. De plus, sa
+valeur initiale doit être la pile vide, sinon des éléments exogènes
+seraient mêlés au résultat. Par conséquent, la définition en forme
+terminale, équivalente à \fun{cat/2} et nommée \fun{cat\(_0\)/2},
+appelle \fun{cat/3} avec le paramètre supplémentaire~\(\el\):
+\begin{equation*}
+\fun{cat\(_0\)}(s,t) \rightarrow \fun{cat}(s,t,\el).
+\end{equation*}
+Revenons à \fun{cat/3} et empilons~\(x\) sur~\(u\):
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}l}
+\fun{cat}(\el,t,u) & \smashedrightarrow{\alpha} & \fbcode{CCCCCCC}\,;\\
+\fun{cat}(\cons{x}{s},t,u) & \smashedrightarrow{\beta} &
+  \fun{cat}(s,t,\cons{x}{u}).
+\end{array}
+\end{equation*}
+Que contient l'accumulateur du résultat attendu? Nous savons déjà
+qu'il ne peut être un résultat partiel, parce que (\erlcode{|})~n'est
+pas associatif. Donc nous devons travailler davantage avec
+\(u\)~\emph{et}~\(t\), mais, d'abord, nous devons comprendre ce que
+\(u\)~contient à ce point en déroulant à plat un appel, avec un
+morceau de papier et un crayon. Soit~\(s\) une pile de \(n\)~éléments
+\([x_0,x_1,\dots,x_{n-1}]\). Nous avons
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}l}
+\fun{cat}(s,t,\el) & \smashedrightarrow{\beta} &
+  \fun{cat}([x\sb{1},\ldots,x\sb{n-1}],t,[x\sb{0}])\\
+              & \smashedrightarrow{\beta} &
+  \fun{cat}([x\sb{2},\ldots,x\sb{n-1}],t,[x\sb{1},x\sb{0}])\\
+              & \smash{\vdots}\\
+              & \smashedrightarrow{\beta} & \fun{cat}(\el,t,[x\sb{n-1},x\sb{n-2},\ldots,x\sb{0}])\\
+              & \smashedrightarrow{\alpha} & \fbcode{CCCCCCC}\,.
+\end{array}
+\end{equation*}
+Par conséquent, \(u\)~dans le membre gauche de la
+règle~\clause{\alpha} est liée à une pile qui contient les mêmes
+éléments que la valeur originelle du paramètre~\(s\), mais en
+\emph{ordre inverse}. En d'autres termes, étant donné l'appel
+\(\fun{cat}(s,t,\el)\), le paramètre~\(u\) dans le premier motif de
+\fun{cat/3} représente~\(s\) renversé. Que pouvons-nous faire avec
+\(u\)~et~\(t\) de manière à atteindre le but? La clé est de réaliser
+que la réponse dépend du contenu de~\(u\), qui, par conséquent, a
+besoin d'être filtré plus précisément: est-ce que~\(u\) est vide ou
+non? Ceci nous amène à séparer la règle~\clause{\alpha} en
+\(\alpha_0\) et \(\alpha_1\):
+\newlength\Split\settowidth\Split{\(_{\alpha_0}\)}
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}l}
+\fun{cat}(\el,t,\el) & \MyArrow{\Split}{\alpha\sb{0}} &
+  \fbcode{CCCCCCC}\,;\\
+\fun{cat}(\el,t,\cons{x}{u}) & \MyArrow{\Split}{\alpha\sb{1}} & 
+  \fbcode{CCCCCCC}\,;\\
+\fun{cat}(\cons{x}{s},t,u) & \MyArrow{\Split}{\beta} &
+ \fun{cat}(s,t,\cons{x}{u}).
+\end{array}
+\end{equation*}
+Remarquons que les règles \clause{\alpha_0}~et~\clause{\alpha_1}
+pourraient être inversées, puisqu'elles filtrent des cas complètement
+distincts. Le membre droit de la règle~\clause{\alpha_0} est aisément
+deviné: ce doit être~\(t\) puisqu'il correspond au cas où nous voulons
+concaténer la pile vide et~\(t\):
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}l}
+\fun{cat}(\el,t,\el) & \MyArrow{\Split}{\alpha\sb{0}} & t;\\
+\fun{cat}(\el,t,\cons{x}{u}) & \MyArrow{\Split}{\alpha\sb{1}} & \fbcode{CCCCCCC}\,;\\
+\fun{cat}(\cons{x}{s},t,u) & \MyArrow{\Split}{\beta} &
+  \fun{cat}(s,t,\cons{x}{u}).
+\end{array}
+\end{equation*}
+Comment mettons-nous en relation~\(t\), \(x\)~et~\(u\) dans la
+règle~\clause{\alpha_1} avec le résultat que nous recherchons? Puisque
+\(\fun{cat}(s,t,\el) \twoheadrightarrow
+\fun{cat}(\el,t,\cons{x}{u})\), nous savons que \(\cons{x}{u}\)
+est~\(s\) retourné, donc l'élément~\(x\) est le dernier dans~\(s\) et
+il devrait être au-dessus de~\(t\) dans le résultat. Que devrions-nous
+faire avec~\(u\)? La clé est de voir que nous avons besoin de
+recommencer le même processus, c'est-à-dire placer un appel récursif:
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}l}
+\fun{cat}(\el,t,\el) & \MyArrow{\Split}{\alpha\sb{0}} & t;\\
+\fun{cat}(\el,t,\cons{x}{u}) & \MyArrow{\Split}{\alpha\sb{1}} &
+  \fun{cat}(\el,\cons{x}{t},u);\\
+\fun{cat}(\cons{x}{s},t,u) & \MyArrow{\Split}{\beta} &
+  \fun{cat}(s,t,\cons{x}{u}).
+\end{array}
+\end{equation*}
+Pour mettre à l'épreuve la correction de cette définition, nous
+pouvons essayer un petit exemple:
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}l}
+\fun{cat}([1,2,3],[4,5],\el) 
+  & \MyArrow{\Split}{\beta} & \fun{cat}([2,3],[4,5],[1])\\
+  & \MyArrow{\Split}{\beta} & \fun{cat}([3],[4,5],[2,1])\\
+  & \MyArrow{\Split}{\beta} & \fun{cat}(\el,[4,5],[3,2,1])\\
+  & \MyArrow{\Split}{\alpha\sb{1}} &
+    \fun{cat}(\el,[3,4,5],[2,1])\\
+  & \MyArrow{\Split}{\alpha\sb{1}} & 
+    \fun{cat}(\el,[2,3,4,5],[1])\\
+  & \MyArrow{\Split}{\alpha\sb{1}} &
+    \fun{cat}(\el,[1,2,3,4,5],\el)\\
+  & \MyArrow{\Split}{\alpha\sb{0}} & [1,2,3,4,5].
+\end{array}
+\end{equation*}
+En conclusion, la version de \fun{cat/2} en forme terminale, appelée
+\fun{cat\(_0\)/2}, requiert une fonction auxiliaire \fun{cat/3} avec
+un accumulateur dont le but est de retourner le premier argument:
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}l}
+\fun{cat\(_0\)}(s,t) & \smashedrightarrow{\alpha} & \fun{cat}(s,t,\el).\\
+\fun{cat}(\el,t,\el) & \smashedrightarrow{\beta} & t;\\
+\fun{cat}(\el,t,\cons{x}{u}) & \smashedrightarrow{\gamma} & 
+  \fun{cat}(\el,\cons{x}{t},u);\\
+\fun{cat}(\cons{x}{s},t,u) & \smashedrightarrow{\delta} &
+  \fun{cat}(s,t,\cons{x}{u}).
+\end{array}
+\end{equation*}
+Nous savons aussi que faire quand le contexte n'est pas un appel à un
+opérateur associatif: nous empilons les valeurs des variables qu'il
+contient et quand la pile d'entrée est vide, nous les dépilons pour
+les placer dans le contexte reconstruit que nous évaluons en
+dernier. Nous reviendrons sur cette méthode.
+
+\paragraph{Efficacité}
+
+Le nombre d'étapes pour réécrire \(\fun{cat\(_0\)}(s,t)\) en une
+valeur est plus élevé qu'avec \(\fun{cat}(s,t)\), comme nous l'avions
+deviné lorsque nous avions déroulé l'exemple précédent. En effet,
+en supposant que~\(s\) contient \(n\)~éléments, nous avons
+\begin{itemize} 
+
+  \item un pas pour obtenir \(\fun{cat}(s,t,\el)\) avec
+  la règle~\clause{\alpha};
+
+  \item \(n\)~pas pour retourner~\(s\) sur l'accumulateur avec la
+  règle~\clause{\delta};
+
+  \item \(n\)~pas pour retourner l'accumulateur sur~\(t\) avec la
+    règle~\clause{\gamma};
+
+  \item un pas quand l'accumulateur est finalement vide, avec la
+    règle~\clause{\beta}.
+
+\end{itemize}
+Donc, le nombre total d'étapes est \(2n+2\), ce qui est le double du
+coût avec la version précédente. Pourquoi cette différence entre
+\fun{cat/2} et \fun{cat\(_0\)/2}? L'opération effectuée sur
+l'accumulateur consiste à empiler un élément sur une pile qui doit
+être retournée plus tard: l'accumulateur n'est pas un résultat partiel
+mais une \emph{pile temporaire} utilisée pour contenir les éléments de
+la première pile en ordre inverse. Nous rencontrerons de nombreuses
+occurrences de cette situation. Entre temps, nous devons nous souvenir
+qu'une variante en forme terminale d'une fonction opérant sur des
+piles peut conduire à un programme plus lent. Par ailleurs, la forme
+terminale peut être plus longue, comme l'illustre \fun{cat\(_0\)/2}:
+quatre règles au lieu de deux.
+
+L'évaluation \(\fun{cat}_0([1,2,3],[4,5]) \twoheadrightarrow
+[1,2,3,4,5]\) vue plus haut peut être conçue abstraitement comme un
+produit, ou composition, de règles: \(\alpha \cdot \delta^n \cdot
+\gamma^n \cdot \beta\), ou simplement
+\(\alpha\delta^n\gamma^n\beta\). Cette expression est appelée une
+\emph{trace d'exécution} et sa longueur est le nombre de règles
+\(\C{\fun{cat\(_0\)}}{n}\) de \(\fun{cat\(_0\)}(s,t)\), sachant que la
+longueur d'une règle est~\(1\), d'où \(\len{\alpha} = \len{\beta} =
+\len{\gamma} = \len{\delta} = 1\), et la longueur de la composition de
+deux règles est la somme de leur longueur: \(\len{\alpha \cdot \delta}
+= \len{\alpha} + \len{\delta}\). Par conséquent:
+\begin{align*}
+\C{\fun{cat\(_0\)}}{n} 
+  &= \len{\alpha\delta^n\gamma^n\beta}
+   = \len{\alpha} + \len{\delta^n} + \len{\gamma^n} + \len{\beta}
+   = 1 + \len{\delta} \cdot n + \len{\gamma} \cdot n + 1\\
+  &= 2n + 2.
+\end{align*}
+
+\paragraph{Digression}
+
+Reconsidérons la définition~\eqref{def_fact} de
+\fun{fact/1}\index{fact@\textsf{fact/1}} \vpageref{def_fact}:
+\begin{equation*}
+\fun{fact}(0) \xrightarrow{\smash{\alpha}} 1;\qquad
+\fun{fact}(n) \xrightarrow{\smash{\beta}} n \cdot \fun{fact}(n-1).
+\end{equation*}
+Par exemple, nous avons
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}lc@{\;}l}
+\fun{fact}(3) & \xrightarrow{\beta} & 3 \cdot \fun{fact}(3-1) 
+              & = & 3 \cdot \fun{fact}(2)\\
+              & \xrightarrow{\smash[t]{\beta}} & 
+              3 \cdot (2 \cdot \fun{fact}(2-1)) 
+              & = & 3 \cdot (2 \cdot \fun{fact}(1))\\
+              & \xrightarrow{\smash[t]{\alpha}} & 
+                3 \cdot (2 \cdot (1)) & = & 6 = 3!
+\end{array}
+\end{equation*}
+Il est souvent plus clair de composer implicitement des opérations
+arithmétiques intermédiaires~(\(=\)) avec la réécriture en cours et
+d'écrire plus simplement:
+\begin{equation*}
+\fun{fact}(3) \xrightarrow{\beta} 3 \cdot \fun{fact}(2)
+\xrightarrow{\smash[t]{\beta}} 3 \cdot (2 \cdot \fun{fact}(1))
+\xrightarrow{\smash[t]{\alpha}} 3 \cdot (2 \cdot (1)) = 6.
+\end{equation*}
+Remarquons que la dernière réécriture
+(\(\xrightarrow{\smash[t]{\alpha}}\)) doit être suivie par une série
+de multiplications~\(3 \cdot (2 \cdot 1)\) parce que chaque
+multiplication doit être différée jusqu'à ce que \(\fun{fact}(1)\)
+soit calculé. Ceci aurait pu être anticipé car l'appel à \fun{fact/1}
+dans le membre droit de la règle (\(\xrightarrow{\smash[t]{\beta}}\)),
+c'est-à-dire, le texte souligné dans
+\begin{equation*}
+\fun{fact}(n) \xrightarrow{\smash[t]{\beta}} n \cdot \underline{\fun{fact}(n-1)}
+\end{equation*}
+possède le contexte non-vide
+«\erlcode{\(n\)~*~\textvisiblespace}». Pour bien comprendre pourquoi
+ceci est important, examinons une série légèrement plus
+longue:\label{trace_fact_5}
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}l} 
+\fun{fact}(5)
+& \smashedrightarrow{\beta} & 5 \cdot \fun{fact}(4)\\
+& \smashedrightarrow{\beta} & 5 \cdot (4 \cdot \fun{fact}(3))\\
+& \smashedrightarrow{\beta} & 5 \cdot (4 \cdot (3 \cdot \fun{fact}(2)))\\
+& \smashedrightarrow{\beta} & 5 \cdot (4 \cdot (3 \cdot (2 \cdot 
+                              \fun{fact}(1))))\\
+& \smashedrightarrow{\alpha} & 5 \cdot (4 \cdot (3 \cdot (2 \cdot
+(1)))).
+\end{array}
+\end{equation*}
+Il devient clair que chaque réécriture par
+(\(\xrightarrow{\smash[t]{\beta}}\)) engendre une expression plus
+longue que la précédente. Concentrons-nous maintenant uniquement sur
+les formes que prennent ces expressions:
+\begin{equation*}
+\setlength\fboxsep{0mm}
+\begin{array}{r@{\;}c@{\;}l} 
+\fun{fact}(5)
+& \smashedrightarrow{\beta} & \fbox{\phantom{$5 \cdot \fun{fact}(4)$}}\\
+& \smashedrightarrow{\beta} & \fbox{\phantom{$5 \cdot (4 \cdot \fun{fact}(3))$}}\\
+& \smashedrightarrow{\beta} & \fbox{\phantom{$5 \cdot (4 \cdot (3 \cdot \fun{fact}(2)))$}}\\
+& \smashedrightarrow{\beta} & \fbox{\phantom{$5 \cdot (4 \cdot (3 \cdot (2 \cdot \fun{fact}(1))))$}}\\
+& \smashedrightarrow{\alpha} & \fbox{\phantom{$5 \cdot (4 \cdot (3
+    \cdot (2 \cdot (1))))$}}.
+\end{array}
+\end{equation*}
+Ce phénomène suggère qu'un grand espace, c'est-à-dire de
+\emph{mémoire} d'ordinateur, est nécessaire pour conserver ces
+expressions avant la longue série de calculs arithmétiques à la
+fin. L'exemple nous incite à induire que le terme le plus grand
+apparaissant dans l'évaluation de \(\fun{fact}(n)\) est celui juste
+avant (\(\xrightarrow{\smash[t]{\alpha}}\)) et sa taille semble être
+proportionnelle à~\(n\), car tous les entiers de \(n\)~à~\(1\) ont dû
+être stockés jusqu'au dernier moment.
+
+Une version en forme terminale
+\fun{fact\(_0\)/1}\index{fact0@\textsf{fact\(_0\)/1}} est
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
+\fun{fact}_0(n) & \rightarrow & \fun{fact}_0(n,1),
+\;\text{si \(n \geqslant 1\)}. & \fun{fact}_0(1,a) & \rightarrow & a;\\
+&&& \fun{fact}_0(n,a) & \rightarrow & \fun{fact}_0(n-1,a \cdot n).
+\end{array}
+\end{equation*}
+Ici, par contraste avec \fun{cat/3}, l'opération sur l'accumulateur
+est associative (une multiplication) et l'accumulateur est, à tout
+instant, un résultat partiel. Au lieu de différer les multiplications,
+exactement une multiplication est effectuée à chaque réécriture
+élémentaire, donc, au bout du compte, il ne reste plus rien à faire:
+il n'y a aucune instance du contexte à réactiver. Ce genre de
+définition est donc en forme terminale.\index{langage
+  fonctionnel!forme terminale}
+
+Notons que le coût de \fun{fact\(_0\)/1} est~\(n+1\), alors que le
+coût de \fun{fact/1} est~\(n\), donc, contrairement à
+\fun{cat\(_0\)/2} et \fun{cat/2}, la forme terminale ici n'augmente
+pas le coût de façon significative. Ceci est dû à la nature des
+opérations sur l'accumulateur, qui ne requièrent pas un retournement
+ou, généralement, une inversion.
+
+L'appel de fonction \(\fun{fact}_0(5)\), considéré tantôt, est ainsi
+évalué:
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}lc@{\;}l}
+\fun{fact}_0(5)
+& \xrightarrow{\smash[t]{\alpha}} & \fun{fact}_0(5,1), 
+&& \text{car \(5 > 1\)},\\
+& \xrightarrow{\smash[t]{\gamma}} & \fun{fact}_0(5-1,1 \cdot 5)
+& = & \fun{fact}_0(4,5)\\
+& \xrightarrow{\smash[t]{\gamma}} & \fun{fact}_0(4-1,5 \cdot 4)
+& = & \fun{fact}_0(3,20)\\
+& \xrightarrow{\smash[t]{\gamma}} & \fun{fact}_0(3-1,20 \cdot 3)
+& = & \fun{fact}_0(2,60)\\
+& \xrightarrow{\smash[t]{\gamma}} & \fun{fact}_0(2-1,60 \cdot 2)
+& = & \fun{fact}_0(1,120)\\
+& \xrightarrow{\smash[t]{\beta}} & 120.
+\end{array}
+\end{equation*}
+La raison pour laquelle \(\fun{fact}_0(5) \equiv \fun{fact}(5)\) est
+que
+\begin{equation}
+  (((1 \cdot 5) \cdot 4) \cdot 3) \cdot 2
+= 5 \cdot (4 \cdot (3 \cdot (2 \cdot 1))).\label{eq_fact5}
+\end{equation}
+Cette égalité tient parce qu'en général, pour tout nombre~\(x\), \(y\)~et~\(z\),
+\begin{enumerate}
+
+\item \label{mult_assoc} la multiplication est associative: \(x \cdot
+  (y \cdot z) = (x \cdot y) \cdot z\);
+
+\item \label{mult_one} le nombre~\(1\) est neutre par rapport à
+  (\(\cdot\)): \(x \cdot 1 = 1 \cdot x = x\).
+
+\end{enumerate}
+Pour voir précisément pourquoi, écrivons~(\(\eqn{\ref{mult_assoc}}\))
+et~(\(\eqn{\ref{mult_one}}\)) pour dénoter, respectivement, l'usage de
+l'associativité et de la neutralité, puis couchons sur le papier les
+égalités suivantes qui relient le membre gauche de
+l'égalité~\eqref{eq_fact5} à démontrer à son membre droit:
+\begin{align*}
+  (((1 \cdot 5) \cdot 4) \cdot 3) \cdot 2
+  &\eqn{\smash{\ref{mult_one}}} ((((1 \cdot 5) \cdot 4) \cdot 3) \cdot
+  2) \cdot 1\\
+  &\eqn{\smash{\ref{mult_assoc}}} (((1 \cdot 5) \cdot 4) \cdot 3)
+  \cdot (2 \cdot 1)\\ 
+  &\eqn{\smash{\ref{mult_assoc}}} ((1 \cdot 5) \cdot 4) \cdot (3 \cdot (2
+    \cdot 1))\\
+  &\eqn{\smash{\ref{mult_assoc}}} (1 \cdot 5) \cdot (4 \cdot (3 \cdot
+  (2 \cdot 1))\\
+  &\eqn{\smash{\ref{mult_assoc}}} 1 \cdot (5 \cdot (4 \cdot (3 \cdot
+  (2 \cdot 1))))\\
+  &\eqn{\smash{\ref{mult_one}}} 5 \cdot (4 \cdot (3 \cdot (2 \cdot
+  1))).\quad \Box
+\end{align*}
+De plus, si nous ne voulons pas nous appuyer sur la neutralité
+de~\(1\), nous pourrions définir une autre fonction équivalente,
+\fun{fact\(_1\)/1}, qui initialise l'accumulateur avec
+\(\fun{fact}_1(n-1,n)\), au lieu de \(\fun{fact}_0(n,1)\), et puis
+s'arrête lorsque le nombre est~\(0\), au lieu de~\(1\):
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
+\fun{fact}_1(n) & \xrightarrow{\smash[t]{\alpha}} &
+\fun{fact}_1(n-1,n),\;\text{si \(n > 0\)}.
+& \fun{fact}_1(0,a) & \xrightarrow{\smash[t]{\beta}} & a;\\
+&&& \fun{fact}_1(n,a) & \xrightarrow{\smash[t]{\gamma}} & 
+\fun{fact}_1(n-1,a \cdot n).
+\end{array}
+\end{equation*}
+Maintenant, le même exemple se déroule ainsi:
+\begin{equation*}
+\begin{array}{r@{\;}c@{\;}lc@{\;}l}
+\fun{fact}_1(5)
+& \xrightarrow{\smash[t]{\alpha}} & \fun{fact}_1(5-1,5)
+& = & \fun{fact}_1(4,5)\\
+& \xrightarrow{\smash[t]{\gamma}} & \fun{fact}_1(4-1,5 \cdot 4)
+& = & \fun{fact}_1(3,20)\\
+& \xrightarrow{\smash[t]{\gamma}} & \fun{fact}_1(3-1,20 \cdot 3)
+& = & \fun{fact}_1(2,60)\\
+& \xrightarrow{\smash[t]{\gamma}} & \fun{fact}_1(2-1,60 \cdot 2)
+& = & \fun{fact}_1(1,120)\\
+& \xrightarrow{\smash[t]{\gamma}} & \fun{fact}_1(1-1,120 \cdot 1)
+& = & \fun{fact}_1(0,120)\\
+& \xrightarrow{\smash[t]{\beta}} & 120.
+\end{array}
+\end{equation*}
+Cette nouvelle version repose sur l'égalité suivante, qui peut être
+démontrée seulement à l'aide de l'associativité: \((((5 \cdot 4) \cdot
+3) \cdot 2) \cdot 1 = 5 \cdot (4 \cdot (3 \cdot (2 \cdot 1)))\).
+
+Le nombre de réécritures avec \fun{fact\(_0\)/1} est presque le même
+qu'avec \fun{fact/1}, précisément une de plus due à la
+règle~\clause{\alpha}. Mais la première présente un avantage en termes
+d'usage de la mémoire, tant que l'on suppose que tous les entiers dans
+un certain intervalle occupent le même espace. Par exemple, ceci
+signifie que la mémoire nécessaire pour conserver le nombre~\(120\)
+est la même que pour le nombre~\(5\). Alors les formes des réécritures
+précédentes sont:
+\begin{equation*}
+\setlength\fboxsep{0mm}
+\begin{array}{r@{\;}c@{\;}l} 
+\fun{fact}_0(5)
+& \xrightarrow{\smash[t]{\alpha}} &
+\fbox{\phantom{$\fun{fact}_0(0,10)$}}\\
+& \xrightarrow{\smash[t]{\gamma}} &
+\fbox{\phantom{$\fun{fact}_0(0,10)$}}\\
+& \xrightarrow{\smash[t]{\gamma}} &
+\fbox{\phantom{$\fun{fact}_0(0,10)$}}\\
+& \xrightarrow{\smash[t]{\gamma}} &
+\fbox{\phantom{$\fun{fact}_0(0,10)$}}\\
+& \xrightarrow{\smash[t]{\gamma}} &
+\fbox{\phantom{$\fun{fact}_0(0,10)$}}\\
+& \xrightarrow{\smash[t]{\beta}} & \fbox{\phantom{CCC}}.
+\end{array}
+\end{equation*}
+Il semble probable que cette version utilise un bout de mémoire
+constant, alors que \fun{fact/1} requiert une quantité croissante de
+mémoire, proportionnellement à~\(n\) lorsque l'on
+détermine~\(n!\). (Dans les sections qui suivent, nous verrons que les
+arbres de syntaxe abstraite constituent un modèle plus précis de
+l'allocation de mémoire.) Ce phénomène a été prévu par le lecteur
+attentif qui a remarqué qu'il n'y a pas de contexte pour les appels
+dans les règles définissant \fun{fact\(_0\)/2}, donc il n'y a pas de
+calculs différés qui s'accumulent jusqu'à la fin. En conclusion,
+\fun{fact\(_0\)/1} est toujours préférable à \fun{fact/1}.
+
+La discussion précédente sur l'obtention de définitions équivalentes
+qui sont en forme terminale suppose de considérer les programmes comme
+une sorte de donnée. Pour l'instant, il s'agit uniquement là d'un
+point de vue méthodologique et nous ne pouvons pas réellement
+manipuler les fonctions comme des piles, par exemple. (Nous
+reviendrons là-dessus ultérieurement, en discutant des fonctions
+d'ordre supérieur et du style par continuations.) Nous voulons ici
+dire que ces définitions peuvent être transformées en d'autres
+définitions et que ceci est souvent une excellente méthode, par
+opposition à essayer de deviner dès le départ à quoi ressemble la
+définition finale. Il aurait été probablement plus difficile d'écrire
+la version en forme terminale de \fun{cat/2} sans avoir d'abord conçu
+la version qui n'était pas en forme terminale.
+
+En général, ce n'est pas une bonne idée de viser bille en tête une
+définition en forme terminale parce qu'elle peut être inutile ou la
+démarche elle-même peut être entachée d'erreurs, puisque ces
+définitions sont souvent plus complexes. Dans les sections et
+chapitres qui viennent, nous expliquerons quand une forme terminale
+est désirable et comment l'obtenir en suivant une méthode
+systématique.
+
+Considérons l'exemple simple qu'est la définition d'une fonction
+\fun{last/1} telle que \(\fun{last}(s)\) calcule le dernier élément de
+la pile non-vide~\(s\). L'approche correcte est de laisser de côté
+toute forme terminale et de viser le c{\oe}ur du sujet. Nous savons
+que~\(s\) ne peut être vide, donc commençons par le membre gauche suivant:
+\begin{equation*}
+\fun{last}(\cons{x}{s}) \rightarrow \fbcode{CCCCCCC}\,.
+\end{equation*}
+Pouvons-nous atteindre le résultat d'un pas? Non, car nous ne savons
+pas si \(x\)~est l'élément recherché: nous devons en savoir plus à
+propos de~\(s\). Cette information supplémentaire au sujet de la
+structure de~\(s\) est procurée par des motifs plus précis: \(s\)~peut
+être vide ou non, c'est-à-dire, \(s = \el\) ou \(s=\cons{y}{t}\). Nous
+avons alors:
+\begin{equation*}
+\fun{last}(\cons{x}{\el}) \rightarrow \fbcode{CCCCCCC}\,;\quad
+\fun{last}(\cons{x}{\cons{y}{t}}) \rightarrow \fbcode{CCCCCCC}\,.
+\end{equation*}
+Le premier motif peut être simplifié comme suit:
+\begin{equation*}
+\fun{last}([x]) \rightarrow \fbcode{CCCCCCC}\,;\quad
+\fun{last}(\cons{x}{\cons{y}{t}}) \rightarrow \fbcode{CCCCCCC}\,.
+\end{equation*}
+Le premier membre droit est facile à deviner:
+\begin{equation*}
+\fun{last}([x]) \rightarrow x;\quad
+\fun{last}(\cons{x}{\cons{y}{t}}) \rightarrow \fbcode{CCCCCCC}\,.
+\end{equation*}
+Dans la dernière règle, quelle relation unit \(x\), \(y\), \(t\) et le
+résultat? Pouvons-nous l'atteindre d'un pas? Non, bien que nous
+sachions que~\(x\) n'est \emph{pas} le résultat, nous ignorons
+toujours si~\(y\) l'est, donc nous devons recommencer, ce qui veut
+dire qu'un appel récursif s'impose:
+\begin{equation*}
+\fun{last}([x]) \rightarrow x;\quad
+\fun{last}(\cons{x}{\cons{y}{t}}) \rightarrow
+  \fun{last}(\fbcode{CCCC}).
+\end{equation*}
+Remarquons que savoir qu'une partie de la donnée n'est pas utile à la
+construction du résultat est une connaissance utile. Nous ne pouvons
+appeler récursivement \(\fun{last}(t)\) parce que \(t\)~peut être vide
+et l'appel échouerait alors, signifiant que la réponse était en
+fait~\(y\). Par conséquent, nous devons appeler avec \(\cons{y}{t}\)
+pour conserver la possibilité que~\(y\) soit le dernier:
+\begin{equation*}
+\fun{last}([x]) \rightarrow x;\quad
+\fun{last}(\cons{x}{\cons{y}{t}}) \rightarrow \fun{last}(\cons{y}{t}).
+\end{equation*}
+Comme nous l'avons recommandé précédemment, la phase suivante est de
+tester la correction et la complétude de la définition, au moyen
+d'ex\-em\-ples significatifs (couvrant des cas extrêmes et toutes les
+règles au moins une fois). Pour gagner du temps ici, nous supposerons
+néanmoins que \fun{last/1} est correcte et complète. L'étape suivante
+est alors de tenter de l'améliorer. Cherchons des motifs communs aux
+deux membres d'une même règle et examinons s'ils peuvent être
+évités. Par exemple, nous pouvons observer que \(\cons{y}{t}\)~est
+utilisé comme un tout, en d'autres termes, \(y\)~et~\(t\) ne sont pas
+utilisées séparément dans le second membre droit. Par conséquent, il
+vaut la peine de revenir sur nos pas et de remplacer le motif par un
+plus général, dans ce cas \(s = \cons{y}{t}\).
+\begin{equation*}
+\fun{last}([x]) \rightarrow x;\quad
+\fun{last}(\cons{x}{s}) \rightarrow \fun{last}(s).
+\end{equation*}
+Cette transformation est correcte parce que le cas où \(s\)~est vide a
+déjà été filtré par le premier motif. Remarquons d'ailleurs que nous
+venons de penser une définition comme une sorte de donnée. (Nous
+devrions dire plus pertinemment \emph{métadonnée}, puisque les
+définitions ne sont pas des données qui sont l'objet d'un traitement
+dans le programme, mais par le programmeur.) En passant, \fun{last/1}
+est en forme terminale.
+
+Et si nous avions essayé de trouver directement une définition en
+forme terminale? Nous pourrions nous être souvenu que de telles
+définitions font souvent usage d'un accumulateur et nous aurions
+peut-être esquissé ce qui suit:
+\begin{equation*}
+\fun{last}_0(s) \rightarrow \fun{last}_1(s,0).\qquad
+\fun{last}_1(\el,y) \rightarrow y;\quad
+\fun{last}_1(\cons{x}{s},y) \rightarrow \fun{last}_1(s,x).
+\end{equation*}
+La première observation pourrait être à propos du nom de fonction
+\fun{last\(_1\)}. Pourquoi ne pas écrire comme suit, dans le style
+habituel jusqu'à maintenant:
+\begin{equation*}
+\fun{last}_0(s) \rightarrow \fun{last}_0(s,0).\qquad
+\fun{last}_0(\el,y) \rightarrow y;\quad
+\fun{last}_0(\cons{x}{s},y) \rightarrow \fun{last}_0(s,x).
+\end{equation*}
+Il n'y aurait pas de confusion entre \fun{last\(_0\)/1} et
+\fun{last\(_0\)/2} parce que, chacune recevant un nombre différent
+d'arguments, elles sont logiquement différentes. La raison pour
+laquelle nous recommandons la distinction de nom et en général un nom
+unique par fonction, est que cette discipline permet au compilateur de
+repérer l'erreur consistant en l'oubli d'un argument. Par exemple, le
+programme
+\begin{equation*}
+\fun{last}_0(s) \rightarrow \fun{last}_0(s,0).\qquad
+\fun{last}_0(\el,y) \rightarrow y;\quad
+\fun{last}_0(\cons{x}{s},y) \rightarrow \underline{\fun{last}_0(s)}.
+\end{equation*}
+contient une erreur qui n'est pas détectée, alors que
+\begin{equation*}
+\fun{last}_0(s) \rightarrow \fun{last}_1(s,0).\qquad
+\fun{last}_1(\el,y) \rightarrow y;\quad
+\fun{last}_1(\cons{x}{s},y) \rightarrow \underline{\fun{last}_1(s)}.
+\end{equation*}
+est identifié comme erroné. Toutefois, dans ce livre, pour des raisons
+didactiques, nous ne nous plierons pas toujours à cette recommendation
+d'unicité des noms de fonction. La possibilité d'employer le même nom
+pour différentes fonctions qui peuvent par ailleurs être distinguées
+par leur nombre d'arguments est appelée \emph{surcharge}. La surcharge
+de fonctions dans un langage de programmation comme \Cpp est permise,
+mais les règles pour distinguer les différentes fonctions de même nom
+sont différentes que celles d'\Erlang, car elles tiennent compte du
+type des arguments, en plus de leur nombre.
+
+En calculant l'appel \(\fun{last}_0([1,2,3])\) avec la définition
+originelle, nous voyons que les trois règles sont couvertes jusqu'à ce
+que le résultat, \(3\), soit atteint. Étant donné que nous avions
+recommandé auparavant des tests aux limites et que l'argument est une
+pile, nous essayons la pile vide et obtenons l'évaluation
+\(\fun{last}_0(\el) \rightarrow \fun{last}_1(\el,0) \rightarrow 0\),
+ce qui est inattendu, car ce test aurait dû échouer (\fun{last/1}
+n'est pas définie pour la pile vide). Pouvons-nous remédier à cela?
+
+Changeons simplement le membre gauche de \fun{last\(_0\)/1} de telle
+sorte que seules les piles non-vides soient filtrées. Nous nous
+trouvons face à un cas où plus d'information sur la structure de la
+donnée est nécessaire et une variable constitue un motif trop
+général. Au lieu de cela, nous avons besoin de
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
+\fun{last}_0(\underline{\cons{x}{s}}) & \rightarrow &
+  \fun{last}_0(\underline{\cons{x}{s}},0). &
+\fun{last}_0(\el,y) & \rightarrow & y;\\
+&&& \fun{last}_0(\cons{x}{s},y) & \rightarrow & \fun{last}_0(s,x).
+\end{array}
+\end{equation*}
+Cet amendement semble aller contre l'amélioration que nous avions
+effectuée tantôt, quand nous avions remplacé \(\cons{y}{t}\)
+par~\(s\), mais ce n'est pas le cas: ici, nous voulons exclure des
+données; en termes plus généraux, nous ne recherchons pas une fonction
+équivalente, alors que précédemment le but était de simplifier et
+d'obtenir une fonction équivalente.
+
+La définition de \fun{last\(_0\)/1} est correcte et complète mais un
+examen attentif devrait éveiller quelques soupçons quant à sa réelle
+simplicité. Par exemple, la valeur initiale de l'accumulateur, donnée
+dans l'unique membre droit de \fun{last\(_0\)/1} est~\(0\), mais ce
+nombre n'est jamais utilisé et il est immédiatement écarté dans le
+second membre droit de \fun{last\(_0\)/2}. En effet, nous pourrions
+écrire la définition équivalente suivante:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
+\fun{last}_1(\cons{x}{s}) & \rightarrow & \fun{last}_1(\cons{x}{s},\underline{7}). &
+\fun{last}_1(\el,y) & \rightarrow & y;\\
+&&&\fun{last}_1(\cons{x}{s},y) & \rightarrow & \fun{last}_1(s,x).
+\end{array}
+\end{equation*}
+La valeur initiale de l'accumulateur ici n'a même pas besoin d'être un
+entier, ce pourrait être n'importe quel type de valeur, telle que
+\([4,\el]\). Ceci est le signe que nous devrions abandonner cette
+inextricable définition, qui est le produit d'une méthode qui ne
+considère pas les programmes comme des données et est fondée sur
+l'assomption que les définitions en forme terminale requièrent
+souvent un accumulateur: en général, ce n'est pas le cas.
+
+Prenons par exemple l'identité polymorphe: \(\fun{id}(x) \rightarrow
+x\). Elle est trivialement en forme terminale. En passant, la forme
+terminale n'a rien à voir avec la récursivité, malgré l'occurrence
+fréquente de la malencontreuse locution «fonction récursive
+terminale». Une définition récursive peut être en forme terminale,
+mais une définition en forme terminale peut ne pas être récursive.
