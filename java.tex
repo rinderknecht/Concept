@@ -1,0 +1,842 @@
+\chapter{Traduction en \Java}
+\index{Java@\Java!traduction en $\sim$|(}
+
+Dans ce chapitre, nous montrons comment traduire de simples programmes
+fonctionnels en \Java, illustrant ce qu'on pourrait appeler un style
+fonctionnel dans un langage à objets. Nous ne ferons pas usage
+d'effets, donc à toute variable n'est assignée qu'une seule valeur au
+cours de l'exécution. Les objets programmés de cette manière sont
+parfois appelés \emph{objets fonctionnels}. Les difficultés que nous
+rencontrerons seront dues au système de types de \Java, puisque notre
+langage fonctionnel n'est pas typé. En conséquence, certains
+programmes ne pourront pas être traduits et d'autres demanderont des
+traductions intermédiaires, appelées \emph{raffinements}, avant de
+pouvoir produire un équivalent en \Java.
+
+Dans l'introduction, \vpageref{par_java}, nous avons couché le patron
+conceptuel pour les piles: une classe abstraite \texttt{Stack<Item>}
+paramétrisée par le type \texttt{Item} de ses éléments et deux
+extensions, \texttt{EStack<Item>} pour les piles vides et
+\texttt{NStack<Item>} pour les autres. Il est important de bien
+comprendre les raisons de ce patron, parce qu'il est probablement plus
+fréquent de rencontrer une mise en {\oe}uvre des piles comme
+\begin{alltt}
+\public \class Stack<Item> \{\hfill// Stack.java
+  \private Item head;
+  \private Stack<Item> tail;
+
+  \public Stack() \{ head = \nullX; tail = \nullX; \}
+
+  \public Item pop() \throws EmptyStack \{\hfill// \emph{Dépilage}
+    \ifX (empty()) \throw \new EmptyStack();
+    \final Item orig = head;
+    \ifX (tail.empty()) head = \nullX; \elseX head = tail.pop();
+    \return orig; \}
+
+  \public \booleanX empty() \{ \return head == \nullX; \}
+
+  \public \void push(\final Item item) \{\hfill// \emph{Empilage}
+    Stack<Item> next = \new Stack<Item>();
+    next.head = head;
+    next.tail = tail;
+    head = item;
+    tail = next; \}
+\}
+
+// EmptyStack.java
+\public \class EmptyStack \extends Exception \{\} 
+\end{alltt}
+Ce codage a plusieurs défauts. Tout d'abord, il est incorrect si le
+sommet (\texttt{head}) d'une pile est une référence
+\texttt{null}. Nous pouvons remédier à cette confusion en ajoutant un
+niveau d'indirection, c'est-à-dire en créant une classe privée
+contenant \texttt{head} et \texttt{tail}, ou en modelant la pile vide
+avec \texttt{null}, ce qui implique de vérifier la présence de
+\texttt{null} avant d'appeler une méthode. Deuxièmement, l'usage
+général de références \texttt{null} augmente le risque d'un accès
+invalide. Troisièmement, le code de \texttt{pop} et \texttt{push}
+suggère déjà que d'autres opérations exigeront de longues
+manipulations de références. Quatrièmement, la persistance n'est pas
+facile, par exemple conserver des versions successives de la pile.
+
+Une étude approfondie des problèmes que les références nulles créent
+dans la conception de langages de programmation a été menée par
+\cite{ChalinJames_2007,Cobbe_2008} et \cite{Hoare_2009}. Un
+inconvénient pratique de telles références est qu'elles rendent la
+composition de méthodes maladroite et, par exemple, au lieu d'écrire
+\texttt{s.cat(t).push(x).rev()}, il nous faudrait vérifier si chaque
+appel ne retourne pas \texttt{null}.
+
+La conception que nous avons présentée dans l'introduction évite tous
+les problèmes et limitations précédemment mentionnés. Bien entendu, il
+y a un prix à payer, dont nous allons discuter plus loin. Pour le
+moment, souvenons-nous du programme \Java en introduction, qui sera
+complété plus tard dans ce chapitre:
+\begin{alltt}
+\public \abstractX \class Stack<Item> \{\hfill// Stack.java
+  \public \final NStack<Item> push(\final Item item) \{
+    \return \new NStack<Item>(item,\this); \}
+  \public \abstractX Stack<Item> cat(\final Stack<Item> t); \}
+
+// EStack.java
+\public \final \class EStack<Item> \extends Stack<Item> \{
+  \public Stack<Item> cat(\final Stack<Item> t) \{ \return t; \}\}
+
+// NStack.java
+\public \final \class NStack<Item> \extends Stack<Item> \{
+  \private \final Item head;
+  \private \final Stack<Item> tail;
+
+  \public NStack(\final Item item, \final Stack<Item> stack) \{
+    head = item; tail = stack; \}
+
+  \public NStack<Item> cat(\final Stack<Item> t) \{
+    \return tail.cat(t).push(head); \}
+\}
+\end{alltt}
+Remarquons que nous avons évité la définition d'une méthode
+\texttt{pop}. La raison est qu'elle est intrinsèquement une fonction
+partielle, pas définie quand son argument est la pile vide, et c'est
+pour cela que nous avions dû ressortir à l'exception
+\texttt{EmptyStack} précédemment. De toute façon, en pratique, cette
+méthode est peu utile, car elle serait implicitement présente dans un
+algorithme, par exemple, dans la définition de \texttt{cat} à la
+classe \texttt{NStack<Item>}. Plus fondamentalement, il n'y a pas
+besoin d'une méthode \texttt{pop} parce que \texttt{head} et
+\texttt{tail} font partie de la structure de donnée elle-même.
+
+\section{Liaison dynamique}
+\label{sec_single_dispatch}
+% \extends Comparable<? \super Item>
+
+\paragraph{Retournement de pile}
+\index{pile!retournement!$\sim$ en \Java|(}
+
+Comme nous l'avons vu à l'équation~\eqref{def_rev} \vpageref{def_rev},
+la manière efficace de retourner une pile dans notre langage
+fonctionnel consiste à utiliser un accumulateur comme suit:
+\begin{equation*}
+\fun{rev}(s) \xrightarrow{\smash{\epsilon}}
+             \fun{rcat}(s,\el).\quad\;\;
+\fun{rcat}(\el,t) \xrightarrow{\smash{\zeta}} t;\quad\;\;
+\fun{rcat}(\cons{x}{s},t) \xrightarrow{\smash{\eta}} 
+                          \fun{rcat}(s,\cons{x}{t}).
+\end{equation*}
+La fonction \fun{rev/1} est définie par une seule règle qui ne
+discrimine pas son paramètre. Par conséquent, sa traduction sera une
+méthode dans la classe abstraite \texttt{Stack<Item>}:
+\begin{alltt}
+// Stack.java
+\public \abstractX \class Stack<Item> \{
+  ...
+  \public Stack<Item> rev() \{
+    \return rcat(\new EStack<Item>()); \}
+\}
+\end{alltt}
+Un examen des motifs des règles de la fonction \fun{rcat/2} montre que
+seul le premier paramètre est contraint; plus précisément, il doit
+être une pile vide ou non-vide. Cette simple sorte de définition
+fonctionnelle est facilement traduite en comptant sur un mécanisme de
+\Java appelé \emph{liaison dynamique} et qui fait que c'est la classe
+d'un objet à l'exécution (et non à la déclaration) qui détermine la
+méthode appelée. Dans une règle, quand exactement un paramètre est
+contraint, il est alors le candidat naturel pour la liaison
+dynamique. Par exemple,
+\begin{alltt}
+// Stack.java
+\public \abstractX \class Stack<Item> \{
+  ...
+  \public \abstractX Stack<Item> rcat(\final Stack<Item> t);
+\}
+\end{alltt}
+La class \texttt{EStack<Item>} contient la traduction de la règle~\(\zeta\):
+\begin{alltt}
+// EStack.java
+\public \final \class EStack<Item> \extends Stack<Item> \{
+  ...
+  \public Stack<Item> rcat(\final Stack<Item> t) \{ \return t; \}
+\}
+\end{alltt}
+La classe \texttt{NStack<Item>} contient la traduction de la
+règle~\(\eta\) (\texttt{tail} est~\(s\), \texttt{head} est~\(x\)):
+\begin{alltt}
+// NStack.java
+\public \final \class NStack<Item> \extends Stack<Item> \{
+  ...
+  \public Stack<Item> rcat(\final Stack<Item> t) \{
+    \return tail.rcat(t.push(head)); \}
+\}
+\end{alltt}
+\index{pile!retournement!$\sim$ en \Java|)}
+
+\paragraph{Filtrage de pile}
+\index{pile!filtrage!$\sim$ en \Java|(}
+
+Souvenons-nous de la fonction \fun{sfst/2} à la
+section~\vref{sec_skipping}:
+\begin{equation*}
+\fun{sfst}(\el,x)          \xrightarrow{\smash{\theta}} \el;\quad\;\;
+\fun{sfst}(\cons{x}{s},x)  \xrightarrow{\smash{\iota}}  s;\quad\;\;
+\fun{sfst}(\cons{y}{s},x)  \xrightarrow{\smash{\kappa}}
+                                         \cons{y}{\fun{sfst}(s,x)}.
+\end{equation*}
+Cette définition ne peut être traduite telle quelle parce qu'elle
+contient un test d'égalité implicite dans ses motifs
+\(\iota\)~et~\(\kappa\), donc nous ne pouvons employer la liaison
+dynamique. La solution la plus simple est peut-être d'étendre notre
+langage fonctionnel avec une expression conditionnelle \(\fun{if}
+\dots \fun{then} \dots \fun{else} \dots\) et de raffiner la définition
+originelle pour en faire usage. Ici, nous obtenons
+\begin{equation*}
+\fun{sfst}(\el,x)          \xrightarrow{\smash{\theta}} \el;\quad\;\;
+\fun{sfst}(\cons{y}{s},x)  \xrightarrow{\smash{\iota+\kappa}}
+\fun{if} \; x = y \; \fun{then} \; s \;
+\fun{else} \; \cons{y}{\fun{sfst}(s,x)}.
+\end{equation*}
+Maintenant que les motifs ne se recoupent plus, nous pouvons traduire
+en \Java. Tout d'abord, nous ne devons pas oublier d'étendre la classe
+abstraite \texttt{Stack<Item>}:
+\begin{alltt}
+// Stack.java
+\public \abstractX \class Stack<Item> \{
+  ...
+  \public \abstractX Stack<Item> sfst(\final Item x);
+\}
+\end{alltt}
+La traduction de la règle~\(\theta\) va dans la classe
+\texttt{EStack<Item>}:
+\begin{alltt}
+// EStack.java
+\public \final \class EStack<Item> \extends Stack<Item> \{
+  ...
+  \public EStack<Item> sfst(\final Item x) \{ \return \this; \}
+\}
+\end{alltt}
+Les traductions de \(\iota\)~et~\(\kappa\) vont dans
+\begin{alltt}
+// NStack.java
+\public \final \class NStack<Item> \extends Stack<Item> \{
+  ...
+  \public Stack<Item> sfst(\final Item x) \{
+    \return head.compareTo(x) == 0 ?
+           tail : tail.sfst(x).push(head); \}
+\}
+\end{alltt}
+Cette dernière étape révèle une erreur et une limitation de notre
+méthode: dans le but de comparer deux valeurs de la classe
+\texttt{Item} comme \texttt{head} et~\texttt{x}, nous devons spécifier
+que \texttt{Item} étend la classe prédéfinie \texttt{Comparable}. Par
+conséquent, nous devons réécrire nos définitions de classes comme
+suit:
+\begin{alltt}
+\public \abstractX \class Stack<Item
+\hfill\extends Comparable<? \super Item>> \{
+  ...
+\}
+\public \class EStack<Item \extends Comparable<? \super Item>> 
+       \extends Stack<Item> \{
+  ...
+\}
+\public \class NStack<Item \extends Comparable<? \super Item>>
+       \extends Stack<Item> \{
+  ...
+\}
+\end{alltt}
+Ceci est une limitation parce que nous devons contraindre
+\texttt{Item} pour qu'il soit comparable, même si quelques méthodes
+n'en ont pas besoin, comme \texttt{rev}, qui est purement
+structurelle. Par ailleurs, la classe abstraite doit être mise à jour
+à chaque fois qu'une nouvelle opération est ajoutée. (Pour une
+compréhension détaillée des génériques en \Java, voir
+\cite{NaftalinWadler_2006}.)  \index{pile!filtrage!$\sim$ en \Java|)}
+
+\paragraph{Tri par insertion}
+\index{tri par insertion!$\sim$ en \Java|(}
+\index{Java@\Java|see{tri par insertion}}
+
+Le tri par insertion a été défini à la section~\vref{sec_straight_ins}
+ainsi:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
+  \fun{ins}(\cons{y}{s},x)
+& \xrightarrow{\smash{\kappa}}
+& \cons{y}{\fun{ins}(s,x)}, \,\text{si \(x \succ y\)};
+& \fun{isrt}(\el) 
+& \xrightarrow{\smash{\mu}}
+& \el;\\
+  \fun{ins}(s,x)
+& \xrightarrow{\smash{\lambda}}
+& \cons{x}{s}.
+& \fun{isrt}(\cons{x}{s})
+& \xrightarrow{\smash{\nu}} 
+& \fun{ins}(\fun{isrt}(s),x).
+\end{array}
+\end{equation*}
+La fonction \fun{isrt/1} est facile à traduire car elle n'a besoin que
+de la liaison dynamique. La fonction \fun{ins/2} aussi, mais elle doit
+être raffinée en faisant apparaître une conditionnelle. La partie
+facile d'abord:
+\begin{alltt}
+// Stack.java
+\public \abstractX \class Stack<Item
+\hfill\extends Comparable<? \super Item>> \{
+  ...
+  \public \abstractX Stack<Item> isrt();
+\}
+// EStack.java
+\public \class EStack<Item \extends Comparable<? \super Item>> 
+       \extends Stack<Item> \{
+  ...
+  \public EStack<Item> isrt() \{ \return \this; \}
+\}
+// NStack.java
+\public \class NStack<Item \extends Comparable<? \super Item>>
+       \extends Stack<Item> \{
+  ...
+  \public NStack<Item> isrt() \{\return tail.isrt().ins(head);\}
+\}
+\end{alltt}
+Remarquons que \(\fun{ins}(\fun{isrt}(s),x)\) est devenu
+\texttt{tail.isrt().ins(head)}. La méthode générale consiste, d'abord,
+à traduire \(x\)~et~\(s\) en \texttt{x}~et~\texttt{tail}; ensuite, il
+faut trouver un ordre d'évaluation possible (il peut y en avoir plus
+d'un) et écrire les traductions de chaque appel de fonction de gauche
+à droite, séparés par des points. Dans le cas en cours,
+\(\fun{isrt}(s)\) est évalué en premier et devient
+\texttt{tail.isrt()}, ensuite le contexte
+\(\fun{ins}(\texttt{\textvisiblespace},x)\) donne
+\texttt{\textvisiblespace.ins(head)}.
+
+Le raffinement de \fun{ins/2} est
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{ins}(\cons{y}{s},x) & \rightarrow & \fun{if} \; x \succ y \;
+\fun{then} \; \cons{y}{\fun{ins}(s,x)} \; \fun{else} \; \cons{x}{s};\\
+\fun{ins}(\el,x) & \rightarrow & [x].
+\end{array}
+\end{equation*}
+Remarquons que nous avons séparé la règle~\(\lambda\) en deux cas:
+\(\el\) et \(\cons{y}{s}\), donc le dernier peut être fusionné avec la
+règle~\(\kappa\) et prendre part à la conditionnelle. Nous pouvons
+traduire maintenant en \Java:
+\begin{alltt}
+// Stack.java
+\public \abstractX \class Stack<Item
+\hfill\extends Comparable<? \super Item>> \{
+  ...
+  \protectedX \abstractX NStack<Item> ins(\final Item x);
+\}
+// EStack.java
+\public \class EStack<Item \extends Comparable<? \super Item>> 
+       \extends Stack<Item> \{
+  ...
+  \protectedX NStack<Item> ins(\final Item x) \{\return push(x);\}
+\}
+// NStack.java
+\public \class NStack<Item \extends Comparable<? \super Item>>
+       \extends Stack<Item> \{
+  ...
+  \protectedX NStack<Item> ins(\final Item x) \{
+    \return head.compareTo(x) < 0 ? 
+           tail.ins(x).push(head) : push(x); \}
+\}
+\end{alltt}
+La méthode \texttt{ins} est déclarée \texttt{protected}, parce qu'il
+est erroné d'insérer un élément dans une pile qui n'est pas ordonnée.
+\index{tri par insertion!$\sim$ en \Java|)}
+
+\paragraph{Test}
+\index{test|(}
+
+Pour tester ces définitions, nous avons besoin d'une méthode
+\texttt{print}:
+\begin{alltt}
+\public \abstractX \void print();\hfill// Stack.java
+\public \void print() \{ System.out.println(); \}\hfill// EStack.java
+\public \void print() \{\hfill// NStack.java
+  System.out.print(head + " "); tail.print(); \}
+\end{alltt}
+Finalement, la classe \texttt{Main} ressemblerait à
+\begin{alltt}
+// Main.java
+\public \class Main \{
+  \public \static \void \main (String[] args) \{
+    Stack<Integer> nil = \new EStack<Integer>();
+    Stack<Integer> s = nil.push(5).push(2).push(7);
+    s.print();\hfill// 7 2 5
+    s.rev().print();\hfill// 5 2 7
+    Stack<Integer> t = nil.push(4).push(1);\hfill// 1 4
+    s.cat(t).print();\hfill// 7 2 5 1 4
+    t.cat(s).isrt().print();\hfill// 1 2 4 5 7
+  \}
+\}
+\end{alltt}
+Les propriétés que nous avons prouvées plus tôt sur les programmes
+fonctionnels sont transférés sur les traductions en \Java. En
+particulier, les coûts sont invariants et ils comptent le nombre
+d'appels de méthodes nécessaires pour calculer la valeur d'un appel de
+méthode, \emph{en supposant que nous ne comptons pas les appels à
+  \texttt{push}}: cette méthode, qui est une commodité, était déclarée
+\texttt{final} dans l'espoir que le compilateur copie sa définition
+aux sites d'appels.\index{test|)}
+
+\paragraph{Découpage}
+\index{pile!découpage!$\sim$ en \Java|(}
+
+À la section~\vref{sec_cutting}, nous avons vu comment découper une
+pile en deux en spécifiant la longueur du préfixe:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
+\fun{cut}(s,0) & \rightarrow & \pair{\el}{s};
+& \fun{push}(x,\pair{t}{u}) & \rightarrow & \pair{\cons{x}{t}}{u}.\\
+\fun{cut}(\cons{x}{s},k) & \rightarrow 
+& \fun{push}(x,\fun{cut}(s,k-1)).
+\end{array}
+\end{equation*}
+Ici, nous avons un autre exemple de règle qui recouvre deux cas: dans
+la première règle de \fun{cut/2}, la pile \(s\)~est vide ou non. Si
+elle ne l'est pas, la traduction de la règle doit être fusionnée avec
+la traduction de la deuxième règle. Il y a une difficulté
+supplémentaire dans le fait que \Java ne fournisse pas de paires
+natives pour traduire \(\pair{t}{u}\) immédiatement. Heureusement, il
+n'est pas difficile de concevoir une classe pour les paires si nous
+nous rendons compte qu'une paire est, abstraitement, une chose avec
+deux propriétés: une qui renseigne à propos de sa «première
+composante» et une autre à propos de sa «seconde composante.» Nous
+avons
+\begin{alltt}
+// Pair.java
+\public \class Pair<Fst,Snd> \{
+  \protectedX \final Fst fst;
+  \protectedX \final Snd snd;
+  \public Pair(\final Fst f, \final Snd s) \{fst = f; snd = s;\}
+
+  \public Fst fst() \{ \return fst; \}
+  \public Snd snd() \{ \return snd; \}
+\}
+\end{alltt}
+Nous pouvons procéder comme suit:
+\begin{alltt}
+// Stack.java
+\public \abstractX \class Stack<Item
+\hfill\extends Comparable<? \super Item>> \{
+  ...
+  \public \abstractX
+            Pair<Stack<Item>,Stack<Item>> cut(\final int k);
+\}
+\end{alltt}
+Remarquons que, comme d'habitude, une fonction avec \(n\)~paramètres
+est traduite en une méthode avec \(n-1\) paramètres parce que l'un
+d'entre eux est utilisé pour la liaison dynamique ou, en termes du
+système de type, sur lui s'applique le \emph{sous-typage}
+\citep{Pierce_2002}.
+\begin{alltt}
+// EStack.java
+\public \class EStack<Item \extends Comparable<? \super Item>> 
+       \extends Stack<Item> \{
+  ...
+  \public Pair<Stack<Item>,Stack<Item>> cut(\final int k) \{
+    \return \new Pair<Stack<Item>,Stack<Item>>(\this,\this);
+  \}
+\}
+
+// NStack.java
+\public \class NStack<Item \extends Comparable<? \super Item>>
+       \extends Stack<Item> \{
+  ...
+  \public Pair<Stack<Item>,Stack<Item>> cut(\final int k) \{
+    \ifX (k == 0)
+       \return \new Pair<Stack<Item>,Stack<Item>>
+                      (\new EStack<Item>(),\this);
+    Pair<Stack<Item>,Stack<Item>> p = tail.cut(k-1);
+    \return \new Pair<Stack<Item>,Stack<Item>>
+                   (p.fst().push(head),p.snd());
+  \}
+\}
+\end{alltt}
+Finalement, la classe~\texttt{Main} pourrait ressembler à ce qui suit:
+\begin{alltt}
+// Main.java
+\public \class Main \{
+  \public \static \void \main (String[] args) \{
+    Stack<Integer> nil = \new EStack<Integer>();
+    Stack<Integer> s = nil.push(5).push(2).push(7);\hfill// 7 2 5
+    Stack<Integer> t = nil.push(4).push(1);\hfill// 1 4
+    Pair<Stack<Integer>,Stack<Integer>> u = s.cat(t).cut(2);
+    u.fst().print();\hfill// 7 2
+    u.snd().print();\hfill// 5 1 4
+  \}
+\}
+\end{alltt}
+Une traduction peut ou doit satisfaire différentes propriétés
+intéressantes. Par exemple, elle doit être correcte en ce sens que le
+résultat de l'évaluation d'un appel dans le langage de départ est,
+dans un certain sens, égal au résultat de l'évaluation de la
+traduction de l'appel. C'est ce que nous souhaitions pour notre
+traduction de notre langage fonctionnel vers \Java. Il pourrait être
+aussi exigé que les comportements erronés soit aussi traduits en
+comportements erronés. Par exemple, il pourrait être intéressant que
+les boucles infinies soient aussi traduites en boucles infinies et que
+les erreurs à l'exécution dans les évaluations du langage de départ
+correspondent à des erreurs similaires dans le langage d'arrivée. (La
+traduction de \fun{cut/2} ne préserve pas toutes les
+erreurs. Pourquoi?)\index{pile!découpage!$\sim$ en \Java|)}
+
+
+\section{Méthodes binaires}
+\index{Java@\Java|see{tri par interclassement}}
+
+Les fonction définies en filtrant deux piles dans le même motif
+correspondent, traduites telles quelles, à des \emph{méthodes
+  binaires} dans le langage à objet. Malheureusement, \Java n'a que la
+liaison dynamique, c'est-à-dire que seul un paramètre est l'objet de
+sous-typage. Dans le cas des méthodes binaires,
+\index{Java@\Java!méthode binaire} nous pouvons raffiner la définition
+de départ en une autre, équivalente, qui sera traduite avec la liaison
+dynamique seule. Cette technique a été proposée il y a longtemps par
+\cite{Ingalls_1986} et un résumé des recherches a été publié par
+\cite{MuscheviciPotaninTemperoNoble_2008}.
+
+\paragraph{Tri par interclassement}
+
+Par exemple, considérons à nouveau la définition de \fun{mrg/2} à la
+\fig~\vref{fig_tms}:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{mrg}(\el,t)         & \rightarrow & t;\\
+\fun{mrg}(s,\el)         & \rightarrow & s;\\
+\fun{mrg}(\cons{x}{s},\cons{y}{t}) & \rightarrow
+                         & \cons{y}{\fun{mrg}(\cons{x}{s},t)},\;
+                           \text{si \(x \succ y\)};\\
+\fun{mrg}(\cons{x}{s},t) & \rightarrow & \cons{x}{\fun{mrg}(s,t)}.
+\end{array}
+\end{equation*}
+Nous devons réécrire cette définition de telle sorte qu'une seule pile
+est inspectée dans les motifs. Pour cela, nous choisissons
+arbitrairement une pile-paramètre, disons la première, et nous la
+filtrons avec les motifs vide et non-vide comme suit:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{mrg}(\el,t)         & \rightarrow & t;\\
+\fun{mrg}(\cons{x}{s},t) & \rightarrow & \fun{mrg}_0(x,s,t).\\
+\\
+\fun{mrg}_0(x,s,\el)     & \rightarrow & \cons{x}{s};\\
+\fun{mrg}_0(x,s,\cons{y}{t}) & \rightarrow
+& \fun{if} \; x \succ y \; \fun{then} \;
+  \cons{y}{\fun{mrg}(\cons{x}{s},t)} \;
+  \fun{else} \; \cons{x}{\fun{mrg}(s,\cons{y}{t})}.
+\end{array}
+\end{equation*}
+Remarquons que nous avons dû introduire une fonction auxiliaire
+\fun{mrg\(_0\)/3} pour gérer le filtrage du second argument, \(t\), de
+\fun{mrg/2}. Nous avons aussi utilisé une conditionnelle dans la
+dernière règle de \fun{mrg\(_0\)/3}, où nous pouvons aussi éviter les
+empilages \(\cons{x}{s}\) et \(\cons{y}{t}\) en appelant,
+respectivement, \(\fun{mrg}_0(x,s,t)\) et \(\fun{mrg}_0(y,t,s)\). Ce
+dernier appel est une conséquence du fait que l'interclassement est
+une fonction symétrique: \(\fun{mrg}(s,t) \equiv
+\fun{mrg}(t,s)\). Nous avons maintenant:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{mrg}(\el,t)         & \rightarrow & t;\\
+\fun{mrg}(\cons{x}{s},t) & \rightarrow & \fun{mrg}_0(x,s,t).\\
+\\
+\fun{mrg}_0(x,s,\el)     & \rightarrow & \cons{x}{s};\\
+\fun{mrg}_0(x,s,\cons{y}{t}) & \rightarrow
+& \fun{if} \; x \succ y \; \fun{then} \;
+  \cons{y}{\fun{mrg}_0(x,s,t)} \;
+  \fun{else} \; \cons{x}{\fun{mrg}_0(y,t,s)}.
+\end{array}
+\end{equation*}
+Nous avons alors deux fonctions qui peuvent être traduites en \Java à
+l'aide du sous-typage:\index{tri par interclassement!interclassement!$\sim$ en \Java|(}
+\begin{alltt}
+// Stack.java
+\public \abstractX \class Stack<Item
+\hfill\extends Comparable<? \super Item>> \{
+  ...
+  \public \abstractX Stack<Item> mrg(\final Stack<Item> t);
+  \public \abstractX Stack<Item> mrg0(\final Item x,
+                                   \final Stack<Item> s);
+\}
+// EStack.java
+\public \class EStack<Item \extends Comparable<? \super Item>> 
+       \extends Stack<Item> \{
+  ...
+  \public Stack<Item> mrg(\final Stack<Item> t) \{ \return t; \}
+  \public Stack<Item> mrg0(\final\! Item x,\final Stack<Item> s)\{
+    \return s.push(x); \}
+\}
+// NStack.java
+\public \class NStack<Item \extends Comparable<? \super Item>>
+       \extends Stack<Item> \{
+  ...
+  \public Stack<Item> mrg(\final Stack<Item> t) \{
+    \return t.mrg0(head,tail); \}
+
+  \public Stack<Item> mrg0(\final Item x,
+                          \final Stack<Item> s) \{
+    \return x.compareTo(head) > 0 ?
+           tail.mrg0(x,s).push(head)
+         : s.mrg0(head,tail).push(x); \}
+\}
+\end{alltt}
+Gardons à l'esprit que le motif \(\fun{mrg}_0(x,s,\cons{y}{t})\)
+signifie que \(\cons{y}{t}\) se traduit par \texttt{this}, donc le
+programme cible devrait se loger dans la classe \texttt{NStack<Item>},
+où \texttt{head} est la traduction de~\(y\) et \texttt{tail} est
+l'image de~\(t\). Finalement,\index{tri par
+  interclassement!interclassement!$\sim$ en \Java|)}
+\begin{alltt}
+// Main.java
+\public \class Main \{
+  \public \static \void \main (String[] args) \{
+    Stack<Integer> nil = \new EStack<Integer>();
+    Stack<Integer> s = nil.push(5).push(2).push(7);\hfill// 7 2 5
+    Stack<Integer> t = nil.push(4).push(1);\hfill// 1 4
+    s.isrt().mrg(t.isrt()).print();\hfill// 1 2 4 5 7
+    t.isrt().mrg(s.isrt()).print();\hfill// 1 2 4 5 7
+  \}
+\}
+\end{alltt}
+Parvenus à ce point, on pourrait arguer que notre schéma de traduction
+mène à des programmes \Java cryptiques. Mais cette critique n'est
+valable que parce qu'on ne prend pas en compte leur
+spécification. Nous proposons que le programme fonctionnel \emph{est}
+la spécification du programme \Java et devrait l'accompagner. Une
+traduction en \Erlang pourrait être effectuée d'abord, ce qui est
+facile, et celle-ci serait traduite à son tour en \Java, tout en
+demeurant en commentaires dans le code cible et sa documentation. Par
+exemple, nous écririons:
+\begin{alltt}
+// NStack.java
+\public \class NStack<Item \extends Comparable<? \super Item>>
+       \extends Stack<Item> \{
+  ...
+  // mrg0(X,S,[Y|T]) -> case X > Y of
+  //                      true  -> [Y|mrg0(X,S,T)];
+  //                      false -> [X|mrg0(Y,T,S)]
+  //                    end.
+  //
+  \public Stack<Item> mrg0(\final Item x,
+                          \final Stack<Item> s) \{
+    \return x.compareTo(head) > 0 ?
+           tail.mrg0(x,s).push(head)
+         : s.mrg0(head,tail).push(x); \}
+\}
+\end{alltt}
+(Nous pourrions même aller plus loin et renommer les paramètres
+\Erlang \texttt{Y} et~\texttt{T}, respectivement, en \texttt{Head} et
+\texttt{Tail}.) Ceci présente l'avantage supplémentaire que la
+spécification est exécutable, donc le résultat de l'exécution du
+programme \Erlang devrait être égal au résultat de l'évaluation de la
+traduction en \Java, ce qui facilite la phase de test.
+
+Finissons maintenant la traduction du tri par interclassement
+descendant à la \fig~\vref{fig_tms}. Nous avons
+\begin{equation*}
+\fun{tms}(\cons{x,y}{t}) \xrightarrow{\smash{\alpha}}
+ \fun{cutr}([x],\cons{y}{t},t);\qquad
+\fun{tms}(t) \xrightarrow{\smash{\beta}} t.
+\end{equation*}
+Un raffinement est nécessaire parce que la règle~\(\beta\) couvre le
+cas de la pile vide et du singleton. Explicitons tous ces cas et
+ordonnons-les ainsi:
+\begin{equation*}
+\fun{tms}(\el)            \rightarrow  \el;\quad
+\fun{tms}([x])            \rightarrow  [x];\quad
+\fun{tms}(\cons{x,y}{t})  \rightarrow
+                          \fun{cutr}([x],\cons{y}{t},t).
+\end{equation*}
+Maintenant, nous devons fusionner les deux dernières règles parce
+qu'elles sont couvertes par le cas «pile non-vide» et nous créons une
+fonction auxiliaire \fun{tms\(_0\)/2} dont le rôle est de distinguer
+entre le singleton et les piles plus longues. D'où
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{\qquad}r@{\;}l@{\;}l@{}}
+  \fun{tms}(\el)             & \xrightarrow{\smash{\gamma}} & \el;
+& \fun{tms}_0(x,\el)         & \xrightarrow{\smash{\epsilon}} & [x];\\
+\fun{tms}(\cons{x}{t})       & \xrightarrow{\smash{\delta}}
+                             & \fun{tms}_0(x,t).
+& \fun{tms}_0(x,\cons{y}{t}) & \xrightarrow{\smash{\zeta}}
+                             & \fun{cutr}([x],\cons{y}{t},t).
+\end{array}
+\end{equation*}
+À ce point, \fun{tms/1} et \fun{tms\(_0\)/2} peuvent être traduites en
+\Java à l'aide du sous-typage mais, avant, nous devons vérifier si le
+dernier raffinement est vraiment équivalent au programme
+originel. Nous pouvons tester quelques appels dont les évaluations
+partielles\index{langage fonctionnel!évaluation!$\sim$ partielle}
+utilisent, toutes ensemble, toutes les règles dans le programme
+raffiné et ensuite nous les comparons avec les évaluations partielles
+dans le programme originel. (Ceci est un cas de \emph{test
+  structurel}\index{test!$\sim$ structurel}, plus précisément,
+\emph{test de chemins}\index{test!$\sim$ de chemin}.) Ici, nous avons
+découvert que trois cas sont distincts: pile vide, singleton et piles
+plus longues. Dans le programme raffiné, nous avons les
+interprétations
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{tms}(\el) & \xrightarrow{\smash{\gamma}} & \el.\\
+\fun{tms}([x]) & \xrightarrow{\smash{\delta}} & \fun{tms}_0(x,\el)
+                 \xrightarrow{\smash{\epsilon}} [x].\\
+\fun{tms}(\cons{x,y}{t})
+  & \xrightarrow{\smash{\delta}} & \fun{tms}_0(x,\cons{y}{t})
+    \xrightarrow{\smash{\zeta}} \fun{cutr}([x],\cons{y}{t},t).
+\end{array}
+\end{equation*}
+Nous pouvons maintenant les comparer avec les mêmes appels
+partiellement évalués dans le programme originel:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{tms}(\el) & \xrightarrow{\smash{\beta}} & \el.\\
+\fun{tms}([x]) & \xrightarrow{\smash{\beta}} & [x].\\
+\fun{tms}(\cons{x,y}{t}) & \xrightarrow{\smash{\alpha}}
+                         & \fun{cutr}([x],\cons{y}{t},t).
+\end{array}
+\end{equation*}
+Ces appels concourent et couvrent toutes les flèches dans toutes
+définitions. Nous pouvons maintenant traduire le programme
+raffiné:\index{tri par interclassement!$\sim$ descendant!$\sim$ en
+  \Java|(}
+\begin{alltt}
+// Stack.java
+\public \abstractX \class Stack<Item
+\hfill\extends Comparable<? \super Item>> \{
+  ...
+  \public \abstractX Stack<Item> tms();
+  \protectedX \abstractX Stack<Item> tms0(\final Item x);
+\}
+// EStack.java
+\public \class EStack<Item \extends Comparable<? \super Item>> 
+       \extends Stack<Item> \{
+  ...
+  \public Stack<Item> tms() \{ \return \this; \}
+  \protectedX Stack<Item> tms0(\final Item x) \{\return push(x);\}
+\}
+// NStack.java
+\public \class NStack<Item \extends Comparable<? \super Item>>
+       \extends Stack<Item> \{
+  ...
+  \public Stack<Item> tms() \{ \return tail.tms0(head); \}
+
+  \protectedX Stack<Item> tms0(\final Item x) \{
+    \return tail.cutr(\new EStack<Item>().push(x),\this); \}
+\}
+\end{alltt}
+\index{tri par interclassement!$\sim$ descendant!$\sim$ en \Java|)}
+Remarquons à nouveau que les fonctions auxiliaires résultent en des
+méthodes \texttt{protected} et qu'elles ajoutent au coût total, en
+comparaison avec le programme fonctionnel: ceci est une limitation du
+transfert de propriétés du programme source au programme
+cible. Toutefois, les coûts asymptotiques sont les mêmes. Un examen
+plus fouillé de \texttt{tms0} révèle que nous avons traduit
+\(\cons{y}{t}\) par \texttt{this} au lieu de \texttt{tail.push(head)},
+pour aller plus vite. De plus, nous appelons \texttt{cutr} sur
+\texttt{tail} parce que nous savons déjà que c'est le paramètre que
+nous allons utiliser pour discriminer lors de la traduction de
+\fun{cutr/3}, définie à la \fig~\vref{fig_tms}:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{cutr}(s,\cons{y}{t},\cons{a,b}{u})
+                       & \rightarrow & \fun{cutr}(\cons{y}{s},t,u);\\
+\fun{cutr}(s,t,u)      & \rightarrow 
+                       & \fun{mrg}(\fun{tms}(s),\fun{tms}(t)).
+\end{array}
+\end{equation*}
+Nous remarquons que deux piles sont filtrées par le premier motif,
+donc un raffinement est nécessaire et nous devons choisir un paramètre
+pour commencer. Un peu d'attention révèle que le troisième est le
+meilleur candidat, parce que s'il ne contient pas au moins deux
+éléments, il est tout simplement écarté. Nous devons introduire deux
+fonctions auxilaires, \fun{cutr\(_0\)/3} et \fun{cutr\(_1\)/3}, et
+nous assurer que le troisième paramètre de \fun{cutr\(_0\)/3} contient
+au moins deux éléments et que le second paramètre de
+\fun{cutr\(_1\)/3} en contient au moins un. Le résultat est montré à
+la \fig~\ref{fig_cutr}.
+\begin{figure}
+\begin{equation*}
+\boxed{
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{cutr}(s,t,\el)     & \rightarrow
+                        & \fun{mrg}(\fun{tms}(s),\fun{tms}(t));\\
+\fun{cutr}(s,t,\cons{a}{u}) 
+                        & \rightarrow & \fun{cutr}_0(s,t,u).\\
+\\
+\fun{cutr}_0(s,t,\el)   & \rightarrow
+                        & \fun{mrg}(\fun{tms}(s),\fun{tms}(t));\\
+\fun{cutr}_0(s,t,\cons{b}{u})
+                        & \rightarrow & \fun{cutr}_1(s,t,u).\\
+\\
+\fun{cutr}_1(s,\el,u)   & \rightarrow & \fun{tms}(s);\\
+\fun{cutr}_1(s,\cons{y}{t},u) 
+                        & \rightarrow 
+                        & \fun{cutr}(\cons{y}{s},t,u).
+\end{array}}
+\end{equation*}
+\caption{Découpage et interclassement descendant\label{fig_cutr}}
+\end{figure}
+Notons que \(\fun{cutr}_1(s,\el,u) \rightarrow
+\fun{mrg}(\fun{tms}(s),\fun{tms}(\el))\) a été simplifié en usant des théorèmes
+\(\fun{tms}(\el) \equiv \el\) et \(\fun{mrg}(s,\el) \equiv
+s\). La traduction est directe:\index{tri par
+  interclassement!$\sim$ descendant!$\sim$ en \Java|(}
+\begin{alltt}
+// Stack.java
+\public \abstractX \class Stack<Item
+\hfill\extends Comparable<? \super Item>> \{
+  ...
+  \public    \abstractX Stack<Item> cutr(\final Stack<Item> s,
+                                      \final Stack<Item> t);
+  \protectedX \abstractX Stack<Item> cutr0(\final Stack<Item> s,
+                                       \final Stack<Item> t);
+  \protectedX \abstractX Stack<Item> cutr1(\final Stack<Item> s,
+                                       \final Stack<Item> u);
+\}
+// EStack.java
+\public \class EStack<Item \extends Comparable<? \super Item>> 
+       \extends Stack<Item> \{
+  ...
+  \public Stack<Item> cutr(\final Stack<Item> s,
+                          \final Stack<Item> t) \{
+    \return s.tms().mrg(t.tms()); \}
+
+  \protectedX Stack<Item> cutr0(\final Stack<Item> s,
+                              \final Stack<Item> t) \{
+    \return s.tms().mrg(t.tms()); \}
+
+  \protectedX Stack<Item> cutr1(\final Stack<Item> s,
+                              \final Stack<Item> u) \{
+    \return s.tms(); \}
+\}
+// NStack.java
+\public \class NStack<Item \extends Comparable<? \super Item>>
+       \extends Stack<Item> \{
+  ...
+  \public Stack<Item> cutr(\final Stack<Item> s,
+                          \final Stack<Item> t) \{
+    \return tail.cutr0(s,t); \}
+
+  \protectedX Stack<Item> cutr0(\final Stack<Item> s,
+                              \final Stack<Item> t) \{
+    \return t.cutr1(s,tail); \}
+
+  \protectedX Stack<Item> cutr1(\final Stack<Item> s,
+                              \final Stack<Item> u) \{
+    \return u.cutr(s.push(head),tail); \} \}
+\end{alltt}
+Remarquons qu'il est de la plus haute importance de garder à l'esprit
+le paramètre dans la fonction d'origine dont la traduction sera la
+base du sous-typage en \Java. Enfin, la classe \texttt{Main} pourrait
+ressembler à
+\begin{alltt}
+\public \class Main \{\hfill// Main.java
+  \public \static \void \main (String[] args) \{
+    Stack<Integer> nil = \new EStack<Integer>();
+    Stack<Integer> s = nil.push(5).push(2).push(7);\hfill// 7 2 5
+    Stack<Integer> t = nil.push(4).push(1);\hfill// 1 4
+    s.tms().print();\hfill// 2 5 7
+    s.cat(t).tms().print(); \} \}\hfill// 1 2 4 5 7
+\end{alltt}
+\index{tri par interclassement!$\sim$ descendant!$\sim$ en \Java|)}
+\index{Java@\Java!traduction en $\sim$|)}

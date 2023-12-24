@@ -1,0 +1,748 @@
+\section{Filtrage de pile}
+\label{sec_skipping}
+
+Nous étudions ici comment recopier une pile donnée tout en ignorant un
+élément donné. [\emph{La progression est volontairement très lente.}]
+
+\paragraph{Première occurrence}
+\label{def_linear_search}
+\index{pile!filtrage!première occurrence}
+
+Supposons que \(\fun{sfst}(s,x)\)\index{sfst@\fun{sfst/2}|(} (anglais,
+\emph{skip the first occurrence}) calcule une pile identique à~\(s\)
+mais sans la première occurrence de~\(x\), en commençant au sommet. En
+particulier, si~\(x\) est absent de~\(s\), alors la valeur de l'appel
+est identique à~\(s\). Ceci est notre
+\emph{spécification}.\index{spécification} Par exemple, nous nous
+attendons aux évaluations suivantes:\label{sfst_ex}
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{sfst}(\el,3) & \twoheadrightarrow & \el;\\
+\fun{sfst}(\el,\el) & \twoheadrightarrow & \el;\\
+\fun{sfst}([3,\el],[5,2]) & \twoheadrightarrow & [3,\el];\\
+\fun{sfst}([\el,[1,2],4,\el,4],4) & \twoheadrightarrow & 
+  [\el,[1,2],\el,4];\\
+\fun{sfst}([4,[1,2],\el,\el,4],\el)
+ & \twoheadrightarrow & [4,[1,2],\el,4].
+\end{array}
+\end{equation*}
+
+\paragraph{Premier essai}
+
+Tentons une approche directe. En particulier, parvenu à ce point, il
+est important de ne pas chercher une définition en forme terminale. La
+forme terminale doit être considérée comme une optimisation et
+optimiser précocement est ouvrir la jarre de Pandore.  La première
+idée qui pourrait venir à l'esprit est de définir une fonction
+auxiliaire \fun{mem/2} telle que l'appel \(\fun{mem}(s,x)\) vérifie si
+un élément~\(x\) donné est dans une pile~\(s\) donnée, parce que la
+notion d'appartenance est implicite dans la formulation de la
+spécification. Mais deux problèmes surgissent alors. D'abord, quel
+serait le résultat d'une telle fonction? Ensuite, quel serait son
+coût? À des fins didactiques, poursuivons sur cette piste pour voir où
+elle nous mène. Une pile peut être vide ou non, donc nous commençons
+avec deux règles:
+\begin{equation*}
+\fun{mem}(\el,x) \rightarrow \fbcode{CCCCC}\,;\quad
+\fun{mem}(\cons{y}{s},x) \rightarrow \fbcode{CCCCC}\,.
+\end{equation*}
+Nous avons introduit une variable~\(y\), distincte de la
+variable~\(x\). Deux variables différentes peuvent (ou non) dénoter la
+même valeur, mais deux occurrences de la même variable dénotent
+toujours la même valeur. Si nous avions écrit
+\begin{equation*}
+\fun{mem}(\el,x) \rightarrow \fbcode{CCCCC}\,;\quad
+\fun{mem}(\cons{\underline{x}}{s},x) \rightarrow \fbcode{CCCCC}\,.
+\end{equation*}
+un cas aurait manqué, à savoir quand le sommet de la pile n'est pas
+l'élément recherché, par exemple, \(\fun{mem}(3,[4])\) échouerait
+faute de motif filtrant. Maintenant, quel est le premier membre droit?
+Le premier motif est filtrant seulement si la pile est vide. En
+particulier, cela signifie que l'élément n'est pas dans la pile,
+puisque, par définition, une pile vide ne contient rien. Comment
+exprimer cela?  Étant donné que le problème de départ passe ce cas
+sous silence, il est dit
+\emph{sous-spécifié}.\index{sous-spécification} Nous pourrions
+peut-être penser que zéro serait un moyen de dénoter l'absence d'un
+élément:
+\begin{equation*}
+\fun{mem}(\el,x) \rightarrow 0;\quad
+\fun{mem}(\cons{y}{s},x) \rightarrow \fbcode{CCCCC}\,.
+\end{equation*}
+Mais ceci serait une erreur parce qu'il n'y a pas de relation
+naturelle et nécessaire entre le concept de vacuité et le nombre
+zéro. Zéro est compris algébriquement comme le nombre noté~\(0\) tel
+que \(0 + n = n + 0 = n\), pour tout nombre~\(n\). Essayons alors la
+pile vide:
+\begin{equation*}
+\fun{mem}(\el,x) \rightarrow \el;\quad
+\fun{mem}(\cons{y}{s},x) \rightarrow \fbcode{CCCCC}\,.
+\end{equation*}
+L'étape suivante est de trouver un moyen de comparer concrètement la
+valeur de~\(x\) à la valeur de~\(y\). Nous pouvons pour cela faire
+usage de la règle ci-dessus à propos des variables: deux occurrences
+de la même variable signifient qu'elles ont la même valeur. Par
+conséquent,
+\begin{equation*}
+\fun{mem}(\el,x) \rightarrow \el;\quad
+\fun{mem}(\cons{x}{s},x) \rightarrow \fbcode{CCCCC}\,.
+\end{equation*}
+n'était pas si mauvais, après tout?  Certes, mais nous savons à
+présent qu'un cas est manquant, donc ajoutons-le à la fin, où \(x \neq
+y\):
+\begin{equation*}
+\fun{mem}(\el,x) \rightarrow \el;\;\;
+\fun{mem}(\cons{x}{s},x) \rightarrow \fbcode{CCCCC};\;\:
+\underline{\fun{mem}(\cons{y}{s},x)} \rightarrow \fbcode{CCCCC}\,.
+\end{equation*}
+À présent, quel est le second membre droit? Il est évalué lorsque
+l'élément recherché se trouve au sommet de la pile courante. Comment
+exprimer cela? Nous pourrions finir avec l'élément lui-même, la
+justification étant que si le résultat est la pile vide, alors
+l'élément n'est pas dans la pile originelle, sinon le résultat est
+l'élément lui-même:
+\begin{equation*}
+\fun{mem}(\el,x) \rightarrow \el;\quad
+\fun{mem}(\cons{x}{s},x) \rightarrow x;\quad
+\fun{mem}(\cons{y}{s},x) \rightarrow \fbcode{CCCCC}\,.
+\end{equation*}
+Le dernier membre droit est facile à deviner car il concerne le cas où
+le sommet de la pile (\(y\)) n'est pas l'élément recherché (\(x\)),
+donc un appel récursif qui laisse de côté~\(y\) s'impose:
+\begin{equation*}
+\fun{mem}(\el,x) \rightarrow \el;\quad
+\fun{mem}(\cons{x}{s},x) \rightarrow x;\quad
+\fun{mem}(\cons{y}{s},x) \rightarrow \fun{mem}(s,x).
+\end{equation*}
+
+Quelques tests devraient accroître la confiance en la
+correction\index{correction} et la complétude\index{complétude} de
+cette définition par rapport à sa spécification. Étiquetons les règles
+au préalable:
+\begin{equation*}
+\fun{mem}(\el,x)         \smashedrightarrow{\zeta} \el;\quad
+\fun{mem}(\cons{x}{s},x) \smashedrightarrow{\eta}   x;\quad
+\fun{mem}(\cons{y}{s},x) \smashedrightarrow{\theta} \fun{mem}(s,x).
+\end{equation*}
+Nous pourrions alors éprouver les cas suivants:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l@{\;}l@{\;}l}
+\fun{mem}(\el,3) & \smashedrightarrow{\zeta} & \el,\\
+\fun{mem}([1],3) & \smashedrightarrow{\theta} & \fun{mem}(\el,3)
+& \smashedrightarrow{\zeta} & \el,\\
+\fun{mem}([1,3,2],3) & \smashedrightarrow{\theta} & \fun{mem}([3,2],3)
+& \smashedrightarrow{\eta} & 3.
+\end{array}
+\end{equation*}
+Le programme semble marcher: l'élément~\(x\) est dans la pile~\(s\) si
+le résultat est~\(x\), sinon nous obtenons~\(\el\). Toutefois, cette
+fonction n'est pas correcte.\index{correction} L'assomption cachée et
+incorrecte est qu'«un élément ne peut être une pile», malgré les
+contre-exemples donnés au début pour illustrer le comportement attendu
+de \fun{sfst/2}. En particulier, un élément peut être la pile vide et
+cela cause une ambiguïté avec notre définition de \fun{mem/2}:
+\begin{equation*}
+  \fun{mem}(\el,\el) \smashedrightarrow{\zeta} \el \xleftarrow{\smash{\eta}} \fun{mem}([\el],\el).
+\end{equation*}
+Il n'est pas possible de discriminer les deux cas, le premier
+signifiant absence de l'élément et le second présence, car tous deux
+terminent avec la pile vide. En fait, nous aurions dû distinguer deux
+constructeurs pour dénoter «l'élément est présent» et «l'élément est
+absent.» Par exemple,
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{mem}(\el,x)         & \smashedrightarrow{\zeta}  & \fun{false}();\\
+\fun{mem}(\cons{x}{s},x) & \smashedrightarrow{\eta}   & \fun{true}();\\
+\fun{mem}(\cons{y}{s},x) & \smashedrightarrow{\theta} & \fun{mem}(s,x).
+\end{array}
+\end{equation*}
+Mais, pour l'instant, rebroussons chemin et demandons-nous à nouveau
+si l'usage de \fun{mem/2} est vraiment une bonne idée.
+
+\paragraph{Meilleure approche}
+
+Supposons que la pile donnée contienne l'élément au fond. L'emploi de
+\fun{mem/2} pour le trouver revient à effectuer une traversée complète
+de la pile. Ensuite, un autre parcours depuis le sommet est nécessaire
+pour recopier la pile sans son dernier élément. Au total, deux visites
+complètes sont accomplies.
+
+Une meilleure idée consiste à entrelacer ces deux passes en une seule,
+car le problème surgit du fait que \fun{mem/2} oublie les éléments qui
+ne sont pas celui qui l'intéresse, donc, après avoir trouvé ce dernier
+ou conclu à son absence, elle ne peut reconstruire la pile
+résultante. Par entrelacement, nous entendons que, durant la
+traversée, les concepts d'appartenance et de recopie sont combinés, au
+lieu d'être mis en {\oe}uvre en séquence avec deux appels de
+fonction. Nous avons rencontré une situation similaire lors de la
+conception de la fonction qui retourne une pile: \fun{rev\(_0\)}, qui
+appelle \fun{cat/2}, est bien plus lente que \fun{rev/1}, qui utilise
+une pile auxiliaire.
+
+Ici, l'algorithme consiste à mémoriser tous les éléments rencontrés
+et, si l'élément demandé n'est pas trouvé, la pile finale est
+construite à partir d'eux; si l'élément est trouvé, la pile est aussi
+construite à partir d'eux mais aussi des éléments restants. Il y a
+d'habitude deux manières de conserver les éléments visités: soit dans
+un paramètre d'accumulation, appelé \emph{accumulateur}, soit dans le
+contexte d'appels récursifs. Pour l'instant, il faut se souvenir d'un
+conseil cardinal: ne pas rechercher à concevoir une définition en
+forme terminale, mais préférer à la place une approche directe. Bien
+entendu, dans des cas simples, une approche directe peut être en forme
+terminale, mais notre point de vue est méthodologique: ignorons
+\emph{a priori} tout souci de forme terminale. Par conséquent,
+utilisons le contexte d'un appel récursif pour mémoriser les éléments
+comparés. Une pile étant vide ou non, il est naturel de commencer avec
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{sfst}(\el,x) & \rightarrow & \fbcode{CCCCC}\,;\\
+\fun{sfst}(\cons{y}{s},x) & \rightarrow & \fbcode{CCCCC}\,.
+\end{array}
+\end{equation*}
+Tout comme nous l'avons tenté avec \fun{mem/2}, nous devons distinguer
+le cas où \(x\)~est identique à~\(y\):
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{sfst}(\el,x) & \rightarrow & \fbcode{CCCCC}\,;\\
+\underline{\fun{sfst}(\cons{x}{s},x)} & \rightarrow & \fbcode{CCCCC}\,;\\
+\fun{sfst}(\cons{y}{s},x) & \rightarrow & \fbcode{CCCCC}\,.
+\end{array}
+\end{equation*}
+
+Cette méthode est une recherche linéaire\index{recherche linéaire}:
+les éléments dans la pile sont comparés un par un à~\(x\), en
+commençant par le sommet, jusqu'à atteindre le fond ou un élément égal
+à~\(x\). Puisque nous savons que la dernière règle gère le cas où \(x
+\neq y\), nous devons mémoriser~\(y\) et continuer à comparer~\(x\)
+avec les éléments restant dans~\(s\). C'est ici que l'appel récursif
+avec le contexte \(\cons{y}{\text{\textvisiblespace}}\) est mis en
+place:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{sfst}(\el,x) & \rightarrow & \fbcode{CCCCC}\,;\\
+\fun{sfst}(\cons{x}{s},x) & \rightarrow & \fbcode{CCCCC}\,;\\
+\fun{sfst}(\cons{y}{s},x) & \rightarrow & \cons{y}{\fun{sfst}(s,x)}.
+\end{array}
+\end{equation*}
+Il nous faut remarquer que la position de~\(y\) dans le résultat est
+la même que dans l'entrée (le sommet).
+
+La deuxième règle correspond au cas où l'élément~\(x\) recherché est
+le sommet de la pile courante, qui est une sous-pile de la pile
+initiale. Une pile faite d'élément successifs depuis le sommet de la
+pile d'entrée est appelée un \emph{préfixe} de celle-ci. Quand une
+pile est une sous-pile d'une autre, c'est-à-dire qu'elle est composée
+d'éléments successifs jusqu'au fond de l'autre, elle est un
+\emph{suffixe}. Nous savons que~\(x\) dans \(\cons{x}{s}\) est la
+première occurrence de~\(x\) dans la pile originelle (celle du premier
+appel), parce que nous ne traiterions pas ce cas encore: la
+spécification dit bien que la première occurrence doit être absente du
+résultat; puisque cette occurrence est, à l'instant courant, le sommet
+d'un suffixe, nous n'avons qu'à terminer avec~\(s\), que nous ne
+visitons pas:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{sfst}(\el,x)         & \rightarrow & \fbcode{CCCCC}\,;\\
+\fun{sfst}(\cons{x}{s},x) & \rightarrow & \underline{s};\\
+\fun{sfst}(\cons{y}{s},x) & \rightarrow & \cons{y}{\fun{sfst}(s,x)}.
+\end{array}
+\end{equation*}
+La première règle gère le cas où nous avons traversé toute la pile
+donnée (jusqu'à \(\el\)) sans trouver~\(x\). Ainsi le résultat est
+simplement la pile vide car la pile vide sans~\(x\) est toujours la
+pile vide:
+\begin{equation*}
+\fun{sfst}(\el,x)         \rightarrow \el;\quad
+\fun{sfst}(\cons{x}{s},x) \rightarrow s;\quad
+\fun{sfst}(\cons{y}{s},x) \rightarrow \cons{y}{\fun{sfst}(s,x)}.
+\end{equation*}
+
+Effectuons quelques tests maintenant et, pour éviter des erreurs, il
+est commode d'étiqueter les règles avec des lettres grecques:
+\begin{equation*}
+\fun{sfst}(\el,x)          \xrightarrow{\smash{\theta}} \el;\quad
+\fun{sfst}(\cons{x}{s},x)  \xrightarrow{\smash{\iota}}  s;\quad
+\fun{sfst}(\cons{y}{s},x)  \xrightarrow{\smash{\kappa}}
+\cons{y}{\fun{sfst}(s,x)}.
+\end{equation*}
+Remarquons l'égalité implicite dans les règles non-linéaires
+comme~\(\iota\); en d'autre termes, le coût d'une telle comparaison
+est~\(0\) dans notre modèle. Notons aussi qu'il est crucial d'écrire
+la règle~\(\iota\) avant~\(\kappa\), sinon \(\iota\) serait inutile
+(\emph{code mort}\index{langage fonctionnel!code mort}) car nous
+pourrions alors avoir \(y = x\) dans~\(\kappa\). Voici un
+exemple\index{pile!filtrage!exemple} d'une recherche qui trouve son
+objet:
+\begin{equation*}
+\fun{sfst}([3,0,1,2],1) \xrightarrow{\smash{\kappa}}
+\cons{3}{\fun{sfst}([0,1,2],1)} \xrightarrow{\smash{\kappa}}
+\cons{3,0}{\fun{sfst}([1,2],1)} \xrightarrow{\smash{\iota}} [3,0,2].
+\end{equation*}
+Maintenant un exemple d'une recherche
+infructueuse\index{pile!filtrage!exemple}:
+\begin{equation*}
+\fun{sfst}([3,0],4) \xrightarrow{\smash{\kappa}}
+\cons{3}{\fun{sfst}([0],4)} \xrightarrow{\smash{\kappa}}
+\cons{3,0}{\fun{sfst}(\el,4)} \xrightarrow{\smash{\theta}}
+[3,0].
+\end{equation*}
+Des exemples plus compliqués, \vpageref{sfst_ex}, donnent:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{sfst}([4,[1,2],\el,\el,4],\el)
+& \smashedrightarrow{\kappa} &
+  [4|\fun{sfst}([[1,2],\el,\el,4],\el)]\\
+& \smashedrightarrow{\kappa} &
+  [4|[[1,2]|\fun{sfst}([\el,\el,4],\el)]]\\
+& = & [4,[1,2]|\fun{sfst}([\el,\el,4],\el)]\\
+& \smashedrightarrow{\iota} & [4,[1,2]|[\el,4]]\\
+& = & [4,[1,2],\el,4].
+\end{array}
+\end{equation*}
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{sfst}([3,\el],[5,2])
+& \smashedrightarrow{\kappa} & [3|\fun{sfst}([\el],[5,2])]\\
+& \smashedrightarrow{\kappa} & [3|[\el|\fun{sfst}(\el,[5,2])]]\\
+& = & [3,\el|\fun{sfst}(\el,[5,2])]\\
+& \smashedrightarrow{\theta} & [3,\el|\el]\\
+& = & [3,\el].
+\end{array}
+\end{equation*}
+Lorsque nous sommes convaincus que notre définition est
+correcte\index{correction} et complète\index{complétude} par rapport à
+la spécification, il reste encore quelque chose qui vaut la peine
+d'être mis à l'épreuve: ce qui se produit pour des entrées qui ne sont
+pas attendues par la spécification. Cette dernière dit ici que le
+second argument de \fun{sfst/2} est une pile. Que se passerait-il si
+nous fournissions un entier à la place?  Par exemple, nous avons
+\(\fun{sfst}(3,\el) \nrightarrow\). C'est un échec de filtrage,
+c'est-à-dire que les réécritures sont bloquées, ce qui signifie que
+notre définition n'est pas robuste,\index{robustesse} en d'autres
+termes, elle échoue brutalement sur des données non-spécifiées.
+
+Lorsque, comme ici, nous programmons à petite échelle, la robustesse
+n'est usuellement pas un souci, car nous nous concentrons sur
+l'apprentissage d'un langage par de simples algorithmes, mais lorsque
+nous développons de grandes applications, nous devons prendre soin de
+rendre le code robuste en détectant et signalant les
+erreurs. Remarquons aussi qu'un programme peut être
+complet\index{complétude} mais pas robuste\index{robustesse} parce que
+la complétude est relative à ce qui est spécifié du comportement
+(toute entrée valide doit être acceptée et ne pas conduire à une
+erreur), alors que la robustesse est relative à ce qui n'est pas
+spécifié.
+
+Ces considérations sont semblables à la discussion des mérites et
+faiblesses des langages de script, dont les sémantiques font leur
+possible pour ignorer les erreurs en recourant à des valeurs spéciales
+par défaut (telle la chaîne vide) pour ne pas interrompre
+l'évaluation. Dans le contexte de notre langage fonctionnel abstrait,
+nous pouvons employer un constructeur de données, c'est-à-dire une
+fonction sans règles de réécriture, comme \(\fun{error}()\), pour
+rapporter une erreur ou notifier une information sur les
+arguments. Par exemple, voici une fonction qui distingue entre les
+piles et les autres valeurs en argument:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{is\_a\_stack}(\el) & \rightarrow & \fun{yes}();\\
+\fun{is\_a\_stack}(\cons{x}{s}) & \rightarrow & \fun{yes}();\\
+\fun{is\_a\_stack}(s) & \rightarrow & \fun{no}().
+\end{array}
+\end{equation*}
+Les constructeurs de données sont pratiques pour avertir d'une erreur
+parce qu'ils sont comme des identificateurs uniques, donc ils ne
+peuvent être confondus avec les autres données que la fonction calcule
+et peuvent être aisément détectés par l'appelant. Par exemple, voici
+une version robuste\index{robustesse} de \fun{sfst/2} qui discrimine
+les erreurs:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{sfst}(\el, x) & \rightarrow & \el;\\
+\fun{sfst}(\cons{x}{s},x) & \rightarrow & s;\\
+\fun{sfst}(\cons{y}{s},x) & \rightarrow & \cons{y}{\fun{sfst}(s,x)};\\
+\fun{sfst}(s,x) & \rightarrow & \underline{\fun{error}()}.
+\end{array}
+\end{equation*}
+Ainsi, une fonction appelant \fun{sfst/2} peut faire la différence
+entre une réécriture normale et une erreur en inscrivant un
+constructeur de données dans un motif:
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{caller}(s,x) & \rightarrow & \fun{check}(\fun{sfst}(s,x)).\\
+\fun{check}(\fun{error}()) & \rightarrow & \fbcode{CCCCC}\,;\\
+\fun{check}(r) & \rightarrow & \fbcode{CCCCC}\,.
+\end{array}
+\end{equation*}
+
+\paragraph{Coût}
+
+Le coût \(\C{\fun{sfst}}{n}\)\index{sfst@$\C{\fun{sfst}}{n}$|(} de
+\(\fun{sfst}(s,x)\), où \(n\)~est la longueur de~\(s\), dépend de la
+présence de~\(x\) dans~\(s\). Si absent, la trace est
+\(\kappa^n\theta\), donc \(\C{\fun{sfst}}{n} = \len{\kappa^n\theta} =
+n + 1\). Si présent, le coût dépend de la position de~\(x\)
+dans~\(s\). Posons que la position du sommet de~\(s\) est~\(0\) et que
+\(x\)~se trouve à la position~\(j\). Nous avons alors
+\(\C{\fun{sfst}}{n,j} = \len{\kappa^j\iota} = j +
+1\)\index{sfst@$\C{\fun{sfst}}{n}$|)}. Si nous ajoutons la convention
+que la position~\(n\) (ou plus grand) est synonyme d'absence, alors
+nous pouvons utiliser la dernière formule pour les deux cas.
+
+Selon cette même convention, le coût minimum
+\(\B{\fun{sfst}}{n}\)\index{sfst@$\B{\fun{sfst}}{n}$} est la valeur
+minimum\index{pile!filtrage!coût minimum} de \(\C{\fun{sfst}}{n,j}\),
+pour des valeurs de~\(j\) allant de~\(0\) à~\(n\), par conséquent
+\(\B{\fun{sfst}}{n} = \C{\fun{sfst}}{n,0} = 1\), ce qui veut dire que
+l'élément se trouve au sommet, et, par dualité, le coût
+maximum\index{pile!filtrage!coût maximum}
+est\index{sfst@$\W{\fun{sfst}}{n}$} \(\W{\fun{sfst}}{n} =
+\C{\fun{sfst}}{n,n} = n + 1\), ce qui advient quand l'élément est
+absent. Le coût moyen
+\(\M{\fun{sfst}}{n}\)\index{sfst@$\M{\fun{sfst}}{n}$}\index{pile!filtrage!coût
+  moyen} d'une recherche positive (qui atteint l'élément recherché)
+suppose que \(j\)~peut prendre toutes les positions dans la pile:
+\begin{equation*}
+  \M{\fun{sfst}}{n} = \frac{1}{n}\sum_{j=0}^{n-1}\C{\fun{sfst}}{n,j} =
+  \frac{1}{n}\sum_{j=0}^{n-1}(j+1) = \frac{1}{n}\sum_{j=0}^{n}j
+  = \frac{n+1}{2} \sim \frac{n}{2},
+\end{equation*}
+par l'équation~\eqref{eq_sum_k} \vpageref{eq_sum_k}.
+
+Notons que la règle~\(\kappa\) implique la création d'un
+n{\oe}ud~(\texttt{|}), que nous appelons \emph{n{\oe}ud
+  d'empilage}\index{n{\oe}ud d'empilage}, comme on peut le voir à la
+\fig~\vref{fig_sfst_dag}.
+\begin{figure}
+\centering
+\includegraphics[bb=71 664 345 721]{sfst_dag}
+\caption{Graphe orienté sans circuit pour \fun{sfst/2}
+\label{fig_sfst_dag}}
+\end{figure}
+Ainsi, alors que le contenu de la nouvelle pile est partagé avec la
+pile originelle, \(j\)~n{\oe}uds sont alloués si~\(x\) se trouve à la
+position~\(j\) dans~\(s\). Le pire des cas se présente donc lorsque
+\(x\)~est absent, de telle sorte que \(n\)~n{\oe}uds sont requis, tous
+inutiles parce que, dans ce cas, \(\fun{sfst}(s,x) \equiv s\). Pour
+éviter cette situation, une autre définition de \fun{sfst/2} doit être
+conçue, une qui se défasse de tous les n{\oe}uds construits et
+référence directement la pile donnée quand~\(x\) est absent.
+
+Le point crucial est exprimé par la construction
+\(\cons{y}{\texttt{\textvisiblespace}}\) de la règle~\(\kappa\),
+appelée le \emph{contexte}\index{langage fonctionnel!contexte d'appel}
+de l'appel \(\fun{sfst}(s,x)\)\index{sfst@\fun{sfst/2}|)}, que nous
+désirons seulement si~\(x\) est présent. Pour résoudre ces exigences
+contradictoires, nous choisissons d'ôter le contexte et de ranger
+l'information qu'il contient (\(y\)) dans l'accumulateur\index{langage
+  fonctionnel!accumulateur} d'une nouvelle règle~\(\xi\), dérivée
+de~\(\kappa\). Nous utilisons l'accumulateur dans une nouvelle
+règle~\(\nu\) déduite de~\(\iota\). La nouvelle version de
+\fun{sfst/2} est appelée
+\fun{sfst\(_0\)/2}\index{sfst0@\fun{sfst\(_0\)/2}} et est montrée dans
+la \fig~\ref{fig_sfst0}.\index{sfst@\fun{sfst/4}}
+\begin{figure}[b]
+\begin{equation*}
+\boxed{%
+\begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
+  \fun{rcat}(\el,t)              & \xrightarrow{\smash{\zeta}} & t; &
+  \fun{sfst}(\el,x,t,u)          & \xrightarrow{\smash{\mu}} & u;\\
+  \fun{rcat}(\cons{x}{s},t)      & \xrightarrow{\smash{\eta}} 
+                               & \fun{rcat}(s,\cons{x}{t}). & 
+\fun{sfst}(\cons{x}{s},x,t,u)  & \xrightarrow{\smash{\nu}}
+                               & \fun{rcat}(t,s);\\
+\fun{sfst}_0(s,x)              & \xrightarrow{\smash{\lambda}} 
+                               & \fun{sfst}(s,x,\el,s). &
+\fun{sfst}(\cons{y}{s},x,t,u)  & \xrightarrow{\smash{\xi}}
+                               & \fun{sfst}(s,x,\cons{y}{t},u).
+\end{array}}
+\end{equation*}
+\caption{Ôter la première occurrence avec partage maximum
+\label{fig_sfst0}}
+\end{figure}
+
+Bien entendu, alors que dans~\(\iota\) nous avons simplement
+référencé~\(s\), la construction correspondante au contexte manquant
+de~\(\kappa\) doit être effectuée par~\(\nu\). Par ailleurs, nous
+devons ajouter un nouvel argument qui pointe vers la pile originelle,
+de façon à pouvoir l'utiliser dans une nouvelle règle~\(\mu\),
+généralisant \(\theta\) à toutes les piles. Remarquons les formes des
+membres droits: chacun est soit une valeur~(\(\zeta\) et~\(\mu\)) ou
+un appel de fonction dont les arguments sont des valeurs. En d'autres
+termes, aucun appel n'a de contexte. Une définition satisfaisant une
+telle propriété syntaxique est dite \emph{en forme
+  terminale}\index{langage fonctionnel!forme
+  terminale}. Intuitivement, la conséquence pratique d'une telle forme
+est que les appels qui terminent se déroulent jusqu'à ce que la valeur
+soit atteinte et c'est tout: \emph{la valeur du dernier appel est la
+  valeur du premier appel}. Cette sorte de définition permet le
+partage dans la règle~\(\mu\), où \(u\) (la référence vers la pile
+originelle) devient la valeur, à la place de \(\fun{rev}(t)\). Les
+compilateurs et interprètes de langages fonctionnels exploitent
+souvent cette propriété pour accélérer les calculs, comme nous le
+verrons dans la dernière partie de ce livre.
+
+L'inconvénient de \fun{sfst\(_0\)/2} par rapport à \fun{sfst/2} est le
+coût additionnel dû au retournement de~\(t\) dans la règle~\(\nu\),
+c'est-à-dire l'appel \(\fun{rcat}(t,s)\). Plus précisément, il y a
+deux cas complémentaires: \(x\)~est absent de~\(s\) ou non. Supposons
+que \(s\)~contient \(n\)~éléments et \(x\)~est absent. La trace
+\index{langage fonctionnel!évaluation!trace} de \(\fun{sfst}_0(s,x)\)
+est \(\lambda\xi^n\mu\), d'où \(\C{\fun{sfst}_0}{n} =
+\len{\lambda\xi^n\mu} = \len{\lambda} + n \len{\xi} + \len{\mu} = n +
+2\). Supposons maintenant que \(x\)~se trouve à la position \(k\)
+dans~\(s\), où le sommet est à la position~\(0\). La trace
+d'évaluation est alors \(\lambda \xi^{k}\nu\eta^k\zeta\), donc
+\(\C{\fun{sfst}_0}{n,k} = \len{\lambda \xi^{k}\nu\eta^k\zeta} = 2k +
+3\). Il apparaît maintenant avec clarté que
+\begin{gather*}
+  \B{\fun{sfst}_0}{0} = 2,\quad \B{\fun{sfst}_0}{n} = \min_{0
+    \leqslant k < n}\{\C{\fun{sfst}_0}{n}, \C{\fun{sfst}_0}{n,k}\}
+                    = \min_{0 \leqslant k < n}\{n+2,2k+3\} = 3,\\
+  \W{\fun{sfst}_0}{n} = \max_{0 \leqslant k < n}\{n+2,2k+3\} = 2n+1,
+\end{gather*}
+où le coût minimum se produit quand l'élément est au sommet de la
+pile; le coût maximum lorsque l'élément est tout au fond de la pile.
+
+Puisqu'appeler \fun{rcat/2}\index{rcat@\fun{rcat/2}} pour retourner
+les éléments visités est la source du coût supplémentaire, nous
+pourrions essayer de maintenir l'ordre de ces éléments comme dans la
+\fig~\vref{fig_sfst1}\index{sfst1@\fun{sfst\(_1\)/1}}
+\begin{figure}
+\begin{equation*}
+\boxed{%
+\begin{array}{r@{\;}l@{\;}l}
+\fun{sfst}_1(s,x)               & \rightarrow
+                                & \fun{sfst}_2(s,x,\el,s).\\
+\fun{sfst}_2(\el,x,t,u)         & \rightarrow & u;\\
+\fun{sfst}_2(\cons{x}{s},x,t,u) & \rightarrow & \fun{cat}(t,s);\\
+\fun{sfst}_2(\cons{y}{s},x,t,u) & \rightarrow
+                                & \fun{sfst}_2(s,x,\fun{cat}(t,[y]),u).
+\end{array}}
+\end{equation*}
+\caption{Ôter la première occurrence (mauvais programme)
+\label{fig_sfst1}}
+\end{figure}
+mais en usant de la concaténation de piles au lieu de l'empilement. Le
+problème est que la dernière règle de
+\fun{sfst\(_2\)/4}\index{sfst@\fun{sfst\(_2\)/4}}
+\index{cat@\fun{cat/2}} produit
+\(\fun{cat}(\dots\fun{cat}((\fun{cat}(\el,[x_1]),[x_2])\dots)\), dont
+le coût est quadratique\index{coût!$\sim$ quadratique} comme dans la
+réécriture~\eqref{eq_rev0}
+\vpageref{eq_rev0}\index{rev0@\fun{rev\(_0\)/1}}, et à partir de
+laquelle nous concluons promptement que \(\W{\fun{sfst}_1}{n} \sim
+\tfrac{1}{2}n^2\).
+
+\paragraph{Dernière occurrence}
+\index{pile!filtrage!dernière occurrence}
+
+Soit \(\fun{slst}(s,x)\)\index{slst@\fun{slst/2}} (anglais, \emph{skip
+  the last occurrence}) une pile identique à~\(s\) mais sans la
+dernière occurrence de~\(x\). En particulier, si~\(x\) est absent,
+alors la valeur de l'appel est identique à~\(s\). Le premier réflexe
+est probablement de voir ce problème comme le dual du filtrage de la
+pile pour ôter la première occurrence:
+\begin{equation}
+  \fun{slst}_0(s,x) \xrightarrow{\smash{\pi}}
+                  \fun{rev}(\fun{sfst}(\fun{rev}(s),x)).
+\label{eq_slst0}
+\end{equation}
+Si~\(x\) est absent de~\(s\), nous avons
+\index{slst0@$\C{\fun{slst}_0}{n}$}\index{rev@$\C{\fun{rev}}{n}$}
+\(\C{\fun{slst}_0}{n} = 1 + \C{\fun{rev}}{n} + \W{\fun{sfst}}{n} +
+\C{\fun{rev}}{n} = 3n+6\). Si~\(x\) se trouve à la position~\(k\),
+\(\C{\fun{slst}_0}{n,k} = 1 + \C{\fun{rev}}{n} +
+\C{\fun{sfst}}{n,n-k-1} + \C{\fun{rev}}{n-1} = 3n - k + 4\). En
+conséquence, nous sommes à même de dériver le coût minimum et
+maximum:\index{pile!filtrage!coût minimum}\index{pile!filtrage!coût
+  maximum}
+\begin{equation*}
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
+\B{\fun{slst}_0}{n} = \min_{k < n}\{3n+6,3n-k+4\} = 2n + 5,
+\end{equation*}
+quand\index{slst@$\B{\fun{slst}_0}{n}$} \(x\)~est au fond de~\(s\), et
+\begin{equation*}
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
+\W{\fun{slst}_0}{n} = \max_{k < n}\{3n+6,3n-k+4\} = 3n+6,
+\end{equation*}
+quand\index{slst@$\W{\fun{slst}_0}{n}$} \(x\)~est manquant.  Le coût
+moyen\index{pile!filtrage!coût
+  moyen}\index{slst@$\M{\fun{slst}_0}{n}$} quand \(x\)~est présent est
+\begin{equation*}
+%\abovedisplayskip=0pt
+%\belowdisplayskip=0pt
+\M{\fun{slst}_0}{n} =
+\frac{1}{n}\sum_{k=0}^{n-1}\C{\fun{slst}_0}{n,k} =
+\frac{1}{n}\sum_{k=0}^{n-1}(3n - k + 4) = \frac{5n+9}{2} \sim
+\frac{5}{2}n.
+\end{equation*}
+Quand \(x\)~est présent, le pire des cas est quand il est au sommet de
+la pile: \(\W{\fun{slst}_0}{n} = \max_{k<n}\{3n - k + 4\} = 3 n+ 4
+\leqslant 3n + 6\).
+
+Dans tous les cas, le coût maximum égale, à l'asymptote, \(3n\),
+c'est-à-dire que trois visites complètes de~\(s\) sont effectuées,
+alors qu'une seule aurait suffit à détecter l'absence
+de~\(x\). Parallèlement, le coût minimum égale, à l'asymptote, \(2n\),
+ce qui compte deux traversées complètes, alors que la présence
+de~\(x\) au fond aurait pu être vérifiée avec une seule. Toutes ces
+observations suggèrent qu'une meilleure conception vaut la peine
+d'être envisagée.
+
+Considérons la \fig~\ref{fig_slst},
+\begin{figure}[b]
+\begin{equation*}
+\boxed{%
+\begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
+  \fun{slst}(\el,x)           & \xrightarrow{\smash{\rho}} & \el;
+& \fun{slst}(\el,x,t)         & \xrightarrow{\smash{\upsilon}} & t;\\
+  \fun{slst}(\cons{x}{s},x)   & \xrightarrow{\smash{\sigma}} & 
+                                           \fun{slst}(s,x,s);
+& \fun{slst}(\cons{x}{s},x,t) & \xrightarrow{\smash{\phi}} &
+                                           \cons{x}{\fun{slst}(t,x)};\\
+  \fun{slst}(\cons{y}{s},x)   & \xrightarrow{\smash{\tau}} &
+                                           \cons{y}{\fun{slst}(s,x)}.
+& \fun{slst}(\cons{y}{s},x,t) & \xrightarrow{\smash{\chi}} &
+                                           \fun{slst}(s,x,t).
+\end{array}}
+\end{equation*}
+\caption{Ôter la dernière occurrence avec \fun{slst/2}
+\label{fig_slst}\index{pile!filtrage!dernière occurrence}}
+\end{figure}
+où, avec l'aide d'une recherche linéaire\index{recherche linéaire}
+(règles \(\rho\)~et~\(\tau\)), nous trouvons la première occurrence
+de~\(x\) (règle~\(\sigma\)), mais, dans le but de vérifier si c'est
+aussi la dernière, nous devons lancer une autre recherche
+linéaire~(\(\chi\)). Si elle est positive (\(\phi\)), nous conservons
+l'occurrence précédemment trouvée (\(x\)) et nous recommençons une
+autre recherche; si elle est négative~(\(\upsilon\)), le~\(x\) trouvé
+tantôt était en fait la dernière occurrence. Remarquons que nous avons
+deux fonctions mutuellement récursives,
+\fun{slst/2}\index{slst@\fun{slst/2}}
+et~\fun{slst/3}\index{slst@\fun{slst/3}}. La définition de cette
+dernière contient un troisième paramètre, \(t\), qui est une copie de
+la pile~\(s\) lorsqu'une occurrence de~\(x\) avait été trouvée
+par~\fun{slst/2}\index{slst@\fun{slst/2}} (\(\sigma\)). Cette copie
+est employée pour reprendre~(\(\phi\)) la recherche du point où
+l'occurrence précédente fut trouvée. Ceci est nécessaire
+puisque~\(y\), dans la règle~\(\chi\), doit être écarté parce que nous
+ne savons pas à ce moment-là si le~\(x\) précédent était le dernier.
+
+Considérons l'évaluation à \fig~\vref{fig_slst_27071}.
+\begin{figure}
+\begin{equation*}
+\boxed{%
+\begin{array}{r@{\;}l@{\;}l}
+\fun{slst}([2,7,0,7,1],7)
+& \xrightarrow{\smash{\tau}}
+& \cons{2}{\fun{slst}([7,0,7,1],7)}\\
+& \xrightarrow{\smash{\sigma}}
+& \cons{2}{\fun{slst}([0,7,1],7,[0,7,1])}\\
+& \xrightarrow{\smash{\chi}} 
+& \cons{2}{\fun{slst}([7,1],7,[0,7,1])}\\
+& \xrightarrow{\smash{\phi}}
+& \cons{2,7}{\fun{slst}([0,7,1],7)}\\
+& \xrightarrow{\smash{\tau}}
+& \cons{2,7,0}{\fun{slst}([7,1],7)}\\
+& \xrightarrow{\smash{\sigma}}
+& \cons{2,7,0}{\fun{slst}([1],7,[1])}\\
+& \xrightarrow{\smash{\chi}} 
+& \cons{2,7,0}{\fun{slst}(\el,7,[1])}\\
+& \xrightarrow{\smash{\upsilon}}
+& \cons{2,7,0}{[1]} = [2,7,0,1].
+\end{array}}
+\end{equation*}
+\caption{\(\fun{slst}([2,7,0,7,1],7) \twoheadrightarrow
+  [2,7,0,1]\)\label{fig_slst_27071}\index{pile!filtrage!exemple}}
+\end{figure}
+Si l'élément est manquant, la recherche linéaire échoue, comme à
+l'accoutumée, avec un coût de \(\len{\tau^n\rho} = n + 1\). Sinon,
+nommons \( 0 \leqslant x_1 < x_2 < \dots < x_p < n\) les positions des
+\(p\)~occurrences de~\(x\) dans~\(s\). La trace
+d'évaluation\index{langage fonctionnel!évaluation!trace} est
+\begin{equation*}
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
+\tau^{x_1} 
+\cdot
+\prod_{k=2}^{p}(\sigma\chi^{x_k-x_{k-1}-1})(\phi\tau^{x_k-x_{k-1}-1})
+\cdot
+(\sigma\chi^{n-x_p-1}\upsilon),
+\end{equation*}
+dont la longueur est \(x_1 + 2\sum_{k=2}^{p}(x_k-x_{k-1}) + (n - x_p +
+1) = n + x_p - x_1 + 1\). En d'autres termes, si la position de la
+première occurrence est notée~\(f\) et la position de la dernière
+est~\(l\), nous avons obtenu la formule\index{slst@$\C{\fun{slst}}{n}$}
+\begin{equation*}
+\C{\fun{slst}}{n,f,l} = n + l - f + 1.
+\end{equation*}
+Nous en déduisons que le coût minimum\index{pile!filtrage!coût
+  minimum} se produit quand \(l-f+1 = p\), c'est-à-dire quand toutes
+les occurrences sont consécutives, par conséquent
+\(\B{\fun{slst}}{n,p} = n + p\)\index{slst@$\B{\fun{slst}}{n}$}. Le
+coût maximum\index{pile!filtrage!coût maximum} arrive quand~\({f=0}\)
+et~\({l=n-1}\), c'est-à-dire quand il y a au moins deux occurrences
+de~\(x\), une au sommet et une autre au fond: \(\W{\fun{slst}}{n} =
+2n\)\index{slst@$\W{\fun{slst}}{n}$}. Nous pouvons vérifier que
+lorsque la pile est entièrement constituée de~\(x\), les extremums
+concourent à la valeur~\(2n\). Le coût moyen\index{pile!filtrage!coût
+  moyen} \index{slst@$\M{\fun{slst}}{n}$} quand \(x\)~est présent
+requiert la détermination du coût pour toutes les paires \((f,l)\)
+possibles, donc avec \(0 \leqslant f \leqslant l < n\):
+\begin{align*}
+\M{\fun{slst}}{n} 
+  &= \frac{2}{n(n+1)} \sum_{f=0}^{n-1}\sum_{l=f}^{n-1}{\C{\fun{slst}}{n,f,l}}
+   = \frac{2}{n(n+1)} \sum_{f=0}^{n-1}\sum_{l=f}^{n-1}{(n+l-f+1)}\\
+  &= \frac{2}{n(n+1)} \sum_{f=0}^{n-1}\bigg(\!\!(n-f+1)(n-f)
+     + \!\!\sum_{l=0}^{n-f-1}\!\!(l+f)\!\!\bigg)\\
+  &= \frac{1}{n(n+1)}\sum_{f=0}^{n-1}(3n + 1 - f)(n-f)\\
+  &= \frac{n(3n+1)}{n+1} - \frac{4n+1}{n(n+1)}\sum_{f=0}^{n-1}f
+     + \frac{1}{n(n+1)}\sum_{f=0}^{n-1}f^2\\
+  &= \frac{4}{3}{n} + \frac{2}{3} \sim \frac{4}{3}n,
+\end{align*}
+où \(\sum_{f=0}^{n-1}{f} = n(n-1)/2\) est l'équation~\eqref{eq_sum_k},
+\vpageref{eq_sum_k}, et la somme des carrés successifs est calculée de
+la façon suivante.
+
+Nous appliquons la méthode dite du \emph{télescopage} ou des
+\emph{différences} à la suite \((k^3)_{k>0}\). Nous débutons avec
+l'égalité \((k+1)^3 = k^3 + 3k^2 + 3k + 1\), donc \((k+1)^3 - k^3 =
+3k^2 + 3k + 1\). Alors nous pouvons varier~\(k\) et sommer les
+différences que sont les membres gauches, résultant en de nombreuses
+annulations deux à deux, sauf le premier et le dernier terme:
+\begin{align}
+  && (1+1)^3 - \boxed{1^3} &= 3 \cdot 1^2 + 3 \cdot 1 + 1\notag\\
++ && (2+1)^3 - 2^3         &= 3 \cdot 2^2 + 3 \cdot 2 + 1\notag\\
++ &&&\;\;\vdots\notag\\
++ && \boxed{(n+1)^3} - n^3 &= 3n^2 + 3n + 1\notag
+\intertext{\rule{\linewidth}{0.4pt}}
+\Rightarrow 
+  &&\boxed{(n+1)^3} - \boxed{1^3}
+  &= 3 \sum_{k=1}^{n}{k^2} + 3 \sum_{k=1}^{n}{k} + n\notag\\
+  && n^3 + 3n^2 + 3n
+  &= 3 \sum_{k=1}^{n}{k^2} + 3 \cdot \frac{n(n+1)}{2} + n\notag\\
+\Leftrightarrow && \sum_{k=1}^{n}{k^2} &= \frac{n(n+1)(2n+1)}{6}.
+\label{eq_sum_of_squares}
+\end{align}
+
+\paragraph{Exercices}
+\begin{enumerate}
+
+  \item Prouvez que \(\fun{sfst/2} = \fun{sfst\(_0\)/2}\).
+    \index{sfst@\fun{sfst/2}}\index{sfst0@\fun{sfst\(_0\)/2}}
+
+  \item Montrez que \(\B{\fun{sfst}_0}{n} = 3\), \(\W{\fun{sfst}_0}{n} =
+    2n+1\) et \(\M{\fun{sfst}_0}{n} = n+2\) (recherche positive).
+
+  \item Prouvez \fun{slst/2} = \fun{slst\(_0\)/2}.
+
+  \item Montrez que, dans le pire des cas à déterminer,
+    \(\fun{slst}_0(s,x)\) créé \(3n\)~n{\oe}uds inutiles si~\(s\)
+    contient \(n\)~éléments. Comparez l'usage qui est fait de la
+    mémoire par \fun{slst\(_0\)/2}\index{slst@\fun{slst\(_0\)/2}} avec
+    celui de \fun{slst/2}\index{slst@\fun{slst/2}}.
+
+\end{enumerate}

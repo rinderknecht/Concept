@@ -1,0 +1,3229 @@
+\chapter{Arbres binaires}
+
+Dans ce chapitre, nous plaçons l'accent sur l'arbre binaire
+comme structure de donnée, en la redéfinissant au passage et en
+présentant quelques algorithmes et mesures classiques qui s'y
+rapportent.
+
+La \fig~\vref{fig_bt_shape} montre un arbre binaire en exemple.
+\begin{figure}
+\centering
+\includegraphics{bt_shape}
+\caption{Un arbre binaire\label{fig_bt_shape}}
+\end{figure}
+Les n{\oe}uds sont de deux sortes: internes\index{arbre
+  binaire!n{\oe}ud interne|(} (\(\circ\) et \(\bullet\)) ou
+externes\index{arbre binaire!n{\oe}ud externe|(} (\(\scriptstyle
+\Box\)). La caractéristique d'un arbre binaire est que les n{\oe}uds
+internes sont reliés vers le bas à deux autres n{\oe}uds, appelé
+\emph{enfants}\index{arbre!n{\oe}ud!enfant}, alors que les n{\oe}uds
+externes n'ont pas de tels liens. La
+racine\index{arbre!n{\oe}ud!racine} est le n{\oe}ud interne le plus
+haut, représenté par un cercle et un diamètre. Les
+\emph{feuilles}\index{arbre binaire!feuille} sont les n{\oe}uds
+internes dont les enfants sont deux n{\oe}uds externes; elles sont
+figurées par des disques (\(\bullet\)).
+
+% Wrapping figure better declared before a paragraph
+%
+%\begin{wrapfigure}[9]{r}[0pt]{0pt}
+\begin{figure}
+% [9] vertical lines
+% {r} mandatory right placement
+% [0pt] of margin overhang
+\centering
+\includegraphics[bb=71 648 177 723]{leaf_tree}
+\caption{Un arbre feuillu\label{fig_leaf_tree}}
+\end{figure}
+%\end{wrapfigure}
+Les n{\oe}uds internes sont d'habitude associés avec quelque
+information, alors que les n{\oe}uds externes ne le sont pas, comme
+celui montré à la \fig~\vref{fig_bt_ex1}:
+\begin{figure}
+\centering
+\subfloat[Arbre binaire étendu\label{fig_bt_ex1}]{
+\includegraphics{bt_ex1}}
+\qquad
+\subfloat[Arbre binaire taillé\label{fig_bt_ex2}]{
+\includegraphics[bb=67 645 169 721]{bt_ex2}}
+\caption{Deux représentations d'un arbre binaire\label{fig_bt_ex}}
+\end{figure}
+ceci sera la représentation par défaut dans ce livre. Parfois, pour
+attirer plus d'attention sur les n{\oe}uds internes, les n{\oe}uds
+externes peuvent être omis, comme à la \fig~\vref{fig_bt_ex2}. De
+plus, on pourrait alors restreindre l'information aux seules feuilles,
+auquel cas l'arbre est dit \emph{feuillu}\index{arbre binaire!$\sim$
+  feuillu}, comme à la \fig~\vref{fig_leaf_tree}. Dans une autre
+variante, tous les n{\oe}uds comportent quelque donnée, comme c'était
+le cas avec les arbres de comparaison (voir par exemple la
+\fig~\vref{fig_cmp_tree}, où les n{\oe}uds externes contiennent des
+permutations et les n{\oe}uds internes ont des comparaisons de clés).
+
+Comme nous l'avons vu avec l'étude des algorithmes de tri optimaux en
+moyenne, \vpageref{par_minimax}, un \emph{chemin
+  externe}\index{arbre!chemin externe} est un chemin de la racine à un
+n{\oe}ud externe\index{arbre!n{\oe}ud!$\sim$ externe} et la
+\emph{hauteur}\index{arbre!hauteur} d'un arbre est la longueur des
+chemins externes maximaux. Par exemple, la hauteur de l'arbre binaire
+à la \fig~\vref{fig_bt_shape} est~\(5\) et il y a deux chemins
+externes de longueur maximale. Un chemin de la racine à un n{\oe}ud
+interne est un \emph{chemin interne}\index{arbre!chemin interne}. La
+\emph{longueur interne}\index{arbre!longueur interne} d'un arbre est
+la somme des longueurs de tous ses chemins internes. Nous avons déjà
+rencontré la \emph{longueur externe} \vpageref{external_path_length},
+qui est la somme des longueurs de tous les chemins externes. (La
+longueur d'un chemin est le nombre de ses arcs.)
+
+\paragraph{Avertissement}
+
+Certains auteurs utilisent une nomenclature différente pour la
+définition des feuilles et de la hauteur. Il n'est pas rare de
+rencontrer le concept de \emph{profondeur}\index{arbre
+  binaire!profondeur} d'un arbre, qui peut être confondu par erreur
+avec sa hauteur, la profondeur comptant le nombre de n{\oe}uds sur un
+chemin maximal.
+\begin{thm}%[Internal and external nodes]
+\label{thm_int_ext}
+\textsl{Un arbre binaire avec \(n\)~n{\oe}uds internes a
+  \(n+1\)~n{\oe}uds externes.}
+\end{thm}
+\begin{proof}
+  Soit \(e\)~le nombre de n{\oe}uds externes à déterminer. Nous
+  pouvons compter les arcs de deux manières complémentaires. Du haut
+  vers le bas, nous voyons que chaque n{\oe}ud interne a exactement
+  deux enfants, donc \(l=2n\), où \(l\)~est le nombre d'arcs. Du bas
+  vers le haut, nous voyons que chaque n{\oe}ud a exactement un
+  parent, sauf la racine, qui n'en a pas. Par conséquent,
+  \(l=(n+e)-1\). En identifiant les deux valeurs de~\(l\), nous
+  obtenons \(e=n+1\).
+\end{proof}
+
+\paragraph{Structure de donnée}
+
+Il y a de nombreuses manières de représenter un arbre binaire comme
+une structure de donnée. D'abord, nous pouvons remarquer que, tout
+comme une pile peut être vide ou non, il y a deux sortes de n{\oe}uds,
+internes ou externes, et l'arbre vide peut être identifié à un
+n{\oe}ud externe. Donc, nous n'avons besoin que de deux constructeurs
+de donnée, disons \fun{ext/0}\index{ext@\fun{ext/0}} pour les
+n{\oe}uds externes et \fun{int/3}\index{int@\fun{int/3}} pour les
+n{\oe}uds internes. Ce dernier a trois arguments parce que deux
+enfants sont attendus, ainsi que quelque information. L'ordre de ces
+arguments pourrait varier. Si nous voyons un n{\oe}ud interne se
+trouver, horizontalement, entre ses sous-arbres \(t_1\)~et~\(t_2\),
+nous pourrions préférer l'écriture \(\fun{int}(t_1,x,t_2)\). (Les
+lecteurs sémites pourraient souhaiter échanger \(t_1\)~et~\(t_2\).)
+Alternativement, nous pourrions considérer qu'un n{\oe}ud interne se
+trouve, verticalement, avant ses sous-arbres, auquel cas nous
+préférerions écrire \(\fun{int}(x,t_1,t_2)\). Ce choix rend la
+dactylographie et l'écriture manuscrite de petits arbres plus aisée,
+en particulier pour tester\index{test} nos programmes. Par exemple,
+l'arbre binaire de la \fig~\vref{fig_bt_ex1} correspond à
+\(\fun{int}(8, t_1, \fun{int}(3, \fun{ext}(), \fun{ext}(2,
+\fun{ext}(), \fun{ext}())))\), avec le sous-arbre \(t_1=\fun{int}(1,
+\fun{ext}(3, \fun{ext}(), \fun{int}(5, \fun{ext}(), \fun{ext}())),
+\fun{ext}(9, \fun{ext}(), \fun{ext}()))\). Nous adopterons dorénavant
+la convention \(\fun{int}(x,t_1,t_2)\), parfois appelée \emph{notation
+  préfixe}.\index{arbre binaire!notation préfixe}\index{arbre
+  binaire!n{\oe}ud interne|)}\index{arbre binaire!n{\oe}ud externe|)}
+
+La \emph{taille}\index{arbre binaire!taille} d'un arbre binaire est le
+nombre de ses n{\oe}uds internes. C'est là la mesure la plus fréquente
+des arbres quand on exprime le coût de fonctions. En guise de
+réchauffement, écrivons un programme qui calcule la taille d'un arbre
+binaire:
+\begin{equation}
+\fun{size}(\fun{ext}()) \rightarrow 0;\quad
+\fun{size}(\fun{int}(x,t_1,t_2))
+  \rightarrow 1 + \fun{size}(t_1) + \fun{size}(t_2).
+\index{size@\fun{size/1}}
+\label{eq_size}
+\end{equation}
+Notons la similitude avec le calcul de la longueur d'une pile:
+\begin{equation*}
+\fun{len}(\fun{nil}()) \rightarrow 0;\quad
+\fun{len}(\fun{cons}(x,s)) \rightarrow 1 + \fun{len}(s).
+\index{len@\fun{len/1}}
+\index{nil@\fun{nil/0}}
+\index{cons@\fun{cons/2}}
+\end{equation*}
+La différence est que deux appels récursifs sont nécessaires pour
+visiter tous les n{\oe}uds d'un arbre binaire, au lieu d'un pour une
+pile. Cette topologie bidimensionnelle rend possible de nombreux types
+de visites, appelés \emph{marches} ou \emph{parcours}.
+
+\section{Parcours}
+\index{arbre!parcours}
+\index{arbre!marche|see{parcours}}
+\label{sec_traversals}
+
+Dans cette section, nous présentons les parcours classiques des arbres
+binaires, qui sont distingués selon l'ordre dans lequel l'information
+emmagasinée aux n{\oe}uds internes est empilée sur une pile.
+
+\mypar{Préfixe}
+\index{arbre binaire!préfixe|(}
+\label{preorder}
+
+Un parcours \emph{préfixe}\index{arbre binaire!préfixe} d'un arbre
+binaire non-vide est une pile dans laquelle on trouve d'abord la
+racine (récursivement, le n{\oe}ud interne courant), suivie par les
+n{\oe}uds en préfixe du sous-arbre gauche et, finalement, les
+n{\oe}uds en préfixe du sous-arbre droit. (Par abus de langage, nous
+identifierons le contenu des n{\oe}uds aux n{\oe}uds eux-mêmes
+lorsqu'il n'y a pas d'ambiguïté.) Par exemple, les n{\oe}uds en
+préfixe de l'arbre à la \fig~\vref{fig_bt_ex1} sont
+\([8,1,3,5,9,3,2]\). Étant donné que cette méthode visite les enfants
+d'un n{\oe}ud avant ses frères\index{arbre!n{\oe}ud!frère} (deux
+n{\oe}uds internes sont frères s'ils ont le même parent), elle est un
+\emph{parcours en profondeur}.\index{arbre binaire!parcours en
+  profondeur} Une simple fonction le réalisant est \fun{pre\(_0\)/1}:
+\begin{equation}
+\fun{pre}_0(\fun{ext}()) \xrightarrow{\smash{\gamma}} \el;
+\;\;
+\fun{pre}_0(\fun{int}(x,t_1,t_2)) \xrightarrow{\smash{\delta}}
+ \cons{x}{\fun{cat}(\fun{pre}_0(t_1),\fun{pre}_0(t_2))}.
+\label{eq_pre0}
+\index{pre0@\fun{pre\(_0\)/1}}
+\end{equation}
+Nous avons utilisé la concaténation\index{pile!concaténation} de piles
+réalisée par \fun{cat/2}\index{cat@\fun{cat/2}}, définie
+en~\eqref{def_cat} \vpageref{def_cat}, pour ordonner les valeurs des
+sous-arbres. Nous savons que le coût de \fun{cat/2} est linéaire en la
+taille de son premier argument: \(\C{\fun{cat}}{p} :=
+\Call{\fun{cat}(s,t)} = p+1\), où \(p\)~est la longueur de~\(s\). Soit
+\(\C{\fun{pre}_0}{n}\)\index{pre0@$\C{\fun{pre}_0}{n}$} le coût de
+\(\fun{pre}_0(t)\), où \(n\)~est le nombre de n{\oe}uds internes
+de~\(t\). D'après la définition de \fun{pre\(_0\)/1}, nous déduisons
+\begin{equation*}
+\C{\fun{pre}_0}{0} = 1;\quad
+\C{\fun{pre}_0}{n+1} = 
+  1 + \C{\fun{pre}_0}{p} + \C{\fun{pre}_0}{n-p} + \C{\fun{cat}}{p},
+\index{pre0@$\C{\fun{pre}_0}{n}$}
+\end{equation*}
+où \(p\)~est la taille de~\(t_1\). Donc \(\C{\fun{pre}_0}{n+1} =
+\C{\fun{pre}_0}{p} + \C{\fun{pre}_0}{n-p} + p + 2\). Cette récurrence
+appartient à une classe dite «diviser pour
+régner»\index{conception!grands pas}\index{diviser pour
+  régner|see{conception, grands pas}} parce qu'elle provient de
+stratégies qui divisent la donnée (ici, de taille \(n+1\)), puis
+résolvent séparément les parties ainsi obtenues (ici, de tailles~\(p\)
+et \(n-p\)) et, finalement, combinent les solutions des parties en une
+solution de la partition. Le coût supplémentaire dû à la composition
+des solutions partielles (ici, \(p+2\)) est appelé le
+\emph{péage}\index{péage} (anglais, \emph{toll}) et l'existence d'une
+forme close pour la solution, ainsi que son comportement asymptotique,
+dépendent de manière cruciale de la sorte de péage.
+
+Dans d'autres contextes (voir page~\pageref{big-step}) et de manière
+idiosyncratique, nous appelions cette stratégie \emph{conception à
+  grands pas}\index{conception!grands pas} parce que nous voulions une
+façon commode de la contraster avec une autre sorte de modélisation
+que nous avons appelée \emph{conception à petits
+  pas}\index{conception!petits pas}. Conséquemment, nous avons déjà
+rencontré des cas de «diviser pour régner,» par exemple, avec le tri
+par interclassement\index{tri par interclassement} au
+chapitre~\vref{chap_merge_sort}, qui souvent symbolise le concept
+lui-même.
+
+Le coût maximum 
+\(\W{\fun{pre}_0}{k}\)\index{pre0@$\W{\fun{pre}_0}{n}$} satisfait la
+récurrence
+\begin{equation}
+\W{\fun{pre}_0}{0} = 1;\quad
+\W{\fun{pre}_0}{k+1} = 
+  2 + \max_{0 \leqslant p \leqslant k}\{\W{\fun{pre}_0}{p} 
+                                  + \W{\fun{pre}_0}{k-p} + p\}.
+\index{pre0@$\W{\fun{pre}_0}{n}$}
+\label{eq_pre0_max}
+\end{equation}
+Au lieu d'attaquer frontalement ces équations, nous pouvons deviner
+une solution possible et la vérifier. Ici, nous pourrions essayer de
+choisir à chaque appel récursif \(p=k\), en suivant l'idée que
+maximiser le péage à chaque n{\oe}ud de l'arbre conduira peut-être à
+un total qui est maximum. Donc, nous envisageons
+\begin{equation}
+\W{\fun{pre}_0}{0} = 1;\quad
+\W{\fun{pre}_0}{k+1} = \W{\fun{pre}_0}{k} + k + 3.
+\label{eq_max_pre0_rec}
+\end{equation}
+En sommant les membres pour des valeurs croissantes de la variable
+\(k=0\) à \(k=n-1\) et en simplifiant, nous obtenons
+\begin{equation*}
+\W{\fun{pre}_0}{n} = \frac{1}{2}(n^2 + 5n + 2) \sim \frac{1}{2}n^2.
+\end{equation*}
+Maintenant, nous vérifions si cette forme close satisfait
+l'équation~\eqref{eq_pre0_max}. Nous avons \(2(\W{\fun{pre}_0}{p} +
+\W{\fun{pre}_0}{n-p} + p + 2) = 2p^2 + 2(1-n)p + n^2 + 5n + 8\). Ceci
+est l'équation d'une parabole dont le minimum se produit pour \(p =
+(n-1)/2\) et dont le maximum pour \(p = n\), sur l'intervalle
+\([0,n]\). Le maximum, dont la valeur est \(n^2 + 7n + 8\), égale \(2
+\cdot \W{\fun{pre}_0}{n+1}\), donc la forme close satisfait l'équation
+de récurrence.
+
+À quoi ressemble un arbre binaire qui maximise le coût de
+\fun{pre\(_0\)/1}\index{pre0@\fun{pre\(_0\)/1}}? Nous obtenons le
+péage \(k+3\) dans~\eqref{eq_max_pre0_rec} parce que nous prenons le
+coût maximum de \fun{cat/2}\index{cat@\fun{cat/2}} à chaque n{\oe}ud,
+ce qui signifie que tous les n{\oe}uds internes qui sont concaténés
+proviennent du sous-arbre gauche, du sous-arbre gauche du sous-arbre
+gauche etc. donc ces n{\oe}uds sont concaténés encore et encore en
+chemin vers la racine (c'est-à-dire, au retour de chaque appel
+récursif), entraînant un coût quadratique. La forme d'un tel arbre est
+montrée à la \fig~\vref{fig_max_pre0}.
+\begin{figure}
+\centering
+\subfloat[Maximum\label{fig_max_pre0}]{
+  \includegraphics{max_pre0}}
+\qquad
+\subfloat[Minimum\label{fig_min_pre0}]{
+  \includegraphics{min_pre0}}
+\caption{Arbres extrêmes pour \(\C{\fun{pre}_0}{n}\)
+\label{fig_tree_stack}}
+\end{figure}
+
+Par dualité, le coût minimum
+\(\B{\fun{pre}_0}{k}\)\index{pre0@$\B{\fun{pre}_0}{n}$} satisfait la
+récurrence
+\begin{equation*}
+\B{\fun{pre}_0}{0} = 1;\quad
+\B{\fun{pre}_0}{k+1} = 
+  2 + \min_{0 \leqslant p \leqslant k}\{\B{\fun{pre}_0}{p} 
+                                  + \B{\fun{pre}_0}{k-p} + p\}.
+\end{equation*}
+En reprenant le raisonnement précédent, mais dans la direction
+opposée, nous essayons de minimiser le péage en choisissant \(p=0\),
+ce qui signifie que tous les n{\oe}uds externes, sauf un, sont des
+sous-arbres gauches. En conséquence, nous avons
+\begin{equation}
+\B{\fun{pre}_0}{0} = 1;\quad
+\B{\fun{pre}_0}{k+1} = \B{\fun{pre}_0}{k} + 3.
+\label{eq_min_pre0_rec}
+\end{equation}
+En sommant les membres pour des valeurs croissantes de la variable de
+\(k=0\) à \(k=n-1\) et en simplifiant, nous obtenons
+\begin{equation*}
+\B{\fun{pre}_0}{n} = 3n + 1 \sim 3n.
+\end{equation*}
+Il est aisé de s'assurer que ceci est en fait une solution
+de~\eqref{eq_min_pre0_rec}. La forme de l'arbre correspondant est
+montrée à la \fig~\vref{fig_min_pre0}. Notez que les deux arbres
+extrêmes sont isomorphes à une pile (c'est-à-dire à l'arbre de syntaxe
+abstraite\index{arbre!$\sim$ de syntaxe abstraite} d'une pile) et, en
+tant que tels, il sont des \emph{arbres dégénérés}.\index{arbre
+  binaire!$\sim$ dégénéré} Par ailleurs, le coût maximum de
+\fun{pre\(_0\)/1}\index{pre0@\fun{pre\(_0\)/1}} est quadratique, ce
+qui nécessite une amélioration.
+
+Nous pouvons parvenir à une autre conception à grands
+pas\index{conception!grands pas} en n'utilisant pas
+\fun{cat/2}\index{cat@\fun{cat/2}} et en appelant à la place
+\fun{flat/1}\index{stack!flattening}\index{flat@\fun{flat/1}}, définie
+à la \fig~\vref{fig_flat}, \emph{une seule fois à la fin}. La
+\fig~\vref{fig_pre1} montre qu'une nouvelle version du parcours
+préfixe, appelée \fun{pre\(_1\)/1}\index{pre1@\fun{pre\(_1\)/1}}.
+\begin{figure}[b]
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{pre}_1(t) & \rightarrow & \fun{flat}(\fun{pre}_2(t)).\\
+\\
+\fun{pre}_2(\fun{ext}()) & \rightarrow & \el;\\
+\fun{pre}_2(\fun{int}(x,t_1,t_2)) & \rightarrow &
+  \cons{x,\fun{pre}_2(t_1)}{\fun{pre}_2(t_2)}.
+\end{array}}
+\end{equation*}
+\caption{Parcours préfixe avec \fun{flat/1}\label{fig_pre1}}
+\end{figure}
+Le coût de \(\fun{pre}_2(t)\)\index{pre2@\fun{pre\(_2\)/1}} est
+\(2n+1\) (voir théorème~\ref{thm_int_ext} \vpageref{thm_int_ext}). À
+la page~\pageref{cost_flat}, nous avons trouvé que le coût de
+\(\fun{flat}(s)\)\index{flat@\fun{flat/1}} est \(1 + n + \Omega +
+\Gamma + L\), où \(n\)~est la longueur de
+\(\fun{flat}(s)\)\index{flat@\fun{flat/1}}, \(\Omega\)~est le nombre
+de pile vides dans~\(s\), \(\Gamma\)~est le nombre de piles non-vides
+et \(L\)~est la somme des longueurs des piles imbriquées. La valeur
+de~\(\Omega\) est \(n+1\) car c'est le nombre de n{\oe}uds
+externes. La valeur de~\(\Gamma\) est \(n-1\), parce que chaque
+n{\oe}ud interne donne lieu à une pile non-vide via la deuxième règle
+de \fun{pre\(_2\)/1}\index{pre2@\fun{pre\(_2\)/1}} et la racine est
+exclue car nous ne comptons que les piles imbriquées. La valeur
+de~\(L\) est \(3(n-1)\) car ces piles ont pour longueur~\(3\), par la
+même règle. Au total, \(\Call{\fun{flat}(s)} = 6n - 2\), où
+\(\fun{pre}_2(t) \twoheadrightarrow s\) et \(n\)~est la taille
+de~\(t\). Finalement, nous devons tenir compte de la règle définissant
+\fun{pre\(_1\)/1}\index{pre1@\fun{pre\(_1\)/1}} et évaluer à nouveau
+le coût dû à l'arbre vide:
+\begin{equation*}
+\C{\fun{pre}_1}{0} = 3;\index{pre1@$\C{\fun{pre}_1}{n}$}
+\quad
+\C{\fun{pre}_1}{n} = 1 + (2n+1) + (6n - 2) = 8n,\; 
+\text{si \(n > 0\).}
+\end{equation*}
+
+Malgré une amélioration significative du coût et l'absence de cas
+extrêmes, nous devrions tenter une conception à petits
+pas\index{conception!petits pas} avant d'abandonner la partie. Le
+principe qui soutend ce type d'approche est d'en faire le moins
+possible dans chaque règle. Il est clair que la racine est
+correctement placée par
+\fun{pre\(_0\)/1}\index{pre0@\fun{pre\(_0\)/1}}, mais sans
+\(\fun{pre}_3(t_1)\)\index{pre3@\fun{pre\(_3\)/1}} et
+\(\fun{pre}_3(t_2)\) dans le schéma suivant, que pouvons-nous faire?
+\begin{equation*}
+\fun{pre}_3(\fun{ext}()) \rightarrow \el;
+\quad
+\fun{pre}_3(\fun{int}(x,t_1,t_2)) \rightarrow 
+  \cons{x}{\fbcode{CCCCCCC}\,}.
+\end{equation*}
+Il faut alors penser en termes de forêts\index{arbre!forêt}, au lieu
+d'arbres isolés, parce qu'une forêt est une pile d'arbres et, en tant
+que telle, elle peut être utilisée aussi pour accumuler des
+arbres.\index{langage fonctionnel!accumulateur} Ceci est une
+technique fréquente lorsque l'on calcule avec des arbres. Voir
+la \fig~\vref{fig_pre3}.
+\begin{figure}
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{pre}_3(t) & \xrightarrow{\smash{\alpha}} & \fun{pre}_4([t]).\\
+\\
+\fun{pre}_4(\el) & \xrightarrow{\smash{\beta}} & \el;\\
+\fun{pre}_4(\cons{\fun{ext}()}{f})
+  & \xrightarrow{\smash{\gamma}} & \fun{pre}_4(f);\\
+\fun{pre}_4(\cons{\fun{int}(x,t_1,t_2)}{f})
+  & \xrightarrow{\smash{\delta}} &
+  \cons{x}{\fun{pre}_4(\cons{t_1,t_2}{f})}.
+\end{array}}
+\end{equation*}
+\caption{Parcours préfixe efficace avec une forêt\label{fig_pre3}}
+\end{figure}
+Les arbres vides de la forêt sont ignorés par la
+règle~\(\gamma\). Dans la règle~\(\delta\), les sous-arbres
+\(t_1\)~et~\(t_2\) sont maintenant simplement empilés à nouveau sur la
+forêt~\(f\), pour être examinés ultérieurement. De cette manière, il
+n'y a pas besoin de calculer
+\(\fun{pre}_4(t_1)\)\index{pre4@\fun{pre\(_4\)/1}} ou
+\(\fun{pre}_4(t_2)\) immédiatement. Cette méthode est légèrement
+différente de celle qui use d'un accumulateur qui contient, à chaque
+instant, un résultat partiel ou un résultat partiel retourné. Ici,
+aucun paramètre n'est ajouté, mais, une pile remplace l'arbre originel
+dans lequel on choisit des n{\oe}uds internes facilement (la racine du
+premier arbre) dans l'ordre attendu. Nous donnons un exemple à la \fig~\vref{fig_pre3_abcde},
+\begin{figure}
+\centering
+\includegraphics[bb=71 650 374 723]{pre3_abcde_0}
+\includegraphics[bb=71 668 306 721]{pre3_abcde_1}
+\includegraphics{pre3_abcde_2}
+\caption{Parcours préfixe avec \fun{pre\(_4\)/1}
+\label{fig_pre3_abcde}}
+\end{figure}
+où la forêt est l'argument de \fun{pre\(_4\)/1} et les n{\oe}uds
+cerclés sont la valeur courante de~\(x\) dans la règle~\(\delta\) de
+la \fig~\ref{fig_pre3}. Le coût de
+\(\fun{pre}_3(t)\)\index{pre3@\fun{pre\(_3\)/1}}, où \(n\)~est la taille
+de~\(t\), est facilement calculable:
+\begin{itemize}
+
+  \item la règle~\(\alpha\) est utilisée une fois;
+
+  \item la règle~\(\beta\) est utilisée une fois;
+
+  \item la règle~\(\gamma\) est utilisée une fois pour chaque n{\oe}ud
+    externe, c'est-à-dire \(n+1\) fois (voir le
+    théorème~\ref{thm_int_ext} \vpageref{thm_int_ext});
+
+  \item la règle~\(\delta\) est utilisée une fois pour chaque n{\oe}ud
+    interne, donc \(n\)~fois, par définition.
+
+\end{itemize}
+Au total, \(\C{\fun{pre}_3}{n} = 2n + 3 \sim
+2n\)\index{pre3@$\C{\fun{pre}}{n}$}, ce qui est une amélioration
+notable. Le lecteur attentif pourrait remarquer que nous pourrions
+réduire davantage le coût en ne visitant pas les n{\oe}uds externes,
+comme montré à la \fig~\ref{fig_pre5}.
+\begin{figure}[b]
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{pre}_5(t) & \rightarrow & \fun{pre}_6([t]).\\
+\\
+\fun{pre}_6(\el) & \rightarrow & \el;\\
+\fun{pre}_6(\cons{\fun{ext}()}{f})
+  & \rightarrow & \fun{pre}_6(f);\\
+\fun{pre}_6(\cons{\fun{int}(x,\fun{ext}(),\fun{ext}())}{f})
+  & \rightarrow & \cons{x}{\fun{pre}_6(f)};\\
+\fun{pre}_6(\cons{\fun{int}(x,\fun{ext}(),t_2)}{f})
+  & \rightarrow & \cons{x}{\fun{pre}_6(\cons{t_2}{f})};\\
+\fun{pre}_6(\cons{\fun{int}(x, t_1, \fun{ext}())}{f})
+  & \rightarrow & \cons{x}{\fun{pre}_6(\cons{t_1}{f})};\\
+\fun{pre}_6(\cons{\fun{int}(x,t_1,t_2)}{f})
+  & \rightarrow & \cons{x}{\fun{pre}_6(\cons{t_1,t_2}{f})}.
+\end{array}}
+\end{equation*}
+\caption{Longue définition d'un parcours préfixe\label{fig_pre5}}
+\end{figure}
+Nous avons alors \(\C{\fun{pre}_5}{n} = \C{\fun{pre}_3}{n} - (n+1) = n
++
+2\).\index{pre6@\fun{pre\(_6\)/1}}\index{pre5@\fun{pre\(_5\)/1}}\index{pre5@$\C{\fun{pre}_5}{n}$}
+Malgré le gain, le nouveau programme est significativement plus long
+et les membres droits sont des évaluations partielles\index{langage
+  fonctionnel!évaluation!$\sim$ partielle} de la règle~\(\delta\). La
+mesure de la donnée que nous utilisons pour évaluer les coûts n'inclut
+pas le temps abstrait pour sélectionner la règle à appliquer, mais il
+est probable que, plus il y a de motifs, plus cette pénalité cachée
+est élevée. Dans ce livre, nous préférons les programmes concis et
+donc visiter les n{\oe}uds externes, à moins qu'il n'y ait une raison
+logique de ne pas le faire.
+
+Au total, le nombre de n{\oe}uds d'empilage\index{n{\oe}ud d'empilage}
+créés par les règles~\(\alpha\) et~\(\delta\) est le nombre total de
+n{\oe}uds, soit~\(2n+1\), mais si nous voulons savoir combien il peut
+y avoir de n{\oe}uds à un moment donné, il faut considérer comment la
+forme de l'arbre originel influe sur les règles~\(\gamma\)
+et~\(\delta\). Dans le meilleur des cas, \(t_1\)~dans~\(\delta\) est
+\(\fun{ext}()\) et sera éliminé à la réécriture suivante par la
+règle~\(\gamma\) sans création de n{\oe}uds supplémentaires. Dans le
+pire des cas, \(t_1\)~maximise le nombre de n{\oe}uds internes de sa
+branche gauche. Par conséquent, ces deux configurations correspondent
+aux cas extrêmes pour le coût de
+\fun{pre\(_0\)/1}\index{pre0@\fun{pre\(_0\)/1}} à la
+\fig~\vref{fig_tree_stack}. Dans le pire des cas, tous les \(2n+1\)
+n{\oe}uds de l'arbre se trouveront dans la pile à un moment donné,
+alors que, dans le meilleur des cas, seulement deux s'y trouveront. La
+question de la taille moyenne de la pile sera étudiée plus loin, en
+relation avec la hauteur moyenne.
+
+La différence entre conception à grands pas\index{conception!grands
+  pas} (ou «diviser pour régner»\index{diviser pour régner}) et à
+petits pas\index{conception!petits pas} n'est pas toujours nette et
+est principalement un moyen didactique. En particulier, nous ne
+devrions pas supposer qu'il n'y a que deux types possibles de
+modélisation pour chaque tâche donnée. Pour clarifier davantage ce
+sujet, utilisons une approche hétérogène pour concevoir une autre
+version, \fun{pre/1}\index{pre@\fun{pre/1}}, qui calcule efficacement
+le parcours préfixe d'un arbre binaire. En considérant
+\fun{pre\(_0\)/1}\index{pre0@\fun{pre\(_0\)/1}}, nous pouvons
+identifier la source de l'inefficacité dans le fait que, dans le pire
+des cas,
+\begin{equation*}
+\fun{pre}_0(t) \twoheadrightarrow 
+\cons{x_1}{\fun{cat}(\cons{x_2}{\fun{cat}(\dots
+    \fun{cat}(\cons{x_n}{\fun{cat}(\el, \el)},\el) \dots}}
+\index{cat@\fun{cat/2}}
+\end{equation*}
+où \(t = \fun{int}(x_1,\fun{int}(x_2,\dots, \fun{int}(x_n,
+\fun{ext}(), \fun{ext}()), \dots, \fun{ext}()),\fun{ext}())\) est
+l'arbre de la \fig~\vref{fig_max_pre0}. Nous avons rencontré ce genre
+de réécriture partielle dans la
+formule~\eqref{eq_rev0}\index{rev0@\fun{rev\(_0\)/1}}
+\vpageref{eq_rev0} et~\eqref{inv_isrt}
+\vpageref{inv_isrt}\index{isrt@\fun{isrt/1}}\index{ins@\fun{ins/2}},
+et nous avons trouvé qu'elle mène à un coût quadratique. Bien que
+l'emploi de \fun{cat/2}\index{cat@\fun{cat/2}} en lui-même n'est pas
+problématique, mais, plutôt, l'accumulation d'appels à
+\fun{cat/2}\index{cat@\fun{cat/2}} dans le premier argument, cherchons
+néanmoins une définition qui n'utilise pas du tout la concaténation.
+Cela signifie que nous voulons construire le parcours préfixe
+exclusivement à l'aide d'empilages. Par conséquent, nous devons
+ajouter un paramètre auxiliaire, égal à la pile vide au départ, sur
+lequel le contenu des n{\oe}uds est empilé dans l'ordre attendu:
+\(\fun{pre}(t) \rightarrow \fun{pre}(t,\el)\).\index{pre@\fun{pre/2}}
+Maintenant, nous devrions nous demander quelle est l'interprétation de
+cet accumulateur\index{langage fonctionnel!accumulateur} en
+considérant le motif \(\fun{pre}(t,s)\). Examinons le n{\oe}ud interne
+\(t=\fun{int}(x,t_1,t_2)\) à la \fig~\vref{fig_pre_tree}.
+\begin{figure}
+\centering
+\subfloat[Préfixe avec \fun{pre/1}\label{fig_pre_tree}]{
+  \includegraphics[bb=71 672 166 721]{pre_tree}}
+\subfloat[Infixe avec \fun{in/1}\label{fig_in_tree}]{
+  \includegraphics[bb=71 672 183 721]{in_tree}}
+\subfloat[Postfixe avec \fun{post/1}\label{fig_post_tree}]{
+  \includegraphics[bb=71 672 183 721]{post_tree}}
+\caption{Parcours classiques efficaces\label{fig_classic_walks}}
+\end{figure}
+Les flèches rendent le parcours dans l'arbre plus évident et
+connectent les différentes étapes de la pile en préfixe: une flèche
+vers le bas pointe l'argument d'un appel récursif sur l'enfant
+correspondant; une flèche vers le haut pointe le résultat d'un appel
+sur le parent. Par exemple, le sous-arbre~\(t_2\) correspond à l'appel
+récursif \(\fun{pre}(t_2,s)\)\index{pre@\fun{pre/2}} dont la valeur
+est~\(s_1\).  De même, nous avons \(\fun{pre}(t_1,s_1)
+\twoheadrightarrow s_2\), ce qui équivaut donc à
+\(\fun{pre}(t_1,\fun{pre}(t_2,s)) \twoheadrightarrow
+s_2\). Finalement, la racine est associée à l'évaluation
+\(\fun{pre}(t,s) \twoheadrightarrow \cons{x}{s_2}\), c'est-à-dire
+\(\fun{pre}(t,s) \equiv
+\cons{x}{\fun{pre}(t_1,\fun{pre}(t_2,s))}\).\index{pre@\fun{pre/2}} La
+règle pour les n{\oe}uds externes n'est pas montrée et consiste
+simplement à laisser la pile invariante. Nous pouvons finalement
+rédiger le programme fonctionnel à la \fig~\vref{fig_pre}.
+\begin{figure}[b]
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{pre}(t) & \xrightarrow{\smash{\theta}} & \fun{pre}(t,\el).\\
+\\
+\fun{pre}(\fun{ext}(),s) & \xrightarrow{\smash{\iota}} & s;\\
+\fun{pre}(\fun{int}(x,t_1,t_2),s)
+  & \xrightarrow{\smash{\kappa}} 
+  & \cons{x}{\fun{pre}(t_1,\fun{pre}(t_2,s))}.
+\end{array}}
+\end{equation*}
+\caption{Parcours préfixe efficace (coût et mémoire)\label{fig_pre}}
+\end{figure}
+Nous comprenons à présent qu'étant donné \(\fun{pre}(t,s)\), les
+n{\oe}uds dans la pile~\(s\) sont les n{\oe}uds qui suivent, en
+préfixe, les n{\oe}uds dans le sous-arbre~\(t\). Le coût est
+facilement déterminé:
+\begin{equation}
+\C{\fun{pre}}{n} = 1 + (n+1) + n = 2n+2.\label{eq_pre}
+\index{pre@$\C{\fun{pre}}{n}$}
+\end{equation}
+(Il y a \(n+1\) n{\oe}uds externes quand il y a \(n\)~n{\oe}uds
+internes.)
+
+Nous devrions privilégier cette variante, plutôt que
+\fun{pre\(_3\)/1}\index{pre3@\fun{pre\(_3\)/1}}, parce qu'elle a
+besoin de moins de mémoire\index{mémoire}: la règle~\(\delta\) à la
+\fig~\vref{fig_pre3} empile \(t_1\) et~\(t_2\), donc alloue deux
+n{\oe}uds d'empilage\index{n{\oe}ud d'empilage} pour chaque n{\oe}ud
+interne, faisant un total de \(2n\)~n{\oe}uds supplémentaires. Par
+contraste, \fun{pre/1}\index{pre@\fun{pre/1}} n'en créé aucun, mais
+alloue \(n\)~n{\oe}uds d'appel à \fun{pre/2}\index{pre@\fun{pre/2}}
+(un pour chaque n{\oe}ud interne), donc l'avantage tient, même s'il
+est nuancé. Notons en passant que
+\fun{pre\(_3\)/1}\index{pre3@\fun{pre\(_3\)/1}} est en forme
+terminale\index{langage fonctionnel!forme terminale}, mais pas
+\fun{pre/2}.
+
+\paragraph{Numérotation préfixe}
+
+La \fig~\vref{fig_preorder}
+\begin{figure}
+\centering
+\subfloat[Préfixe\label{fig_preorder}]{\includegraphics{preorder}}
+\;
+\subfloat[Postfixe\label{fig_postorder}]{\includegraphics{postorder}}
+\;
+\subfloat[Infixe\label{fig_inorder}]{\includegraphics{inorder}}
+\;
+\subfloat[Par niveau\label{fig_lorder}]{\includegraphics{lorder}}
+\caption{Numérotations classiques d'un arbre binaire taillé
+\label{fig_orders}}
+\end{figure}
+montre un arbre binaire dont les n{\oe}uds internes ont été remplacés
+par leur rang dans le parcours préfixe, \(0\)~étant le plus petit
+rang, assigné à la racine. En particulier, le parcours préfixe de cet
+arbre est \([0,1,2,3,4,5,6]\). Ce type d'arbre est une
+\emph{numérotation préfixe}\index{arbre binaire!numérotation préfixe}
+d'un arbre donné. Un exemple complet est montré à la
+\fig~\vref{fig_bt_ex3},
+\begin{figure}[b]
+\centering
+\includegraphics{bt_ex3}
+\caption{Rangs préfixes en exposant\label{fig_bt_ex3}}
+\end{figure}
+où les rangs préfixes sont les exposants des n{\oe}uds
+internes. Remarquons comment ces nombres augmentent le long de chemins
+descendants.
+
+Nous produisons cette numérotation (des rangs) en deux temps: d'abord,
+nous avons besoin de comprendre comment calculer le rang correct pour
+un n{\oe}ud donné; ensuite, nous devons utiliser les rangs pour
+construire un arbre. Le plan pour la première partie est montré à
+l'{\oe}uvre sur les n{\oe}uds internes à la \fig~\vref{fig_prenum1}.
+\begin{figure}[t]
+\centering
+\subfloat[Rangs seuls\label{fig_prenum1}]{%
+\includegraphics[bb=71 668 170 721]{prenum1}}
+\qquad
+\subfloat[Rangs et arbre\label{fig_prenum0}]{%
+\includegraphics[bb=71 668 217 721]{prenum0}}
+\caption{Numérotation préfixe en deux temps\label{fig_prenum}}
+\end{figure}
+Un nombre à la gauche d'un n{\oe}ud est son rang, par exemple,
+\(i\)~est le range du n{\oe}ud~\(x\): ces rangs descendent dans
+l'arbre. Un nombre à la droite d'un n{\oe}ud est le plus petit rang
+qui n'est pas utilisé dans la numérotation des sous-arbres de ce
+n{\oe}ud: ces rangs montent et peuvent être employés pour la
+numérotation d'un autre sous-arbre. Par exemple, \(j\)~est le plus
+petit rang qui ne numérote pas les n{\oe}uds du
+sous-arbre~\(t_1\). Les n{\oe}uds externes ne changent pas le rang qui
+leur parvient et ne sont pas montrés.
+
+La seconde et dernière étape consiste à construire l'arbre contenant
+la numérotation préfixe, et elle schématisée à la
+\fig~\vref{fig_prenum0}. Conceptuellement, il s'agit-là de la
+complétion de la première phase en ce sens que les flèches
+ascendantes, qui dénotent des valeurs des appels récursifs sur des
+sous-arbres, maintenant pointent des paires dont la première
+composante est le rang trouvé à la première phase et la seconde
+composante est un arbre numéroté. Comme d'habitude avec les
+définitions récursives, nous supposons que les appels récursifs sur
+les sous-structures sont corrects (c'est-à-dire qu'ils sont réécrits
+en la valeur attendue) et nous inférons la valeur de l'appel sur la
+totalité de la structure courante, ici
+\(\pair{k}{\fun{int}(i,t'_1,t'_2)}\).
+
+La fonction \fun{npre/1}\index{npre@\fun{npre/1}} (anglais,
+\emph{number in preorder}) à la \fig~\vref{fig_npre}
+\begin{figure}[t]
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
+\centering
+\framebox[0.75\columnwidth]{\vbox{%
+\begin{gather*}
+\inferrule
+  {\fun{npre}(0,t) \twoheadrightarrow \pair{i}{t'}}
+  {\fun{npre}(t) \twoheadrightarrow t'}\,.
+\qquad
+\fun{npre}(i,\fun{ext}()) \rightarrow \pair{i}{\fun{ext}()};
+\\
+\inferrule
+  {\fun{npre}(i+1,t_1) \twoheadrightarrow \pair{j}{t'_1}
+   \and
+   \fun{npre}(j,t_2) \twoheadrightarrow \pair{k}{t'_2}}
+  {\fun{npre}(i,\fun{int}(x,t_1,t_2)) \twoheadrightarrow
+   \pair{k}{\fun{int}(i,t'_1,t'_2)}}\,.
+\end{gather*}
+}}
+\caption{Numérotation préfixe\label{fig_npre}}
+\end{figure}
+réalise cet algorithme. Nous utilisons une fonction auxiliaire
+\fun{npre/2}\index{npre@\fun{npre/2}} telle que \(\fun{npre}(i,t)
+\twoheadrightarrow \pair{j}{t'}\), où \(t'\)~est la numérotation
+préfixe de~\(t\), de racine~\(i\), et \(j\)~est le plus petit rang qui
+manque dans~\(t'\) (en d'autres termes, \(j-i\) est la taille de~\(t\)
+et~\(t'\)). Cette fonction est celle illustrée à la
+\fig~\vref{fig_prenum0}.
+
+En passant, nous devrions peut-être nous souvenir que les systèmes
+d'inférence\index{induction!système d'inférence}, vus d'abord
+\vpageref{par_infsys}, peuvent être éliminés en introduisant des
+fonctions auxiliaires (une par prémisse). Dans le cas présent, nous
+écririons\index{snd@\fun{snd/1}} le programme équivalent de la
+\fig~\vref{fig_npre_bis}.
+\begin{figure}
+\begin{equation*}
+%\belowdisplayskip=0pt
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{npre}(t) & \rightarrow & \fun{snd}(\fun{npre}(0,t)).\\
+\\
+\fun{snd}(\pair{x}{y}) & \rightarrow & y.\\
+\\
+\fun{npre}(i,\fun{ext}()) & \rightarrow & \pair{i}{\fun{ext}()};\\
+\fun{npre}(i,\fun{int}(x,t_1,t_2)) & \rightarrow &
+\fun{t}_1(\fun{npre}(i+1,t_1),i,t_2).\\
+\\
+\fun{t}_1(\pair{j}{t'_1},i,t_2) & \rightarrow &
+\fun{t}_2(\fun{npre}(j,t_2),i,t'_1).\\
+\\
+\fun{t}_2(\pair{k}{t'_2},i,t'_1) & \rightarrow & \pair{k}{\fun{int}(i,t'_1,t'_2)}.
+\end{array}
+}
+\end{equation*}
+\caption{Version de \fun{npre/1} sans système d'inférence\label{fig_npre_bis}}
+\end{figure} 
+\index{arbre binaire!préfixe|)}
+
+\paragraph{Terminaison}
+\index{terminaison!parcours préfixe|(}
+\index{arbre binaire!préfixe!terminaison|(}
+
+Il est facile de démontrer la terminaison de
+\fun{pre/2}\index{pre@\fun{pre/2}} car la technique que nous avons
+utilisée pour établier la terminaison de la fonction de Ackermann à la
+page~\pageref{par_ackermann} est pertinente ici aussi. Nous
+définissons un ordre lexicographique\index{induction!ordre
+  lexicographique} sur les appels à \fun{pre/2}\index{pre@\fun{pre/2}}
+(paires de dépendance\index{terminaison!paire de dépendance}):
+\begin{equation}
+\fun{pre}(t,s) \succ \fun{pre}(t',s') :\Leftrightarrow \text{\(t
+  \succ_{B} t'\) ou (\(t = t'\) et \(s \succ_{S} s'\))},
+\label{eq_BS_order}
+\end{equation}
+où \(B\)~est l'ensemble des arbres binaires, \(S\)~est l'ensemble de
+toutes les piles, \(t \succ_{B} t'\) signifie que l'arbre~\(t'\) est
+un sous-arbre immédiat\index{arbre!sous-arbre!$\sim$ immédiat}
+de~\(t\), et \(s \succ_{S} s'\) veut dire que la pile \(s'\)~est la
+sous-pile immédiate\index{induction!ordre de la sous-pile immédiate}
+de~\(s\) (page~\pageref{par_well-founded}). D'après la définition à la
+\fig~\vref{fig_pre}, nous voyons que la règle~\(\theta\) conserve la
+terminaison si \fun{pre/2}\index{pre@\fun{pre/2}} termine; la
+règle~\(\iota\) termine trivialement; finalement, la règle~\(\kappa\)
+réécrit un appel en des appels plus petits selon \((\succ)\):
+\(\fun{pre}(\fun{int}(x,t_1,t_2),s) \succ \fun{pre}(t_2,s)\) et
+\(\fun{pre}(\fun{int}(x,t_1,t_2),s) \succ \fun{pre}(t_1,u)\), pour
+tout~\(u\), en particulier si \(\fun{pre}(t_2,s) \twoheadrightarrow
+u\). En conséquence, \fun{pre/1}\index{pre@\fun{pre/1}} termine pour
+toutes les données.\index{arbre
+  binaire!préfixe!terminaison|)}\index{terminaison!parcours
+  préfixe|)}\hfill\(\Box\)
+
+\paragraph{Équivalence}
+
+Pour voir comment l'induction structurelle peut être utilisée pour
+prouver des propriétés portant sur des arbres binaires, nous
+considérerons une proposition simple que nous avons énoncée tantôt, et
+que nous exprimons ici comme \(\pred{Pre}{t} \colon \fun{pre}_0(t)
+\equiv
+\fun{pre}(t)\).\index{Pre@\predName{Pre}}\index{pre0@\fun{pre\(_0\)/1}}\index{pre@\fun{pre/1}}
+Nous devons donc établir
+\begin{itemize}
+
+  \item la base \(\pred{Pre}{\fun{ext}()}\);
+
+  \item le pas inductif \(\forall t_1.\pred{Pre}{t_1} \Rightarrow
+    \forall t_2.\pred{Pre}{t_2} \Rightarrow \! \forall
+    x.\pred{Pre}{\fun{int}(x,t_1,t_2)}\).
+
+\end{itemize}
+La base est aisée car \(\fun{pre}_0(\fun{ext}())
+\xrightarrow{\smash{\gamma}} \el \xleftarrow{\smash{\iota}}
+\fun{pre}(\fun{ext}(),\el) \xleftarrow{\smash{\theta}}
+\fun{pre}(\fun{ext}())\). Voir la définition de \fun{pre\(_0\)/1} à
+l'équation~\eqref{eq_pre0} \vpageref{eq_pre0}, et celle de
+\fun{cat/2}\index{cat@\fun{cat/2}}:
+\begin{equation*}
+\fun{cat}(\el,t) \xrightarrow{\smash{\alpha}} t;
+\qquad
+\fun{cat}(\cons{x}{s},t) \xrightarrow{\smash{\beta}}
+\cons{x}{\fun{cat}(s,t)}.
+\end{equation*}
+Dans le but de découvrir comment utiliser les deux hypothèses
+d'induction \(\pred{Pre}{t_1}\) et
+\(\pred{Pre}{t_2}\)\index{Pre@\predName{Pre}}, commençons avec un côté
+de l'équivalence que nous souhaitons établir, par exemple le membre
+gauche, et réécrivons-le jusqu'à ce que nous atteignions l'autre
+membre ou bien nous soyons arrêtés. Posons \(t :=
+\fun{int}(x,t_1,t_2)\), alors
+\begin{equation*}
+\begin{array}{@{}r@{\;}c@{\;}l@{\qquad}r@{}}
+\fun{pre}_0(t)
+& = & \fun{pre}_0(\fun{int}(x,t_1,t_2))\\
+& \xrightarrow{\smash{\delta}}
+& \cons{x}{\fun{cat}(\fun{pre}_0(t_1), \fun{pre}_0(t_2))}\\
+& \equiv & \cons{x}{\fun{cat}(\fun{pre}(t_1), \fun{pre}_0(t_2))}
+& (\pred{Pre}{t_1})\\
+& \equiv & \cons{x}{\fun{cat}(\fun{pre}(t_1), \fun{pre}(t_2))}
+& (\pred{Pre}{t_2})\\
+& \xrightarrow{\smash{\theta}}
+& \cons{x}{\fun{cat}(\fun{pre}(t_1,\el), \fun{pre}(t_2))}\\
+& \xrightarrow{\smash{\theta}}
+& \cons{x}{\fun{cat}(\fun{pre}(t_1,\el), \fun{pre}(t_2,\el))}.
+\end{array}
+\end{equation*}
+À l'arrêt, nous réécrivons alors le membre opposé, le plus loin
+possible: \(\fun{pre}(t) = \fun{pre}(\fun{int}(x,t_1,t_2))
+\xrightarrow{\smash{\theta}} \fun{pre}(\fun{int}(x,t_1,t_2),\el)
+\xrightarrow{\smash{\kappa}}
+\cons{x}{\fun{pre}(t_1,\fun{pre}(t_2,\el))}\)\index{pre@\fun{pre/1}}\index{pre@\fun{pre/2}}. La
+comparaison des deux expressions sur lesquelles nous nous sommes
+arrêtés suggère un sous-but à atteindre.
+
+Soit \(\pred{CatPre}{t,s} \colon \fun{cat}(\fun{pre}(t,\el),s) \equiv
+\fun{pre}(t,s)\)\index{CatPre@\predName{CatPre}}\index{cat@\fun{cat/2}}\index{pre@\fun{pre/2}}. Quand
+un prédicat dépend de deux paramètres, différentes possibilités
+s'ouvrent à nous: soit nous usons d'un ordre lexicographique, soit une
+simple induction sur l'une seulement des variables suffit. Il est
+généralement préférable d'utiliser un ordre
+lexicographique\index{induction!ordre lexicographique} sur les paires
+de paramètres et, si nous nous rendons compte plus tard qu'une seule
+composante est réellement nécessaire, nous pouvons toujours réécrire
+la preuve avec une induction portant sur cette unique
+composante. Définissons
+\begin{equation*}
+(t,s) \succ_{B \times S} (t',s') :\Leftrightarrow \text{\(t \succ_{B}
+    t'\) ou (\(t = t'\) et \(s \succ_{S} s'\))}.
+\end{equation*}
+Conceptuellement, il s'agit du même ordre que celui sur les appels à
+\fun{pre/1}\index{pre@\fun{pre/1}} dans la
+définition~\eqref{eq_BS_order}. Si nous réalisons plus tard que des
+relations de sous-termes immédiats sont trop restrictives, nous
+choisirions ici des relations de sous-termes générales, ce qui
+signifie, dans le cas des arbres binaires, qu'un arbre est un
+sous-arbre d'un autre. L'élément minimum de l'ordre lexicographique
+que nous venons de définir est \((\fun{ext}(),\el)\). Le principe
+d'induction bien fondée requiert alors que nous établissions
+\begin{itemize}
+
+  \item la base \(\pred{CatPre}{\fun{ext}(),\el}\);
+
+  \item \(\forall t,s. (\forall t',s'.(t,s) \succ_{B \times S} (t',s')
+    \Rightarrow \pred{CatPre}{t',s'}) \Rightarrow
+    \pred{CatPre}{t,s}\).
+
+\end{itemize}
+La base est aisée: \(\fun{cat}(\fun{pre}(\fun{ext}(),\el),\el)
+\xrightarrow{\smash{\iota}} \fun{cat}(\el,\el)
+\xrightarrow{\smash{\alpha}} \el \xleftarrow{\smash{\iota}}
+\fun{pre}(\fun{ext}(),\el)\).\index{cat@\fun{cat/2}} Nous supposons
+alors \(\forall t',s'.(t,s) \succ_{B \times S} (t',s') \Rightarrow
+\pred{CatPre}{t',s'}\), ce qui est l'hypothèse d'induction, et nous
+poursuivons en réécrivant le membre gauche après avoir posé \(t :=
+\fun{int}(x,t_1,t_2)\):
+%. Le résultat est montré à la
+%\fig~\vref{fig_CatPre},\index{CatPre@\predName{CatPre}}
+%\begin{figure}[t]
+\begin{equation*}
+%\boxed{%
+\begin{array}{r@{\;}c@{\;}l}
+  \fun{cat}(\fun{pre}(t,\el),s)
+& =
+& \fun{cat}(\fun{pre}(\fun{int}(x,t_1,t_2),\el),s)\\
+& \xrightarrow{\smash{\kappa}}
+& \fun{cat}(\cons{x}{\fun{pre}(t_1,\fun{pre}(t_2,\el))},s)\\
+& \xrightarrow{\smash{\beta}} 
+& \cons{x}{\fun{cat}(\fun{pre}(t_1,\fun{pre}(t_2,\el)),s)}\\
+& \equiv_0
+& \cons{x}{\fun{cat}(\fun{cat}(\fun{pre}(t_1,\el),\fun{pre}(t_2,\el)),s)}\\
+& \equiv_1
+& \cons{x}{\fun{cat}(\fun{pre}(t_1,\el),\fun{cat}(\fun{pre}(t_2,\el),s))}\\
+& \equiv_2
+& \cons{x}{\fun{cat}(\fun{pre}(t_1,\el),\fun{pre}(t_2,s))}\\
+& \equiv_3
+& \cons{x}{\fun{pre}(t_1,\fun{pre}(t_2,s))}\\
+& \xleftarrow{\smash{\kappa}}
+& \fun{pre}(\fun{int}(x,t_1,t_2),s)\\
+& =
+& \fun{pre}(t,s).\hfill\Box
+\end{array}
+%}
+\end{equation*}
+%\caption{Preuve de \(\pred{CatPre}{t} \colon
+%  \fun{cat}(\fun{pre}(t,\el),s) \equiv
+%  \fun{pre}(t,s)\)\label{fig_CatPre}}
+%\end{figure}
+où
+\begin{itemize}
+
+  \item (\(\equiv_0\)) est l'instance
+  \(\pred{CatPre}{t_1,\fun{pre}(t_2,\el)}\) de l'hypothèse d'induction
+  car \((t,s) \succ_{B \times S} (t_1,s')\), pour toutes les
+  piles~\(s'\), en particulier si \(\fun{pre}(t_2,\el)
+  \twoheadrightarrow s'\);\index{pre@\fun{pre/2}}
+
+  \item (\(\equiv_1\)) est une application de l'associativité de la
+  concaténation de piles\index{pile!concaténation}
+  (page~\pageref{proof_assoc_cat}), à savoir
+  \index{pre@\fun{pre/2}}\index{CatAssoc@\predName{CatAssoc}}
+  \(\pred{CatAssoc}{\fun{pre}(t_1,\el),\fun{pre}(t_2,\el),s}\);
+
+  \item (\(\equiv_2\)) est l'instance
+  \(\pred{CatPre}{t_2,s}\)\index{CatPre@\predName{CatPre}} de
+  l'hypothèse d'induction car nous avons \((t,s) \succ_{B \times S}
+  (t_2,s)\);
+
+  \item (\(\equiv_3\)) est l'instance \(\pred{CatPre}{t_1,
+    \fun{pre}(t_2,s)}\) de l'hypothèse d'induction car \((t,s)
+  \succ_{B \times S} (t_1,s')\), pour toutes les piles~\(s'\), en
+  particulier si \(s' = \fun{pre}(t_2,s)\).\index{pre@\fun{pre/2}}
+\end{itemize}
+Nous pouvons maintenant conclure:
+%We can resume conclusively in \fig~\vref{fig_pre0_pre}.\hfill\(\Box\)
+%\begin{figure}
+\begin{equation*}
+%\boxed{%
+\begin{array}{r@{\;}c@{\;}l@{\qquad}r}
+\fun{pre}_0(t)
+& = & \fun{pre}_0(\fun{int}(x,t_1,t_2))\\
+& \xrightarrow{\smash{\delta}}
+& \cons{x}{\fun{cat}(\fun{pre}_0(t_1), \fun{pre}_0(t_2))}\\
+& \equiv & \cons{x}{\fun{cat}(\fun{pre}(t_1), \fun{pre}_0(t_2))}
+& (\pred{Pre}{t_1})\\
+& \equiv & \cons{x}{\fun{cat}(\fun{pre}(t_1), \fun{pre}(t_2))}
+& (\pred{Pre}{t_2})\\
+& \xrightarrow{\smash{\theta}}
+& \cons{x}{\fun{cat}(\fun{pre}(t_1,\el), \fun{pre}(t_2))}\\
+& \xrightarrow{\smash{\theta}}
+& \cons{x}{\fun{cat}(\fun{pre}(t_1,\el), \fun{pre}(t_2,\el))}\\
+& \equiv 
+& \cons{x}{\fun{pre}(t_1,\fun{pre}(t_2,\el))}
+& (\pred{CatPre}{t_1,\fun{pre}(t_2,\el)})\\
+& \xleftarrow{\smash{\kappa}}
+& \fun{pre}(\fun{int}(x,t_1,t_2),\el)\\
+& \xleftarrow{\smash{\theta}} 
+& \fun{pre}(\fun{int}(x,t_1,t_2))\\
+& = & \fun{pre}(t). & \hfill\Box
+\end{array}
+%}
+\end{equation*}
+%\caption{Proof of \(\pred{Pre}{t} \colon \fun{pre}_0(t) \equiv
+%  \fun{pre}(t)\) \label{fig_pre0_pre}}
+%\end{figure}
+
+\paragraph{Aplatissement revu}
+\index{pile!aplatissement|(}
+
+À la section~\vref{sec_flattening}, nous avons défini deux fonctions
+pour aplatir des piles\index{pile!aplatissement} (voir
+\fig~\ref{fig_flat0} à la page~\pageref{fig_flat0} et la
+\fig~\ref{fig_flat} à la page~\pageref{fig_flat}). Avec le parcours
+préfixe en tête, nous pourrions voir qu'aplatir une pile équivaut à
+parcourir en préfixe un arbre feuillu\index{arbre binaire!$\sim$
+  feuillu} (voir \fig~\vref{fig_leaf_tree} pour un exemple), en
+laissant de côté les piles vides. L'essentiel est de voir une pile,
+contenant peut-être d'autres piles arbitrairement imbriquées, comme
+étant un arbre binaire feuillu; un exemple est montré à la
+\fig~\vref{fig_stacks},
+\begin{figure}[b]
+\centering
+\includegraphics[bb=71 643 186 721]{stacks}
+\caption{Piles imbriquées vues comme un arbre feuillu\label{fig_stacks}}
+\end{figure}
+où les n{\oe}uds internes (\texttt{|}) sont
+des n{\oe}uds d'empilage.
+
+La première étape consiste à définir inductivement l'ensemble des
+arbres binaires feuillus comme le plus petit ensemble~\(L\) engendré
+par l'application déductive (descendante) du système d'inférence
+suivant:
+\begin{mathpar}
+\inferrule*{}{\fun{leaf}(x) \in L}
+\qquad
+\inferrule{t_1 \in L \and t_2 \in L}{\fun{fork}(t_1,t_2) \in L}.
+\end{mathpar}
+En d'autres termes, une feuille contenant la donnée~\(x\)
+est notée \(\fun{leaf}(x)\)\index{leaf@\fun{leaf/1}} et les autres
+n{\oe}uds internes sont des \emph{fourches}\index{arbre
+  binaire!fourche} (anglais, \emph{fork}), écrites
+\(\fun{fork}(t_1,t_2)\)\index{fork@\fun{fork/2}}, où
+\(t_1\)~et~\(t_2\) sont des arbres binaires feuillus aussi. La seconde
+étape requiert la modification de \fun{pre/1}, définie à la
+\fig~\vref{fig_pre}, de telle sorte qu'elle traite des arbres binaires
+feuillus. La nouvelle fonction, \fun{lpre/1}\index{lpre@\fun{lpre/1}},
+est montrée à la \fig~\vref{fig_lpre}.
+\begin{figure}
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{lpre}(t) & \rightarrow & \fun{lpre}(t,\el).\\
+\\
+\fun{lpre}(\fun{leaf}(x),s) & \rightarrow & \cons{x}{s};\\
+\fun{lpre}(\fun{fork}(t_1,t_2),s)
+  & \rightarrow & \fun{lpre}(t_1,\fun{lpre}(t_2,s)).
+\end{array}}
+\end{equation*}
+\caption{Parcours préfixe sur des arbres binaires feuillus\label{fig_lpre}}
+\end{figure}
+L'étape finale est la traduction de \fun{lpre/1} et \fun{lpre/2} en
+\fun{flat\(_2\)/1} et \fun{flat\(_2\)/2}, respectivement, à la
+\fig~\vref{fig_flat2}.
+\begin{figure}[b]
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{flat}_2(t) & \rightarrow & \fun{flat}_2(t,\el).\\
+\\
+\fun{flat}_2(\el,s) & \rightarrow & s;\\
+\fun{flat}_2(\cons{t_1}{t_2},s)
+  & \rightarrow & \fun{flat}_2(t_1,\fun{flat}_2(t_2,s));\\
+\fun{flat}_2(x,s) & \rightarrow & \cons{x}{s}.
+\end{array}}
+\end{equation*}
+\caption{Aplatir comme \fun{lpre/1}\label{fig_flat2}}
+\end{figure}
+Le point crucial est que
+\(\fun{fork}(t_1,t_2)\)\index{fork@\fun{fork/2}} devient
+\(\cons{t_1}{t_2}\), et \(\fun{leaf}(x)\), lorsque \(x\)~n'est pas une
+pile vide, devient~\(x\) au \emph{dernier} motif. Le cas
+\(\fun{leaf}(\el)\)\index{leaf@\fun{leaf/1}} devient~\(\el\) au
+premier motif.
+
+Nous avons trouvé que le coût de \fun{pre/1}\index{pre@\fun{pre/1}}
+est \(\C{\fun{pre}}{n} = 2n+2\)\index{pre@$\C{\fun{pre}}{n}$} à
+l'équation~\eqref{eq_pre} \vpageref{eq_pre}, où \(n\)~est le nombre de
+n{\oe}uds internes. Ici, \(n\)~est la longueur de
+\(\fun{flat}_2(t)\)\index{flat2@\fun{flat\(_0\)/1}}, à savoir, le
+nombre de feuilles dans l'arbre feuillu qui ne sont pas des
+piles. Avec cette définition, le nombre de n{\oe}uds d'empilage est
+\(n + \Omega + \Gamma\), où \(\Omega\)~est le nombre de piles vides
+imbriquées et \(\Gamma\)~est le nombre de piles imbriquées non-vides,
+donc \(S := 1 + \Omega + \Gamma\) est le nombre total de piles. Par
+conséquent, \(\C{\fun{flat}_2}{n} = 2(n +
+S)\).\index{flat2@$\C{\fun{flat}_2}{n}$} Par exemple,
+\begin{equation*}
+\fun{flat}_2([1,[\el,[2,3]],[[4]],5]) \xrightarrow{22} [1,2,3,4,5],
+\end{equation*}
+car \(n=5\) et \(S=6\). (Ce dernier est le nombre de crochets
+ouvrants.)  Quand \(S=1\), la pile est plate et \(\C{\fun{pre}}{n} =
+\C{\fun{flat}_2}{n}\), sinon \(\C{\fun{pre}}{n} <
+\C{\fun{flat}_2}{n}\).\index{pile!aplatissement|)}
+
+\mypar{Infixe}
+\index{arbre binaire!infixe|(}
+\label{inorder}
+
+Le parcours \emph{infixe} d'un arbre binaire non-vide est une pile
+dans laquelle on trouve d'abord les n{\oe}uds du sous-arbre gauche en
+parcours infixe, suivis par la racine et enfin les n{\oe}uds du
+sous-arbre droit, en parcours infixe aussi. Par exemple, le parcours
+infixe de l'arbre à la \fig~\vref{fig_bt_ex1} est
+\([3,5,1,9,8,3,2]\). Il s'agit clairement d'un parcours en profondeur,
+comme le parcours préfixe, parce que les enfants sont visités avant
+les frères. Donc, en capitalisant sur
+\fun{pre/1}\index{pre@\fun{pre/1}} à la \fig~\vref{fig_pre}, nous
+comprenons que nous devrions structurer notre programme de telle sorte
+qu'il suive la stratégie montrée à la \fig~\vref{fig_in_tree}, où la
+seule différence avec la \fig~\ref{fig_pre_tree} est le moment où la
+racine~\(x\) est empilée sur l'accumulateur\index{langage
+  fonctionnel!accumulateur}: entre les parcours infixes des
+sous-arbres \(t_1\)~et~\(t_2\). Les réécritures implicites dans la
+figure sont \(\fun{in}(t_2,s) \twoheadrightarrow
+s_1\),\index{in@\fun{in/2}} \(\fun{in}(t_1,\cons{x}{s_1})
+\twoheadrightarrow s_2\) et \(\fun{in}(t,s) \twoheadrightarrow s_2\),
+où \(t=\fun{int}(x,t_1,t_2)\). En éliminant les variables
+intermédiaires \(s_1\)~et~\(s_2\), nous obtenons l'équivalence
+\(\fun{in}(t_1,\cons{x}{\fun{in}(t_2,s)}) \equiv \fun{in}(t,s)\). Le
+cas des n{\oe}uds externes est le même qu'avec un parcours préfixe. Ce
+raisonnement aboutit donc à la fonction définie à la
+\fig~\vref{fig_in},
+\begin{figure}
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{in}(t) & \xrightarrow{\xi} & \fun{in}(t,\el).\\
+\\
+\fun{in}(\fun{ext}(),s) & \xrightarrow{\smash{\pi}} & s;\\
+\fun{in}(\fun{int}(x,t_1,t_2),s)
+  & \xrightarrow{\smash{\rho}} 
+  & \fun{in}(t_1,\cons{x}{\fun{in}(t_2,s)}).
+\end{array}}
+\end{equation*}
+\caption{Parcours infixe\label{fig_in}}
+\end{figure}
+dont le coût est le même que celui d'un parcours préfixe:
+\(\C{\fun{in}}{n} = \C{\fun{pre}}{n} = 2n +
+2\).\index{in@$\C{\fun{in}}{n}$}
+
+La \fig~\vref{fig_inorder} est un exemple d'arbre binaire qui est le
+résultat d'une \emph{numérotation infixe}.\index{arbre
+  binaire!numérotation infixe} Le parcours infixe de cet arbre est
+\([0,1,2,3,4,5,6]\). Les numérotations infixes possèdent une propriété
+intéressante: étant donné n'importe quel n{\oe}ud interne, tous les
+n{\oe}uds dans son sous-arbre gauche ont des rangs inférieurs, et tous
+les n{\oe}uds dans son sous-arbre droit ont des rangs supérieurs.
+Soit \fun{nin/1}\index{nin@\fun{nin/1}}\index{nin@\fun{nin/2}} la
+fonction qui calcule la numérotation infixe d'un arbre donnée à la
+\fig~\vref{fig_nin},
+\begin{figure}[b]
+\centering
+\framebox[0.75\columnwidth]{\vbox{%
+\begin{gather*}
+\inferrule
+  {\fun{nin}(0,t) \twoheadrightarrow \pair{i}{t'}}
+  {\fun{nin}(t) \twoheadrightarrow t'}\,.
+\qquad
+\fun{nin}(i,\fun{ext}()) \rightarrow \pair{i}{\fun{ext}()};
+\\
+\inferrule
+  {\fun{nin}(i,t_1) \twoheadrightarrow \pair{j}{t'_1}
+   \and
+   \fun{nin}(j+1,t_2) \twoheadrightarrow \pair{k}{t'_2}}
+  {\fun{nin}(i,\fun{int}(x,t_1,t_2)) \twoheadrightarrow
+   \pair{k}{\fun{int}(j,t'_1,t'_2)}}\,.
+\end{gather*}
+}}
+\caption{Numérotation infixe\label{fig_nin}}
+\end{figure}
+où~\(j\), à la racine, est le plus petit rang supérieur à tout
+rang dans~\(t_1\).
+
+\paragraph{Aplatissement revu}
+\label{par_rotation}
+
+La conception de
+\fun{flat/1}\index{stack!flattening}\index{flat@\fun{flat/1}} à la
+\fig~\vref{fig_flat} peut suggérer une nouvelle approche du parcours
+infixe. En composant des rotations à droite\index{arbre
+  binaire!rotation|(}, vues aux \figs~\vrefrange{fig_lift1}{fig_lift2}
+(l'inverse est, bien entendu, une \emph{rotation à gauche}), le
+n{\oe}ud à visiter en premier en infixe peut être amené à devenir la
+racine d'un arbre dont le sous-arbre gauche est vide. Récursivement,
+le sous-arbre droit est traité, d'une façon descendante. Cet
+algorithme est correct parce \emph{les parcours infixes sont
+  invariants par rotation}, ce qui est symboliquement exprimé comme
+suit.
+\begin{equation*}
+\pred{Rot}{x,y,t_1,t_2,t_3} \colon
+\fun{in}(\fun{int}(y,\fun{int}(x,t_1,t_2),t_3))
+\equiv
+\fun{in}(\fun{int}(x,t_1,\fun{int}(y,t_2,t_3))).\index{in@\fun{in/1}}
+\label{def_Rot}
+\end{equation*}
+À la \fig~\vref{fig_rot}, nous montrons comment un arbre binaire
+devient un arbre dégénéré\index{arbre binaire!$\sim$ dégénéré}
+penchant à droite, isomorphe à une pile, en répétant des rotations à
+droite, de manière descendante.
+\begin{figure}[b]
+\centering
+\includegraphics{rot}
+\caption{Rotations à droite descendantes\label{fig_rot}}
+\end{figure}
+Par dualité, nous pourrions composer des rotations à gauche et obtenir
+un arbre dégénéré, penchant à gauche, dont le parcours infixe est
+aussi égal au parcours infixe de l'arbre originel. La fonction
+\fun{in\(_1\)/1}\index{in1@\fun{in\(_1\)/1}} basée sur des rotations à
+droite est montrée à la \fig~\vref{fig_in1}.
+\begin{figure}
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{in}_1(\fun{ext}()) & \xrightarrow{\smash{\alpha}} & \el;\\
+\fun{in}_1(\fun{int}(y,\fun{int}(x,t_1,t_2),t_3))
+  & \xrightarrow{\smash{\beta}} & \fun{in}_1(\fun{int}(x,t_1,\fun{int}(y,t_2,t_3)));\\
+\fun{in}_1(\fun{int}(y,\fun{ext}(),t_3))
+  & \xrightarrow{\smash{\gamma}} & \cons{y}{\fun{in}_1(t_3)}.
+\end{array}}
+\end{equation*}
+\caption{Parcours infixe par rotations à droite\label{fig_in1}}
+\end{figure}
+Remarquons comment, à la règle~\(\gamma\), nous empilons la
+racine~\(y\) dans le résultat dès que nous le pouvons, ce qui ne
+serait pas possible si nous avions utilisé des rotations à gauche, et
+donc nous ne construisons \emph{pas} tout l'arbre pivoté, comme à la
+\fig~\vref{fig_rot}.
+
+Le coût \(\C{\fun{in}_1}{n}\)\index{in1@$\C{\fun{in}_1}{n}$} dépend de
+la topologie de l'arbre donné. Premièrement, notons que la
+règle~\(\alpha\) n'est employée qu'une fois, sur le n{\oe}ud externe
+le plus à droite. Deuxièmement, si l'arbre à traverser est déjà
+dégénéré\index{arbre binaire!$\sim$ dégénéré} et penche à droite, la
+règle~\(\beta\) est inutilisée et la règle~\(\gamma\) est appliquée
+\(n\)~fois. Il est clair que cela est le meilleur des cas et
+\(\B{\fun{in}_1}{n} = n + 1\).\index{in1@$\B{\fun{in}_1}{n}$}
+Troisièmement, nous devrions remarquer qu'une rotation à droite
+rallonge d'un n{\oe}ud exactement la \emph{branche la plus à
+  droite}\index{arbre!branche}, c'est-à-dire la suite de n{\oe}uds
+commençant avec la racine et atteints en suivant des arcs à droite
+(par exemple, dans l'arbre initial à la \fig~\vref{fig_rot}, la
+branche la plus à droite\index{arbre!branche} est \([\fun{e}, \fun{g},
+\fun{h}]\)). Par conséquent, si nous voulons maximiser l'usage de la
+règle~\(\beta\), nous avons besoin d'un arbre dont le sous-arbre droit
+est vide, donc le sous-arbre gauche contient \(n-1\) n{\oe}uds (la
+racine appartient, par définition à la branche la plus à droite): ceci
+entraîne \(\W{\fun{in}_1}{n} = (n-1) + (n+1) =
+2n\).\index{in1@$\W{\fun{in}_1}{n}$}\index{arbre binaire!rotation|)}
+
+\paragraph{Exercice}
+
+Prouvez \(\forall x,y,t_1,t_2,t_3.\pred{Rot}{x,y,t_1,t_2,t_3}\).
+\index{Rot@\predName{Rot}}
+
+\paragraph{Réflexion}
+
+Définissons une fonction \fun{mir/1}\index{mir@\fun{mir/1}} (anglais,
+\emph{mirror}) telle que \(\fun{mir}(t)\) est l'arbre symétrique à
+l'arbre binaire~\(t\), par rapport à une ligne extérieure
+verticale. Un exemple est montré à la \fig~\vref{fig_mirror}.
+\begin{figure}[b]
+\centering
+\subfloat[\(t\)]{\includegraphics[bb=77 660 163 723]{bt_ex2}}
+\qquad
+\subfloat[\(\protect\fun{mir}(t)\)]{\includegraphics[bb=74 660 160 723]{bt_ex4}}
+\caption{Réfléchissement d'un arbre binaire\label{fig_mirror}}
+\end{figure}
+Nous pouvons définir cette fonction facilement:
+\begin{equation*}
+\fun{mir}(\fun{ext}()) \xrightarrow{\smash{\sigma}} \fun{ext}();
+\quad
+\fun{mir}(\fun{int}(x,t_1,t_2)) \xrightarrow{\smash{\tau}}
+\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)).
+\end{equation*}
+D'après l'exemple précédent, il est assez simple de postuler la
+propriété 
+\begin{equation*}
+\pred{InMir}{t} \colon \fun{in}(\fun{mir}(t)) \equiv
+\fun{rev}(\fun{in}(t)),\index{InMir@\predName{InMir}}
+\end{equation*}
+où \fun{rev/1}\index{rev@\fun{rev/1}}
+retourne\index{pile!retournement} la pile en argument (voir
+définition~\eqref{def_rev} \vpageref{def_rev}). Cette propriété est
+utile parce que le membre gauche de l'équivalence est plus coûteux que
+le membre droit: \(\Call{\fun{in}(\fun{mir}(t))} = \C{\fun{mir}}{n} +
+\C{\fun{in}}{n} = (2n+1) + (2n+2) = 4n + 3\), à comparer avec
+\(\Call{\fun{rev}(\fun{in}(t))} = \C{\fun{in}}{n} + \C{\fun{rev}}{n} =
+(2n+2) + (n+2) = 3n + 4\).\index{mir@$\C{\fun{mir}}{n}$}
+
+L'induction sur la structure des sous-arbres immédiats exige que nous
+établissions
+\begin{itemize}
+  
+  \item la base
+  \(\pred{InMir}{\fun{ext}()}\);\index{InMir@\predName{InMir}|(}
+
+  \item le pas \(\forall t_1.\pred{InMir}{t_1} \Rightarrow
+  \forall t_2.\pred{InMir}{t_2} \Rightarrow \forall
+  x.\pred{InMir}{\fun{int}(x,t_1,t_2)}.\)
+
+\end{itemize}
+La base: \(\fun{in}(\fun{mir}(\fun{ext}()))
+\xrightarrow{\smash{\sigma}} \fun{in}(\fun{ext}())
+\xrightarrow{\smash{\xi}} \fun{in}(\fun{ext}(),\el)
+\xrightarrow{\smash{\pi}} \el \xleftarrow{\smash{\zeta}}
+\fun{rcat}(\el,\el) \xleftarrow{\smash{\epsilon}} \fun{rev}(\el)
+\xleftarrow{\smash{\pi}} \fun{rev}(\fun{in}(\fun{ext}(),\el))
+\xleftarrow{\smash{\xi}}
+\fun{rev}(\fun{in}(\fun{ext}()))\).\index{rcat@\fun{rcat/2}}\index{rev@\fun{rev/1}}
+Supposons ensuite \(\pred{InMir}{t_1}\) et \(\pred{InMir}{t_2}\), puis
+posons \(t := \fun{int}(x,t_1,t_2)\), pour tout~\(x\). Nous réécrivons
+le membre gauche de l'équivalence à prouver jusqu'à atteindre le
+membre droit ou bien être bloqué:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{\qquad}r@{}}
+\fun{in}(\fun{mir}(t)) & = &
+\fun{in}(\fun{mir}(\fun{int}(x,t_1,t_2)))\\
+& \xrightarrow{\smash{\tau}} 
+& \fun{in}(\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)))\\
+& \xrightarrow{\smash{\xi}}
+& \fun{in}(\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)),\el)\\
+& \Rra{\rho}
+& \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{in}(\fun{mir}(t_1),\el)})\\
+& \Lla{\xi}
+& \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{in}(\fun{mir}(t_1))})\\
+& \equiv 
+& \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{rev}(\fun{in}(t_1))})
+& (\pred{InMir}{t_1})\\
+& \xrightarrow{\smash{\xi}}
+& \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{rev}(\fun{in}(t_1,\el))})\\
+& \Rra{\epsilon}
+& \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{rcat}(\fun{in}(t_1,\el),\el)}).
+\end{array}
+\end{equation*}
+Nous ne pouvons pas utiliser l'hypothèse d'induction
+\(\pred{InMir}{t_2}\) pour nous débarrasser de \(\fun{mir}(t_2)\). Un
+examen attentif des termes suggère d'\emph{affaiblir} la propriété et
+de surcharger \predName{InMir} avec une nouvelle définition:
+\begin{equation*}
+\pred{InMir}{t,s} \colon \fun{in}(\fun{mir}(t),s) \equiv
+\fun{rcat}(\fun{in}(t,\el),s).
+\end{equation*}
+Nous avons \(\pred{InMir}{t,\el} \Leftrightarrow
+\pred{InMir}{t}\). Maintenant, nous pouvons réécrire
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{\qquad}r@{}}
+\fun{in}(\fun{mir}(t),s)
+& = 
+& \fun{in}(\fun{mir}(\fun{int}(x,t_1,t_2)),s)\\
+& \xrightarrow{\smash{\tau}} 
+& \fun{in}(\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)),s)\\
+& \Rra{\rho}
+& \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{in}(\fun{mir}(t_1),s)})\\
+& \equiv 
+& \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{rcat}(\fun{in}(t_1,\el),s)})
+& (\pred{InMir}{t_1,s})\\
+& \equiv_0
+& \fun{rcat}(\fun{in}(t_2,\el),\cons{x}{\fun{rcat}(\fun{in}(t_1,\el),s)})\\
+& \Lla{\eta}
+& \fun{rcat}(\cons{x}{\fun{in}(t_2,\el)},
+\fun{rcat}(\fun{in}(t_1,\el),s)),
+\end{array}
+\end{equation*}
+où (\(\equiv_0\)) est
+\(\pred{InMir}{t_2,\cons{x}{\fun{rcat}(\fun{in}(t_1,\el),s)}}\).\index{rcat@\fun{rcat/2}}\index{InMir@\predName{InMir}|)}
+Le membre droit maintenant:
+\begin{equation*}
+%\begin{array}{@{}r@{\;}c@{\;}l@{\qquad}r@{}}
+\fun{rcat}(\fun{in}(t,\el),s)
+\! = \!
+ \fun{rcat}(\fun{in}(\fun{int}(x,t_1,t_2),\el),s)
+\! \xrightarrow{\smash{\rho}}\!
+ \fun{rcat}(\fun{in}(t_1,\cons{x}{\fun{in}(t_2,\el)}),s).
+%\end{array}
+\end{equation*}
+Les deux expressions sur lesquelles nous butons partagent le
+sous-terme \(\cons{x}{\fun{in}(t_2,\el)}\)\index{in@\fun{in/2}}. La
+principale différence est que la première expression contient deux
+appels à \fun{rcat/2}\index{rcat@\fun{rcat/2}|(}, au lieu d'un dans la
+deuxième. Pouvons-nous trouver un moyen pour n'avoir qu'un seul appel
+dans la première aussi? Nous cherchons une expression équivalente à
+\(\fun{rcat}(s,\fun{rcat}(t,u))\), dont la forme est
+\(\fun{rcat}(v,w)\), où \(v\) et~\(w\) ne contiennent aucun appel à
+\fun{rcat/2}. Quelques exemple suggèrent
+rapidement\index{Rcat@\predName{Rcat}}
+\begin{equation*}
+  \pred{Rcat}{s,t,u} \colon \fun{rcat}(s,\fun{rcat}(t,u)) \equiv \fun{rcat}(\fun{cat}(t,s),u).
+\end{equation*}
+Nous n'avons en fait pas besoin du principe d'induction pour prouver
+ce théorème si nous nous souvenons de ce que nous avons déjà établi:
+\begin{itemize}
+
+  \item \(\pred{CatRev}{s,t} \colon \fun{cat}(\fun{rev}_0(t),
+    \fun{rev}_0(s)) \equiv \fun{rev}_0(\fun{cat}(s,t))\);
+
+  \item \(\pred{EqRev}{s} \colon \fun{rev}_0(s) \equiv \fun{rev}(s)\);
+
+  \item \(\pred{CatAssoc}{s,t,u} \colon \fun{cat}(s,\fun{cat}(t,u))
+    \equiv \fun{cat}(\fun{cat}(s,t),u)\);
+
+  \item \(\pred{RevCat}{s,t} \colon \fun{rcat}(s,t) \equiv
+    \fun{cat}(\fun{rev}(s),t)\).
+
+\end{itemize}
+Alors, nous avons les équivalences suivantes:
+\begin{equation*}
+\begin{array}{@{}r@{\,}c@{\,}l@{\,}r@{}}
+\fun{rcat}(s,\fun{rcat}(t,u))
+& \equiv & \fun{rcat}(s,\fun{cat}(\fun{rev}(t),u))
+& (\pred{RevCat}{t,u}\!)\\
+& \equiv & \fun{rcat}(s,\fun{cat}(\fun{rev}_0(t),u))
+& (\pred{EqRev}{t}\!)\\
+& \equiv & \fun{cat}(\fun{rev}(s),\fun{cat}(\fun{rev}_0(t),u))
+& (\pred{RevCat}{s,\fun{cat}(\fun{rev}_0(t),u)}\!)\\
+& \equiv & \fun{cat}(\fun{rev}_0(s),\fun{cat}(\fun{rev}_0(t),u)\!)
+& (\pred{EqRev}{s}\!)\\
+& \equiv & \fun{cat}(\fun{cat}(\fun{rev}_0(s),\fun{rev}_0(t)\!),u)\!\!
+& (\!\pred{CatAssoc}{\fun{rev}(s),\fun{rev}(t),u}\!)\\
+& \equiv & \fun{cat}(\fun{rev}_0(\fun{cat}(t,s)),u)
+& (\pred{CatRev}{s,t}\!)\\
+& \equiv & \fun{cat}(\fun{rev}(\fun{cat}(t,s)),u)
+& (\pred{EqRev}{\fun{cat}(t,s)}\!)\\
+& \equiv & \fun{rcat}(\fun{cat}(t,s),u)
+& (\pred{RevCat}{\fun{cat}(t,s),u}\!)
+\end{array}
+\end{equation*}
+Reprenons la réécriture de la première expression qui nous a arrêté:
+\begin{equation*}
+\begin{array}{@{}r@{\;}c@{\;}l@{\qquad}r@{}}
+\fun{in}(\fun{mir}(t),s)
+& \equiv_0
+& \fun{rcat}(\cons{x}{\fun{in}(t_2,\el)},
+  \fun{rcat}(\fun{in}(t_1,\el),s))\\
+& \equiv_1
+& \fun{rcat}(\fun{cat}(\fun{in}(t_1,\el),
+  \cons{x}{\fun{in}(t_2,\el)}), s),\index{rcat@\fun{rcat/2}|)}
+\end{array}
+\end{equation*}
+où (\(\equiv_0\)) est un raccourci pour la dérivation précédente et
+(\(\equiv_1\)) est l'instance
+\(\pred{Rcat}{\cons{x}{\fun{in}(t_2,\el)}, \fun{in}(t_1,\el),
+  s}\). Une comparaison des expressions problématiques révèle que nous
+devons prouver \(\fun{cat}(\fun{in}(t,\el),s) \equiv
+\fun{in}(t,s)\). Cette équivalence est similaire à
+\(\pred{CatPre}{t,s}\)\index{CatPre@\predName{CatPre}}. En supposant
+qu'elle est vraie aussi, nous avons fini.\hfill\(\Box\)
+
+\paragraph{Exercices}
+\begin{enumerate}
+
+  \item Prouvez le lemme manquant \(\pred{CatIn}{t,s} \colon
+  \fun{cat}(\fun{in}(t,\el),s) \equiv
+  \fun{in}(t,s)\).\index{CatIn@\predName{CatIn}}\index{cat@\fun{cat/2}}
+
+ \item Définissez une fonction qui construit un arbre binaire à partir
+  de ses parcours préfixe et infixe, en supposant que ses n{\oe}uds
+  internes sont distincts. Assurez-vous que le coût est une fonction
+  linéaire du nombre de n{\oe}uds internes. Comparez votre solution
+  avec celle de \cite{MuBird_2003}.
+
+\end{enumerate}
+\index{arbre binaire!infixe|)}
+
+\mypar{Postfixe}
+\index{arbre binaire!postfixe|(}
+
+Un parcours \emph{postfixe}\index{arbre binaire!postfixe} d'un arbre
+binaire non-vide est une pile avec, d'abord, les n{\oe}uds du
+sous-arbre droit, en parcours postfixe, suivis par les n{\oe}uds du
+sous-arbre gauche, en parcours postfixe, et finalement la racine. Par
+exemple, le parcours postfixe de l'arbre à la \fig~\vref{fig_bt_ex1}
+est \([5,3,9,1,2,3,8]\). À l'évidence, il s'agit là d'un parcours en
+profondeur\index{arbre binaire!parcours en profondeur}, comme un
+parcours préfixe, mais, contrairement à ce dernier, la racine est
+placée au fond de la pile. Cette approche est résumée pour les
+n{\oe}uds internes à la \fig~\vref{fig_post_tree}. La différence avec
+\fun{pre/1}\index{pre@\fun{pre/1}} et \fun{in/1}\index{in@\fun{in/1}}
+réside dans le moment où la racine est empilée sur l'accumulateur. La
+définition de la fonction est donnée à la \fig~\vref{fig_post}.
+\begin{figure}
+%\abovedisplayskip=0pt
+%\belowdisplayskip=0pt
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{post}(t) & \xrightarrow{\lambda} & \fun{post}(t,\el).\\
+\\
+\fun{post}(\fun{ext}(),s) & \xrightarrow{\smash{\mu}} & s;\\
+\fun{post}(\fun{int}(x,t_1,t_2),s)
+  & \xrightarrow{\smash{\nu}} 
+  & \fun{post}(t_1,\fun{post}(t_2,\cons{x}{s})).
+\end{array}}
+\end{equation*}
+\caption{Parcours postfixe\label{fig_post}}
+\end{figure}
+La signification de la pile~\(s\) dans l'appel
+\(\fun{post}(t,s)\)\index{post@\fun{post/2}}\index{post@\fun{post/1}}
+est le même que dans \(\fun{pre}(t,s)\), modulo l'ordre:
+\(s\)~contient, en postfixe, les n{\oe}uds qui suivent, en postfixe,
+les n{\oe}uds du sous-arbre~\(t\). Le coût est familier aussi:
+\begin{equation*}
+  \C{\fun{post}}{n} = \C{\fun{in}}{n} = \C{\fun{pre}}{n} = 2n +
+  2.\index{post@$\C{\fun{post}}{n}$}
+\end{equation*}
+
+Un exemple de \emph{numérotation postfixe}\index{arbre
+  binaire!numérotation postfixe} est montré à la
+\fig~\vref{fig_postorder}, donc le parcours postfixe de cet arbre est
+\([0,1,2,3,4,5,6]\). Remarquons que les rangs augmentent le long de
+chemins ascendants. La
+\fig~\vref{fig_npost}\index{npost@\fun{npost/1}}\index{npost@\fun{npost/2}}
+\begin{figure}
+%\abovedisplayskip=0pt
+%\belowdisplayskip=0pt
+\centering
+\framebox[0.75\columnwidth]{\vbox{%
+\begin{gather*}
+\inferrule
+  {\fun{npost}(0,t) \twoheadrightarrow \pair{i}{t'}}
+  {\fun{npost}(t) \rightarrow t'}\,.
+\qquad
+\fun{npost}(i,\fun{ext}()) \rightarrow \pair{i}{\fun{ext}()};
+\\
+\inferrule
+  {\fun{npost}(i,t_1) \twoheadrightarrow \pair{j}{t'_1}
+   \and
+   \fun{npost}(j,t_2) \twoheadrightarrow \pair{k}{t'_2}}
+  {\fun{npost}(i,\fun{int}(x,t_1,t_2)) \rightarrow
+   \pair{k+1}{\fun{int}(k,t'_1,t'_2)}}\,.
+\end{gather*}
+}}
+\caption{Numérotation postfixe\label{fig_npost}}
+\end{figure}
+montre le programme pour numéroter un arbre binaire en postfixe. La
+racine est numérotée avec le nombre venant du sous-arbre droit, suivant
+en cela l'organisation d'un parcours postfixe.
+
+\paragraph{Une preuve}\label{proof_PreMir}
+
+Soit \(\pred{PreMir}{t} \colon \fun{pre}(\fun{mir}(t)) \equiv
+\fun{rev}(\fun{post}(t))\).\index{PreMir@\predName{PreMir}|(}
+L'expérience acquise en prouvant \(\pred{InMir}{t}\) nous suggère
+d'affaiblir (généraliser) la propriété: \(\pred{PreMir}{t,s} \colon
+\fun{pre}(\fun{mir}(t),s) \equiv
+\fun{rcat}(\fun{post}(t,\el),s)\).\index{rcat@\fun{rcat/2}}
+Clairement, \(\pred{PreMir}{t,\el} \Leftrightarrow
+\pred{PreMir}{t}\). Définissons alors
+\begin{equation*}
+  (t,s) \succ_{B \times S} (t',s') :\Leftrightarrow \text{\(t \succ_{B}
+    t'\) ou (\(t = t'\) et \(s \succ_{S} s'\))}.
+\end{equation*}
+Il s'agit là essentiellement du même ordre que celui sur les appels à
+\fun{pre/1}\index{pre@\fun{pre/1}}, à la
+définition~\eqref{eq_BS_order} \vpageref{eq_BS_order}. L'élément
+minimum pour cet ordre lexicographique est
+\((\fun{ext}(),\el)\). L'induction bien fondée alors requiert la
+preuve de
+\begin{itemize}
+
+  \item la base \(\pred{PreMir}{\fun{ext}(),\el}\);
+
+  \item \(\forall t,s. (\forall t',s'.(t,s) \succ_{B \times S} (t',s')
+    \Rightarrow \pred{PreMir}{t',s'}) \Rightarrow
+    \pred{PreMir}{t,s}\).
+
+\end{itemize}
+Pour la base: \index{mir@\fun{mir/1}|(}
+\(\fun{pre}(\fun{mir}(\fun{ext}()),\el) \xrightarrow{\smash{\sigma}}
+\fun{pre}(\fun{ext}(),\el) \xrightarrow{\smash{\iota}} \el
+\xleftarrow{\smash{\zeta}} \fun{rcat}(\el,\el)
+\xleftarrow{\smash{\mu}}
+\fun{rcat}(\fun{post}(\fun{ext}(),\el),\el)\). Posons \(t :=
+\fun{int}(x,t_1,t_2)\). %À la \fig~\vref{fig_premir},
+Nous avons les réécritures du membre gauche suivantes:
+%\begin{figure}
+\begin{equation*}
+%\boxed{
+\begin{array}{@{}r@{\;}l@{\;}l@{\qquad}r@{}}
+\fun{pre}(\fun{mir}(t),s)
+& = & \fun{pre}(\fun{mir}(\fun{int}(x,t_1,t_2)),s)\\
+& \xrightarrow{\smash{\tau}} 
+& \fun{pre}(\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)),s)\\
+& \Rra{\kappa}
+& \cons{x}{\fun{pre}(\fun{mir}(t_2),\fun{pre}(\fun{mir}(t_1),s))}\\
+& \equiv_0
+& \cons{x}{\fun{pre}(\fun{mir}(t_2),
+           \fun{rcat}(\fun{post}(t_1,\el),s))}\\
+& \equiv_1
+& \cons{x}{\fun{rcat}(\fun{post}(t_2,\el),
+           \fun{rcat}(\fun{post}(t_1,\el),s))}\\
+& \equiv_2
+& \cons{x}{\fun{rcat}(\fun{cat}(\fun{post}(t_1,\el),
+                                 \fun{post}(t_2,\el)),
+                      s)}\\
+& \Lla{\zeta}
+& \fun{rcat}(\el,\cons{x}{\fun{rcat}(\fun{cat}(\fun{post}(t_1,\el),
+                                       \fun{post}(t_2,\el)),
+                            s)})\\
+& \Lla{\eta}
+& \fun{rcat}([x],\fun{rcat}(\fun{cat}(\fun{post}(t_1,\el),
+                                       \fun{post}(t_2,\el)),
+                            s))\\
+& \equiv_3
+& \fun{rcat}(\fun{cat}(\fun{cat}(\fun{post}(t_1,\el),
+                                  \fun{post}(t_2,\el)),
+                       [x]),
+             s)\\
+& \equiv_4
+& \fun{rcat}(\fun{cat}(\fun{post}(t_1,\el),
+                       \fun{cat}(\fun{post}(t_2,\el),
+                                 [x])),
+             s)\\
+& \equiv_5
+& \fun{rcat}(\fun{cat}(\fun{post}(t_1,\el),
+                       \fun{post}(t_2,[x])),
+             s)\\
+& \equiv_6
+& \fun{rcat}(\fun{post}(t_1,\fun{post}(t_2,[x])),s)\\
+& \xleftarrow{\smash{\nu}}
+& \fun{rcat}(\fun{post}(\fun{int}(x,t_1,t_2),\el),s)\\
+& =
+& \fun{rcat}(\fun{post}(t,\el),s).\hfill\Box
+\end{array}
+%}
+\end{equation*}
+%\caption{Preuve de \(\fun{pre}(\fun{mir}(t),s) \equiv %\fun{rcat}(\fun{post}(t,\el),s)\)\label{fig_premir}}
+%\end{figure}
+où
+\begin{itemize}
+
+  \item (\(\equiv_0\)) est \(\pred{PreMir}{t_1,s}\), une instance de
+    l'hypothèse d'induction;\index{PreMir@\predName{PreMir}}
+
+  \item (\(\equiv_1\)) est
+  \(\pred{PreMir}{t_2,\fun{rcat}(\fun{post}(t_1,\el),s)}\), de 
+  l'hypothèse d'induction;\index{PreMir@\predName{PreMir}}
+
+  \item (\(\equiv_2\)) est
+    \(\pred{Rcat}{\fun{post}(t_2,\el),\fun{post}(t_1,\el),s}\);
+    \index{Rcat@\predName{Rcat}}
+
+  \item (\(\equiv_3\)) est
+    \(\pred{Rcat}{[x],\fun{cat}(\fun{post}(t_1,\el),
+      \fun{post}(t_2,\el)),s}\);
+    \index{Rcat@\predName{Rcat}}
+
+  \item (\(\equiv_4\)) est \(\pred{CatAssoc}{\fun{post}(t_1,\el),
+    \fun{post}(t_2,\el),[x]}\);\index{CatAssoc@\predName{CatAssoc}}
+
+  \item (\(\equiv_5\)) est
+  \(\pred{CatPost}{t_2,[x]}\)\index{CatPost@\predName{CatPost}} si
+  \(\pred{CatPost}{t,s} \colon \fun{cat}(\fun{post}(t),s) \equiv
+  \fun{post}(t,s)\)\!;\index{cat@\fun{cat/2}}
+
+  \item (\(\equiv_6\)) est \(\pred{CatPost}{t_1,\fun{post}(t_2,[x])}\).
+  \index{post@\fun{post/2}}\index{CatPost@\predName{CatPost}}
+
+\end{itemize}
+Alors \index{mir@\fun{mir/1}|)} \(\pred{CatPost}{t,s} \Rightarrow
+\pred{PreMir}{t,s} \Rightarrow \fun{pre}(\fun{mir}(t)) \equiv
+\fun{rev}(\fun{post}(t))\).\hfill\(\Box\)
+
+\paragraph{Dualité}
+\label{thm_duality}
+
+Le théorème dual\index{PostMir@\predName{PostMir}} \(\pred{PostMir}{t}
+\colon \fun{post}(\fun{mir}(t)) \equiv
+\fun{rev}(\fun{pre}(t))\)\index{mir@\fun{mir/1}}
+\index{pre@\fun{pre/1}} \index{post@\fun{post/1}}
+\index{rev@\fun{rev/1}} peut être démontré d'au moins deux façons:
+soit nous concevons une nouvelle preuve dans l'esprit de
+\(\pred{PreMir}{t}\), soit nous utilisons le fait que le théorème est
+une équivalence et nous produisons alors une suite de théorèmes
+équivalents, dont le dernier est simple à établir. Choisissons cette
+seconde méthode et commençons par considérer
+\(\pred{PreMir}{\fun{mir}(t)}\),\index{PreMir@\predName{PreMir}|)}
+puis continuons en recherchant des expressions équivalentes aux deux
+membres, jusqu'à atteindre \(\pred{PostMir}{t}\):
+\begin{equation*}
+\begin{array}{@{}r@{\;}c@{\;}l@{\qquad}r@{}}
+          \fun{pre}(\fun{mir}(\fun{mir}(t)))
+& \equiv 
+& \fun{rev}(\fun{post}(\fun{mir}(t)))
+& (\pred{PreMir}{\fun{mir}(t)})\\
+  \fun{pre}(t)
+& \equiv
+& \fun{rev}(\fun{post}(\fun{mir}(t)))
+& (\pred{InvMir}{t})\\
+  \fun{rev}(\fun{pre}(t))
+& \equiv
+& \fun{rev}(\fun{rev}(\fun{post}(\fun{mir}(t))))\\
+  \fun{rev}(\fun{pre}(t))
+& \equiv
+& \fun{post}(\fun{mir}(t))
+& (\pred{InvRev}{\fun{post}(\fun{mir}(t))}),
+\end{array}
+\end{equation*}
+où\index{InvMir@\predName{InvMir}} \(\pred{InvMir}{t} \colon
+\fun{mir}(\fun{mir}(t)) \equiv t\) et\index{InvRev@\predName{InvRev}}
+\(\pred{InvRev}{s} :\Leftrightarrow \pred{Inv}{s} \wedge
+\pred{EqRev}{s}\).\hfill\(\Box\)
+
+\paragraph{Exercices}
+\begin{enumerate}
+
+  \item Prouvez le lemme\index{CatPost@\predName{CatPost}}
+  \(\pred{CatPost}{t,s} \colon \fun{cat}(\fun{post}(t,\el),s) \equiv
+  \fun{post}(t,s)\).
+
+  \item Utilisez \fun{rev\(_0\)/1} au lieu de \fun{rev/1} dans
+  \(\pred{InMir}{t}\) et \(\pred{PreMir}{t}\). Les preuves sont-elles
+  plus aisées?
+
+  \item Prouvez le lemme manquant\index{InvMir@\predName{InvMir}}
+  \(\pred{InvMir}{t} \colon \fun{mir}(\fun{mir}(t)) \equiv
+  t\).\label{ex_mir_mir}
+
+\item Pouvez-vous reconstruire un arbre binaire d'après ses parcours
+  infixe et postfixe, en supposant que ses n{\oe}uds internes sont
+  tous distincts?
+
+\end{enumerate}
+\index{arbre binaire!postfixe|)}
+
+\mypar{Parcours des niveaux}
+\index{arbre binaire!parcours des niveaux|(}
+
+Le \emph{niveau}~\(l\)\index{arbre!niveau} d'un arbre est une
+sous-suite de son parcours préfixe\index{arbre binaire!préfixe} telle
+que tous les n{\oe}uds ont pour longueur
+interne~\(l\).\index{arbre!longueur interne} En particulier, la racine
+est le seul n{\oe}ud au niveau~\(0\). Dans l'arbre de la
+\fig~\vref{fig_bt_ex1}, \([3,9,2]\) est le niveau~\(2\). Pour
+comprendre la contrainte du parcours préfixe, nous devons considérer
+la numérotation préfixe de l'arbre, montrée à la
+\fig~\vref{fig_bt_ex3}, où les rangs sont les exposants à gauche des
+contenus. De cette manière, il n'y a plus d'ambiguïté lorsque nous
+faisons référence à des n{\oe}uds. Par exemple, \([3,9,2]\) est en
+fait ambigu parce qu'il existe deux n{\oe}uds dont l'information
+associée est~\(3\). Nous voulions dire que \([{}^{2}{3}, {}^{4}{9},
+{}^{6}{2}]\) est le niveau~\(2\) car tous ces n{\oe}uds ont une
+longueur de chemin interne égale à~\(2\) \emph{et} possèdent des rangs
+préfixes croissants (\(2,4,6\)).
+
+Un \emph{parcours des niveaux}\index{arbre binaire!parcours des
+  niveaux} consiste en une pile contenant les n{\oe}uds de tous les
+niveaux par longueurs de chemins croissantes. Ainsi, le parcours par
+niveaux de l'arbre à la \fig~\vref{fig_bt_ex1} est
+\([8,1,3,3,9,2,5]\). Parce que cette méthode visite les frères d'un
+n{\oe}uds avant ses enfants, elle est un \emph{parcours en
+  largeur}.\index{arbre binaire!parcours en largeur}
+
+À la \fig~\vref{fig_lorder} est montrée une \emph{numérotation par
+  niveaux} de l'arbre à la \fig~\vref{fig_bt_ex3}, souvent appelée
+\emph{numérotation en largeur}.\index{arbre binaire!numérotation en
+  largeur} (Attention lors de la recherche du terme correct en
+anglais, qui est \emph{breadth numbering}, car il est souvent mal
+écrit, par exemple «bread numbering» et «breath numbering.») Notons
+que les rangs augmentent le long de chemin descendants, comme dans une
+numérotation préfixe.
+
+Il se peut que nous comprenions maintenant que la notion de niveau
+d'un arbre n'est pas intuitive. La raison en est simple: les n{\oe}uds
+d'un niveau ne sont pas frères\index{arbre!n{\oe}ud!frère}, sauf au
+niveau~\(1\), donc, en général, nous ne pouvons nous attendre à
+construire le niveau d'un arbre \(\fun{int}(x,t_1,t_2)\) à l'aide
+uniquement des niveaux de~\(t_1\) et~\(t_2\), c'est-à-dire, avec une
+conception à grands pas\index{conception!grands pas}. En conséquence,
+une conception à petits pas est nécessaire, en contraste avec, par
+exemple, \fun{size/1}\index{size@\fun{size/1}} dans~\eqref{eq_size}
+\vpageref{eq_size}.
+
+Soit \fun{bf\(_0\)/1}\index{bf0@\fun{bf\(_0\)/1}} (anglais,
+\emph{breadth-first}) la fonction telle que \(\fun{bf}_0(t)\)
+calcule la pile de n{\oe}uds de~\(t\) par niveaux. Elle est
+partiellement définie à la \fig~\vref{fig_lo0}.
+\begin{figure}[t]
+\centering
+\includegraphics[bb=108 682 395 721]{lo0}
+\caption{Parcours par niveaux avec \fun{bf\(_0\)/1}\label{fig_lo0}}
+\end{figure}
+Si nous imaginons que nous coupons la racine d'un arbre binaire, nous
+obtenons ses deux sous-arbres immédiats. Si nous coupons la racine de
+ces arbres, nous obtenons encore des sous-arbres. Ceci suggère que
+nous devrions travailler avec des forêts\index{arbre!forêt} au lieu
+d'arbres isolément.
+
+La fonction de coupe est \fun{def/1}\index{def@\fun{def/1}}
+(anglais, \emph{deforest}), définie à la \fig~\vref{fig_def},
+\begin{figure}
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
+\centering
+\includegraphics[bb=71 660 324 721]{def}
+\caption{Coupe\label{fig_def}}
+\end{figure}
+telle que \(\fun{def}(f)\), où \(f\)~représente une forêt, calcule une
+paire \(\pair{r}{f'}\), où \(r\)~est les racines en préfixe des arbres
+dans~\(f\), et \(f'\)~est la forêt immédiate de~\(f\). Remarquons qu'à
+la \fig~\vref{fig_def}, la règle d'inférence augmente le niveau
+partiel~\(r\) avec la racine~\(x\), et que \(t_2\)~est empilé
+avant~\(t_1\) sur le reste de la forêt immédiate~\(f\), qui sera
+traitée plus tard par \fun{bf\(_0\)/1}\index{bf0@\fun{bf\(_0\)/1}}. Au
+lieu de construire la pile des niveaux \([[8], [1,3], [3,9,2], [5]]\),
+nous aplatissons pas à pas simplement en appelant
+\fun{cat/2}\index{cat@\fun{cat/2}} à la règle~\(\mu\). Si nous voulons
+réellement les niveaux, nous écririons
+\(\cons{r}{\fun{bf}_1(f')}\)\index{bf1@\fun{bf\(_1\)/1}} au lieu de
+\(\fun{cat}(r,\fun{bf}_1(f'))\)\index{cat@\fun{cat/2}}, ce qui,
+d'ailleurs, réduit le coût.
+
+Le concept sous-jacent ici est celui de \emph{parcours d'une
+  forêt}. Sauf en infixe, tous les parcours dont nous avons discuté se
+généralisent naturellement aux forêts binaires: le parcours préfixe
+d'une forêt est le parcours préfixe du premier arbre, suivi du
+parcours préfixe du reste de la forêt. La même logique est pertinente
+pour les parcours en postfixe et par niveaux. Cette uniformité
+provient du fait que tous ces parcours vont vers la droite, à savoir,
+un enfant à gauche est visité avant son frère. La notion de
+hauteur\index{arbre!hauteur} d'un arbre se généralise à une forêt tout
+aussi bien: la hauteur d'une forêt est la hauteur maximum de ses
+arbres. La raison pour laquelle cela est simple est que la hauteur est
+un concept qui repose sur une vue purement verticale des arbres, donc
+indépendent de l'ordre des sous-arbres.
+
+Pour évaluer le coût
+\(\C{\fun{bf}_0}{n,h}\)\index{bf0@$\C{\fun{bf}_0}{n,h}$} de l'appel
+\(\fun{bf}_0(t)\), où \(n\)~est la taille de l'arbre binaire~\(t\) et
+\(h\)~est sa hauteur\index{arbre binaire!hauteur}, il est commode de
+travailler avec les \emph{niveaux étendus}\index{arbre binaire!niveau
+  étendu}. Un niveau étendu est un niveau où les n{\oe}uds externes
+sont inclus (ils ne sont pas explicitement numérotés en préfixe parce
+que les n{\oe}uds externes sont indistincts). Par exemple, le niveau
+étendu~\(2\) de l'arbre à la \fig~\vref{fig_bt_ex3} est \([{}^{2}{3},
+{}^{4}{9}, \Box, {}^{6}{2}]\). S'il est nécessaire parfois de
+souligner la différence, nous pouvons appeler les niveaux habituels
+\emph{niveaux taillés}, ce qui est cohérent avec la terminologie de la
+\fig~\ref{fig_bt_ex} \vpageref{fig_bt_ex}. Remarquons qu'il y a
+toujours un niveau étendu de plus que de niveaux taillés, constitué
+entièrement de n{\oe}uds externes. (Nous évitons d'écrire que ces
+n{\oe}uds sont les plus hauts, parce que le problème avec le terme
+«hauteur»\index{arbre!hauteur} est qu'il n'a de sens que si les arbres
+sont figurés avec leur racine au bas de la page. C'est peut-être pour
+cela que certains auteurs préfèrent le concept, plus clair, de
+\emph{profondeur}\index{arbre binaire!profondeur}, en usage en théorie
+des graphes. Pour un compendium sur les différentes façons de dessiner
+des arbres, voir \cite{Knuth_1997} à la section~2.3.) En d'autres
+termes, \(l_h=0\), où \(l_i\)~est le nombre de n{\oe}uds internes au
+niveau étendu~\(i\).
+\begin{itemize}
+
+  \item La règle~\(\iota\) est utilisée une fois;
+
+  \item la règle~\(\kappa\) est appliquée une fois;
+
+  \item les règles~\(\lambda\) et~\(\mu\) sont employées une fois pour
+    chaque niveau étendu de l'arbre initial; ceux-ci totalisent
+    \(2(h+1)\) appels;
+
+  \item le coût de \(\fun{cat}(r,\fun{loc}_1(f'))\) est la longueur du
+    niveau~\(r\), plus un, donc le coût cumulé de la concaténation est
+    \(\sum_{i=0}^{h}\C{\fun{cat}}{l_i} = n + h + 1\);
+
+  \item la règle~\(\epsilon\) est utilisée une fois par niveau étendu,
+    soit \(h+1\) fois;
+
+  \item la règle~\(\zeta\) est appliquée une fois pour chaque n{\oe}ud
+    externe, donc \(n+1\) fois;
+
+  \item les règles~\(\eta\) et~\(\theta\) sont utilisées une fois pour
+    chaque n{\oe}ud interne, c'est-à-dire \(2n\) fois.
+
+\end{itemize}
+En somme, nous obtenons
+\begin{equation*}
+\C{\fun{bf}_0}{n,h} = 4n + 4h + 7. \index{bf0@$\C{\fun{bf}_0}{n,h}$}
+\end{equation*}
+Par définition, le coût minimum est \(\B{\fun{bf}_0}{n} =
+\min_h\C{\fun{bf}_0}{n,h}\). La hauteur\index{arbre binaire!hauteur}
+est minimum quand l'arbre binaire est \emph{parfait}\index{arbre
+  binaire!$\sim$ parfait}, c'est-à-dire que tous ses niveaux sont
+pleins (voir \fig~\vref{fig_comp_tree}). Dans ce cas, \(l_i=2^i\),
+pour \(0 \leqslant i \leqslant h-1\), et, par extension, il y a
+\(2^h\)~n{\oe}uds externes. Le théorème~\ref{thm_int_ext} donne
+l'équation \(n+1 = 2^h\), d'où \(h=\lg(n+1)\), et enfin nous avons
+\(\B{\fun{bf}_0}{n} = 4n + 4\lg(n+1) + 7 \sim
+4n\). \index{bf0@$\B{\fun{bf}_0}{n}$}
+
+Le coût maximum est obtenu en maximisant la hauteur\index{arbre
+  binaire!hauteur}, tout en conservant la taille constante. Ceci se
+produit pour les arbre dégénérés\index{arbre binaire!$\sim$ dégénéré},
+comme ceux montrés à la \fig~\vref{fig_tree_stack} et à la
+\fig~\vref{fig_zigzag}. Ici, \(h=n\) et le coût est
+\(\W{\fun{bf}_0}{n} = 8n + 7 \sim
+8n\). \index{bf0@$\W{\fun{bf}_0}{n}$}
+
+% Wrapping figure better declared before a paragraph
+%
+\begin{wrapfigure}[7]{r}[0pt]{0pt}
+% [7] vertical lines
+% {r} mandatory right placement
+% [0pt] of margin overhang
+\centering
+\includegraphics[bb=55 653 120 721]{zigzag}
+\caption{\label{fig_zigzag}}
+\end{wrapfigure}
+Ce résultat est à contraster avec les programmes que nous avons écrits
+tantôt pour les parcours préfixe, infixe et postfixe, dont le coût
+était \(2n+2\). Il est possible de réduire le coût du parcours des
+niveaux en employant un modèle différent, basé sur
+\fun{pre\(_3\)/1}\index{pre3@\fun{pre\(_3\)/1}} à la
+\fig~\vref{fig_pre3}. La différence est qu'au lieu d'utiliser une pile
+pour conserver les sous-arbres à traverser ultérieurement, nous
+employons une file\index{file}, une structure de données linéaire que
+nous avons présentée à la section~\ref{sec_queueing}. Considérons à la
+\fig~\vref{fig_lo_abcde} l'algorithme à l'{\oe}uvre sur le même
+exemple qu'à la \fig~\vref{fig_pre3_abcde}.
+\begin{figure}[b]
+\centering
+\includegraphics[bb=70 655 385 723]{lo_abcde_0}
+\bigskip
+\includegraphics[bb=70 690 388 723]{lo_abcde_1}
+\caption{Parcours des niveaux avec une file\label{fig_lo_abcde}}
+\end{figure}
+Gardons à l'esprit que les arbres sont défilés du côté droit de la
+forêt et enfilés à gauche. (Certains auteurs préfèrent l'autre sens.)
+La racine du prochain arbre à défiler est encerclée.
+
+En vue d'une comparaison avec
+\fun{pre\(_4\)/1}\index{pre4@\fun{pre\(_4\)/1}} à la
+\fig~\vref{fig_pre3}, nous écrirons
+\(\enq{x}{q}\)\index{file}\index{enq@$\enq{x}{q}$} au lieu de
+\(\fun{enq}(x,q)\)\index{enq@\fun{enq/2}}, et
+\(\deq{x}{q}\)\index{deq@$\deq{x}{q}$} au lieu de \(\pair{q}{x}\). La
+file vide est notée~\(\emq\)\index{file@$\emq$}. Crucialement, nous
+permettrons à ces expressions d'apparaître dans les motifs des règles
+définissant \fun{bf\(_2\)/1}\index{bf2@\fun{bf\(_2\)/1}}, qui effectue
+un parcours des niveaux à la \fig~\ref{fig_bf1}.
+\begin{figure}
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{bf}_1(t) & \rightarrow & \fun{bf}_2(\enq{t}{\emq}).\\
+\\
+\fun{bf}_2(\emq) & \rightarrow & \el;\\
+\fun{bf}_2(\deq{\fun{ext}()}{q}) & \rightarrow & \fun{bf}_2(q);\\
+\fun{bf}_2(\deq{\fun{int}(x,t_1,t_2)}{q})
+  & \rightarrow & \cons{x}{\fun{bf}_2(\enq{t_2}{\enq{t_1}{q}})}.
+\end{array}}
+\end{equation*}
+\caption{Parcours des niveaux avec une file abstraite\label{fig_bf1}}
+\end{figure}
+La différence en termes de structure de donnée (accumulateur) a déjà
+été mentionnée: \fun{pre\(_4\)/1}\index{pre4@\fun{pre\(_4\)/1}}
+emploie une pile et \fun{bf\(_2\)/1}\index{bf2@\fun{bf\(_2\)/1}} une
+file, mais, en ce qui concerne les algorithmes, ceux-ci ne diffèrent
+que dans l'ordre relatif dans lequel \(t_1\)~et~\(t_2\) sont ajoutés à
+l'accumulateur.
+
+À la section~\ref{sec_queueing}, nous avons vu comment mettre en
+{\oe}uvre une file \(\fun{q}(r,f)\) avec deux piles \(r\)~et~\(f\):
+\index{q@\fun{q/2}} la pile arrière~\(r\), où les éléments sont
+empilés (logiquement enfilés), et la pile frontale~\(f\), de laquelle
+les éléments sont dépilés (logiquement défilés). Aussi, nous avons
+défini l'enfilage par \fun{enq/2}\index{enq@\fun{enq/2}}
+dans~\eqref{def_enq}, \vpageref{def_enq}, et le défilage avec
+\fun{deq/1}\index{deq@\fun{deq/1}} dans~\eqref{def_deq}. Ceci nous
+permet de raffiner la définition
+de~\fun{bf\(_2\)/1}\index{bf2@\fun{bf\(_2\)/1}} en
+\fun{bf\(_3\)/1}\index{bf3@\fun{bf\(_3\)/1}} à la \fig~\vref{fig_bf3}.
+\begin{figure}
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
+\centering
+\framebox[0.9\columnwidth]{\vbox{%
+\begin{gather*}
+\fun{bf}_3(t) \rightarrow \fun{bf}_4(\fun{enq}(t,\fun{q}(\el,\el))).
+\qquad
+\fun{bf}_4(\fun{q}(\el,\el)) \rightarrow \el;\\
+%
+\inferrule
+  {\fun{deq}(q) \twoheadrightarrow \pair{q'}{\fun{ext}()}}
+  {\fun{bf}_4(q) \twoheadrightarrow \fun{bf}_4(q')};
+\quad
+\inferrule
+  {\fun{deq}(q) \twoheadrightarrow \pair{q'}{\fun{int}(x,t_1,t_2)}}
+  {\fun{bf}_4(q) \twoheadrightarrow 
+   \cons{x}{\fun{bf}_4(\fun{enq}(t_2,\fun{enq}(t_1,q')))}}\,.
+\end{gather*}}}
+\caption{Raffinement de la \fig~\vref{fig_bf1}\label{fig_bf3}}
+\end{figure}
+
+Nous pouvons spécialiser le programme davantage, de façon à économiser
+de la mémoire en n'utilisant pas le constructeur
+\fun{q/2}\index{q@\fun{q/2}} et en nous souvenant que son premier
+argument est la pile arrière et le second la pile frontale. De plus,
+au lieu d'appeler \fun{deq/1}\index{deq@\fun{deq/1}} et
+\fun{enq/2}\index{enq@\fun{enq/1}}, nous pouvons insérer leur
+définition et les fusionner avec la définition en cours. Le résultat
+est montré à la \fig~\vref{fig_bf}.
+\begin{figure}
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{bf}(t) & \xrightarrow{\smash{\nu}} & \fun{bf}(\el,[t]).\\
+\\
+\fun{bf}(\el,\el) & \xrightarrow{\smash{\xi}} & \el;\\
+\fun{bf}(\cons{t}{r},\el) & \xrightarrow{\smash{\pi}} &
+  \fun{bf}(\el,\fun{rcat}(r,[t]));\\
+\fun{bf}(r,\cons{\fun{ext}()}{f}) 
+  & \xrightarrow{\smash{\rho}} & \fun{bf}(r,f);\\
+\fun{bf}(r,\cons{\fun{int}(x,t_1,t_2)}{f})
+  & \xrightarrow{\smash{\sigma}} 
+  & \cons{x}{\fun{bf}(\cons{t_2,t_1}{r},f)}.
+\end{array}}
+\end{equation*}
+\caption{Raffinement de la \fig~\vref{fig_bf3}\label{fig_bf}}
+\end{figure}
+Souvenons-nous que \fun{rcat/2}\index{rcat@\fun{rcat/2}} (anglais,
+\emph{reverse and catenate}) est définie à l'équation~\eqref{def_rev}
+\vpageref{def_rev}. Remarquons que
+\(\fun{bf}_4(\fun{enq}(t,\fun{q}(\el,\el)))\)\index{bf4@\fun{bf\(_4\)/1}}
+a été optimisé en \(\fun{bf}(\el,[t])\)\index{bf@\fun{bf/2}} de
+manière à éviter un retournement de pile. 
+
+La définition de \fun{bf/1}\index{bf@\fun{bf/1}} peut être considérée
+comme le plus \emph{concret} des raffinements, le programme le plus
+\emph{abstrait} étant la définition originelle de
+\fun{bf\(_1\)/1}\index{bf1@\fun{bf\(_1\)/1}}. La première est plus
+courte que \fun{bf\(_0\)/1}\index{bf0@\fun{bf\(_0\)/1}}, mais le gain
+véritable est le coût. Soit \(n\)~la taille de l'arbre binaire en
+question et \(h\)~sa hauteur\index{arbre binaire!hauteur}. L'emploi
+des règles est:
+\begin{itemize}
+
+  \item la règle~\(\nu\) est utilisée une fois;
+
+  \item la règle~\(\xi\) est employée une fois;
+
+  \item la règle~\(\pi\) est appliquée une fois par niveau, sauf le
+    premier (la racine), donc, au total \(h\)~fois;
+
+  \item tous les niveaux, sauf le premier (la racine), sont retournés
+    par \fun{rev/1}: \(\sum_{i=1}^{h}\C{\fun{rev}}{e_i} =
+    \sum_{i=1}^{h}(e_i+2) = (n-1)+(n+1)+ 2h = 2n +
+    2h\),\index{rev@$\C{\fun{rev}}{n}$} où \(e_i\)~est le nombre de
+    n{\oe}uds au niveau étendu~\(i\);
+
+  \item la règle~\(\rho\) est utilisée une fois pour chaque n{\oe}ud
+    externe, à savoir, \(n+1\) fois;
+
+  \item la règle~\(\sigma\) est employée une fois pour chaque n{\oe}ud
+    interne, donc \(n\)~fois.
+
+\end{itemize} 
+La somme de toutes ces sommes partielles donne
+\begin{equation*}
+\C{\fun{bf}}{n,h} = 4n + 3h + 3.\index{bf@$\C{\fun{bf}}{n,h}$}
+\end{equation*}
+Comme avec \fun{bf\(_0\)/1}\index{bf0@\fun{bf\(_0\)/1}}, le coût
+minimum se produit ici si \(h = \lg(n+1)\), donc \(\B{\fun{bf}}{n} =
+4n + 3\lg(n+1) + 3 \sim 4n\).\index{bf@$\B{\fun{bf}}{n,h}$} Le coût
+maximum se produit quand \(h=n\), d'où \(\W{\fun{bf}}{n} = 7n + 3 \sim
+7n\). Nous pouvons maintenant comparer
+\fun{bf\(_0\)/1}\index{bf0@\fun{bf\(_0\)/1}} et
+\fun{bf/1}\index{bf@\fun{bf/1}}: \(\C{\fun{bf}}{n,h} <
+\C{\fun{bf}_0}{n,h}\)\index{bf@$\C{\fun{bf}}{n,h}$}
+\index{bf0@$\C{\fun{bf}_0}{n,h}$} et la différence de coût est la plus
+notable dans leur cas le plus défavorable, qui est, pour les deux, un
+arbre dégénéré. Par conséquent, \fun{bf/1} est préférable dans tous
+les cas.
+
+\paragraph{Terminaison}
+\hspace*{-1pt}
+\index{terminaison!parcours des niveaux|(} \index{arbre
+  binaire!parcours des niveaux!terminaison|(} Dans le but de prouver
+la terminaison de \fun{bf/2}\index{bf@\fun{bf/2}}, nous réutilisons
+l'ordre lexicographique sur les paires de piles, basé sur la relation
+de sous-pile immédiate (\(\succ_{S}\))\index{induction!ordre de la
+  sous-pile immédiate} qui nous a permis de prouver la terminaison de
+\fun{mrg/2}\index{mrg@\fun{mrg/2}} \vpageref{merging_termination}:
+\begin{equation*}
+(s,t) \succ_{S^2} (s',t') :\Leftrightarrow \text{\(s \succ_{S} s'\) ou
+    (\(s = s'\) et \(t \succ_{S} t'\))}.
+\end{equation*}
+Malheureusement, (\(\succ_{S^2}\)) échoue dans l'ordonnancement
+monotone (par rapport à la relation de réécriture) du membre gauche et
+du membre droit de la règle~\(\sigma\), à cause de
+\((r,\cons{\fun{int}(x,t_1,t_2)}{f}) \nsucc_{S^2}
+(\cons{t_2,t_1}{r},f)\). Une autre approche consiste à définir un
+ordre bien fondé sur le nombre de n{\oe}uds dans une paire de forêts:
+\begin{equation*}
+(r,f) \succ_{S^2} (r',f') :\Leftrightarrow \fun{dim}(r) +
+  \fun{dim}(f) > \fun{dim}(r') + \fun{dim}(f'),
+\end{equation*}
+avec
+\begin{equation*}
+\fun{dim}(\el) \rightarrow \el;\qquad
+\fun{dim}(\cons{t}{f}) \rightarrow \fun{size}(t) + \fun{dim}(f).
+\end{equation*}
+où \fun{size/1}\index{size@\fun{size/1}}\index{arbre binaire!taille}
+est définie par~\eqref{eq_size} \vpageref{eq_size}. Ceci est une sorte
+de mesure polynomiale\index{terminaison!mesure polynomiale} sur les
+paires de dépendance\index{terminaison!paire de dépendance}, dont on
+peut en voir une illustration avec
+\fun{flat/1}\index{flat@\fun{flat/1}}
+\vpageref{flattening_termination}. Ici, \(\measure{\fun{bf}(s,t)} :=
+\fun{dim}(s) + \fun{dim}(t)\). Malheureusement, cet ordre échoue dans
+l'ordonnancement monotone de la règle~\(\pi\), car \((r,\el)
+\nsucc_{S^2} (\el,\fun{rev}(r))\).
+
+L'énigme est résolue si nous visualisons l'ensemble complet des traces
+d'évaluation\index{langage fonctionnel!évaluation!trace} de
+\fun{bf/2}\index{bf@\fun{bf/2}} d'une manière compacte. Si nous
+supposons que \fun{rev/1}\index{rev@\fun{rev/1}} est un constructeur,
+les membres droits ne contiennent aucun appel ou exactement un appel
+récursif. Les traces des appels à ces définitions sont joliment
+représentées comme des automates finis.\index{automate fini} Un
+exemple d'automate fini déterministe\index{automate fini!$\sim$
+  déterministe|(} (AFD) a été vu à la \fig~\vref{fig_abacabac}. Ici,
+une transition est une règle de réécriture et un état correspond à une
+abstraction de la donnée. Dans le cas de \fun{bt/2}, la donnée est une
+paire de piles. Décidons pour le moment que nous ne prendrons en
+compte que le fait qu'une pile est vide ou non, ce qui conduit à
+quatre états. Posons que «\texttt{|}» dénote une pile non-vide
+arbitraire. En examinant les définitions de
+\fun{bf/1}\index{bf@\fun{bf/1}} et \fun{bf/2}\index{bf@\fun{bf/2}} à
+la \fig~\vref{fig_bf}, nous voyons que
+\begin{itemize}
+
+  \item la règle~\(\xi\) s'applique à l'état \((\el,\el)\) uniquement;
+
+  \item la règle~\(\pi\) s'applique à l'état \((\mid,\el)\), et
+    conduit à l'état \((\el,\mid)\);
+
+  \item la règle~\(\rho\) s'applique aux états \((\el,\mid)\) et
+    \((\mid,\mid)\), et mène à n'importe quel état;
+
+  \item la règle~\(\sigma\) s'applique aux états \((\el,\mid)\) et
+    \((\mid,\mid)\), et conduit aux états \((\mid,\el)\) et
+    \((\mid,\mid)\).
+
+\end{itemize}
+À la \fig~\vref{fig_lo_nfa},
+\begin{figure}
+\centering
+\subfloat[Non-déterministe (AFN)\label{fig_lo_nfa}]{
+\includegraphics[bb=71 580 209 721]{lo_nfa}}
+\quad
+\subfloat[Déterministe (AFD)\label{fig_lo_dfa}]{
+\includegraphics[bb=71 580 209 721]{lo_dfa}}
+\caption{Traces de \fun{bf/2} comme automate fini}
+\end{figure}
+nous regroupons toute cette connectivité en un automate fini. Notons
+que, par définition, l'état initial possède une transition
+entrante~\(\nu\) sans source et que l'état final a une transition
+sortante~\(\xi\) sans destination. Une trace est n'importe quelle
+séquence de transitions de l'état initial \((\el,\mid)\) à l'état
+final \((\el,\el)\), par exemple, \(\nu\rho^p\sigma^q\pi\rho\xi\),
+avec \(p \geqslant 0\) et \(q \geqslant 2\). Cet automate est appelé
+\emph{automate fini non-déterministe}\index{automate fini!$\sim$
+  non-déterministe|(} (AFN) parce qu'un état peut avoir plus d'une
+transition sortante avec le même label (considérons l'état initial et
+les deux transitions de label~\(\sigma\), par exemple).
+
+Il est toujours possible de construire un \emph{automate fini
+  déterministe} (AFD) équivalent à un automate fini non-déterministe
+donné \citep{VanLeeuwen_1990c,HopcroftMotwaniUllman_2003}. Les
+transitions sortant de chaque état du premier ont un label
+distinct. L'équivalence signifie que l'ensemble des traces de chaque
+automate est le même. Si «\texttt{?}» dénote une pile, vide ou non,
+alors la \fig~\vref{fig_lo_dfa} montre un AFD équivalent pour les
+traces de \fun{bf/1}\index{bf@\fun{bf/1}} et
+\fun{bf/2}\index{bf@\fun{bf/2}}.
+
+Comme nous l'avons observé tantôt en employant l'ordre bien fondé
+\((\succ_{S^2})\) basé sur la taille des piles, toutes les transitions
+\(x \rightarrow y\) dans l'AFD satisfont \(x \succ_{S^2} y\),
+sauf~\(\pi\), pour laquelle \(x =_{S^2} y\) est vrai (le nombre total
+de n{\oe}uds est invariant). Nous pouvons néanmoins conclure que
+\fun{bf/2} termine parce que la seule façon de ne pas terminer serait
+l'existence d'un \emph{circuit}~\(\pi\), à savoir, une suite de
+transitions successives d'un état vers lui-même, toutes portant le
+label~\(\pi\), donc le long de laquelle le nombre de n{\oe}uds est
+constant. En fait, toutes les traces contiennent~\(\pi\) suivie
+de~\(\rho\) ou~\(\sigma\).
+
+Encore un autre point de vue sur ce sujet serait de prouver, en
+examinant toutes les règles isolément et toutes les compositions de
+deux règles, que
+\begin{equation*}
+x \rightarrow y \Rightarrow x \succcurlyeq_{S^2} y
+\quad \text{et} \quad
+x \xrightarrow{\smash{2}} y \Rightarrow x \succ_{S^2} y.
+\end{equation*}
+Par conséquent, si \(n > 0\), alors \(x \xrightarrow{\smash{2n}} y\)
+implique \(x \succ_{S^2} y\), car \((\succ_{S^2})\) est transitive. De
+plus, si \(x \xrightarrow{\smash{2n}} y \rightarrow z\), alors \(x
+\succ_{S^2} y \succcurlyeq_{S^2} z\), donc \(x \succ_{S^2} z\). Par
+conséquent, \(x \xrightarrow{\smash{n}} y\) pour tout \(n > 1\), donc
+\(x \succ_{S^2} y\).\index{automate fini!$\sim$
+  non-déterministe|)}\index{automate fini!$\sim$
+  déterministe|)}\index{arbre binaire!parcours des
+  niveaux!terminaison|)}\index{terminaison!parcours des
+  niveaux|)}\hfill\(\Box\)
+
+\paragraph{Numérotation en largeur}
+\index{arbre binaire!numérotation en largeur|(}
+
+Comme nous l'avons mentionné plus tôt, la \fig~\vref{fig_lorder}
+montre un exemple de numérotation en largeur. Ce problème a reçu une
+attention particulière
+\citep{JonesGibbons_1993,GibbonsJones_1998,Okasaki_2000} parce que les
+programmeurs en langages fonctionnels se sentent d'habitude défiés
+avec cet exercice. Une bonne démarche consiste à modifier la fonction
+\fun{bf\(_1\)/2}\index{bf1@\fun{bf\(_1\)/2}} à la \fig~\vref{fig_bf1}
+de telle sorte qu'elle construise un arbre au lieu d'une pile. Nous y
+parvenons en enfilant ses sous-arbres immédiats, qui seront ainsi
+récursivement numérotés après leur défilage, et en incrémentant un
+compteur, initialisé à~\(0\), à chaque fois qu'un arbre non-vide est
+défilé.
+
+Considérons \fun{bfn\(_1\)/1}\index{bfn1@\fun{bfn\(_1\)/1}} et
+\fun{bfn\(_2\)/2}\index{bfn2@\fun{bfn\(_2\)/2}} (anglais,
+\emph{breadth-first numbering}) à la \fig~\vref{fig_bfn1},
+\begin{figure}
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
+\centering
+\framebox[0.87\columnwidth]{\vbox{%
+\begin{gather*}
+\inferrule
+  {\fun{bfn}_2(0,\enq{t}{\emq}) \twoheadrightarrow \deq{t'}{\emq}}
+  {\fun{bfn}_1(t) \twoheadrightarrow t'}.
+\\
+\fun{bfn}_2(i,\emq) \rightarrow \emq;
+\qquad
+\fun{bfn}_2(i,\deq{\fun{ext}()}{q}) \rightarrow
+  \enq{\fun{ext}()}{\fun{bfn}_2(i,q)};
+\\
+\inferrule
+  {\fun{bfn}_2(i+1,\enq{t_2}{\enq{t_1}{q}}) \twoheadrightarrow 
+   \deq{t'_2}{\deq{t'_1}{q'}}}
+  {\fun{bfn}_2(i,\deq{\fun{int}(x,t_1,t_2)}{q}) \twoheadrightarrow 
+   \enq{\fun{int}(i,t'_1,t'_2)}{q'}}.
+\end{gather*}}}
+\caption{Numérotation en largeur abstraite\label{fig_bfn1}}
+\end{figure}
+et comparons-les avec les définitions à la \fig~\vref{fig_bf1}. En
+particulier, notons que, à la différence de
+\fun{bf\(_1\)/2}\index{bf1@\fun{bf\(_1\)/2}}, les n{\oe}uds externes
+sont enfilés au lieu d'être écartés, parce qu'il sont ultérieurement
+nécessaires pour construire l'arbre numéroté.
+
+À la \fig~\vref{fig_bf2_ex}
+\begin{figure}[t]
+\centering
+\includegraphics{bf2_abcd_0}
+\includegraphics{bf2_abcd_1}
+\includegraphics{bf2_abcd_2}
+\includegraphics{bf2_abcd_3}
+\includegraphics[bb=70 674 275 721]{bf2_abcd_4}
+\includegraphics[bb=69 691 276 721]{bf2_abcd_5}
+\includegraphics[bb=71 690 276 721]{bf2_abcd_6}
+\caption{Exemple de numérotation en largeur\label{fig_bf2_ex}}
+\end{figure}
+est montré un exemple où les exposants représentent les valeurs
+de~\(i\) (le premier argument de
+\fun{bf\(_2\)/2}\index{bf2@\fun{bf\(_2\)/2}}), les réécritures
+descendantes définissent les états successifs de la file de travail
+(le second argument de \fun{bf\(_2\)/2}\index{bf2@\fun{bf\(_2\)/2}}),
+et les réécritures ascendantes montrent les états successifs des files
+résultantes (membre droit de
+\fun{bf\(_2\)/2}\index{bf2@\fun{bf\(_2\)/2}}). Souvenons-nous que les
+arbres sont enfilés à gauche et défilés à droite (d'autres auteurs
+utilisent la convention inverse, comme \cite{Okasaki_2000}) et faisons
+attention au fait que, dans les réécritures verticales à gauche,
+\(t_1\)~est enfilé d'abord, alors que, sur la droite, \(t'_2\)~est
+défilé en premier, ce qui devient plus clair lorsque nous comparons
+\(\enq{t_2}{\enq{t_1}{q}} =
+\enq{t_2}{(\enq{t_1}{q})}\)\index{enq@$\enq{x}{q}$} avec
+\(\deq{t'_2}{\deq{t'_1}{q'}} =
+\deq{t'_2}{(\deq{t'_1}{q'})}\)\index{deq@$\deq{x}{q}$}.
+
+Nous pouvons raffiner \fun{bfn\(_1\)/1}\index{bfn1@\fun{bfn\(_1\)/1}}
+et \fun{bfn\(_2\)/2}\index{bfn2@\fun{bfn\(_2\)/2}} en introduisant
+explicitement les appels de fonction pour enfiler et défiler, comme
+cela est montré à la \fig~\vref{fig_bfn3},
+\begin{figure}[!t]
+\centering
+\includegraphics[bb=71 599 403 721]{bfn3}
+\caption{Raffinement de la \fig~\vref{fig_bfn1}\label{fig_bfn3}}
+\end{figure}
+ce qui pourrait être contrasté avec la \fig~\vref{fig_bf3}.
+
+\paragraph{Exercices}
+\begin{enumerate}
+
+  \item Comment prouveriez-vous la correction de
+  \fun{bfn/1}?\index{bfn@\fun{bfn/1}}
+
+\medskip
+
+  \item Trouvez le coût \(\C{\fun{bfn}}{n}\) de \(\fun{bfn}(t)\), où
+  \(n\)~est la taille
+  de~\(t\).\index{bfn@$\C{\fun{bfn}}{n}$}\index{bfn@\fun{bfn/1}}
+
+\end{enumerate}
+\index{arbre binaire!numérotation en largeur|)}
+\index{arbre binaire!parcours des niveaux|)}
+
+\clearpage
+
+\section{Formes classiques}
+
+Dans cette section, nous passons brièvement en revue quelques arbres
+binaires particuliers qui se révèlent utiles lors de la recherche des
+extremums du coûts de nombreux algorithmes.
+
+\paragraph{Perfection}
+\label{par_perfection}
+
+\index{arbre binaire!$\sim$ parfait|(} Nous avons déjà mentionné ce
+qu'est un \emph{arbre binaire parfait} dans le contexte du tri optimal
+(voir \fig~\vref{fig_comp_tree}). Une façon de définir de tels arbres
+consiste à dire que tous leurs n{\oe}uds externes appartiennent au
+même niveau ou, de manière équivalente, que les sous-arbres immédiats
+de tous les n{\oe}uds ont la même hauteur\index{arbre!hauteur}. (La
+hauteur d'un n{\oe}ud externe est~\(0\).) À la \fig~\vref{fig_per} est
+montrée la définition de \fun{per/1}\index{per@\fun{per/1}}
+(\emph{perfection}), où \fun{true/1} est un contructeur. Donc, si un
+arbre~\(t\) est parfait, nous connaissons aussi sa hauteur~\(h\)
+puisque \(\fun{per}(t) \twoheadrightarrow \fun{true}(h)\).
+
+\bigskip
+
+\begin{figure}[h]
+\centering
+\includegraphics{per}
+\caption{Vérification de la perfection\label{fig_per}}
+\end{figure}
+
+\smallskip
+
+\noindent Notons que les règles sont ordonnées, donc la dernière ne
+pourrait être sélectionnée que si les précédentes ont échoué à filtrer
+l'appel en cours.
+
+Un raffinement sans règles d'inférence est montré à la
+\fig~\vref{fig_per0}, où \(\fun{per}_0(t_1)\) est évalué avant
+\(\fun{per}_0(t_2)\)\index{per0@\fun{per\(_0\)/1}} puisque
+\(\fun{t}(\fun{per}_0(t_1), \fun{per}_0(t_2))\) est lent si
+\(\fun{per}_0(t_1) \twoheadrightarrow \fun{false}()\).
+
+\bigskip
+
+\begin{figure}[h]
+\centering
+\includegraphics[bb=71 604 251 721]{per0}
+\caption{Raffinement de la \fig~\ref{fig_per}\label{fig_per0}}
+\end{figure}
+\index{arbre binaire!$\sim$ parfait|)}
+
+
+\paragraph{Complétude}
+
+Un arbre binaire est \emph{complet}\index{arbre binaire!$\sim$
+  complet} si les enfants de chaque n{\oe}ud interne sont deux
+n{\oe}uds externes ou deux n{\oe}uds internes. Un exemple est illustré
+à la \fig~\ref{fig_complete}. Récursivement, un arbre donné est
+complet si, et seulement si, ses sous-arbres immédiats sont complets.
+% Wrapping figure better declared before a paragraph
+%
+\begin{wrapfigure}[7]{r}[0pt]{0pt}
+% [7] vertical lines
+% {r} mandatory right placement
+% [0pt] of margin overhang
+\centering
+\includegraphics{complete}
+\caption{\label{fig_complete}}
+\end{wrapfigure}
+Ceci est la même règle que nous avons utilisée pour la perfection. En
+d'autres termes, la perfection et la complétude sont propagées de
+façon ascendante. Par conséquent, nous devons décider que dire à
+propos des n{\oe}uds externes, en particulier, l'arbre vide. Si nous
+décidons que ce dernier est complet, alors
+\(\fun{int}(x,\fun{ext}(),\fun{int}(y,\fun{ext}(),\fun{ext}()))\)
+serait, incorrectement, considéré complet. Sinon, les
+feuilles\index{arbre binaire!feuille}
+\(\fun{int}(x,\fun{ext}(),\fun{ext}())\) seraient, incorrectement,
+considérées incomplètes. Donc, nous pouvons opter pour l'une ou
+l'autre possibilité et traiter exceptionnellement le cas problématique
+correspondant; par exemple, nous pourrions décider que les n{\oe}uds
+externes sont incomplets, mais que les feuilles sont des arbres
+complets. Le programme se trouve à la \fig~\vref{fig_comp}. La
+dernière règle s'applique si \(t=\fun{ext}()\) ou
+\(t=\fun{int}(x,t_1,t_2)\), avec \(t_1\) ou~\(t_2\) incomplet.
+
+\bigskip
+
+\begin{figure}[h]
+\centering
+\includegraphics{comp}
+\caption{Verification de la complétude\label{fig_comp}}
+\end{figure}
+
+\paragraph{Équilibre}
+
+La dernière sorte d'arbre binaire intéressante est celle des
+\emph{arbres équilibrés}.\index{arbre binaire!$\sim$ équilibré} Il y a
+deux espèces de critères pour définir l'équilibre:
+\begin{wrapfigure}[7]{r}[0pt]{0pt}
+\centering
+\includegraphics[bb=71 653 153 721]{bal}
+\caption{\label{fig_bal}}
+\end{wrapfigure}
+la hauteur ou la taille
+\citep{NievergeltReingold_1972,HiraiYamamoto_2011}. Dans ce dernier
+cas, les enfants d'un même parent sont les racines d'arbres de tailles
+similaires; dans le premier cas, ils ont des hauteurs similaires. Le
+critère le plus courant étant la hauteur, nous l'utiliserons dans la
+suite. De plus, le sens exact de «similaire» dépend de
+l'algorithme. Par exemple, nous pourrions décider que deux arbres dont
+les hauteurs diffèrent au plus de~\(1\) sont de hauteurs
+similaires. Voir la \fig~\vref{fig_bal} pour un exemple. Commençons
+avec une définition de la hauteur\index{arbre
+  binaire!hauteur}\index{height@\fun{height/1}} d'un arbre binaire et
+modifions-la pour obtenir une fonction vérifiant l'équilibre de
+l'arbre:
+\begin{equation*}
+\fun{height}(\fun{ext}()) \rightarrow 0;
+\;
+\fun{height}(\fun{int}(x,t_1,t_2)) \rightarrow 1 +
+\max\{\fun{height}(t_1), \fun{height}(t_2)\}.
+\end{equation*}
+La modification est montrée à la \fig~\vref{fig_balance},
+\begin{figure}
+\centering
+\includegraphics{balance}
+\caption{Vérification de l'équilibre\label{fig_balance}}
+\end{figure}
+où la règle d'inférence de
+\fun{bal\(_0\)/1}\index{bal0@\fun{bal\(_0\)/1}} est requise pour
+vérifier la condition \(|h_1 - h_2| \leqslant 1\). Remarquons qu'un
+arbre parfait est équilibré (\(h_1 = h_2\)).
+
+\section{Codages d'arbres}
+
+En général, de nombreux arbres binaires ont le même parcours préfixe,
+postfixe ou infixe, donc il n'est pas possible de reconstruire l'arbre
+originel à partir d'un seul parcours. Le problème de la représentation
+unique d'un arbre binaire par une structure linéaire est appelé
+\emph{codage d'arbre} \citep{Makinen_1991} et est relié au problème de
+la génération de tous les arbre binaires d'une taille donnée
+\citep[7.2.1.6]{Knuth_2011}. Une approche simple consiste à étendre un
+parcours avec les n{\oe}uds externes; ainsi, nous retenons dans le
+code suffisamment d'information sur les arbres, ce qui permet de
+revenir sans ambiguïté vers l'arbre initial.
+
+La fonction de codage
+\fun{epost/1}\index{epost@\fun{epost/1}}\index{epost@\fun{epost/2}}
+(anglais, \emph{extended postorder})\index{arbre binaire!parcours
+  postfixe!codage} à la \fig~\vref{fig_epost},
+\begin{figure}[b]
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{epost}(t) & \rightarrow & \fun{epost}(t,\el).\\
+\\
+\fun{epost}(\fun{ext}(),s) & \rightarrow
+  & \cons{\fun{ext}()}{s};\\
+\fun{epost}(\fun{int}(x,t_1,t_2),s) & \rightarrow
+  & \fun{epost}(t_1,\fun{epost}(t_2,\cons{x}{s})).
+\end{array}}
+\end{equation*}
+\caption{Codage postfixe\label{fig_epost}}
+\end{figure}
+est une simple modification de \fun{post/1}\index{post@\fun{post/1}} à
+la \fig~\vref{fig_post}. Par exemple, l'arbre à la
+\fig~\vref{fig_postorder} est codé par \([\Box, \Box, \Box, 0, 1,
+\Box, \Box, 2, 3, \Box, \Box, \Box, 4, 5, 6]\), où \(\Box\) dénote
+\(\fun{ext}()\). Puisqu'un arbre binaire avec \(n\)~n{\oe}uds internes
+a \(n+1\) n{\oe}uds externes (voir théorème~\ref{thm_int_ext}
+\vpageref{thm_int_ext}), le coût est très facile à déterminer:
+\(\C{\fun{epost}}{n} = 2n + 2\).\index{epost@$\C{\fun{epost}}{n}$}
+
+En ce qui concerne le décodage, nous avons déjà remarqué que la
+numérotation postfixe augmente le long de chemins ascendants, ce qui
+correspond à l'ordre dans lequel l'arbre est construit: des n{\oe}uds
+externes jusqu'à la racine. Par conséquent, tout ce que nous avons à
+faire est d'identifier les sous-arbres qui croissent en mettant les
+rangs inutilisés et les sous-arbres dans une pile auxiliaire: quand le
+contenu d'une racine apparaît dans le code (tout sauf
+\(\fun{ext}()\)), nous pouvons créer un n{\oe}ud interne avec les deux
+premiers sous-arbres dans la pile auxilaire.
+
+La définition de \fun{post2b/1}\index{post2b@\fun{post2b/1}}
+(anglais, \emph{extended postorder to binary tree}) est donnée à la
+\fig~\vref{fig_post2b}.\index{arbre binaire!postfixe!décodage}
+\begin{figure}
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{post2b}(s) & \rightarrow & \fun{post2b}(\el,s).\\
+\\
+\fun{post2b}([t],\el) & \rightarrow & t;\\
+\fun{post2b}(f,\cons{\fun{ext}()}{s}) & \rightarrow & \fun{post2b}(\cons{\fun{ext}()}{f},s);\\
+\fun{post2b}(\cons{t_2,t_1}{f},\cons{x}{s}) & \rightarrow & \fun{post2b}(\cons{\fun{int}(x,t_1,t_2)}{f},s).
+\end{array}}
+\end{equation*}
+\caption{Décodage postfixe\label{fig_post2b}}
+\end{figure}
+La variable~\(f\) est une forêt\index{arbre!forêt}, c'est-à-dire une
+pile d'arbres. Remarquons que nous aurions un problème si l'arbre
+originel contenait des arbres, parce que, dans ce cas, un n{\oe}ud
+externe contenu dans un n{\oe}ud interne tromperait
+\fun{post2b/1}\index{post2b@\fun{post2b/1}}. Le coût est facile à
+déterminer car un code postfixe doit avoir la longueur \(2n+1\), ce
+qui est le nombre total de n{\oe}uds d'un arbre binaire avec
+\(n\)~n{\oe}uds internes. Par conséquent, \(\C{\fun{post2b}}{n} = 2n +
+3\).\index{post2b@$\C{\fun{post2b}}{n}$} Le théorème attendu est, bien
+entendu,
+\begin{equation}
+\fun{post2b}(\fun{epost}(t)) \equiv t.
+\label{thm_post2b_epost}
+\end{equation}
+
+En passant au codage préfixe, la fonction de codage
+\fun{epre/1}\index{epre@\fun{epre/1}}\index{epre@\fun{epre/2}}
+(anglais, \emph{extended preorder}) à la \fig~\vref{fig_epre}
+\begin{figure}[b]
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{epre}(t) & \rightarrow & \fun{epre}(t,\el).\\
+\\
+\fun{epre}(\fun{ext}(),s) & \rightarrow
+  & \cons{\fun{ext}()}{s};\\
+\fun{epre}(\fun{int}(x,t_1,t_2),s) & \rightarrow
+  & \cons{x}{\fun{epre}(t_1,\fun{epre}(t_2,s))}.
+\end{array}}
+\end{equation*}
+\caption{Codage préfixe\label{fig_epre}}
+\end{figure}
+est une simple modification de \fun{pre/1}\index{pre@\fun{pre/1}} à la
+\fig~\vref{fig_pre}. Le coût est aussi simple à déterminer que pour un
+codage postfixe: \(\C{\fun{epre}}{n} =
+2n+2\).\index{epre@$\C{\fun{epre}}{n}$}
+
+Trouver la fonction inverse, du code préfixe vers l'arbre binaire, est
+un peu plus délicat qu'avec les codes postfixes, parce que les rangs
+préfixes augmentent le long des chemins descendants dans l'arbre, ce
+qui est la direction opposée à la croissance des arbres (les
+programmeurs font croître les arbres des feuilles vers la racine). Une
+solution est de se souvenir de la relation
+\(\pred{PreMir}{t}\)\index{PreMir@\predName{PreMir}} entre les
+parcours préfixe et postfixe que nous avons prouvée
+\vpageref{proof_PreMir}:
+\begin{equation*}
+\abovedisplayskip=7pt
+\belowdisplayskip=7pt
+\fun{pre}(\fun{mir}(t)) \equiv \fun{rev}(\fun{post}(t)).
+\end{equation*}
+Nous devrions étendre la preuve de ce théorème pour avoir
+\begin{equation}
+\abovedisplayskip=7pt
+\belowdisplayskip=7pt
+\fun{epre}(\fun{mir}(t)) \equiv \fun{rev}(\fun{epost}(t)).
+\label{thm_epre_epost}
+\index{rev@\fun{rev/1}}
+\end{equation}
+À la section~\ref{sec_reversal}, nous avons prouvé
+\(\pred{Inv}{s}\)\index{Inv@\predName{Inv}} et
+\(\pred{EqRev}{s}\)\index{EqRev@\predName{EqRev}}, soit
+l'involution de
+\fun{rev/1}\index{rev@\fun{rev/1}}\index{pile!retournement!involution}:
+\begin{equation}
+\abovedisplayskip=7pt
+\belowdisplayskip=7pt
+\fun{rev}(\fun{rev}(s)) \equiv t.
+\label{thm_rev_inv}
+\end{equation}
+Les propriétés~\eqref{thm_rev_inv} et~\eqref{thm_epre_epost} mènent à
+\begin{equation*}
+\abovedisplayskip=7pt
+\belowdisplayskip=7pt
+\fun{rev}(\fun{epre}(\fun{mir}(t))) \equiv
+\fun{rev}(\fun{rev}(\fun{epost}(t))) \equiv \fun{epost}(t).
+\end{equation*}
+L'application de~\eqref{thm_post2b_epost} donne
+\begin{equation*}
+\abovedisplayskip=7pt
+\belowdisplayskip=7pt
+\fun{post2b}(\fun{rev}(\fun{epre}(\fun{mir}(t))) \equiv
+\fun{post2b}(\fun{epost}(t)) \equiv t.
+\end{equation*}
+D'après l'exercice~\ref{ex_mir_mir} \vpageref{ex_mir_mir}, nous avons
+\(\fun{mir}(\fun{mir}(t)) \equiv t\), par conséquent
+\begin{equation*}
+\abovedisplayskip=7pt
+\belowdisplayskip=7pt
+\fun{post2b}(\fun{rev}(\fun{epre}(t))) \equiv \fun{mir}(t),
+\quad\text{donc}\quad
+\fun{mir}(\fun{post2b}(\fun{rev}(\fun{epre}(t)))) \equiv t.
+\end{equation*}
+Puisque nous voulons que le codage suivi du décodage soit l'identité,
+\(\fun{pre2b}(\fun{epre}(t)) \equiv t\), nous avons
+\(\fun{pre2b}(\fun{epre}(t)) \equiv
+\fun{mir}(\fun{post2b}(\fun{rev}(\fun{epre}(t))))\), c'est-à-dire, en
+posant la pile \(s := \fun{epre}(t)\),
+\begin{equation*}
+\abovedisplayskip=7pt
+\belowdisplayskip=7pt
+\fun{pre2b}(s) \equiv \fun{mir}(\fun{post2b}(\fun{rev}(s))),
+\end{equation*}
+Nous obtenons donc
+\fun{pre2b/1}\index{pre2b@\fun{pre2b/1}}\index{arbre
+  binaire!préfixe!décodage} en modifiant
+\fun{post2b/1}\index{post2b@\fun{post2b/1}} à la
+\fig~\vref{fig_pre2b}.
+\begin{figure}[b]
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{pre2b}(s) & \rightarrow & \fun{pre2b}(\el,\fun{rev}(s)).\\
+\\
+\fun{pre2b}([t],\el) & \rightarrow & t;\\
+\fun{pre2b}(f,\cons{\fun{ext}()}{s}) & \rightarrow & \fun{pre2b}(\cons{\fun{ext}()}{f},s);\\
+\fun{pre2b}(\cons{t_1,t_2}{f},\cons{x}{s}) & \rightarrow &
+\fun{pre2b}(\cons{\fun{int}(x,t_1,t_2)}{f},s).
+\end{array}}
+\end{equation*}
+\caption{Décodage préfixe\label{fig_pre2b}}
+\end{figure}
+La différence entre \fun{pre2b/2}\index{pre2b@\fun{pre2b/2}} et
+\fun{post2b/2}\index{post2b@\fun{post2b/2}} réside dans leur dernier
+motif, à savoir \(\fun{post2b}(\cons{t_2,t_1}{f},\cons{x}{s})\) par
+opposition à \(\fun{pre2b}(\cons{t_1,t_2}{f},\cons{x}{s})\), réalisant
+la fusion de \fun{mir/1} et \fun{post2b/1}. Malheureusement, le coût
+de \(\fun{pre2b}(t)\) \index{pre2b@\fun{pre2b/1}} est plus élevé que
+le coût de \(\fun{post2b}(t)\) à cause du retournement de pile
+\(\fun{rev}(s)\) au début: \(\C{\fun{pre2b}}{n} = 2n + 3 +
+\C{\fun{rev}}{n} = 3n +
+5\).\index{pre2b@$\C{\fun{pre2b}}{n}$}\index{rev@$\C{\fun{rev}}{n}$}
+
+La conception de \fun{pre2b/1}\index{pre2b@\fun{pre2b/1}} est à petits
+pas, avec un accumulateur. Une approche plus directe extrairait le
+sous-arbre gauche et puis le sous-arbre droit du reste du code. En
+d'autres termes, la nouvelle version
+\(\fun{pre2b}_1(s)\)\index{pre2b1@\fun{pre2b\(_1\)/1}} calcule un
+arbre construit à partir d'un préfixe du code~\(s\), accouplé avec le
+suffixe. La définition est montrée à la \fig~\vref{fig_pre2b0}.
+\begin{figure}
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
+\centering
+\framebox[0.87\columnwidth]{\vbox{%
+\begin{gather*}
+\inferrule
+   {\fun{pre2b}_1(s) \twoheadrightarrow \pair{t}{\el}}
+   {\fun{pre2b}_0(s) \twoheadrightarrow t}.
+\qquad
+\fun{pre2b}_1(\cons{\fun{ext}()}{s}) \rightarrow
+\pair{\fun{ext}()}{s};
+\\
+\inferrule
+  {\fun{pre2b}_1(s) \twoheadrightarrow \pair{t_1}{s_1}
+   \and
+   \fun{pre2b}_1(s_1) \twoheadrightarrow \pair{t_2}{s_2}}
+  {\fun{pre2b}_1(\cons{x}{s}) \twoheadrightarrow \pair{\fun{int}(x,t_1,t_2)}{s_2}}.
+\end{gather*}}}
+\caption{Un autre décodage préfixe\label{fig_pre2b0}}
+\end{figure}
+Notons l'absence de tout concept adventice, contrairement à
+\fun{pre2b/1}\index{pre2b@\fun{pre2b/1}}, qui s'appuie sur le
+retournement d'une pile\index{pile!retournement} et un théorème à
+propos de la réflexion d'arbres et des parcours postfixes. Donc
+\fun{pre2b\(_0\)/1}\index{pre2b0@\fun{pre2b\(_0\)/1}} est
+conceptuellement plus simple, bien que son coût soit supérieur à celui
+de \fun{pre2b/1}\index{pre2b@\fun{pre2b/1}} parce que nous comptons le
+nombre d'appels de fonction après que les règles
+d'inférence\index{système d'inférence} sont traduites dans le noyau du
+langage fonctionnel (donc deux appels supplémentaires filtrant
+\(\pair{t_1}{s_1}\) et \(\pair{t_2}{s_2}\) sont implicites).
+
+Les codages d'arbres montrent qu'il est possible de représenter de
+façon compacte des arbres binaires, du moment que nous ne nous
+soucions pas du contenu des n{\oe}uds internes. Par exemple, nous
+avons mentionné que l'arbre à la \fig~\vref{fig_postorder} a pour
+parcours postfixe étendu\index{arbre binaire!parcours postfixe!codage}
+\([\Box, \Box, \Box, 0, 1, \Box, \Box, 2, 3, \Box, \Box, \Box, 4, 5,
+6]\). Si nous ne souhaitons retenir que la forme de l'arbre, nous
+pourrions remplacer le contenu des n{\oe}uds internes par~\(0\) et les
+n{\oe}uds externes par~\(1\), dont nous tirons le code
+\([1,1,1,0,0,1,1,0,0,1,1,1,0,0,0]\). Un arbre binaire de taille~\(n\)
+peut être représenté de manière unique par un nombre binaire de
+\(2n+1\) bits. En fait, nous pouvons écarter le premier bit parce que
+les deux premiers bits sont toujours~\(1\), donc \(2n\) bits sont en
+fait suffisants. Pour un parcours préfixe étendu, nous choisissons de
+coder les n{\oe}uds externes par~\(0\) et les n{\oe}uds internes
+par~\(1\), donc l'arbre de la \fig~\vref{fig_preorder} donne \([0, 1,
+2, \Box, 3, \Box, \Box, 4, \Box, \Box, 5, \Box, 6, \Box, \Box]\) et
+\((111010010010100)_2\). Nous pouvons aussi écarter le bit le plus à
+droite, car les deux derniers bits sont toujours~\(0\).
+
+\section{Parcours aléatoires}
+
+Certaines applications requièrent un parcours d'arbre qui dépende
+d'une interaction avec un usager ou un autre logiciel, c'est-à-dire
+qu'à l'arbre est adjointe une notion de n{\oe}ud courant, donc le
+prochain n{\oe}ud a être visité peut être choisi parmi n'importe
+lequel de ses enfants, le parent ou même un frère. Cette interactivité
+contraste avec les parcours en préfixe, infixe et postfixe, où l'ordre
+de visite est prédéterminé et ne peut être changé durant le parcours.
+
+Normalement, la visite d'une structure de donnée fonctionnelle
+commence toujours à la même place, par exemple, dans le cas d'une
+pile, il s'agit de l'élément au sommet, et, dans le cas d'un arbre, la
+racine. Parfois, mettre à jour une structure de donnée avec un
+algorithme en-ligne (voir \vpageref{par_online_vs_offline} et
+section~\ref{sec_online} \vpageref{sec_online}) nécessite de garder un
+accès direct «dans» la structure de donnée, habituellement là où la
+dernière mise à jour a eu lieu, ou près d'elle, dans l'optique d'un
+coût amorti plus faible (voir page~\pageref{par_amortised_cost}) ou
+d'un coû moyen inférieur (voir l'insertion bidirectionnelle à la
+section~\ref{sec_2-way} \vpageref{sec_2-way}).
+
+\begin{wrapfigure}[7]{r}[0pt]{0pt}
+\centering
+\includegraphics[bb=60 663 120 721]{binzip}
+\caption{\label{fig_binzip}}
+\end{wrapfigure}
+Appelons le n{\oe}ud courant le \emph{curseur}\index{arbre
+  binaire!curseur}. Une \emph{crémaillère}\index{arbre
+  binaire!crémaillère} dans un arbre binaire est faite d'un
+sous-arbre, dont la racine est le curseur, et d'un \emph{chemin} de
+celui-ci jusqu'à la racine. Ce chemin est la réification de la
+\emph{pile des appels}\index{langage fonctionnel!pile des appels}
+récursifs qui ont abouti au curseur, mais retournée, et les
+\emph{sous-arbres qui n'ont pas été visités lors de la descente}.  De
+cette façon, en un coup, il devient possible de visiter les enfants
+dans n'importe quel ordre, le parent ou le frère. Considérons la
+\fig~\ref{fig_binzip}, où le curseur est le n{\oe}ud~\fun{d}. La
+crémaillère est la paire
+\begin{equation*}
+\pair{\fun{int}(\fun{d}(),\fun{int}(\fun{e}(),\fun{ext}(),\fun{ext}()),
+\fun{int}(\fun{f}(),\fun{ext}(),\fun{ext}()))}%
+{[p_1,p_2]},
+\end{equation*}
+où \(p_1 := \fun{right}(\fun{b}(), \fun{int}(\fun{c}(), \fun{ext}(),
+\fun{ext}()))\) signifie que le n{\oe}ud~\fun{b} possède un enfant à
+gauche~\fun{c} qui n'a pas été visité (ou, de manière équivalente,
+nous avons bifurqué à droite lorsque nous sommes descendu
+jusqu'à~\fun{d}), et \(p_2 := \fun{left}(\fun{a}(),
+\fun{int}(\fun{g}(), \fun{ext}(), \fun{ext}()))\) signifie que le
+n{\oe}ud~\fun{a} a un enfant à droite~\fun{g} qui n'a pas été
+visité. La pile \([p_1,p_2]\) est le chemin du n{\oe}ud~\fun{d} vers
+le haut, jusqu'à la racine. Bien sûr, puisque \fun{b}~est le premier
+dans le chemin ascendant, il est le parent du curseur~\fun{d}.
+
+Au début, la crémaillère ne contient que l'arbre originel~\(t\):
+\(\pair{t}{\el}\). Ensuite, les opérations que nous désirons pour
+parcourir un arbre binaire à la demande sont
+\fun{up/1}\index{up@\fun{up/1}} (se déplacer jusqu'au parent),
+\fun{left/1}\index{left@\fun{left/1}} (visiter l'enfant à gauche),
+\fun{right/1}\index{right@\fun{right/1}} (voir l'enfant à droite) et
+\fun{sibling/1}\index{sibling@\fun{sibling/1}} (aller au frère).
+Toutes prennent une crémaillère en argument et, après n'importe lequel
+de ces déplacements, une nouvelle crémaillère\index{arbre
+  binaire!crémaillère} est assemblée. Voir le programme à la
+\fig~\vref{fig_zip_move}
+\begin{figure}
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{up}(\pair{t_1}{\cons{\fun{left}(x,t_2)}{p}}) & \rightarrow &
+  \pair{\fun{int}(x,t_1,t_2)}{p};\\
+\fun{up}(\pair{t_2}{\cons{\fun{right}(x,t_1)}{p}}) & \rightarrow &
+\pair{\fun{int}(x,t_1,t_2)}{p}.\\
+\\
+\fun{left}(\pair{\fun{int}(x,t_1,t_2)}{p}) & \rightarrow & 
+  \pair{t_1}{\cons{\fun{left}(x,t_2)}{p}}.\\
+\\
+\fun{right}(\pair{\fun{int}(x,t_1,t_2)}{p}) & \rightarrow &
+  \pair{t_2}{\cons{\fun{right}(x,t_1)}{p}}.\\
+\\
+\fun{sibling}(\pair{t_1}{\cons{\fun{left}(x,t_2)}{p}}) & \rightarrow &
+  \pair{t_2}{\cons{\fun{right}(x,t_1)}{p}};\\
+\fun{sibling}(\pair{t_2}{\cons{\fun{right}(x,t_1)}{p}}) & \rightarrow&
+  \pair{t_1}{\cons{\fun{left}(x,t_2)}{p}}.
+\end{array}}
+\end{equation*}
+\caption{Déplacements dans un arbre binaire\label{fig_zip_move}}
+\end{figure}
+
+Au-delà de parcours aléatoires dans un arbre binaire, cette technique,
+qui est un cas particulier de la \emph{crémaillère de Huet}
+\citep{Huet_1997}, permet aussi d'éditer localement la structure de
+donnée.  Ceci revient en effet a simplement remplacer l'arbre courant
+par un autre:
+\begin{equation*}
+\fun{graft}(t',\pair{t}{p}) \rightarrow \pair{t'}{p}.
+\end{equation*}
+Si nous ne souhaitons changer que le curseur, nous utiliserions
+\begin{equation*}
+\fun{slider}(x',\pair{\fun{int}(x,t_1,t_2)}{p}) \rightarrow
+\pair{\fun{int}(x',t_1,t_2)}{p}.
+\end{equation*}
+Si nous voulons monter jusqu'à la racine et extraire le nouvel arbre:
+\begin{equation*}
+\fun{zip}(\pair{t}{\el}) \rightarrow t;\quad
+\fun{zip}(z) \rightarrow \fun{zip}(\fun{up}(z)).
+\end{equation*}
+
+Nous n'avons pas besoin d'une crémaillère\index{arbre
+  binaire!crémaillère} pour effectuer un parcours préfixe, infixe ou
+postfixe, parce qu'elle est principalement conçue pour ouvrir vers le
+bas et refermer vers le haut des chemins commençant à la racine d'un
+arbre, à la manière d'une crémaillère dans un vêtement. Néanmoins, si
+nous retenons un aspect de sa conception, à savoir l'accumulation de
+n{\oe}uds et sous-arbres à visiter, nous pouvons définir les parcours
+classiques en \emph{forme terminale}\index{langage fonctionnel!forme
+  terminale}, c'est-à-dire que les membres droits sont soit des
+valeurs ou un appel de fonction dont les arguments ne sont pas des
+appels eux-mêmes. (De telles définitions sont équivalentes à des
+\emph{boucles} dans les langages impératifs et peuvent être optimisées
+par des compilateurs \citep{Appel_1992}.) Un parcours préfixe terminal
+est montré à la \fig~\vref{fig_pre_tail},
+\begin{figure}[b]
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{pre}_7(t) & \rightarrow & \fun{pre}_8(\el,\el,t).\\
+\\
+\fun{pre}_8(s,\el,\fun{ext}()) & \rightarrow & s;\\
+\fun{pre}_8(s,\cons{\fun{int}(x,t_1,\fun{ext}())}{f},\fun{ext}()) &
+\rightarrow & \fun{pre}_8(s,\cons{x}{f},t_1);\\
+\fun{pre}_8(s,\cons{x}{f},\fun{ext}()) & \rightarrow &
+\fun{pre}_8(\cons{x}{s},f,\fun{ext}());\\
+\fun{pre}_8(s,f,\fun{int}(x,t_1,t_2)) & \rightarrow &
+\fun{pre}_8(s,\cons{\fun{int}(x,t_1,\fun{ext}())}{f},t_2).
+\end{array}}
+\end{equation*}
+\caption{Parcours préfixe en forme terminale\label{fig_pre_tail}}
+\end{figure}
+où, dans \(\fun{pre}_8(s,f,t)\), la pile~\(s\) collecte les n{\oe}uds
+visités en ordre préfixe, la pile~\(f\) (forêt) est un accumulateur de
+sous-arbres à visiter et \(t\)~est l'arbre restant à traverser. Le
+coût est: \(\C{\fun{pre}_7}{n} = 3n + 2\).
+
+\section{Dénombrement}
+
+De nombreuses publications \cite[\S~2.3.4.4]{Knuth_1997}
+\cite[chap.~5]{SedgewickFlajolet_1996} montrent comment trouver le
+nombre d'arbres binaires de taille~\(n\) en utilisant des outils
+mathématiques puissants, appelés \emph{fonctions génératrices}
+\index{dénombrement combinatoire!fonction génératrice}
+\cite[chap.~7]{GrahamKnuthPatashnik_1994}. À leur place, pour des
+raisons didactiques, nous choisissons une technique plus intuitive
+issue du dénombrement combinatoire\index{dénombrement combinatoire}
+qui consiste à construire une bijection entre deux ensembles finis, le
+cardinal de l'un étant donc le cardinal de l'autre. Pour une taille
+donnée, nous allons associer chaque arbre binaire à un objet de
+manière exclusive, et aucun objet ne sera laissé de côté. De plus, ces
+objets doivent être aisément dénombrables.
+
+Nous connaissons déjà les objets adéquats: les \emph{chemins de
+  Dyck}\index{chemin de Dyck}, que nous avons rencontrés à la
+section~\ref{sec_queueing} sur les files d'attente\index{file}. Un
+chemin de Dyck est une ligne brisée dans un repère orthonormé, allant
+du point \((0,0)\) à \((2n,0)\) et constituée de deux sortes de
+segments montrés à la \fig~\vref{fig_rise_fall},
+\begin{figure}[b]
+\centering
+\subfloat[Montée\label{fig_rise}]{%
+  \includegraphics[bb=69 662 132 721,scale=0.75]{enqueue}
+}
+\qquad
+\subfloat[Descente\label{fig_fall}]{%
+  \includegraphics[bb=69 662 132 721,scale=0.75]{dequeue}
+}
+\caption{Pas de base dans un repère\label{fig_rise_fall}}
+\end{figure}
+de telle sorte qu'ils demeurent au-dessus de l'axe des abscisses, mais
+peuvent l'atteindre. Considérons à nouveau l'exemple que nous avons
+donné à la \fig~\vref{fig_dyck_path}, sans prendre en compte les coûts
+de chaque pas.
+
+Si nous suivons la même convention qu'au
+chapitre~\ref{chap_factoring}, nous dirions ici qu'un \emph{mot de
+  Dyck}\index{mot de Dyck|see{chemin de Dyck}} est un mot fini sur
+l'alphabet contenant les lettres~\fun{r} (montée; anglais,
+\emph{rise}\index{chemin de Dyck!montée}) et~\fun{f} (descente;
+anglais, \emph{fall}\index{chemin de Dyck!descente}), de telle manière
+que tous ses préfixes\index{recherche de motif!préfixe} contiennent
+plus de lettres~\fun{r} que~\fun{f}, ou un nombre égal. Cette
+condition équivaut à la caractérisation géométrique «au-dessus de
+l'axe des abscisses ou l'atteignant.» Par exemple, \fun{rff} n'est pas
+un mot de Dyck parce que le préfixe \fun{rff} (en fait, le mot
+entier), contient plus de descentes que de montées, donc le chemin
+associé termine sous l'axe des abscisses. Le mot de Dyck correspondant
+au chemin de Dyck à la \fig~\vref{fig_dyck_path} est
+\fun{rrrfrfrrfffrff}. À ladite page, nous avons utilisé une parenthèse
+ouvrante et fermante au lieu de~\word{r}
+et~\word{f}. Conceptuellement, il n'y a pas de différence entre un
+chemin de Dyck et un mot de Dyck, nous parlons de chemin quand un
+cadre géométrique est plus intuitif et de mot pour un raisonnement
+symbolique et de la programmation.
+
+Tout d'abord, associons injectivement des arbres binaires à des mots
+de Dyck; en d'autres termes, nous voulons parcourir un arbre donné et
+produire un mot de Dyck qui n'est le parcours d'aucun autre. Puisque,
+par définition, les arbres binaires non-vides sont faits de n{\oe}uds
+internes connectés à deux autres arbres binaires, nous pourrions nous
+demander comment découper un mot de Dyck en trois parties: une
+correspondant à la racine et deux correspondant aux sous-arbres
+immédiats. Étant donné que tout mot de Dyck commence par une montée et
+se termine par une descente, nous pourrions nous interroger à propos
+du mot entre les deux extrémités. En général, ce n'est pas un mot de
+Dyck; par exemple, couper les bouts de \fun{rfrrff} donne
+\fun{frrf}. Au lieu de cela, nous recherchons une décomposition des
+mots de Dyck en mots de Dyck. Si un mot de Dyck a exactement un
+\emph{retour}, c'est-à-dire une descente qui mène à l'axe des
+abscisses, alors découper la première montée et cet unique retour (qui
+doit aussi être la dernière descente) produit un autre mot de
+Dyck. Par exemple, \(\fun{rrfrrfff} = \fun{r} \cdot \fun{rfrrff} \cdot
+\fun{f}\). Ces mots sont appelés \emph{premiers}, parce que tout mot
+de Dyck peut être décomposé de façon unique comme la concaténation de
+tels mots (d'où la référence à la décomposition en facteurs premiers
+en théorie élémentaire des nombres): pour tout mot de Dyck
+non-vide~\(d\), il existe \({n > 0}\) mots de Dyck~\(p_i\) premiers et
+uniques tels que \(d = p_1 \cdot p_2 \cdots p_n\). Ceci conduit
+naturellement à la \emph{décomposition en arches}\index{chemin de
+  Dyck!décomposition!$\sim$ en arches}, dont le nom provient d'une
+analogie architecturale: pour tout mot de Dyck~\(d\), il y a \({n >
+  0}\) mots de Dyck~\(d_i\) et retours~\(\fun{f}_i\) tels que
+\begin{equation*}
+d = (\fun{r} \cdot d_1 \cdot \fun{f}_1) \cdots (\fun{r} \cdot d_n
+\cdot \fun{f}_n).
+\end{equation*}
+Voir \cite{PanayotopoulosSapounakis_1995,
+  Lothaire_2005,FlajoletSedgewick_2009}. Mais cette analyse n'est pas
+adaptée telle quelle, parce que \(n\)~peut être supérieur à~\(2\), ce
+qui empêche toute analogie avec les arbres binaires. La solution est
+assez simple: conservons le premier facteur premier \(\fun{r} \cdot
+d_1 \cdot \fun{f}_1\) et ne factorisons \emph{pas} le suffixe, qui est
+un mot de Dyck. Autrement dit, pour tout mot de Dyck non-vide~\(d\),
+il existe un seul retour~\(\fun{f}_1\) et deux sous-mots de Dyck
+\(d_1\) et~\(d_2\) (vides ou non) tels que
+\begin{equation*}
+d = (\fun{r} \cdot d_1 \cdot \fun{f}_1) \cdot d_2.
+\end{equation*}
+Ceci est la \emph{décomposition par premier retour}\index{chemin de
+  Dyck!décomposition!$\sim$ par premier retour}, connue aussi comme la
+\emph{décomposition quadratique}\index{chemin de
+  Dyck!décomposition!$\sim$ quadratique} ---~il est aussi possible
+d'écrire \(d = d_1 \cdot (\fun{r} \cdot d_2 \cdot \fun{f}_1)\). Par
+exemple, le mot de Dyck \(\fun{rrfrffrrrffrff}\), montré à la
+\fig~\ref{fig_dyck_quad}
+\begin{figure}
+\centering
+\includegraphics[bb=83 616 508 727,scale=0.8]{dyck_quad}
+\caption{Décomposition quadratique d'un chemin de Dyck
+\label{fig_dyck_quad}}
+\end{figure}
+admet la décomposition quadratique \(\fun{r} \cdot \fun{rfrf} \cdot
+\fun{f} \cdot \fun{rrrffrff}\). Cette décomposition est unique parce
+que la factorisation en facteurs premiers est unique.
+
+Étant donné un arbre \(\fun{int}(x,t_1,t_2)\), la montée et la
+descente explicitement distinguées dans la décomposition quadratique
+doivent être comprises comme formant une paire qui est en
+correspondance avec~\(x\), alors que \(d_1\)~est associé à~\(t_1\)
+et~\(d_2\) à~\(t_2\). Plus précisément, la valeur de~\(x\) n'est pas
+pertinente ici, seulement l'existence d'un n{\oe}ud interne, et une
+fourche\index{arbre binaire!fourche} dans un arbre feuillu\index{arbre
+  binaire!$\sim$ feuillu} serait codée tout aussi
+bien. Symboliquement, si~\(\delta(t)\) est le mot de Dyck en relation
+avec l'arbre binaire~\(t\), alors nous nous attendons aux équations
+suivantes:
+\begin{equation}
+\delta(\fun{ext}()) = \varepsilon; \quad \delta(\fun{int}(x,t_1,t_2))
+= \fun{r}_{x} \cdot \delta(t_1) \cdot \fun{f} \cdot \delta(t_2).
+\label{eq_delta}
+\end{equation}
+Nous avons attaché le contenu du n{\oe}ud~\(x\) à la montée
+correspondante, donc nous ne perdons pas d'information. Par exemple,
+l'arbre à la \fig~\vref{fig_dyck2bt}
+\begin{figure}[b]
+\centering
+\subfloat[Arbre binaire\label{fig_dyck2bt}]{%
+\includegraphics[bb=71 655 142 721]{dyck2bt}}
+\qquad\quad
+\subfloat[Chemin de Dyck correspondant au codage préfixe $[0,1,\Box,2,\Box,\Box,3,\Box,\Box\char93$\label{fig_bt2dyck}]{%
+\includegraphics[scale=0.9,bb=93 650 330 724]{bt2dyck}}
+\caption{Bijection entre un arbre binaire et un chemin de Dyck}
+\end{figure}
+est \(t=\fun{int}(0, \fun{int}(1, \fun{ext}(), \fun{int}(2,
+\fun{ext}(), \fun{ext}())), \fun{int}(3, \fun{ext}(), \fun{ext}())\)
+et mis en correspondance avec le chemin de Dyck à la
+\fig~\vref{fig_bt2dyck}\index{arbre binaire!préordre!codage} de la
+façon suivante:
+\begin{align*}
+\delta(t)
+&= \fun{r}_0 \cdot \delta(\fun{int}(1, \fun{ext}(),
+\fun{int}(2, \fun{ext}(), \fun{ext}()))) \cdot \fun{f} \cdot
+\delta(\fun{int}(3, \fun{ext}(), \fun{ext}()))\\ &= \fun{r}_0
+\cdot (\fun{r}_1 \cdot \delta(\fun{ext}()) \cdot \fun{f} \cdot
+\delta(\fun{int}(2, \fun{ext}(), \fun{ext}()))) \cdot
+\fun{f} \cdot \delta(\fun{int}(3, \fun{ext}(), \fun{ext}()))\\
+&= \fun{r}_0 \fun{r}_1 \varepsilon \cdot \fun{f} \cdot (\fun{r}_2
+\cdot \delta(\fun{ext}()) \cdot \fun{f} \cdot \delta(\fun{ext}()))
+\cdot \fun{f} \cdot (\fun{r}_3 \cdot \delta(\fun{ext}()) \cdot \fun{f}
+\cdot \delta(\fun{ext}()))\\
+&= \fun{r}_0 \fun{r}_1 \fun{f} \cdot (\fun{r}_2 \cdot
+\varepsilon \cdot \fun{f} \cdot \varepsilon) \cdot
+\fun{f} \cdot (\fun{r}_3 \cdot \varepsilon \cdot \fun{f} \cdot
+\varepsilon)
+= \fun{r}_0\fun{r}_1\fun{f}\fun{r}_2\fun{f}\fun{f}\fun{r}_3\fun{f}.
+\end{align*}
+Remarquons que si nous remplaçons les montées par leur contenu associé
+(en indice) et les descentes par~\(\Box\), nous obtenons \([0, 1,
+\Box, 2, \Box, \Box, 3, \Box]\), ce qui est le codage
+préfixe\index{arbre binaire!parcours préfixe!codage} de l'arbre sans
+son dernier \(\Box\). Nous pourrions alors modifier
+\fun{epre/2}\index{epre@\fun{epre/2}} à la \fig~\vref{fig_epre} pour
+qu'elle code un arbre binaire en un chemin de Dyck\index{chemin de
+  Dyck}, mais nous devrions enlever le dernier élément de la pile
+résultante, donc il est plus efficace de mettre en {\oe}uvre
+directement \(\delta\) comme la fonction
+\fun{dpre/1}\index{dpre@\fun{dpre/1}} (anglais, \emph{Dyck path as
+  preorder}) à la \fig~\vref{fig_dpre}.
+\begin{figure}
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{dpre}(t) & \rightarrow & \fun{dpre}(t,\el).\\
+\\
+\fun{dpre}(\fun{ext}(),s) & \rightarrow & s;\\
+\fun{dpre}(\fun{int}(x,t_1,t_2),s)
+  & \rightarrow
+  & \cons{\fun{r}(x)}{\fun{dpre}(t_1,\cons{\fun{f}()}{\fun{dpre}(t_2,s)})}.
+\end{array}}
+\end{equation*}
+\caption{Codage préfixe d'un arbre en un chemin de Dyck\label{fig_dpre}}
+\end{figure}
+Si la taille de l'arbre binaire est~\(n\), alors \(\C{\fun{dpre}}{n} =
+2n+2\)\index{dpre@$\C{\fun{dpre}}{n}$} et la longueur du chemin de
+Dyck est~\(2n\).
+
+Cette correspondance est clairement inversible, car nous avons déjà
+résolu le décodage préfixe aux
+\figs~\vrefrange{fig_pre2b}{fig_pre2b0},\index{pre2b@\fun{pre2b/1}}
+\index{pre2b0@\fun{pre2b\(_0\)/1}} et nous comprenons maintenant que
+l'inverse est fondé sur la décomposition quadratique du
+chemin.\index{chemin de Dyck!décomposition!$\sim$ quadratique}
+
+Ceci dit, si nous sommes préoccupés par l'efficacité, nous pouvons
+nous souvenir qu'un codage postfixe\index{arbre binaire!parcours
+  préfixe!codage} conduit à un décodage plus rapide, comme nous
+l'avons vu aux
+\figs~\vrefrange{fig_epost}{fig_post2b}. \index{epost@\fun{epost/1}}\index{post2b@\fun{post2b/1}}
+Pour créer un chemin de Dyck\index{chemin de Dyck} basé sur un
+parcours postfixe, nous associons les n{\oe}uds externes à des montées
+et les n{\oe}uds internes à des descentes (avec les contenus), enfin,
+nous ôtons la première montée. Voir la \fig~\vref{fig_dyck_post}
+\begin{figure}[b]
+\centering
+\subfloat[Arbre binaire]{\includegraphics[bb=71 655 142 721]{dyck2bt}}
+\qquad\quad
+\subfloat[Chemin de Dyck correspondant au codage postfixe
+$[\Box,\Box,\Box,2,1,\Box,\Box,3,0\char93$\label{fig_dyck_post}]{%
+\includegraphics[scale=0.9,bb=93 650 330 724]{dyck_post}}
+\caption{Bijection entre un arbre binaire et un chemin de Dyck}
+\end{figure}
+pour le chemin de Dyck obtenu à partir du parcours postfixe du même
+arbre que précédemment. Bien sûr, tout comme nous l'avons fait avec la
+correspondance préfixe, nous n'allons pas construire le codage
+postfixe\index{arbre binaire!parcours postfixe!codage}, mais plutôt
+aller directement de l'arbre binaire au chemin de Dyck\index{chemin de
+  Dyck}, comme à la
+\fig~\vref{fig_dpost}.\index{dpost@\fun{dpost/1}}\index{dpost@\fun{dpost/2}}
+\begin{figure}[t]
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{dpost}(t) & \rightarrow & \fun{dpost}(t,\el).\\
+\\
+\fun{dpost}(\fun{ext}(),s) & \rightarrow & s;\\
+\fun{dpost}(\fun{int}(x,t_1,t_2),s)
+  & \rightarrow
+  & \fun{dpost}(t_1,\cons{\fun{r}()}{\fun{dpost}(t_2,\cons{\fun{f}(x)}{s})}).
+\end{array}}
+\end{equation*}
+\caption{Codage postfixe d'un arbre en un chemin
+  de Dyck\label{fig_dpost}}
+\end{figure}
+Remarquons que nous empilons \(\fun{r}()\) et \(\fun{f}(x)\) dans la
+même règle, donc nous n'avons pas besoin d'ôter la première montée à
+la fin. (Nous employons une optimisation semblable avec
+\fun{dpre/2}\index{dpre@\fun{dpre/2}} à la \fig~\vref{fig_dpre}.) En
+termes structurels, l'inverse de cette correspondance postfixe est une
+décomposition \(d = d_1 \cdot (\fun{r} \cdot d_2 \cdot \fun{f}_1)\),
+que nous avons mentionnée précédemment en passant comme étant une
+option à la décomposition quadratique.\index{chemin de
+  Dyck!décomposition!$\sim$ quadratique}
+
+La fonction qui décode les chemins de Dyck\index{chemin de Dyck}
+postfixes en arbres binaires est une simple variation de
+\fun{post2b/1}\index{post2b@\fun{post2b/1}} et
+\fun{post2b/2}\index{post2b@\fun{post2b/2}} à la
+\fig~\vref{fig_post2b}: nous initialisons la pile auxiliaire avec
+\([\fun{ext}()]\). La fonction est nommée
+\fun{d2b/1}\index{d2b@\fun{d2b/1}} et définie à la
+\fig~\vref{fig_d2b}. Le coût est \(\C{\fun{d2b}}{n} = 2n +
+2\).\index{d2b@$\C{\fun{d2b}}{n}$}
+
+\bigskip
+
+\begin{figure}[h]
+\begin{equation*}
+\boxed{
+\begin{array}{r@{\;}c@{\;}l}
+\fun{d2b}(s) & \rightarrow & \fun{d2b}([\fun{ext}()],s).\\
+\\
+\fun{d2b}([t],\el) & \rightarrow & t;\\
+\fun{d2b}(f,\cons{\fun{r}()}{s}) & \rightarrow & \fun{d2b}(\cons{\fun{ext}()}{f},s);\\
+\fun{d2b}(\cons{t_2,t_1}{f},\cons{\fun{f}(x)}{s}) & \rightarrow & \fun{d2b}(\cons{\fun{int}(x,t_1,t_2)}{f},s).
+\end{array}}
+\end{equation*}
+\caption{Décodage postfixe d'un chemin de Dyck en un arbre\label{fig_d2b}}
+\end{figure}
+
+\bigskip
+
+Que nous choisissions un codage préfixe ou postfixe, une conséquence
+des bijections est qu'il y a autant d'arbres binaires de taille~\(n\)
+que de chemins de Dyck de longueur~\(2n\). Nous savons déjà, voir le chapitre~\ref{chap_Catalan}, et l'équatio~\eqref{eq_Cn}
+\vpageref{eq_Cn}, qu'il y a \(C_n = \frac{1}{n+1}\binom{2n}{n}
+\sim \frac{4^n}{n\sqrt{\pi n}}\) de ces chemins.
+
+D'autres encodages des arbres binaires sont proposés dans
+\cite[2.3.3]{Knuth_1997} et \cite[5.11]{SedgewickFlajolet_1996}.
+
+
+\mypar{Longueur moyenne des chemins}
+
+La plupart des paramètres moyens usuels des arbres binaires, comme la
+longueur moyenne des chemins internes, la hauteur et largeur moyenne,
+sont obtenus très difficilement et requièrent des outils mathématiques
+qui vont au-delà de la portée de ce livre.
+
+La longueur interne~\(I(t)\)\index{arbre binaire!longueur interne}
+d'un arbre binaire~\(t\) est la somme des longueurs des chemins de la
+racine à chaque n{\oe}ud interne. Nous avons déjà rencontré le concept
+de longueur externe~\(E(t)\)\index{arbre binaire!longueur externe}, à
+savoir la somme des longueurs des chemins de la racine à chaque
+n{\oe}ud externe, à la section~\vref{sec_opt_sort} à propos du tri
+optimal, où nous avons montré que l'arbre binaire qui minimise la
+longueur interne moyenne possède tous ses n{\oe}uds externes sur deux
+niveaux successifs. La relation entre ces deux longueurs est assez
+simple parce que la structure binaire donne lieu à une équation qui ne
+dépend que de la taille~\(n\):
+\begin{equation}
+E_n = I_n + 2n.\label{eq_EI}
+\end{equation}
+En effet, soit \(\fun{int}(x,t_1,t_2)\) un arbre avec \(n\)~n{\oe}uds
+internes. Alors, nous avons
+\begin{equation}
+  I(\fun{ext}()) = 0,\quad
+  I(\fun{int}(x,t_1,t_2)) = I(t_1) + I(t_2) + n - 1,
+\label{eq_I}
+\end{equation}
+parce que chaque chemin dans~\(t_1\) et~\(t_2\) est rallongé avec un
+arc de plus jusqu'à la racine~\(x\), et il y a \(n-1\) chemins ainsi,
+par définition. D'un autre côté,
+\begin{equation}
+  E(\fun{ext}()) = 0,\quad
+  E(\fun{int}(x,t_1,t_2)) = E(t_1) + E(t_2) + n + 1,
+\label{eq_E}
+\end{equation}
+parce que chaque chemin dans~\(t_1\) et~\(t_2\) est rallongé avec un
+arc de plus jusqu'à la racine~\(x\) et il y a \(n+1\) chemins en
+question, d'après le théorème~\vref{thm_int_ext}. En soustrayant
+l'équation~\eqref{eq_I} de~\eqref{eq_E} donne
+\begin{align*}
+  E(\fun{ext}()) - I(\fun{ext}()) &= 0,\\
+  E(\fun{int}(x,t_1,t_2)) - I(\fun{int}(x,t_1,t_2))
+  &= (E(t_1) - I(t_1)) + (E(t_2) - I(t_2)) + 2.\!\!
+\end{align*}
+En d'autres termes, tout n{\oe}ud interne ajoute~\(2\) à la différence
+des longueurs externe et interne à partir de lui. Puisque cette
+différence est nulle aux n{\oe}uds externes, nous obtenons
+l'équation~\eqref{eq_EI} pour l'arbre de taille~\(n\). Malheureusement,
+tout autre résultat est franchement difficile à obtenir. Par exemple,
+la \emph{longueur interne moyenne}~\(\Expected{I_n}\)\index{arbre
+  binaire!longueur interne moyenne}, qui vaut
+\begin{equation*}
+\Expected{I_n}  = \frac{4^n}{b_n} - 3n - 1 \sim n \sqrt{\pi n},
+\end{equation*}
+est expliquée par \cite{Knuth_1997} à l'exercice~5 de la
+section~2.3.4.5, et \cite{SedgewickFlajolet_1996}, au théorème~5.3 de
+la section~5.6.  En utilisant l'équation~\eqref{eq_EI}, nous déduisons
+\(\Expected{E_n} = \Expected{I_n} + 2n\), ce qui implique que le coût
+du parcours d'un arbre binaire aléatoire de taille~\(n\) de la racine
+à un n{\oe}ud externe est \(\Expected{E_n}/(n+1) \sim \sqrt{\pi
+  n}\). De plus, la valeur \(\Expected{I_n}/n\) peut être comprise
+comme le niveau moyen d'un n{\oe}ud interne choisi au hasard.
+
+\mypar{Hauteur moyenne}
+
+La hauteur moyenne~\(h_n\)\index{arbre binaire!hauteur moyenne} d'un
+arbre binaire de taille~\(n\) est encore plus difficile à obtenir et a
+été étudiée par
+\cite{FlajoletOdlyzko_1981,BrownShubert_1984,FlajoletOdlyzko_1984,Odlyzko_1984}:
+\begin{equation*}
+h_n \sim 2 \sqrt{\pi n}.
+\end{equation*}
+Dans le cas des arbres de Catalan, à savoir, les arbres dont les
+n{\oe}uds internes peuvent avoir un nombre quelconque d'enfants,
+l'analyse de la hauteur moyenne a été menée par
+\cite{DasarathyYang_1980,DershowitzZaks_1981}, \cite{Kemp_1984} à la
+section~5.1.1, \cite{DershowitzZaks_1990,KnuthdeBruijnRice_2000b} et
+\cite{SedgewickFlajolet_1996}, à la
+section~5.9.\index{arbre!hauteur!$\sim$ moyenne}
+
+\mypar{Largeur moyenne} 
+
+La \emph{largeur}\index{arbre binaire!largeur} d'un arbre binaire est
+la longueur de son niveau étendu le plus grand\index{arbre
+  binaire!niveau étendu}. On peut montrer que la \emph{largeur
+  moyenne}~\(w_n\)\index{arbre binaire} d'un arbre binaire de
+taille~\(n\) satisfait
+\begin{equation*}
+w_n \sim \sqrt{\pi n} \sim \tfrac{1}{2} h_n.
+\end{equation*}
+Ce résultat implique, en particulier, que la taille moyenne de la pile
+nécessaire à l'exécution d'un parcours préfixe avec
+\fun{pre\(_4\)/2}\index{pre4@\fun{pre\(_4\)/2}} à la
+\fig~\vref{fig_pre3} est deux fois la taille moyenne de la file
+nécessaire au parcours en largeur avec \fun{bf/1}\index{bf@\fun{bf/1}}
+à la \fig~\vref{fig_bf}. Ceci n'est pas du tout évident, car les deux
+piles qui simulent la file ne contiennent pas toujours un niveau
+complet.
+
+Pour les arbres généraux, \cite{DasarathyYang_1980} ont joliment
+présenté une correspondance bijective avec les arbres binaires et le
+transfert de certains paramètres moyens.
+
+\section*{Exercices}
+
+\begin{enumerate}
+
+  \item Prouvez \(\fun{post2b}(\fun{epost}(t)) \equiv t\).
+    \index{post2b@\fun{post2b/1}}
+
+  \item Prouvez \(\fun{pre2b}(\fun{epre}(t)) \equiv t\).
+    \index{pre2b@\fun{pre2b/1}}
+
+  \item Prouvez \(\fun{epre}(\fun{mir}(t)) \equiv
+    \fun{rev}(\fun{epost}(t))\).\index{epost@\fun{epost/1}}
+    \index{rev@\fun{rev/1}}\index{epre@\fun{epre/1}}
+    \index{mir@\fun{mir/1}}
+
+  \item Définissez le codage d'un arbre binaire fondé sur son parcours
+    infixe.\index{arbre binaire!parcours infixe!codage}
+
+\end{enumerate}

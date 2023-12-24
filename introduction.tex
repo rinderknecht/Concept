@@ -1,0 +1,1071 @@
+\chapter{Introduction}
+\setcounter{page}{1}
+
+Voici un aperçu des sujets développés dans le reste de ce livre.
+
+\section{Systèmes de réécriture}
+
+\paragraph{Réécriture de chaînes}
+
+Supposons que nous ayons un collier de perles blanches et noires,
+ainsi \(\circ \bullet \bullet \bullet \circ \circ \bullet\), et le
+jeu \citep{VanLeeuwen_1990a,Dershowitz_1993} consiste à ôter deux
+perles adjacentes pour les remplacer par une autre selon certaines
+règles, par exemple,
+\begin{equation*}
+\bullet \; \circ   \xrightarrow{\smash{\alpha}} \bullet\qquad\qquad
+\circ   \; \bullet \xrightarrow{\smash{\beta}} \bullet\qquad\qquad
+\bullet \; \bullet \xrightarrow{\smash{\gamma}} \circ
+\end{equation*}
+Les règles~\(\alpha\), \(\beta\)~et~\(\gamma\) constituent alors un
+\emph{système de réécriture de chaînes}\index{système de
+  réécriture}. Les règles \(\alpha\)~et~\(\beta\) peuvent se
+verbaliser ainsi: «Une perle noire absorbe la perle blanche à son
+côté.» Le but de ce jeu est d'obtenir le plus petit nombre de perles
+possible, ainsi notre exemple donne lieu aux \emph{réécritures}
+\begin{equation*}
+\circ \bullet \bullet \, \fbox{\(\bullet\; \circ\)} \circ \bullet
+\xrightarrow{\smash{\alpha}} \circ \bullet \bullet \,
+\fbox{\(\bullet\; \circ\)} \; \bullet \xrightarrow{\smash{\alpha}}
+\fbox{\(\circ \; \bullet\)} \; \bullet \bullet \,\bullet
+\xrightarrow{\smash{\beta}} \bullet \bullet \, \fbox{\(\bullet \;
+  \bullet\)} \xrightarrow{\smash{\gamma}} \bullet \, \fbox{\(\bullet
+  \; \circ\)} \xrightarrow{\smash{\alpha}} \fbox{\(\bullet \;
+  \bullet\)} \xrightarrow{\smash{\gamma}} \circ,
+\end{equation*}
+où nous avons encadré la partie de la chaîne qui doit être réécrite.
+
+D'autres compositions de règles mènent aussi au même
+résultat~\(\circ\). D'aucunes encore aboutissent à des chaînes
+entièrement blanches, la plus simple étant \(\circ \,
+\circ\). D'autres résultent en~\(\bullet\). Les chaînes qui ne peuvent
+être davantage réécrites, ou \emph{réduites}, sont appelées
+\emph{formes normales}\index{système de réécriture!forme normale}. Ces
+observations nous incitent à nous demander si toutes les chaînes
+possèdent une forme normale; si oui, si elle est unique et, de plus,
+si elle est entièrement blanche ou constituée d'une seule perle noire.
+
+Tout d'abord, remarquons que le système
+\emph{termine}\index{terminaison}, c'est-à-dire qu'il n'existe pas de
+suite infinie de réécritures, parce que le nombre de perles décroît
+strictement dans toutes les règles, bien que ce ne soit pas une
+condition nécessaire en général, par exemple, \(\circ \; \bullet
+\xrightarrow{\smash{\beta}} \bullet \circ \circ\) préserverait la
+terminaison parce que la composition \(\beta\alpha\alpha\) serait
+équivalente à la règle~\(\beta\) originelle. En particulier, ceci
+signifie que toute chaîne possède une forme normale. De plus, chaque
+règle laisse invariante la parité du nombre de perles noires et il n'y
+a pas de règle de réécriture pour deux perles blanches adjacentes. Par
+conséquent, si nous avons \(2p\) perles noires initiales, la
+composition des règles \(\alpha\)~et~\(\beta\) produit une chaîne
+noire, comme \(\bullet \bullet \bullet \, \bullet\) ci-dessus, qui
+peut être réduite, par l'application de la règle~\(\gamma\) à des
+perles contiguës, en une chaîne blanche contenant \(p\)~perles. Sinon,
+la même chaîne noire peut être réduite en appliquant alternativement
+\(\gamma\)~et~\(\beta\) à l'extrémité gauche ou
+\(\gamma\)~et~\(\alpha\) à l'extrémité droite, produisant~\(\circ\).
+
+De la même façon, s'il y a un nombre impair de perles noires au
+départ, nous obtenons toujours une perle noire à la fin. Il suffit de
+considérer les réécritures \(\circ \circ \xleftarrow{\smash{\gamma}}
+\bullet \bullet \circ \xrightarrow{\smash{\alpha}} \bullet \bullet
+\xrightarrow{\smash{\gamma}} \circ\) pour voir que les formes normales
+ne sont pas uniques. Un système dont les formes normales sont uniques
+est appelé \emph{confluent}\index{système de réécriture!confluence}.
+
+Si nous ajoutons la règle \(\circ\; \circ \xrightarrow{\smash{\delta}}
+\circ\), le résultat du jeu est toujours une perle dont la couleur
+dépend de la parité originelle des perles noires comme précédemment,
+et toute stratégie est gagnante. Pour bien comprendre pourquoi,
+considérons d'abord que deux segments de la chaîne qui ne se
+recouvrent pas peuvent être réécrits en parallèle, et donc peuvent
+être traités séparément. Les cas intéressants sont ceux où deux
+applications de règles (qui peuvent être les mêmes) engendrent
+différentes chaînes parce que leur domaine se recouvrent.  Par
+exemple, nous avons \(\circ \, \circ \xleftarrow{\smash{\gamma}}
+\bullet \bullet \circ \xrightarrow{\smash{\alpha}} \bullet \,
+\bullet\). Le point important est que \(\circ \, \circ\) et \(\bullet
+\, \bullet\) peuvent être réécrits en~\(\circ\) à l'étape suivante par
+\(\delta\)~et~\(\gamma\), respectivement. En général, ce qui compte
+est que toutes les paires de chaînes résultant de l'application de
+règles recouvrantes, appelées \emph{paires critiques}\index{système de
+  réécriture!paire critique}, soient susceptibles d'être réduites en
+la même chaîne, c'est-à-dire qu'elle soient \emph{joignables}. Dans
+notre exemple, toutes les interactions ont lieu sur des sous-chaînes
+constituées de trois perles, donc nous devons examiner dans la
+\fig~\vref{fig_bullets}
+\begin{figure}
+\centering
+\includegraphics{bullets}
+\caption{Les paires critiques sont toutes joignables\label{fig_bullets}}
+\end{figure}
+huit configurations, que nous sommes à même d'ordonner comme si nous
+comptions en binaire de \(0\)~à~\(7\), (\(\circ\))~étant interprété
+comme~\(0\) et (\(\bullet\))~comme~\(1\). Dans tous les cas, les
+divergences sont joignables en un pas au plus. En général, il n'est
+pas nécessaire que les paires critiques soient joignables en un pas
+juste après la divergence, comme dans l'exemple précédent, mais, plus
+généralement, qu'elles soient joignables. Cette propriété est nommée
+\emph{confluence locale}\index{système de réécriture!confluence!$\sim$
+  locale}. Avec la terminaison, elle implique que \emph{toute} chaîne
+possède exactement une forme normale (une propriété forte entrainant
+la confluence).
+
+Le système que nous avons défini ne contient pas de variables. Ces
+dernières permettent à un système fini de dénoter un nombre infini de
+règles sans variables ou, plus simplement, de réduire la taille du
+système de réécriture, par exemple, l'exemple précédent équivaut à
+\begin{equation*}
+\bullet \; \circ \xrightarrow{\smash{\alpha}} \bullet
+\qquad\qquad
+\circ \; x \xrightarrow{\smash{\beta+\delta}} x
+\qquad\qquad
+\bullet \; \bullet \xrightarrow{\smash{\gamma}} \circ
+\end{equation*}
+Si nous acceptons de multiples occurrences d'une même variable dans le
+membre gauche d'une règle, un système dit \emph{non linéaire à
+  gauche}\index{système de réécriture!$\sim$ linéaire}, nous pouvons
+diminuer la taille du système de la façon suivante:
+\begin{equation*}
+x  \; x \xrightarrow{\smash{\gamma+\delta}} \circ\qquad\qquad
+x  \; y \xrightarrow{\smash{\alpha+\beta}} \bullet
+\end{equation*}
+C'est-à-dire: «Deux perles adjacentes sont replacées par une perle
+blanche si elles ont même couleur, sinon par une perle noire.»
+Remarquons la présence nouvelle d'un ordonnancement implicite des
+règles: la règle \(\gamma+\delta\) doit être examinée en premier pour
+\emph{filtrer} une partie de la chaîne courante, parce qu'elle est
+incluse dans la seconde règle, comme on peut le constater en posant
+\(x=y\) dans \(\alpha+\beta\). Généralement, l'ordre dans lequel sont
+écrites les règles sur une page induit leur ordre logique. Par
+ailleurs, notons que le système ne spécifie pas que \(x\)~doit
+être~\(\circ\) ou~\(\bullet\). En termes généraux, cela signifie que
+le \emph{type} d'une variable doit être défini ailleurs ou inféré à
+partir des usages de ladite variable.
+
+\paragraph{Réécriture de termes}
+
+Jusqu'à présent, nous avons seulement examiné les systèmes de
+réécriture de chaînes. Les \emph{systèmes de réécriture de
+  termes} \citep{BaaderNipkow_1998}\index{système de réécriture}, où
+un \emph{terme}\index{terme} est un objet mathématique
+potentiellement constitué à partir de \(n\)-uplets, d'entiers et de
+variables. Considérons le système totalement ordonné suivant:
+\begin{equation}
+(0,m) \rightarrow m;\qquad\qquad
+(n,m) \rightarrow (n-1,n \cdot m);\qquad\qquad
+n     \rightarrow (n,1).
+\label{eq_fact_tf}
+\end{equation}
+où les règles sont séparées par un point-virgule et la dernière
+se termine par un point. Les opérateurs arithmétiques
+\((-)\)~et~\((\cdot)\) sont définis à l'extérieur du système et
+\(m\)~et~\(n\) sont des variables dénotant des entiers naturels. Si
+les règles n'étaient pas ordonnées comme elles sont écrites, la
+deuxième filtrerait toute paire. Au lieu de cela, nous pouvons
+supposer que \(n \neq 0\) lorsque nous filtrons avec elle. Nous voyons
+aisément que toutes les compositions de réécritures commençant avec un
+entier naturel~\(n\) se terminent avec la valeur de la
+factorielle\index{factorielle} de~\(n\):
+\begin{equation*}
+n \rightarrow (n,1) \rightarrow \dots \rightarrow (0,n!) \rightarrow
+n!, \quad \text{for \(n \in \mathbb{N}\)}.
+\end{equation*}
+Notons \((\xrightarrow{\smash{n}})\) la composition de
+\((\rightarrow)\) itérée \(n-1\)~fois:
+\begin{equation*}
+  (\xrightarrow{\smash{1}})   := (\rightarrow);\qquad
+  (\xrightarrow{\smash{n+1}}) :=
+     (\rightarrow) \circ (\xrightarrow{\smash{n}}),
+\quad \text{avec \(n > 0\)}.
+\end{equation*}
+La \emph{clôture transitive}\index{clôture
+  transitive}\label{transitive_closure} de \((\rightarrow)\) est
+définie comme étant \((\twoheadrightarrow) := \bigcup_{i >
+  0}{(\xrightarrow{\smash{i}})}\). Dans le cas présent, la
+factorielle\index{factorielle} coïncide avec la clôture transitive de
+\((\rightarrow)\), c'est-à-dire \(n \twoheadrightarrow n!\). Soit
+\((\xrightarrow{\smash{*}})\) la clôture réflexive et transitive de
+\((\rightarrow)\), à savoir \((\xrightarrow{\smash{*}}) := (=) \cup
+(\twoheadrightarrow)\).
+
+Un système confluent définit une \emph{fonction} et il est alors
+commode de lui donner un nom; par exemple, \(\fun{c}(1, \fun{d}(n))\)
+est un terme construit avec les \emph{noms de fonction}
+\fun{c}~et~\fun{d}, de même qu'avec la variable~\(n\). Un \(n\)-uplet
+distingué à l'aide d'un nom de fonction, comme \(\fun{f}(x,y)\), est
+appelé un \emph{appel de fonction}. Les composantes des \(n\)-uplets
+sont nommés \emph{arguments}, par exemple \(\fun{d}(n)\) est le second
+argument de l'appel \(\fun{c}(1, \fun{d}(n))\). Un appel de fonction
+peut n'avoir aucun argument, ainsi \(\fun{d}()\). Nous restreignons
+les membres gauches des règles a toujours être des appels de fonction.
+
+\section{Arbres pour illustrer les termes}
+\index{terme|see{arbre}} 
+\label{def_tree}
+
+La compréhension topologique d'un appel de fonction ou d'un
+\(n\)-uplet est l'\emph{arbre}\index{arbre} fini. Un arbre est une
+configuration hiérarchique d'information et la
+\fig~\vref{fig_fib5shape}
+\begin{figure}[b]
+\centering
+\includegraphics{fib5shape}
+\caption{Forme d'un arbre\label{fig_fib5shape}}
+\end{figure}
+montre la forme d'un exemple. Les disques sont appelés
+\emph{n{\oe}uds}\index{arbre!n{\oe}ud} et les segments qui connectent
+deux n{\oe}uds sont nommés \emph{arcs}\index{arbre!arc}. Le n{\oe}ud
+au sommet (contenant un diamètre) est la
+\emph{racine}\index{arbre!n{\oe}ud!racine} et les n{\oe}uds situés au
+plus bas (\(\bullet\)) sont les
+\emph{feuilles}\index{arbre!n{\oe}ud!feuille}. Tous les n{\oe}uds sauf
+les feuilles sont reliés vers le bas à d'autre n{\oe}uds, appelés les
+\emph{enfants}\index{arbre!n{\oe}ud!enfant}. Vers le haut, chaque
+n{\oe}ud sauf la racine est connecté à un autre n{\oe}ud, ou
+\emph{parent}\index{arbre!n{\oe}ud!parent}. Selon le contexte, un
+n{\oe}ud peut aussi dénoter l'arbre complet dont il est la
+racine. Tout n{\oe}ud sauf la racine est la racine d'un
+\emph{sous-arbre propre}\index{arbre!sous-arbre!$\sim$ propre}. Un
+arbre est son propre sous-arbre. Les enfants d'un n{\oe}ud~\(x\) sont
+les racines des \emph{sous-arbres
+  immédiats}\index{arbre!sous-arbre!$\sim$ immédiat} par rapport à
+l'arbre enraciné en~\(x\). Deux sous-arbres immédiats différents sont
+disjoints, c'est-à-dire qu'aucun n{\oe}ud de l'un n'est relié à un
+n{\oe}ud de l'autre. Un groupe d'arbres est une
+\emph{forêt}\index{arbre!forêt}.
+
+% Wrapping figure better declared before a paragraph
+%
+\begin{wrapfigure}[7]{r}[0pt]{0pt}
+% [7] vertical lines
+% {r} mandatory right placement
+% [0pt] of margin overhang
+\centering
+\includegraphics[bb=68 652 123 708]{tree}% normal is [.. .. .. 715]
+\caption{\label{fig_tree}}
+\end{wrapfigure}
+Les arbres peuvent figurer les termes de la façon suivante. Un appel
+de fonction est un arbre dont la racine est le nom de la fonction et
+les enfants sont les arbres dénotant les arguments. On peut considérer
+qu'un \(n\)-uplet possède un nom de fonction invisible, représenté par
+un n{\oe}ud avec un point (\texttt{.}) dans l'arbre, auquel cas les
+composantes du \(n\)-uplet sont ses enfants. Par exemple, l'arbre de
+la \fig~\vref{fig_tree} a pour racine~\fun{f} et pour feuilles~\(0\),
+\(x\), \(1\) et~\(y\). Remarquons que les variables \(x\)~et~\(y\)
+sont composées en italique pour les différencier des noms de fonction
+\fun{x}~et~\fun{y}, pour lesquels nous utilisons une police
+linéale. Par exemple, \(\fun{d}((), \fun{e}([1]))\) peut être
+interprété comme un arbre avec la racine~\fun{d}, dont le premier
+sous-arbre immédiat est la représentation du \(n\)-uplet vide \(()\),
+et dont le second sous-arbre immédiat correspond à
+\(\fun{e}([1])\). La \fig~\ref{fig_tree} représente l'arbre associé à
+\(\fun{f}((\fun{g}(0),(x,1)),(),\fun{g}(y))\). Notons que les
+\(n\)-uplets, excepté celui vide, ne sont pas représentés dans l'arbre
+parce qu'ils codent la structure, qui est déjà visible. Le nombre
+d'arguments d'une fonction est appelé son \emph{arité}\index{langage
+  fonctionnel!arité}. Des fonctions de même nom mais d'arités
+différentes sont permises; par exemple, nous pourrions avoir à la fois
+\(\fun{c}(\fun{a}())\) et \(\fun{c}(\fun{a}(x),0)\), ce qu'on appelle
+\emph{surcharge}\index{langage fonctionnel!surcharge}. Pour distinguer
+les différent usages, l'arité d'une fonction devrait être indiquée
+après une barre oblique, ainsi \fun{c/1} et \fun{c/2}.
+
+\section{Langages purement fonctionnels}
+\label{sec_functional}
+
+\hspace*{-3pt}Nous ne souhaitons considérer par la suite que des
+systèmes confluents parce qu'ils définissent des fonctions. Cette
+propriété peut être obtenue en imposant un ordre sur les règles, comme
+nous l'avons fait dans les exemples précédents. Une autre restriction
+est que les formes normales doivent être des
+\emph{valeurs}\index{langage fonctionnel!valeur}, c'est-à-dire
+qu'elles ne contiennent aucun appel à des fonctions définies par
+réécriture ou implicitement, comme une opération arithmétique. Ces
+deux contraintes définissent un \emph{langage purement fonctionnel}
+\citep{Hughes_1989,Hinsen_2009}\index{langage fonctionnel}. Remarquons
+que nous n'exigeons pas la terminaison du système, bien que ce soit là
+une propriété désirable, de façon à retenir plus d'expressivité.
+
+Nous voudrions de plus contraindre le calcul des appels de fonction en
+exigeant que les arguments soient réécrits avant que l'appel lui-même
+ne le soit. Cette stratégie est dite d'\emph{appel par
+  valeurs}\index{langage fonctionnel!appel par
+  valeurs}.\label{def_call-by-value} Malheureusement, elle conduit à
+la non-terminaison de certains programmes qui autrement termineraient.
+Par exemple, considérons
+\begin{equation*}
+\fun{f}(x) \xrightarrow{\smash{\alpha}} 0.\qquad 
+\fun{g}() \xrightarrow{\smash{\beta}} \fun{g}().
+\end{equation*}
+Nous avons \(\fun{f}(\fun{g}()) \xrightarrow{\smash{\alpha}} 0\) mais
+\(\fun{f}(\fun{g}()) \xrightarrow{\smash{\beta}} \fun{f}(\fun{g}())
+\xrightarrow{\smash{\beta}} \dots\) Malgré cet inconvénient, nous
+retiendrons l'appel par valeurs parce qu'il facilite certaines
+analyses. (Une stratégie plus puissante est réalisée dans le langage
+purement fonctionnel \Haskell \citep{DoetsVanEijck_2004} sous la forme
+de l'\emph{évaluation paresseuse}.) Il nous permet par ailleurs de
+restreindre la forme des membres gauches, appelés
+\emph{motifs}\index{langage fonctionnel!motif}, à un appel de
+fonction englobant (le nom de la fonction est à la racine de l'arbre
+représentant le membre gauche). Par exemple, nous pouvons alors
+éliminer pour cause d'inutilité une règle telle que
+\begin{equation*}
+\fun{plus}(x,\fun{plus}(y,z)) \rightarrow
+\fun{plus}(\fun{plus}(x,y),z).
+\end{equation*}
+De plus, si le système termine, alors \((\twoheadrightarrow)\) définit
+une \emph{évaluation}\index{langage fonctionnel!évaluation}, ou
+\emph{interprétation}\index{langage
+  fonctionnel!interprétation|see{évaluation}}, des termes. Par
+exemple, la factorielle\index{factorielle}
+\fun{fact/1}\index{fact@\textsf{fact/1}} peut être définie par le
+système ordonné
+\begin{equation}
+\fun{fact}(0) \rightarrow 1;\qquad
+\fun{fact}(n) \rightarrow n \cdot \fun{fact}(n-1).
+\label{def_fact}
+\end{equation}
+Par conséquent, \(\fun{fact}(n) \twoheadrightarrow n!\) et le système
+détaille comment réduire pas à pas \(\fun{fact}(n)\) en sa valeur.
+
+La plupart des langages fonctionnels ont des \emph{fonctions d'ordre
+  supérieur}\index{langage fonctionnel!fonctions d'ordre supérieur},
+alors que les systèmes de réécriture normaux n'en ont pas. Un exemple
+serait le programme d'ordre supérieur suivant, où \(n \in
+\mathbb{N}\):
+\begin{equation*}
+\fun{f}(g,0) \rightarrow 1;
+\qquad
+\fun{f}(g,n) \rightarrow n \cdot g(g,n-1).
+\qquad
+\fun{fact}_1(n) \rightarrow \fun{f}(\fun{f},n).
+\end{equation*}
+Remarquons que ces deux définitions ne sont pas récursives, néanmoins
+\fun{fact\(_1\)/1}\index{fact1@\textsf{fact$_1$/1}} calcule la
+factorielle\index{factorielle}. Le cadre théorique idoine pour
+comprendre les fonctions d'ordre supérieur est le
+\emph{\(\lambda\)-calcul}
+\citep{HindleySeldin_2008,VanLeeuwen_1990b}\index{lambda-calcul@$\lambda$-calcul}. En
+fait, le \(\lambda\)-calcul est abondamment employé pour exprimer la
+sémantique formelle des langages de programmation, même s'ils ne sont
+pas fonctionnels
+\citep{Winskel_1993,Reynolds_1998,Pierce_2002,FriedmanWand_2008,TurbakGifford_2008}. Nous
+préférons travailler avec des systèmes de réécriture parce qu'ils
+permettent le filtrage des appels par des motifs, alors qu'en
+\(\lambda\)-calcul\index{lambda-calcul@$\lambda$-calcul} nous devrions
+coder les filtres en une cascade de conditionnelles, qui devraient
+être à leur tour codées en constructions encore plus élémentaires.
+
+Par la suite, nous montrons comment exprimer des structures de données
+linéaires dans un langage purement fonctionnel et comment faire
+exécuter nos programmes par un ordinateur.
+
+\paragraph{Piles}
+\label{par_stacks}
+
+Considérons le programme abstrait suivant\index{cat@\fun{cat/2}|(}
+\index{cons@\fun{cons/2}|(}\index{nil@\fun{nil/0}|(}
+\begin{equation*}
+\fun{cat}(\fun{nil}(),t)     \xrightarrow{\smash{\alpha}} t;\qquad
+\fun{cat}(\fun{cons}(x,s),t) \xrightarrow{\smash{\beta}}
+                                \fun{cons}(x,\fun{cat}(s,t)).
+\end{equation*}
+Il définit la fonction \fun{cat/2}\index{cat@\fun{cat/2}|)} qui opère
+la concaténation \index{pile!concaténation} de deux \emph{piles}. Les
+fonctions \fun{nil/0} et \fun{cons/2} sont des \emph{constructeurs de
+  données}\index{langage fonctionnel!constructeur de données},
+c'est-à-dire des fonctions qui ne sont \emph{pas} définies par le
+système: leurs appels irréductibles modélisent les données, donc ils
+sont des valeurs et peuvent apparaître dans les motifs. L'appel de
+fonction \(\fun{nil}()\) dénote la pile vide et \(\fun{cons}(x,s)\) la
+pile obtenue en mettant l'élément~\(x\) sur le sommet de la
+pile~\(s\), une action communément appelée \textsl{empiler~\(x\)
+  sur~\(s\)}. Une pile non-vide peut se concevoir comme une suite
+finie d'éléments qui ne sont accessibles que séquentiellement depuis
+le sommet, comme le suggère l'analogie avec une pile d'objets
+matériels. Soit~\(T\) l'ensemble de tous les termes possibles et \(S
+\subseteq T\) l'ensemble de toutes les piles, qui est défini par
+\emph{induction}\index{induction!définition
+  inductive}\index{définition inductive|see{induction}} comme étant le
+plus petit ensemble~\(\mathcal{S}\) tel que
+\begin{itemize}
+
+  \item \(\fun{nil}() \in \mathcal{S}\);\label{def_stack}
+
+  \item si \(x \in T\) et \(s \in \mathcal{S}\), alors
+    \(\fun{cons}(x,s) \in \mathcal{S}\).
+
+\end{itemize}
+
+Remarquons que, dans la règle~\(\beta\), si \(s\)~n'est pas une pile,
+la récurrence implique que la fonction \fun{cat/2} est partielle, non
+pas parce que la réécriture ne termine pas, mais parce que la forme
+normale\index{système de réécriture!forme normale} n'est pas une
+valeur. En termes opérationnels, l'interprète échoue dans sa
+réécriture de l'appel pour certains arguments.
+
+Posons les abréviations commodes \(\el :=
+\fun{nil}()\)\index{nil@\fun{nil/0}|)} et \(\cons{x}{s} :=
+\fun{cons}(x,s)\)\index{cons@\fun{cons/2}|)}, d'après la convention du
+langage de programmation \Prolog
+\citep{SterlingShapiro_1994,Bratko_2000}.  Par exemple, nous pourrions
+écrire \([1|[2|[3|\el]]]\) au lieu de
+\(\fun{cons}(1,\fun{cons}(2,\fun{cons}(3,\fun{nil}())))\). Nous
+pouvons de plus abréger la notation \(\cons{x_1}{\cons{x_2}{\dots
+    \cons{x_n}{s}}}\) en \(\cons{x_1,x_2,\dots,x_n}{s}\), ainsi que
+\(\cons{x}{\el}\) en \([x]\). Par exemple, \([1|[2|[3|\el]]]\) est
+plus succinctement décrite par \([1,2,3]\). Notre système définissant
+\fun{cat/2}\index{cat@\fun{cat/2}} devient maintenant bien plus
+lisible:
+\begin{equation}
+\fun{cat}(        \el,t) \xrightarrow{\smash{\alpha}} t;\qquad
+\fun{cat}(\cons{x}{s},t) \xrightarrow{\smash{\beta}}
+\cons{x}{\fun{cat}(s,t)}.
+\label{def_cat}\index{pile!concaténation!définition}
+\end{equation}
+Finalement, mettons-le à l'épreuve avec l'évaluation suivante:\index{pile!concaténation!exemple}
+\begin{equation*}
+\fun{cat}([1,2],[3,4])
+\!\xrightarrow{\smash{\beta}}\!
+\cons{1}{\fun{cat}([2],[3,4])}
+\!\xrightarrow{\smash{\beta}}\!
+\cons{1}{\cons{2}{\fun{cat}(\el,[3,4])}}
+\!\xrightarrow{\smash{\alpha}}\!
+[1,2,3,4].
+\end{equation*}
+
+\paragraph{Arbres de syntaxe abstraite}
+
+Selon le contexte, nous pouvons employer la description arborescente
+des termes de façon à mettre en valeur certains aspects du calcul. Par
+exemple, il pourrait être intéressant de montrer comment des parties
+du résultat (le membre droit) sont en fait
+\emph{partagées}\index{partage} avec les données (le membre gauche);
+en d'autres termes, dans quelle mesure les données demeurent
+invariantes par l'application des règles de réécriture. Ce concept
+suppose que les termes résident dans une sorte d'espace et qu'ils
+peuvent être référencés à partir d'autres termes. Cet espace abstrait
+sert de modèle à la \emph{mémoire}\index{mémoire} d'un
+ordinateur. Considérons par exemple dans la \fig~\vref{fig_cat_dag} la
+même définition de \fun{cat/2} telle que donnée
+dans~\eqref{def_cat}. Les flèches en lieu d'arcs dénotent un partage
+de donnée. Quand des arbres sont utilisés pour visualiser des termes,
+ils sont appelés \emph{arbres de syntaxe abstraite}\index{arbre!$\sim$
+  de syntaxe abstraite}. Quand des arbres partagent des sous-arbres,
+la forêt entière est un \emph{graphe orienté sans
+  circuit}.\index{graphe orienté sans circuit} \index{arbre|see{graphe
+    orienté sans circuit}}
+\begin{figure}[h]
+\centering
+\includegraphics[bb=73 654 300 720]{cat_dag}
+\caption{Définition de \fun{cat/2} avec des graphes orientés sans circuit
+\label{fig_cat_dag}}
+\end{figure}
+
+\section{Analyse des algorithmes}
+
+Donald Knuth figure parmi les fondateurs de la branche de
+l'informatique théorique consacrée à l'étude mathématique de
+l'efficacité des programmes. Il l'a nommée \emph{analyse des
+  algorithmes} \citep{SedgewickFlajolet_1996,Knuth_1997}. Étant donnée
+la définition d'une fonction et un appel à celle-ci, cette approche
+consiste en trois étapes fondamentales: la définition d'une mesure des
+arguments, qui représente leur taille; la définition d'une mesure du
+temps, qui abstrait le temps physique; la recherche d'une relation
+entre la taille des arguments et le temps abstrait nécessaire pour
+évaluer l'appel. Cette relation fonctionnelle modélise l'efficacité et
+est souvent appelée le \emph{coût}\index{coût} (plus bas est le coût,
+plus grande est l'efficacité).
+
+Par exemple, lorsque sont triés des objets, aussi appelés
+\emph{clés}\index{clé|see{tri}} dans ce contexte, la taille des
+données est le nombre de clés et l'unité de temps abstrait est souvent
+une comparaison, donc le coût est la fonction mathématique qui associe
+le nombre de clés et le nombre de comparaisons pour les trier.
+
+\mypar{Coût exact}
+
+Les systèmes de réécriture permettent une notion de coût assez
+naturelle pour les programmes fonctionnels: c'est le nombre de
+réécritures pour atteindre la valeur d'un appel de fonction, en
+supposant que les arguments sont des valeurs. En d'autres termes,
+c'est le nombre d'appels nécessaires pour calculer l'appel
+initial. Considérons à nouveau la concaténation de deux piles dans la
+définition~\eqref{def_cat}\index{cat@\fun{cat/2}}:
+\begin{equation*}
+\fun{cat}(        \el,t) \xrightarrow{\smash{\alpha}} t;\qquad
+\fun{cat}(\cons{x}{s},t) \xrightarrow{\smash{\beta}}
+\cons{x}{\fun{cat}(s,t)}.
+\end{equation*}
+Nous observons que \(t\)~est invariant, donc le coût ne dépend que de
+la taille du premier argument. Soit
+\(\C{\fun{cat}}{n}\)\index{cat@$\C{\fun{cat}}{n}$} le coût de l'appel
+\(\fun{cat}(s,t)\)\index{cat@\fun{cat/2}}, où \(n\)~est la taille
+de~\(s\). La règle~\(\alpha\) nous amène à l'équation
+\(\C{\fun{cat}}{0} \eqn{\smash{\alpha}} 1\) et la règle~\(\beta\) à
+\(\C{\fun{cat}}{n+1} \eqn{\smash{\beta}} 1 + \C{\fun{cat}}{n}\);
+prises ensemble, elles conduisent à \(\C{\fun{cat}}{n} = n +
+1\).\label{cost_cat}\index{pile!concaténation!coût}
+
+
+\mypar{Extremums du coût}
+\index{coût!extremum}
+
+Quand nous examinons des programmes de tri opérant par comparaisons,
+le coût dépend en fonction de l'algorithme mais souvent aussi de
+l'ordre partiel des clés, donc la taille ne capture pas tous les
+aspects nécessaires à la quantification de l'efficacité. Ce constat
+nous conduit naturellement à considérer alors des encadrements du
+coût: pour une taille fixe des données, on recherche alors les
+configurations des données qui minimisent ou maximisent le coût,
+respectivement appelées \emph{meilleur des cas} et \emph{pire des
+  cas}. Par exemple, le pire des cas pour certains algorithmes de tri
+se produit lorsque les clés sont déjà triées dans l'ordre attendu,
+alors que pour d'autres ce peut être l'ordre inverse etc.
+
+\mypar{Coût moyen}
+\label{par_mean_sort}
+\index{coût!$\sim$ moyen}
+
+Une fois obtenu l'encadrement d'un coût, la question du \emph{coût
+  moyen} \citep{VitterFlajolet_1990} \citep[\S{}1.2.10]{Knuth_1997} se
+pose. Celui-ci est la moyenne arithmétique des coûts pour toutes les
+données possible d'une taille fixe. De la prudence s'impose, parce
+qu'il faut alors un nombre fini de configurations. Par exemple, pour
+trouver le coût moyen d'un algorithme de tri opérant par comparaison
+de clés, il est habituel de supposer que les \(n\)~clés sont
+\emph{distinctes deux à deux}\index{tri!clé!unicité} et de prendre la
+moyenne des coûts de toutes leurs
+\emph{permutations}\index{permutation} (au nombre de~\(n!\), comme on
+montrera plus loin). La contrainte d'unicité permet à l'analyse de se
+ramener à la prise en compte des permutations de \((1,2,\dots,n)\). Le
+coût moyen de quelques algorithmes de tri, tel le \emph{tri par
+  interclassement} \cite[\S{}5.2.4]{Knuth_1998}
+\cite[\S{}2.3]{CLRS_2009} ou le \emph{tri par insertion}
+\cite[\S{}5.2.1]{Knuth_1998} \cite[\S{}2.1]{CLRS_2009}, égale, à
+l'asymptote, leur coût maximum, c'est-à-dire que, pour un nombre
+croissant de clés, le ratio des deux coûts approche arbitrairement
+près l'unité\index{coût!$\sim$ asymptotique}. L'ordre de grandeur du
+coût moyen d'autres tris, tel le \emph{tri de Hoare}, connu aussi sous
+le nom de \emph{tri rapide} \cite[\S{}5.2.2]{Knuth_1998}
+\cite[\S{}7]{CLRS_2009}, est inférieur à leur coût maximum, sur une
+échelle asymptotique \cite[\S{}9]{GrahamKnuthPatashnik_1994}.
+
+\paragraph{En ligne par opposition à hors ligne}
+\label{par_online_vs_offline}
+
+Les algorithmes de tri peuvent être distingués selon qu'ils opèrent
+sur la totalité des clés ou bien clé par clé. Les premiers sont dits
+\emph{hors ligne}\index{algorithme hors ligne}, parce que leurs clés
+ne sont pas triées au fur et à mesure qu'elles arrivent; les derniers
+sont dits \emph{en ligne}\index{algorithme en ligne}, parce que le
+processus de tri est temporellement entrelacé avec le processus
+d'acquisition des données. Ainsi, le tri par insertion est en ligne,
+alors que le tri de Hoare ne l'est pas parce qu'il repose sur une
+stratégie, dite «diviser pour régner,» qui partage l'ensemble des
+données. Cette distinction est pertinente dans d'autres contextes
+aussi, comme celui des algorithmes qui sont intrinsèquement
+\emph{séquentiels}, au lieu de permettre au moins un peu de
+\emph{parallélisme}; par exemple, une base de données est mise à jour
+par une suite de requêtes atomiques, mais des requêtes portant sur des
+parties disjointes des données peuvent être servies en parallèle.
+
+\mypar{Coût amorti}
+\label{par_amortised_cost}
+
+Parfois, une mise à jour est coûteuse parce qu'elle est retardée à
+cause d'un déséquilibre de la structure de donnée qui doit être
+remédié immédiatement, mais ce remède lui-même peut conduire à un état
+tel que les opérations ultérieures sont plus rapides que si la mise à
+jour coûteuse n'avait pas eu lieu. Par conséquent, lorsque nous
+considérerons une suite de mises à jour, il pourrait être trop
+pessimiste de cumuler les coûts maximums de toutes les opérations
+prises en isolement. À la place, l'\emph{analyse du coût amorti}
+\citep{Okasaki_1998a} \citep[\S{}17]{CLRS_2009}\index{coût!$\sim$
+  amorti} prend en compte les interactions entre les mises à jour, de
+telle sorte qu'un coût maximum plus bas est obtenu. Remarquons par
+ailleurs que cette sorte d'analyse est intrinsèquement différente de
+l'analyse du coût moyen en ce sens que son objet est la composition de
+différentes fonctions au lieu d'appels indépendants à la même
+fonction, avec différentes données. L'analyse du coût amorti est une
+analyse du coût maximum d'une séquence de mises à jours, non d'une
+seule.
+
+\paragraph{Analyse agrégeante}
+\label{par_aggregate}
+\index{coût agrégé|see{coût, amorti}}
+\index{dénombrement combinatoire}
+
+Examinons un compteur énumérant les entiers de~\(0\) à~\(n\) en
+binaire en modifiant un tableau contenant des bits
+\cite[\S{}17.1]{CLRS_2009}. Dans le pire des cas, un incrément
+provoque l'inversion de tous les bits. Le nombre~\(m\) de bits
+de~\(n\) est trouvé en posant \(n := \sum_{i=0}^{m-1}{b_i2^i}\), où les~\(b_i\)
+sont les bits et \(b_{m-1}=1\). Alors
+\begin{equation}
+2^{m-1} \leqslant n < 2^m \Rightarrow m - 1 \leqslant \lg n
+< m \Rightarrow m = \floor{\lg n} + 1,
+\label{eq_num_of_bits}
+\end{equation}
+où \(\floor{x}\) (\textsl{partie entière de~\(x\)})\index{partie
+  entière@$\floor{x}$|see{partie entière}}\index{partie entière} est
+le plus grand entier qui est plus petit ou égal à~\(x\) et \(\lg n\)
+est le \emph{logarithme binaire} de~\(n\). Le coût de \(n\)~incréments
+est donc majoré par \(n\lg n + n \sim n\lg n\), lorsque \(n
+\rightarrow \infty\).
+
+Une simple observation révèle que cette borne supérieure est trop
+pessimiste, car la propagation de la retenue remet à zéro une série de
+bits en partant de la droite, donc la prochaine addition ne fera
+basculer (en anglais, \emph{to flip}) qu'un seul bit, la suivante
+encore n'en changera que deux etc. comme cela est visible à la
+\fig~\vref{fig_flips}, où les bits qui vont basculer au prochain
+incrément sont en gras.
+\begin{figure}[t]
+\centering
+\subfloat[Basculements de bits\label{fig_flips}]{%
+\includegraphics[bb=68 463 168 721]{flips}}
+\qquad
+\subfloat[$F(n) = \sum_{i \geqslant 0}\floor{n/2^i}$, où $n=22$\label{fig_ruler}]%
+{\includegraphics{ruler}}
+\caption{Bits comptés verticalement et en diagonale}
+\end{figure}
+Compter les basculements \emph{verticalement} montre que le bit
+correspondant à~\(2^0\), donc le bit le moins significatif, bascule à
+chaque fois. Le bit de~\(2^1\) bascule une fois sur deux, donc,
+de~\(0\) à~\(n\), il bascule \(\floor{n/2^1}\) fois. En général, le
+bit de~\(2^k\) bascule \(\floor{n/2^k}\) fois. Par conséquent, le
+nombre total de basculements~\(F(n)\) dans une série de
+\(n\)~incréments est
+\begin{equation}
+F(n) := \sum_{k \geqslant 0}{\left\lfloor\frac{n}{2^k}\right\rfloor}.
+\label{eq_F}
+\end{equation}
+Cette somme est en fait toujours finie, comme on le voit à la
+\fig~\vref{fig_ruler}, où, \emph{en diagonale} les bits à~\(1\) à la
+position~\(j\) sont situés aux positions décroissantes de~\(j-1\)
+jusqu'à~\(0\), donc contribuent \(2^j + 2^{j-1} + \dots + 2^0 =
+2^{j+1}-1\).  En toute généralité, posons \(n := 2^{e_r} + \dots +
+2^{e_1} + 2^{e_0} > 0\), avec \(e_r > \dots > e_1 > e_0 \geqslant 0\)
+et \(r \geqslant 0\). Les entiers naturels \(e_i\) sont les positions
+des bits à~\(1\) dans la notation binaire de~\(n\). L'exponentielle
+\(2^{e_r}\) correspond au bit le plus significatif (le plus à gauche)
+dans la notation binaire de~\(n\), donc \(e_r+1\)~est égal au nombre
+de bits de~\(n\), qui est connu d'après
+l'équation~\eqref{eq_num_of_bits}:
+\begin{equation}
+e_r = \floor{\lg n}.\label{eq_e_r}
+\end{equation}
+Nous pouvons maintenant donner une forme close pour \(F(n)\):
+\begin{equation}
+F(n) = \sum_{i=0}^{r}(2^{e_i+1} - 1) = 2n - \nu_n,
+\label{eq_ruler_nu}
+\end{equation}
+où \(\nu_n := r + 1\)\index{somme des bits@$\nu_n$|see{somme des
+    bits}} est la somme des bits de~\(n\), ou, de façon équivalente,
+le nombre de bits à~\(1\). Cette valeur est nommé différemment selon
+les auteurs et les contextes: \emph{population}, \emph{somme oblique},
+\emph{somme des bits}\index{somme des bits} ou \emph{poids de
+  Hamming}; par exemple, dans la \fig~\vref{fig_ruler}, nous pouvons
+lire \(F(22) = 41 = 2 \cdot 22 - 3\).
+
+Pour évaluer \(F(n)\) à l'asymptote, nous devons l'encadrer par des
+fonctions équivalentes et utiliser le théorème des
+gendarmes. Commençons par encadrer la somme des bits de la manière
+suivante:
+\begin{equation*}
+1 \leqslant \nu_{n} \leqslant \floor{\lg n} + 1,
+\end{equation*}
+parce que l'égalité~\eqref{eq_e_r} établit que \(\floor{\lg n} + 1\)
+est le nombre de bits de~\(n\). Par conséquent, \(2n - \floor{\lg n} -
+1 \leqslant F(n) \leqslant 2n\), et \(2n - \lg n - 1 \leqslant F(n)
+\leqslant 2n\). Par la règle de l'Hôpital, \(\lim_{n \rightarrow
+  +\infty}{(\lg n/n)} = \lim_{n \rightarrow +\infty}(1/n\ln 2) = 0\),
+où \(\ln n\)~est le \emph{logarithme naturel} de~\(n\). Par la suite,
+\begin{equation*}
+F(n) \sim 2n,\;\, \text{lorsque \(n \rightarrow \infty\)}.
+\end{equation*}
+Deux énumérations, l'une verticale, l'autre en diagonale, ont montré
+que le nombre total exact de basculements de bits est d'un ordre de
+grandeur plus bas qu'attendu.
+
+Cet exemple ressortit à une classe particulière d'analyse du coût
+amorti appelée \emph{analyse agrégeante}, parce qu'elle repose sur un
+\emph{dénombrement combinatoire}
+\citep{Stanley_1997,Stanley_1999,Martin_2001} pour atteindre son but;
+plus précisément, elle agrège des quantités positives partielles,
+souvent de différentes manières, pour obtenir le coût total. Une
+variation visuellement plaisante sur l'exemple précédent consiste à
+déterminer le nombre moyen de bits à~\(1\) dans la notation binaire
+des entiers de~\(0\) à~\(n\) \citep{Bush_1940}.
+
+\section{Preuves par induction}
+
+Remarquons que \(\fun{cat}([1], [2,3,4]) \twoheadrightarrow [1,2,3,4]
+\twoheadleftarrow \fun{cat}([1,2],
+[3,4])\)\index{cat@\fun{cat/2}|(}. Il est éclairant de créer des
+\emph{classes d'équivalence} de termes qui sont joignables, fondée
+sur~\((\equiv)\) \index{équivalence@$a \equiv b$|see{équivalence
+    d'expressions}} \index{équivalence!$\sim$ d'expressions} définie
+ainsi: \(a \equiv b\) s'il existe une valeur~\(v\) telle que \(a
+\xrightarrow{\smash[t]{*}} v\) et \(b \xrightarrow{\smash{*}} v\). Par
+exemple, \(\fun{cat}([1,2], [3,4]) \equiv \fun{cat}([1],
+[2,3,4])\). La relation (\(\equiv\)) est en effet une équivalence
+parce qu'elle est
+\begin{itemize}
+ 
+  \item \emph{réflexive}: \(a \equiv a\);
+
+  \item \emph{symétrique}: si \(a \equiv b\), alors \(b \equiv a\);
+
+  \item \emph{transitive}: si \(a \equiv b\) et \(b \equiv c\), alors
+    \(a \equiv c\).
+
+\end{itemize}
+Les fait suivants sont intéressants. Si \(f(x)\) et~\(f(y)\) ont une
+valeur, alors \(x \equiv y\) implique \(f(x) \equiv f(y)\). Si \(x_1
+\leftarrow x_2 \twoheadrightarrow x_3 \equiv x_4 \rightarrow x_5
+\twoheadleftarrow x_6\), alors \(x_1 \equiv x_2 \equiv x_3 \equiv x_4
+\equiv x_5 \equiv x_6\). Dans le cas où \(x \twoheadrightarrow z
+\xrightarrow{\smash{\alpha}} t \twoheadleftarrow y\), nous employons
+la notation dédiée \(x \Rra{\alpha} y\) pour souligner le rôle que
+joue la règle~\(\alpha\) dans l'équivalence, au lieu du simple \(x
+\equiv y\). Si nous voulons prouver des équivalences avec des
+variables prenant leur valeurs dans des ensembles infinis, comme
+\(\fun{cat}(s,\fun{cat}(t,u)) \equiv
+\fun{cat}(\fun{cat}(s,t),u)\)\index{cat@\fun{cat/2}|)}, nous avons
+besoin d'un principe d'induction.
+
+\mypar{Induction bien fondée}
+\label{par_well-founded}
+\index{induction!$\sim$ bien fondée}
+
+Nous définissons un \emph{ordre bien fondé}
+\citep{Winskel_1993}\index{induction!ordre bien fondé} sur un
+ensemble~\(A\) comme étant une relation binaire \((\succ)\) sans
+\emph{chaînes infiniment descendantes}\index{induction!chaînes
+  infiniment descendantes}, c'est-à-dire que nous n'avons pas les
+relations \(a_0 \succ a_1 \succ \dots\) Le \emph{principe d'induction
+  bien fondée} énonce alors que, pour tout prédicat~\(\aleph\), sa
+validité universelle \(\forall a \in A.\aleph(a)\) est impliquée par
+\(\forall a.(\forall b.a \succ b \Rightarrow \aleph(b)) \Rightarrow
+\aleph(a)\). L'absence de chaînes infiniment décroissantes fait que
+tout sous-ensemble \(B \subseteq A\) contient des éléments minimaux
+\(M \subseteq B\), c'est-à-dire qu'il n'y a pas de \(b \in B\) tel que
+\(a \succ b\), si \(a \in M\). Dans ce cas, dit \emph{la base},
+l'induction bien fondée se ramène à prouver \(\aleph(a)\) pour tout
+\(a \in M\). Lorsque \(A=\mathbb{N}\), ce principe est
+l'\emph{induction complète} \citep{Buck_1963}\index{induction!$\sim$
+  complète}. L'\emph{induction structurelle}\index{induction!$\sim$
+  structurelle} est un autre cas particulier où \(t \succ s\) est vrai
+si, et seulement si, \(s\)~est un \emph{sous-terme
+  propre}\index{terme!sous-terme}\index{terme!sous-terme propre}
+de~\(t\), en d'autres termes, l'arbre de syntaxe abstraite de~\(s\)
+est inclus dans l'arbre de~\(t\) et \(s \neq t\). Parfois, une forme
+restreinte est suffisante. Par exemple, nous pouvons définir
+\(\cons{x}{s} \succ s\)\index{cons@\fun{cons/2}}, pour tout
+terme~\(x\) et toute pile~\(s \in S\). (À la fois \(x\)~et~\(s\) sont
+des \emph{sous-termes immédiats}\index{terme!sous-terme immédiat} de
+\(\cons{x}{s}\)\index{cons@\fun{cons/2}}.) Il n'existe pas de chaînes
+infiniment décroissantes parce que \(\el\)~est l'unique élément
+minimal de~\(S\): aucun~\(s\) ne satisfait \(\el \succ s\); donc le
+cas de base est \(t=\el\) et \(\forall t.(\forall s.t \succ s
+\Rightarrow \aleph(s)) \Rightarrow \aleph(t)\) dégénère en
+\(\aleph(\el)\).
+
+\paragraph{Associativité}
+\label{proof_assoc_cat}
+
+Prouvons l'associativité\index{pile!concaténation!associativité}
+\index{induction!exemple} de \fun{cat/2}\index{cat@\fun{cat/2}}, que
+nous exprimons symboliquement par \(\pred{CatAssoc}{s,t,u} \colon
+\fun{cat}(s,\fun{cat}(t,u)) \equiv
+\fun{cat}(\fun{cat}(s,t),u)\)\index{CatAssoc@\predName{CatAssoc}|(},
+où \(s\), \(t\) et~\(u\) sont des valeurs de pile. Nous employons le
+principe d'induction bien fondée à la structure de~\(s\), donc nous
+devons établir
+\begin{itemize}
+
+  \item la base \(\forall t,u \in S.\pred{CatAssoc}{\el,t,u}\);
+
+  \item le pas \(\forall s,t,u \in S.\pred{CatAssoc}{s,t,u}
+    \Rightarrow \forall x \in T.\pred{CatAssoc}{\cons{x}{s},t,u}\).
+
+\end{itemize}
+Le cas de base est direct: \(\fun{cat}(\el,\fun{cat}(s,t))
+\xrightarrow{\smash{\alpha}} \fun{cat}(s,t)
+\xleftarrow{\smash{\alpha}}
+\fun{cat}(\fun{cat}(\el,t),u)\)\index{cat@\fun{cat/2}}. Supposons
+maintenant \(\pred{CatAssoc}{s,t,u}\), appelé l'\emph{hypothèse
+  d'induction}\index{induction!hypothèse d'$\sim$}, et prouvons
+\(\pred{CatAssoc}{\cons{x}{s},t,u}\)\index{CatAssoc@\predName{CatAssoc}|)},
+pour tout terme~\(x\). Nous avons
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l@{\qquad}r@{}}
+  \fun{cat}(\cons{x}{s},\fun{cat}(t,u))
+& \Rra{\beta}
+& \cons{x}{\fun{cat}(s,\fun{cat}(t,u))}\\
+& \equiv
+& \cons{x}{\fun{cat}(\fun{cat}(s,t),u)}
+& (\pred{CatAssoc}{s,t,u})\\
+& \Lla{\beta}
+& \fun{cat}(\cons{x}{\fun{cat}(s,t)},u)\\
+& \Lla{\beta}
+& \fun{cat}(\fun{cat}(\cons{x}{s},t),u).\index{cat@\fun{cat/2}}
+\end{array}
+\end{equation*}
+Donc\index{CatAssoc@\predName{CatAssoc}}
+\(\pred{CatAssoc}{\cons{x}{s},t,u}\) est vraie et \(\forall s,t,u \in
+S.\pred{CatAssoc}{s,t,u}\)\index{CatAssoc@\predName{CatAssoc}}.\hfill\(\Box\)
+
+Écrire \(\fun{cat}(\cons{x}{s},\fun{cat}(t,u))
+\xrightarrow{\smash{\beta}} \cons{x}{\fun{cat}(s,\fun{cat}(t,u))}\)
+est incorrect parce que la sémantique de notre langage fonctionnel
+exige que les arguments soient évalués avant l'appel. Néanmoins,
+si~\(s\), \(t\) et~\(u\) ne sont pas des valeurs, il est suffisant
+qu'elles en aient une pour que \(\pred{CatAssoc}{s,t,u}\) soit vrai
+aussi; par exemple, si \(f(s)\) a la valeur~\(v\), alors
+\(\pred{CatAssoc}{f(s),t,u}\) est vrai car
+\(\fun{cat}(f(s),\fun{cat}(t,u)) \twoheadrightarrow
+\fun{cat}(v,\fun{cat}(t,u)) \equiv \fun{cat}(\fun{cat}(v,t),u)
+\twoheadleftarrow \fun{cat}(\fun{cat}(f(s),t),u)\). Par conséquent, la
+terminaison est une propriété importante que nous devons établir.
+
+\mypar{Terminaison}
+\label{par_ackermann}
+
+Lorsque nous avons défini notre langage purement fonctionnel, nous
+avons sciemment rendu possible la non-terminaison de certains
+programmes. Nous aurions pu imposer des restrictions syntaxiques sur
+les définitions récursives de façon à garantir la terminaison de
+toutes les fonctions. Une classe bien connue de fonctions qui
+terminent fait un usage exclusif d'une forme bridée de récursivité
+appelée \emph{récursivité primitive}
+\citep{Robinson_1947,Robinson_1948}\index{terminaison!récursivité
+  primitive}. Malheureusement, nombre de fonctions utiles ne peuvent
+être aisément définies sous cette forme et, conséquemment, la plupart
+des langages fonctionnels laissent au programmeur la responsabilité de
+prouver la terminaison de leurs programmes. Pour des raisons
+théoriques, liées au fameux problème de l'arrêt des machines de
+Turing, il n'est pas possible de donner un critère général pour la
+terminaison, mais il existe de nombreuses règles qui couvrent beaucoup
+d'usages.
+
+Considérons l'exemple suivant où \(m,n \in \mathbb{N}\):
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{ack}(0,n)     & \xrightarrow{\smash{\theta}} & n+1;\\
+\fun{ack}(m+1,0)   & \xrightarrow{\smash{\iota}}  & \fun{ack}(m,1);\\
+\fun{ack}(m+1,n+1) & \xrightarrow{\smash{\kappa}} 
+                   & \fun{ack}(m,\fun{ack}(m+1,n)).
+\end{array}
+\end{equation*}
+Ceci est une forme simplifiée de la fonction de Ackermann,\index{terminaison!fonction de Ackermann}\index{ack@\fun{ack/2}|(} un
+des premiers exemples d'une fonction calculable, récursive et totale
+qui n'est pas primitive. Sa définition fait usage d'une double
+récursivité et de deux paramètres pour calculer des valeurs dont la
+taille croît comme une tour d'exponentielles, par exemple,
+\(\fun{ack}(4,3) \twoheadrightarrow 2^{2^{65536}} - 3\). Sa
+terminaison n'est pas évidente, parce que si le premier argument
+décroît bien, le second croît énormément.
+
+Définissons un ordre bien fondé sur des paires, dit \emph{ordre
+  lexicographique}\index{induction!ordre lexicographique}. Soit
+\((\succ_A)\) et \((\succ_B)\) des ordres bien fondés sur les
+ensembles \(A\) et~\(B\). Alors, \((\succ_{A \times B})\) défini
+comme suit sur \(A \times B\) est bien fondé:
+\begin{equation}
+(a_0,b_0) \succ_{A \times B} (a_1,b_1) :\Leftrightarrow \text{\(a_0
+    \succ_A a_1\) ou (\(a_0 = a_1\) et \(b_0 \succ_B b_1\)).}
+\label{def_lexico}
+\end{equation}
+Si \(A=B=\mathbb{N}\), alors \((\succ_A) = (\succ_B) = (>)\). Pour
+prouver que \(\fun{ack}(m,n)\) termine pour tout \(m,n \in
+\mathbb{N}\), nous devons d'abord trouver un ordre bien fondé sur les
+appels \(\fun{ack}(m,n)\), c'est-à-dire que les appels doivent être
+totalement ordonnés sans chaînes infiniment décroissantes. Dans ce
+cas, un ordre lexicographique sur \((m,n) \in \mathbb{N}^2\), étendu à
+\(\fun{ack}(m,n)\), fait l'affaire:
+\begin{equation*}
+\fun{ack}(a_0,b_0) \succ \fun{ack}(a_1,b_1) :\Leftrightarrow 
+\text{\(a_0 > a_1\) ou (\(a_0 = a_1\) et \(b_0 > b_1\)).}
+\end{equation*}
+Clairement, \(\fun{ack}(0,0)\) est l'élément minimum. Ensuite, nous
+devons prouver que \(\fun{ack}(m,n)\), avec \(m > 0\) ou \(n > 0\), se
+réécrit en appels plus petits. Avec la règle~\(\iota\), nous avons
+\(\fun{ack}(m+1,0) \succ \fun{ack}(m,1)\). Avec la règle~\(\kappa\),
+nous avons \(\fun{ack}(m+1,n+1) \succ \fun{ack}(m+1,n)\) et
+\(\fun{ack}(m+1,n+1) \succ \fun{ack}(m,p)\), pour toute valeur~\(p\),
+en particulier quand \(\fun{ack}(m+1,n) \twoheadrightarrow
+p\)\index{ack@\fun{ack/2}|)}.\hfill\(\Box\)
+
+Une série d'exemples de preuves de
+terminaison\index{terminaison}\index{système de
+  réécriture!terminaison} pour des systèmes de réécriture a été
+publiée par \cite{Dershowitz_1995,ArtsGiesl_2001}. Un compendium
+accessible a été rédigé par \cite{Dershowitz_1987}. \cite{Knuth_2000a}
+a analysé des fonctions récursives particulièrement compliquées.
+
+\section{Réalisation de logiciel}
+\label{sec_implementation}
+
+\mypar{Traduction en \Erlang}
+\index{langage fonctionnel!Erlang@\Erlang}
+
+Il est toujours agréable de faire évaluer nos appels de fonctions par
+des ordinateurs. Nous présentons brièvement \Erlang, un langage
+fonctionnel qui inclut un noyau pur \citep{Armstrong_2007}.  Un
+\emph{module} est une collection de définitions de fonctions. La
+syntaxe d'\Erlang est très proche de notre formalisme et nos systèmes
+de réécriture précédents deviennent\index{pile!concaténation!$\sim$ en
+  \Erlang}\index{factorielle}
+\begin{verbatim}
+-module(mix).
+-export([cat/2,fact/1]).
+
+cat(   [],T) -> T;
+cat([X|S],T) -> [X|cat(S,T)].
+
+fact(N) -> f(fun f/2,N).
+
+f(_,0) -> 1;
+f(G,N) -> N * G(G,N-1).
+\end{verbatim}
+La différence réside dans la présence d'en-têtes et de conventions
+lexicales consistant à composer les variables en lettres capitales et
+à amuïr les variables inutilisées dans les motifs avec un souligné
+(\verb|_|). De plus, l'expression \verb|fun f/2| denote~\fun{f/2}
+quand elle est utilisée à la place d'une valeur. À partir de la boucle
+interactive d'\Erlang, nous pouvons compiler et exécuter quelques
+exemples:
+\begin{verbatim}
+1> c(mix).
+{ok,mix}
+2> mix:cat([1,2,3],[4,5]).
+[1,2,3,4,5]
+3> mix:fact(30).
+265252859812191058636308480000000
+\end{verbatim}
+Notons qu'\Erlang offre une arithmétique entière exacte et que l'ordre
+des définitions n'est pas significatif.
+
+\mypar{Traduction en \Java}
+\label{par_java}
+\index{Java@\Java|(}
+
+Les programmes fonctionnels opérant sur des piles peuvent être
+systématiquement traduits en \Java, en suivant une méthode similaire à
+celles publiées par \cite{FelleisenFriedman_1997}, \cite{Bloch_2003}
+et \cite{Sher_2004}. Notre traduction devrait transférer certaines
+propriétés intéressantes ayant été établies à propos du programme dans
+le langage source: il est crucial de comprendre comment l'approche
+mathématique présentée précédemment, à la fois l'induction
+structurelle et la programmation fonctionnelle, mènent à des
+programmes \Java sûrs et, par conséquent, constitue un pont solide
+entre les mathématiques et l'informatique.
+
+Bien entendu, les programmes examinés dans ce livre sont extrêmement
+courts et le sujet étudié est donc celui de la programmation à petite
+échelle, mais, du point de vue de l'ingénierie du logiciel, ces
+programmes fonctionnels peuvent être considérés comme les
+\emph{spécifications formelles} des programmes \Java, et les preuves
+par induction peuvent se concevoir comme des exemples de
+\emph{méthodes formelles}, comme celles utilisées pour certifier
+certains protocoles de télécommunication et des systèmes embarqués
+critiques. Conséquemment, ce livre peut être lu comme un prérequis a
+un cours d'ingénierie du logiciel, mais aussi à un cours de
+programmation approfondie.
+
+\paragraph{Patrons conceptuels}
+
+Le patron conceptuel en \Java qui modélise une pile\index{pile!$\sim$
+  en \Java} s'appuie sur les méthodes polymorphes, les classes
+récursives et les génériques. Une classe abstraite et générique
+\texttt{Stack} capture l'essence d'une pile comme suit:
+\begin{alltt}
+// Stack.java
+\public \abstractX \class Stack<Item> \{
+  \public \final NStack<Item> push(\final Item item) \{
+    \return \new NStack<Item>(item,\this); \}
+\}
+\end{alltt}
+Une pile est vide ou non et la classe \texttt{Stack} est abstraite
+parce qu'elle affirme que ces deux cas sont des piles et qu'ils
+partagent des fonctionnalités, comme la méthode \texttt{push}, qui
+enveloppe le constructeur des piles non-vides, \texttt{NStack}, de
+telle sorte que toutes sortes de piles héritent la même
+méthode. L'argument \texttt{item} de \texttt{push} est déclaré
+\final{} parce que nous voulons qu'il soit constant dans le corps de
+la méthode, suivant en cela le paradigme fonctionnel. La pile
+vide~\(\el\) est associée à une extension \texttt{EStack} de
+\texttt{Stack}, capturant la relation «Une pile vide est une pile.» La
+classe \texttt{EStack} ne contient aucune donnée.
+\begin{alltt}
+// EStack.java
+\public \final \class EStack<Item> \extends Stack<Item> \{\}
+\end{alltt}
+La pile non-vide est logiquement codée par \texttt{NStack}, une autre
+sous-classe de \texttt{Stack}:
+\begin{alltt}
+// NStack.java
+\public \final \class NStack<Item> \extends Stack<Item> \{
+  \private \final Item head;
+  \private \final Stack<Item> tail;
+
+  \public NStack(\final Item item, \final Stack<Item> stack) \{
+    head = item; tail = stack; \}
+\}
+\end{alltt}
+Le champs \texttt{head} modélise le premier élément d'une pile et
+\texttt{tail} correspond au reste de la pile (donc \texttt{NStack} est
+une classe récursive). Le constructeur simplement initialise ceux-ci
+et il est important de les déclarer \texttt{final} pour exprimer que
+nous ne voulons pas d'affectations après l'initialisation. Comme dans
+le langage fonctionnel, à chaque fois qu'une pile est demandée, au
+lieu de modifier une autre pile avec un effet, une nouvelle est créée,
+qui peut-être réutilise d'autres piles comme composants constants.
+
+\paragraph{Concaténation de piles}
+
+Pour illustrer les piles en \Java,\index{pile!concaténation!$\sim$ en
+  \Java|(} rappelons-nous de la définition~\eqref{def_cat} à la
+page~\pageref{def_cat}\index{cat@\fun{cat/2}|(} pour concaténer deux
+piles:
+\begin{equation*}
+\fun{cat}(        \el,t) \xrightarrow{\smash{\alpha}} t;\qquad
+\fun{cat}(\cons{x}{s},t) \xrightarrow{\smash{\beta}}
+                                          \cons{x}{\fun{cat}(s,t)}.
+\end{equation*}
+La traduction vers notre hiérarchie de classes en \Java est la
+suivante. Le premier argument de \fun{cat/2} est une pile,
+correspondant à \texttt{this} dans nos classes \texttt{EStack} et
+\texttt{NStack}. Par conséquent, la traduction de \fun{cat/2} est une
+méthode abstraite dans la classe \texttt{Stack}, avec un paramètre (le
+second de \fun{cat/2}):
+\begin{alltt}
+\public \abstractX Stack<Item> cat(\final Stack<Item> t);
+\end{alltt}
+La règle~\(\alpha\) s'applique seulement à l'objet
+représentant~\(\el\), donc la traduction correspondante est une
+méthode de \texttt{EStack} qui retourne son argument:
+\begin{alltt}
+\public Stack<Item> cat(\final Stack<Item> t) \{ \return t; \}
+\end{alltt}
+Sans surprise, la règle~\(\beta\) devient une méthode de
+\texttt{NStack} retournant un objet de~\texttt{NStack} correspondant à
+\(\cons{x}{\fun{cat}(s,t)}\). Celui-ci est construit en traduisant
+cette pile de bas en haut: traduire
+\(\fun{cat}(s,t)\)\index{cat@\fun{cat/2}|)} et puis
+empiler~\(x\). Souvenons-nous que \(s\)~est la sous-pile de
+\(\cons{x}{s}\) dans le membre gauche de la règle~\(\beta\), donc
+\(\cons{x}{s}\) est \texttt{this} et \(s\)~correspond à
+\texttt{this.tail}, ou, simplement, \texttt{tail}. De manière
+semblable, \(x\)~est~\texttt{head}. Finalement,
+\begin{alltt}
+\public NStack<Item> cat(\final Stack<Item> t) \{
+  \return tail.cat(t).push(head);
+\}
+\end{alltt}
+\index{pile!concaténation!$\sim$ en \Java|)}
+\index{Java@\Java|)}

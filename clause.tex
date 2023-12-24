@@ -1,0 +1,19 @@
+%%-*-latex-*-
+
+\documentclass[10pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{pst-tree,pst-eps}
+
+\usepackage[scaled]{beramono}
+
+\newcommand\erlcode[1]{\texttt{#1}}
+
+\begin{document}
+\thispagestyle{empty}
+\[
+\overbrace{\underbrace{\erlcode{fact(N)}}_{\textrm{\normalsize tête}} \; \underbrace{\erlcode{\textbf{when} N > 1}}_{\textrm{\normalsize garde}} \; \erlcode{->} \; \underbrace{\erlcode{N * fact(N-1)}}_{\textrm{\normalsize corps}}}^{\textrm{\normalsize clause}}
+\]
+
+\end{document}

@@ -1,0 +1,36 @@
+%%-*-latex-*-
+
+\chapter*{Avant-propos}
+\addcontentsline{toc}{chapter}{Avant-propos}
+\thispagestyle{empty}
+
+Ce livre s'adresse \emph{a priori} à différents publics dont l'intérêt
+commun est la programmation fonctionnelle.
+
+\emph{Pour les étudiants de licence}, nous offrons une introduction très progressive à la programmation fonctionnelle, en proposant de longs développements sur les algorithmes sur les piles et quelques types d'arbres binaires. Nous abordons aussi l'étude de l'allocation mémoire à travers la synonymie (partage dynamique de données), le rôle de la pile de contrôle et du tas, le glanage automatique de cellules (GC), l'optimisation des appels terminaux et le calcul de la mémoire totale allouée. Avec le langage fonctionnel \Erlang, nous approfondissons les sujets de la transformation de programme vers la forme terminale, les fonctions d'ordre supérieur et le style avec continuations. Une technique de traduction de petits programmes fonctionnels vers \Java est aussi présentée.
+
+\emph{Pour les étudiants de master}, nous associons à tous les programmes fonctionnels l'analyse mathématique détaillée de leur coût (efficacité) minimum et maximum, mais aussi moyen et amorti. La particularité de notre approche est que nos outils mathématiques sont élémentaires (analyse réelle, induction, dénombrement) et nous recherchons systématiquement des encadrements explicites de façon à déduire des équivalences asymptotiques. En effet, les manuels ne présentent trop souvent que la notation de Bachmann \(\mathcal{O}(\cdot)\) pour le terme dominant du coût, ce qui est peu informatif et peut induire en erreur les débutants. Par ailleurs, nous couvrons en détail des preuves formelles de propriétés, comme la correction, la terminaison et l'équivalence.
+
+\emph{Pour les professionnels} qui ne connaissent pas les langages fonctionnels et qui doivent apprendre à programmer avec le langage \XSLT, nous proposons une introduction à \XSLT qui s'appuie directement sur la partie dédiée aux étudiants de licence. La raison de ce choix didactique inhabituel repose sur le constat que \XSLT est rarement enseigné à l'université ou dans les écoles d'ingénieurs, donc les programmeurs qui n'ont pas été familiarisés à la programmation fonctionnelle font face aux deux défis d'apprendre un nouveau paradigme et d'employer \XML pour programmer: alors que le premier met en avant la récursivité, le second l'obscurcit à cause de la verbosité intrinsèque à \XML. En apprenant d'abord un langage fonctionnel abstrait, puis \XML, nous espérons favoriser un transfert de compétence vers la conception et la réalisation en \XSLT sans intermédiaire.
+
+Ce livre a aussi été écrit dans l'espoir d'inciter le lecteur à
+étudier l'informatique théorique, par exemple, la sémantique des
+langages de programmation, la logique symbolique, l'énumération des
+chemins dans les treillis et la combinatoire analytique.
+
+Je remercie Fran\c{c}ois Pottier, Sri Gopal Mohanty, Walter B\"ohm,
+Ham Jun-Wu, Philippe Flajolet, Francisco Javier Bar\'on L\'opez et\!
+Kim Sung~Ho pour leur aide technique. Une partie de ce travail a été
+réalisé alors que j'étais invité par le département des langages de
+programmation et des compilateurs de l'université E\"otv\"os Lor\'and
+(Budapest, Hongrie) et les EIT~ICT~Labs.
+
+Je m'empresserai de corriger toute erreur que vous aurez eu l'obligence de me communiquer à l'adresse \url{rinderknecht@free.fr}.
+
+\bigskip
+
+\hfill{}Budapest, Hongrie,
+
+\hfill\today.
+
+\hfill{}Ch. Rinderknecht

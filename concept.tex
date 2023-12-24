@@ -1,0 +1,161 @@
+%%-*-latex-*-
+
+\documentclass[a4paper,11pt,twoside,final]{book}
+
+% Page geometry for College Publications
+%
+\usepackage[bindingoffset=0cm,a4paper,centering,textheight=200mm,textwidth=120mm,includefoot,includehead,dvips]{geometry}
+
+% Bibliographic style
+%
+\usepackage[comma]{natbib}       % Before babel
+\bibliographystyle{plainnat-fr}
+\usepackage{etoolbox}
+\apptocmd{\thebibliography}{\raggedright}{}{} % No Underfull \hbox
+
+% Language and fonts
+%
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}       % Required for \DJ and hyphenation
+\usepackage[francais]{babel}
+\usepackage{url}               % To typeset URLs
+\usepackage[scaled]{beramono}  % Nice bold/italic teletype font
+\usepackage{microtype}         % Microtypographic enhancements
+
+% Tricky hyphenations
+%
+\hyphenation{mem-bre mem-bres}
+\hyphenation{blan-che blan-ches}
+\hyphenation{in-ter-clas-se-ment in-ter-clas-se-ments in-ter-clas-ser
+  in-ter-clas-sés in-ter-clas-sées}
+\hyphenation{do-ré-na-vant}
+\hyphenation{moyen-ne moy-en-nes}
+
+% Index
+%
+\usepackage{makeidx}                         % Support for \makeindex
+\usepackage[justific=RaggedRight]{idxlayout} % Ragged right
+                                             % justification of index entries
+\makeindex
+
+% Figures/Graphics
+%
+\usepackage{graphicx}   % Inclusion
+\usepackage[justification=raggedleft]{caption}
+\usepackage{float}      % Before package `wrapfig'
+\usepackage{subfig}     % Subfigures
+\captionsetup[subfloat]{justification=raggedleft}
+\usepackage{wrapfig}    % Wrapping text around figures
+
+% Maths & Logic
+%
+\usepackage{amsmath,amssymb,amsthm,stmaryrd}
+\theoremstyle{plain}
+\newtheorem{thm}{Théorème}
+\newtheorem{lemma}{Lemme}
+\usepackage{mathpartir}
+
+% Verbatim and tty
+%
+\usepackage{verbatim} % Inputting in verbatim environment
+\usepackage{alltt}    % Extended verbatim environment
+
+% Miscellanea
+%
+\usepackage{xspace}    % Automatic insertion of a space after a macro
+\usepackage[french]{varioref}  % References with page numbers
+\usepackage{booktabs}
+
+
+% New commands
+%
+\input{commands}
+\input{xmllint}
+\input{saxon}
+\input{erlc}
+%\input{ocaml_syntax}
+%\input{ocaml_cmd}
+%\input{cpp}
+
+% Title and author
+%
+\title{\Huge Conception et analyse des programmes purement fonctionnels}
+\author{\Large Christian Rinderknecht}
+\date{}
+
+% ---------------------------------------------------------------------
+%
+\begin{document}
+
+% Equations are numbered <chapter>.<theequation>
+% (Put this after \begin{document})
+%
+%\numberwithin{equation}{chapter}
+
+\maketitle
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\frontmatter
+\setcounter{page}{5}
+\tableofcontents
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\newpage
+\thispagestyle{empty}
+\input{foreword}
+
+%\newpage
+%\thispagestyle{empty}
+%\mbox{}
+
+\mainmatter
+
+\allowdisplaybreaks
+
+\include{introduction}
+\include{linear}
+\include{arborescent}
+\include{implementation}
+
+\backmatter
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Bibliographie}
+\bibliography{concept}
+\nocite*{}
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Index}
+\printindex
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\end{document}

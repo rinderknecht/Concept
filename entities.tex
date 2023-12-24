@@ -1,0 +1,28 @@
+%%-*-latex-*-
+
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{pstricks,pst-tree,pst-eps}
+
+\begin{document}
+
+\TeXtoEPS
+\pstree[levelsep=1cm, nodesep=2pt]{\TR{entité}}{
+  \pstree{\TR{analysée}}{ 
+    \pstree{\TR{prédéfinie}}{
+      \TR{nommée}
+      \TR{numérotée}
+    }
+    \pstree{\TR{dédiée}}{
+      \TR{interne}
+      \TR{externe}
+    }
+  }
+  \Tn
+  \TR{brute}
+}
+\endTeXtoEPS
+
+\end{document}

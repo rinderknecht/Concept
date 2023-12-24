@@ -1,0 +1,242 @@
+\section{Découpage}
+\label{sec_cutting}
+\index{pile!découpage}
+
+\index{cut@\fun{cut/2}|(} Étudions le problème du découpage d'une
+pile~\(s\) à la position~\(k\). Évidemment, le résultat est une paire
+de piles. Plus précisément, soit \(\pair{t}{u}\) la valeur de
+\(\fun{cut}(s,k)\), telle que \(\fun{cat}(t,u) \twoheadrightarrow
+s\)\index{cat@\fun{cat/2}} et \(t\)~contient \(k\)~éléments,
+c'est-à-dire \(\fun{len}(t) \twoheadrightarrow k\). En particulier,
+si~\(k = 0\), alors \(t = \el\); les données invalides mènent à des
+résultats non-spécifiés. Par exemple, \(\fun{cut}([4,2],0)
+\twoheadrightarrow \pair{\el}{[4,2]}\) et \(\fun{cut}([5,3,6,0,2],3)
+\twoheadrightarrow \pair{[5,3,6]}{[0,2]}\), mais, pour gagner en
+simplicité, on ne dira rien à propos de \(\fun{cut}([0],7)\) et
+\(\fun{cut}([0],-1)\). Nous déduisons deux cas: \(k = 0\) ou bien la
+pile n'est pas vide. Le premier est facile à deviner:
+\begin{equation*}
+\fun{cut}(s,0)           \rightarrow \pair{\el}{s};\qquad
+\fun{cut}(\cons{x}{s},k) \rightarrow \fbcode{CCCCCC}\,.
+\end{equation*}
+Une conception à grand pas\index{conception!grands pas} emploie des
+appels récursifs sur des sous-structures pour établir la structure de
+la valeur dans le membre droit. Étant donné que \fun{cut/2} prend deux
+arguments, nous prévoyons l'usage d'un ordre lexicographique\index{induction!ordre lexicographique} 
+(définition~\eqref{def_lexico}, page~\pageref{def_lexico}):
+\begin{equation*}
+\fun{cut}(s_0,k_0) \succ \fun{cut}(s_1,k_1)
+:\Leftrightarrow 
+\text{\(s_0 \succ s_1\) ou (\(s_0 = s_1\) et \(k_0 > k_1\))}.
+\end{equation*}
+En définissant (\(\succ\)) comme étant l'ordre des sous-termes
+propres\index{induction!ordre des sous-termes propres} sur les piles
+(section~\ref{par_well-founded}, page~\pageref{par_well-founded}),
+nous obtenons
+\begin{equation*}
+\fun{cut}(\cons{x}{s},k) \succ \fun{cut}(s,j);\quad
+\fun{cut}(\cons{x}{s},k) \succ \fun{cut}(\cons{x}{s},j),\;
+\text{si \(k > j\)}.
+\end{equation*}
+Dans le dernier cas, nous voulons poser \(j=k-1\), mais la valeur de
+\(\fun{cut}(s,j)\) doit être projetée en \(\pair{t}{u}\) pour
+que~\(x\) puisse être injecté et donne \(\pair{\cons{x}{t}}{u}\). Cela
+peut être réalisé à l'aide d'une fonction
+auxiliaire~\fun{push/2}\index{push@\fun{push/2}}:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
+\fun{cut}(s,0) & \rightarrow & \pair{\el}{s};
+& \fun{push}(x,\pair{t}{u}) & \rightarrow & \pair{\cons{x}{t}}{u}.\\
+\fun{cut}(\cons{x}{s},k) & \rightarrow 
+& \fun{push}(x,\fun{cut}(s,k-1)).
+\end{array}
+\end{equation*}
+
+
+\paragraph{Systèmes d'inférence}
+\label{par_infsys}
+\index{système d'inférence}
+
+Quand la valeur d'un appel récursif a besoin d'être déstructurée, il
+est commode d'utiliser une extension de notre langage pour éviter de
+créer des fonctions auxiliaires comme \fun{push/2}:
+\begin{mathpar}
+\inferrule*{}{\fun{cut}(s,0) \rightarrow \pair{\el}{s}}
+\;\TirName{Nil}
+\qquad
+\inferrule
+  {\fun{cut}(s,k-1)         \twoheadrightarrow \pair{t}{u}}
+  {\fun{cut}(\cons{x}{s},k) \twoheadrightarrow \pair{\cons{x}{t}}{u}}
+\,\TirName{Pref}
+\end{mathpar}
+La nouvelle construction s'appelle une \emph{règle
+  d'inférence}\index{système d'inférence!règle} parce qu'elle
+signifie: «Pour que la valeur de \(\fun{cut}(\cons{x}{s},k)\) soit
+\(\pair{\cons{x}{t}}{u}\), nous inférons que la valeur de
+\(\fun{cut}(s,k-1)\) doit être \(\pair{t}{u}\).» Cette interprétation
+correspond à une lecture ascendante de la règle \TirName{Pref}
+(\emph{préfixe}). Tout comme nous pouvons composer horizontalement les
+règles de réécriture, nous composons les règles d'inférence
+verticalement, en les empilant:
+\begin{mathpar}
+\inferrule
+  {\inferrule{
+     \inferrule{\fun{cut}([0,2],0) \rightarrow \pair{\el}{[0,2]}}
+               {\fun{cut}([6,0,2],1) \twoheadrightarrow \pair{[6]}{[0,2]}}}
+      {\fun{cut}([3,6,0,2],2) \twoheadrightarrow \pair{[3,6]}{[0,2]}}}
+  {\fun{cut}([5,3,6,0,2],3) \twoheadrightarrow \pair{[5,3,6]}{[0,2]}}
+\end{mathpar}
+Pour déterminer le coût de \(\fun{cut}(s,k)\), nous comptons~\(1\)
+pour chaque occurrence de \((\twoheadrightarrow)\) et nous prenons en
+compte la fonction auxiliaire cachée \fun{push/2}, donc
+\(\Call{\fun{cut}([5,3,6,0,2],3)} = 7\). En général,
+\index{cut@$\C{\fun{cut}}{n}$} \(\C{\fun{cut}}{k} = 2k +
+1\). Remarquons que les systèmes d'inférence définissent
+\((\twoheadrightarrow)\) au lieu de \((\rightarrow)\).
+
+Au-delà de la simplification des programmes, ce qui rend ce formalisme
+intéressant est qu'il rend possible deux sortes d'interprétations:
+l'une, logique, et, l'autre, algorithmique. Le lecture algorithmique,
+appelée \emph{inductive}\index{système d'inférence!lecture inductive}
+dans certains contextes, a été illustrée tantôt. La lecture logique
+voit les règles d'inférences comme des implications logiques de la
+forme \(P_1 \wedge P_2 \wedge \ldots \wedge P_n \Rightarrow C\)
+écrites
+\begin{equation*}
+\inferrule
+  {P_1 \\ P_2 \\ \ldots \\ P_n}
+  {C}
+\end{equation*}
+Les propositions~\(P_i\) sont les \emph{prémisses}\index{système
+  d'inférence!règle!prémisse} et \(C\)~est la \emph{conclusion}. Dans
+le cas de \TirName{Pref}, il n'y a qu'une seule prémisse. S'il n'y a
+aucune prémisse, comme dans le cas de \TirName{Nil}, alors \(C\)~est
+un \emph{axiome} et aucune ligne horizontale n'est tirée. La
+composition de règles d'inférence est une \emph{dérivation}. Dans le
+cas de \fun{cut/2}, toutes les dérivations sont isomorphes à une pile
+dont le sommet est la conclusion. La lecture logique de la règle
+\TirName{Pref} est: «Si \(\fun{cut}(s,k-1) \twoheadrightarrow
+\pair{t}{u}\), alors \(\fun{cut}(\cons{x}{s},k) \twoheadrightarrow
+\pair{\cons{x}{t}}{u}\).» Une telle lecture descendante est dite
+\emph{déductive}\index{système d'inférence!lecture déductive}. On peut
+alors comprendre la dérivation précédente comme étant la preuve du
+théorème \(\fun{cut}([5,3,6,0,2],3) \twoheadrightarrow
+\pair{[5,3,6]}{[0,2]}\).
+
+\paragraph{Induction sur les dérivations}
+\index{induction!preuve par $\sim$}
+
+La double herméneutique des règles d'inférence rend possible à la fois
+la spécification de programmes et la preuve de théorèmes à leurs
+propos par \emph{induction sur la structure des dérivations}. Comme
+nous l'avons vu plus haut, l'induction structurelle peut être
+appliquée avec profit aux piles, considérées comme des types de
+données (objets). Puisque dans le cas de \fun{cut/2} les dérivations
+sont elles-mêmes des piles, nous pouvons aussi appliquer à leur
+structure (en tant que méta-objets) le même principe
+d'induction. Illustrons cette élégante technique inductive avec la
+preuve de la \emph{correction}\index{correction} de
+\fun{cut/2}\index{cut@\fun{cut/2}}.
+
+\mypar{Correction}
+\label{par_cut_sound}
+
+Le concept de correction~\citep{McCarthy_1962, Floyd_1967, Hoare_1971,
+  Dijkstra_1976} est une relation, donc nous devons toujours parler de
+la correction d'un programme par rapport à sa
+\emph{spécification}\index{spécification}. Une spécification est une
+description logique des propriétés attendues du résultat de
+l'exécution d'un programme, étant données des propriétés de son
+entrée. Dans le cas de \(\fun{cut}(s,k)\), nous avons déjà mentionné
+ce que nous attendions: la valeur doit être une paire \(\pair{t}{u}\)
+telle que la concaténation de \(t\)~et~\(u\) est~\(s\) et la longueur
+de~\(t\) est~\(k\). Formellement, soit
+\(\pred{CorCut}{s,k}\)\index{CorCut@\predName{CorCut}|(} la
+proposition
+\begin{quote}
+  \textsl{Si \(\fun{cut}(s,k) \twoheadrightarrow \pair{t}{u}\), alors
+    \(\fun{cat}(t,u) \twoheadrightarrow s\) et \(\fun{len}(t)
+    \twoheadrightarrow k\),}
+\end{quote}
+où la fonction \fun{len/1}\index{len@\fun{len/1}|(} est définie à
+l'équation~\eqref{eq_len} \vpageref{eq_len}.
+
+Supposons la véracité de l'antécédent de l'implication, sinon le
+théorème est trivialement vrai (vacuité), donc il existe une
+dérivation~\(\Delta\) dont la conclusion est \(\fun{cut}(s,k)
+\twoheadrightarrow \pair{t}{u}\). Cette dérivation est une (méta) pile
+dont le sommet est la conclusion en question, ce qui rend possible le
+raisonnement par induction sur sa structure, c'est-à-dire que nous
+supposons que \predName{CorCut} est vraie pour la sous-dérivation
+immédiate de~\(\Delta\) (l'hypothèse d'induction) et nous procédons
+ensuite en montrant que \predName{CorCut} est vraie pour la dérivation
+entière. Ceci n'est autre que l'induction sur les sous-termes
+immédiats que nous avons utilisé sur des piles considérées comme des
+objets du discours: nous supposons que le théorème est vrai pour~\(s\)
+et nous procédons ensuite en prouvant qu'il est vrai
+pour~\(\cons{x}{s}\).
+
+La preuve est guidée par une analyse par cas qui discrimine sur la
+sorte de règle pouvant terminer~\(\Delta\). Pour éviter des collisions
+entre des variables du théorème et du système d'inférence, nous
+surlignons ces dernières, ainsi \(\overline{s}\), \(\overline{t}\)
+etc. qui sont alors différentes \(s\)~et~\(t\) dans \predName{CorCut}.
+\begin{itemize}
+
+\item \emph{Cas où \(\Delta\) se termine par \TirName{Nil}.} Il n'y a
+  pas de prémisses, car~\TirName{Nil} est un axiome. Dans ce cas, nous
+  devons établir \predName{CorCut} sans induction. Le filtrage de
+  \(\fun{cut}(s,k) \twoheadrightarrow \pair{t}{u}\) par
+  \(\fun{cut}(\overline{s},0) \rightarrow \pair{\el}{\overline{s}}\)
+  résulte en \(\overline{s} = s\), \(0=k\), \(\el=t\) et
+  \(\overline{s}=u\). D'où, \index{cat@\fun{cat/2}} \(\fun{cat}(t,u) =
+  \fun{cat}(\el,s) \xrightarrow{\smash{\alpha}} s\), ce qui prouve la
+  moitié de la conjonction. De plus, \(\fun{len}(t) = \fun{len}(\el)
+  \xrightarrow{\smash{a}} 0\). Ceci est cohérent avec \(k=0\), donc
+  \(\pred{CorCut}{s,0}\) est établie.\index{CorCut@\predName{CorCut}|)}
+
+  \item \emph{Cas où \(\Delta\) se termine avec par \TirName{Pref}.}
+    La forme de~\(\Delta\) est donc
+    \begin{mathpar}
+      \inferrule*[right=Pref]
+        {\inferrule*
+           {\inferrule*[vdots=1.5em]{}{ }}
+           {\fun{cut}(\overline{s},\overline{k}-1)
+            \twoheadrightarrow \pair{\overline{t}}{\overline{u}}}
+        }
+        {\fun{cut}(\cons{\overline{x}}{\overline{s}},\overline{k})
+         \twoheadrightarrow
+         \pair{\cons{\overline{x}}{\overline{t}}}{\overline{u}}}
+    \end{mathpar}
+    Le filtrage de \(\fun{cut}(s,k) \twoheadrightarrow \pair{t}{u}\)
+    par la conclusion mène à \(\cons{\overline{x}}{\overline{s}} =
+    s\), \(\overline{k} = k\), \(\cons{\overline{x}}{\overline{t}} =
+    t\) et \(\overline{u} = u\). L'hypothèse d'induction est alors que
+    le théorème est vrai pour la sous-dérivation:
+    \index{cat@\fun{cat/2}|(} \(\fun{cat}(\overline{t}, \overline{u})
+    \twoheadrightarrow \overline{s}\) et aussi
+    \(\fun{len}(\overline{t}) \twoheadrightarrow \overline{k} -
+    1\).\index{len@\fun{len/1}|)} Le principe d'induction requiert que
+    nous établissions alors
+    \(\fun{cat}(\cons{\overline{x}}{\overline{t}}, \overline{u})
+    \twoheadrightarrow \cons{\overline{x}}{\overline{s}}\) et
+    \(\fun{len}(\cons{\overline{x}}{\overline{t}}) \twoheadrightarrow
+    \overline{k}\). D'après la définition de \fun{cat/2} et une partie
+    de l'hypothèse, nous déduisons aisément
+    \(\fun{cat}(\cons{\overline{x}}{\overline{t}}, \overline{u})
+    \xrightarrow{\smash{\beta}}
+    \cons{\overline{x}}{\fun{cat}(\overline{t}, \overline{u})}
+    \twoheadrightarrow
+    \cons{\overline{x}}{\overline{s}}\). Maintenant, l'autre partie:
+    \(\fun{len}(\cons{\overline{x}}{\overline{t}})
+    \xrightarrow{\smash{b}} 1 + \fun{len}(\overline{t})
+    \twoheadrightarrow 1 + (\overline{k} - 1) =
+    \overline{k}\).\index{cat@\fun{cat/2}|)}\hfill\(\Box\)
+
+\end{itemize}
+
+\paragraph{Exercice}
+
+Écrivez une définition équivalente à \fun{cut/2} qui soit en forme
+terminale.\index{langage fonctionnel!forme terminale}
+\index{cut@\fun{cut/2}|)}

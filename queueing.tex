@@ -1,0 +1,398 @@
+\section{Files d'attente}
+\label{sec_queueing}
+\index{file}
+
+Malgré ses qualités didactiques, l'analyse agrégeante (voir
+page~\pageref{par_aggregate}) est moins fréquemment appliquée quand
+les structures de données ne sont pas en relation avec la
+numération. Nous proposons d'étendre sa portée en étudiant le cas des
+\emph{files d'attente fonctionnelles}
+\citep{Burton_1982,Okasaki_1995,Okasaki_1998b}. Une file d'attente
+fonctionnelle est une structure de donnée linéaire définie dans un
+langage purement fonctionnel. La sémantique de celui-ci oblige à
+représenter la file d'attente à l'aide de deux piles. Des éléments
+peuvent être empilés uniquement sur l'une des piles et dépilés
+uniquement de l'autre:
+\begin{equation*}
+\begin{array}{@{}l@{}r@{\;}cc|c|c|c|c|c|cc@{\;}l@{}}
+\cline{4-9}
+& \text{Empilage, Dépilage} 
+& \leftrightsquigarrow & & a & b & c & d & e &&&\\
+\cline{4-9}
+\end{array}
+\end{equation*}
+Dans la suite, nous appellerons les files d'attente fonctionnelles
+plus simplement des files, car le contexte est clair. Une file est
+comme une pile où des éléments peuvent être ajoutés, ou
+\emph{enfilés}, à une extrémité appelée \emph{arrière}, et retirés, ou
+\emph{défilés}, à l'autre extrémité, appelée \emph{front}:
+\begin{equation*}
+\begin{array}{@{}l@{}r@{\;}cc|c|c|c|c|c|cc@{\;}l@{}}
+\cline{4-10}
+& \text{Enfilage (arrière)} 
+                & \rightsquigarrow & & a & b & c & d & e &
+& \rightsquigarrow & \text{Défilage (front).}\\
+\cline{4-10}
+\end{array}
+\end{equation*}
+Réalisons une file avec deux piles: une pour enfiler, appelée
+\emph{pile arrière}\index{file!pile arrière}\index{pile!$\sim$
+  arrière|see{file}}, et une pour défiler, appelée \emph{pile
+  frontale}\index{file!pile frontale}\index{pile!$\sim$
+  frontale|see{file}}. La file précédente est alors équivalente à la
+file fonctionnelle suivante:
+\begin{equation*}
+\begin{array}{r@{\;}cc|c|c|c|c|c|c|cc@{\;}l}
+  \cline{3-6}\cline{8-10}
+  \text{Enfilage (arrière)} & \rightsquigarrow & & a & b & c & & d & e & &
+  \rightsquigarrow & \text{Défilage (front).}\\
+  \cline{3-6}\cline{8-10}
+\end{array}
+\end{equation*}
+Enfiler est alors empiler sur la pile arrière et défiler est dépiler de la pile frontale. Dans ce dernier cas, si la pile frontale est vide et la pile arrière ne l'est pas, nous retournons la pile arrière et l'échangeons avec la frontale. Graphiquement, défiler dans la configuration
+\begin{equation*}
+\begin{array}{c|c|c|c|c|c} \cline{1-4}\cline{6-6} & a & b & c &
+&\\ \cline{1-4}\cline{6-6}
+\end{array}
+\end{equation*}
+nécessite au préalable de fabriquer
+\begin{equation*}
+\begin{array}{c|c|c|c|c|c}
+  \cline{1-1}\cline{3-6}
+  & & a & b & c &\\
+  \cline{1-1}\cline{3-6}
+\end{array}
+\end{equation*}
+et enfin défiler~\(c\).
+
+Modélisons une file comme nous avons modélisé un empilage par le
+constructeur \fun{cons/2}\index{cons@\fun{cons/2}}, à la
+page~\pageref{par_stacks}. Ici le constructeur de file sera
+\fun{q/2}\index{q@\fun{q/2}} et l'appel \(\fun{q}(r,f)\) dénote une
+file fonctionnelle dont la pile arrière est~\(r\) et la
+frontale~\(f\). Enfiler est réalisé par la fonction
+\fun{enq/2}\index{enq@\fun{enq/2}} (anglais, \emph{enqueue}):
+\begin{equation}
+\fun{enq}(x,\fun{q}(r,f)) \rightarrow \fun{q}(\cons{x}{r},f).
+\label{def_enq}
+\end{equation}
+Défiler requiert que le résultat soit une \emph{paire}\index{langage
+  fonctionnel!paire} faite de l'élément défilé et de la nouvelle file
+sans lui. En fait, la nouvelle file est la première composante de la
+paire, pour mieux correspondre à la façon dont l'opération est
+représentée graphiquement, avec une flèche pointant à droite. Nous
+pourrions dénoter la paire mathématique \((x,y)\) par
+\(\fun{pair}(x,y)\), mais une notation symbolique est plus commode:
+\(\pair{x}{y}\). Les chevrons nous permettent d'éviter l'écriture de
+\(f((x,y))\) quand nous voulons dire \(f(\pair{x}{y})\). Nommons par
+ailleurs \fun{deq/1}\index{deq@\fun{deq/1}} (anglais, \emph{dequeue})
+la fonction de défilage:
+\begin{equation}
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+  \fun{deq}(\fun{q}(\cons{x}{r},\el))
+& \xrightarrow{\smash{\theta}}
+& \fun{deq}(\fun{q}(\el,\fun{rcat}(r,[x])));\\
+  \fun{deq}(\fun{q}(r,\cons{x}{f}))
+& \xrightarrow{\smash{\iota}}
+& \pair{\fun{q}(r,f)}{x}.
+\end{array}
+\label{def_deq}
+\end{equation}
+Voir page~\pageref{def_rev} la définition~\eqref{def_rev}
+de~\fun{rcat/2}\index{rcat@\fun{rcat/2}}. Nous dirons que la file a
+pour taille~\(n\) si le nombre total d'éléments dans les deux piles
+est~\(n\).  Le coût de l'enfilage\index{enq@$\C{\fun{enq}}{n}$} est
+\(\C{\fun{enq}}{n} = 1\). Le coût
+minimum\index{deq@$\B{\fun{deq}}{n}$} du défilage est
+\(\B{\fun{deq}}{n} = 1\), dû à la règle~\(\iota\). Le coût maximum est
+\(\W{\fun{deq}}{n} = n+2\), comme le montre la trace
+\(\theta\eta^{n-1}\zeta\iota\). Soit~\(\A{n}\) le coût d'une série de
+\(n\)~mises à jour d'une file fonctionnelle originellement vide. Une
+première tentative pour trouver~\(\A{n}\) consiste à ignorer toute
+dépendance entre opérations et à cumuler leur coût individuel
+maximum. Puisque \(\C{\fun{enq}}{k} \leqslant \C{\fun{deq}}{k}\), nous
+supposons une série de \(n\)~défilages dans le pire des cas,
+c'est-à-dire, avec tous les éléments situés dans la pile
+arrière. D'ailleurs, après \(k\)~mises à jour, il ne peut y avoir plus
+de \(k\)~éléments dans la file, donc
+\begin{equation*}
+\A{n} \leqslant \sum_{k=1}^{n-1}{\W{\fun{deq}}{k}} =
+\frac{1}{2}{(n-1)(n+4)} \sim \frac{1}{2}{n^2}.
+\end{equation*}
+
+\paragraph{Analyse agrégeante}
+\index{coût!$\sim$ amorti}
+\index{file!coût amorti}
+
+En fait, ce qui précède est trop pessimiste et même irréaliste. Tout
+d'abord, on ne peut défiler d'une file vide, donc, à tout moment, le
+nombre d'enfilages depuis le début est toujours supérieur ou égal au
+nombre de défilages et la série doit débuter avec un
+enfilage. Ensuite, lorsque l'on défile avec la pile frontale vide, la
+pile arrière est retournée et déplacée au front, donc ses éléments ne
+peuvent être retournés à nouveau lors du prochain défilage, dont le
+coût sera alors~\(1\).
+
+De plus, comme nous l'avons remarqué plus haut, \(\C{\fun{enq}}{k}
+\leqslant \C{\fun{deq}}{k}\), donc le pire des cas pour une suite de
+\(n\)~opérations se présente lorsque le nombre de défilages est
+maximum et vaut donc \(\lfloor{n/2}\rfloor\). Si nous dénotons
+par~\(e\) le nombre d'enfilages et par~\(d\) le nombre de défilages,
+nous avons la relation triviale \(n = e + d\) et les deux prérequis
+pour le pire des cas deviennent \(e=d\) (\(n\)~pair) ou \(e=d+1\)
+(\(n\)~impair). Le premier correspond graphiquement à un \emph{chemin
+  de Dyck}\index{chemin de Dyck} et le dernier à un \emph{méandre de
+  Dyck}\index{méandre de Dyck}.
+
+\paragraph{Chemin de Dyck}
+\index{chemin de Dyck}
+
+Décrivons les mises à jour comme à la \fig~\vref{fig_enq_deq}.
+\begin{figure}
+\centering
+\subfloat[Enfilage\label{fig_enqueue}]{%
+  \includegraphics[bb=69 662 132 721,scale=0.75]{enqueue}
+}
+\qquad
+\subfloat[Défilage\label{fig_dequeue}]{%
+  \includegraphics[bb=69 662 132 721,scale=0.75]{dequeue}
+}
+\caption{Représentation graphique des opérations sur les files
+\label{fig_enq_deq}}
+\end{figure}
+Textuellement, nous représentons un enfilage comme une parenthèse
+ouvrante et un défilage comme une parenthèse fermante. Par exemple,
+\texttt{((()()(()))())} correspond, à la \fig~\ref{fig_dyck_path},
+\begin{figure}
+\centering
+\includegraphics[bb=75 570 508 727,scale=0.77]{dyck_path}
+\caption{Chemin de Dyck modélisant des opérations sur une file
+\label{fig_dyck_path}}
+\end{figure}
+à un chemin de Dyck\index{chemin de Dyck}. Pour qu'une ligne brisée
+soit un chemin de Dyck de longueur~\(n\), elle doit commencer à
+l'origine \((0,0)\) et aboutir au point de coordonnées \((n,0)\). En
+termes de \emph{langage de Dyck}, un enfilage est appelé une
+\emph{montée}\index{chemin de Dyck!montée} et un défilage est une
+\emph{descente}\index{chemin de Dyck!descente}. Une montée suivie
+d'une descente, c'est-à-dire \texttt{()}, est appelé un
+\emph{sommet}\index{chemin de Dyck!sommet}. Par exemple, à la
+\fig~\ref{fig_dyck_path}, nous trouvons quatre sommets. Les nombres
+annotant les montées et les descentes sont les coûts encourus par
+l'opération. L'axe des abscisses est gradué avec le nombre ordinal de
+chaque opération.
+
+Si \(e=d\), la ligne est un chemin de Dyck de longueur
+\(n=2e=2d\). Pour déduire le coût total dans ce cas, nous devons
+\emph{décomposer}\index{chemin de Dyck!décomposition} le chemin, ce
+qui signifie que nous voulons identifier des motifs dont les coûts
+sont aisément calculables et qui constituent tout chemin, ou bien cela
+peut signifier que nous associons tout chemin à un autre dont le coût
+est le même, mais plus simple.
+
+La \fig~\ref{fig_dyck_eq}
+\begin{figure}[b]
+\centering
+\includegraphics[bb=75 570 508 727,scale=0.77]{dyck_eq}
+\caption{Chemin de Dyck équivalent à la \fig~\ref{fig_dyck_path}
+\label{fig_dyck_eq}}
+\end{figure}
+montre comment le chemin précédent est associé à un chemin équivalent,
+exclusivement fait d'une suite de triangles isocèles dont les bases
+reposent sur l'axe des abscisses. Appelons-les
+\emph{montagnes}\index{chemin de Dyck!montagne} et leur succession une
+\emph{chaîne}\index{chemin de Dyck!chaîne}.
+
+L'association est simple: après la première suite de descentes, si
+nous sommes de retour à l'axe des abscisses, nous venons d'identifier
+une montagne et nous recommençons avec le reste du chemin. Sinon, la
+prochaine opération est une montée et nous l'échangeons avec la
+première descente après elle. Cela abaisse le point courant d'un
+niveau et le procédé est répété jusqu'à ce que les abscisses soient
+atteintes. Nous appelons cette méthode
+\emph{réordonnancement}\index{chemin de Dyck!réordonnancement} parce
+qu'elle revient, en termes opérationnels, à réordonner des
+sous-séquences d'opérations \emph{a posteriori}.
+
+Par exemple, la \fig~\vref{fig_rescheduling}
+\begin{figure}
+\centering
+\subfloat[Initial\label{fig_initial}]{%
+  \includegraphics[scale=0.77,bb=48 588 218 726]{mount0}}
+\qquad
+\subfloat[Échange de \(4\nearrow 5\) et \(5\searrow 6\)]{%
+  \includegraphics[scale=0.77,bb=48 588 218 726]{mount1}}\\
+\subfloat[Échange de \(5\nearrow 6\) et \(8 \searrow 9\)\label{fig_valley}]{%
+  \includegraphics[scale=0.77,bb=48 588 218 726]{mount2}}
+\qquad
+\subfloat[Dernier]{%
+  \includegraphics[bb=13 645 180 782,scale=0.77]{mount3}}
+\caption{Réordonnancement de la \fig~\ref{fig_dyck_path} en
+  \fig~\ref{fig_dyck_eq}\label{fig_rescheduling}}
+\end{figure}
+montre le réordonnancement de la \fig~\vref{fig_dyck_path}. Remarquons
+que deux chemins différents peuvent être réordonnés en le même
+chemin. Ce qui rend la \fig~\ref{fig_valley} équivalente à la
+\fig~\ref{fig_initial} est l'invariance du coût parce que toutes les
+opérations concernées ont un coût unitaire. En effet, les enfilages
+ont toujours un coût unitaire et les défilages impliqués dans un
+réordonnancement ont aussi un coût unitaire, parce qu'ils trouvent la
+pile frontale non-vide après un sommet. Nous avons prouvé que tous les
+chemins sont équivalents à une chaîne de montagnes de même coût, donc
+le coût maximum peut être recherché parmi les chaînes uniquement.
+
+Notons \(e_1, e_2, \dots, e_k\) les sous-séquences contiguës maximales
+de montées; par exemple, à la \fig~\ref{fig_dyck_eq}, nous avons
+\(e_1=3\), \(e_2 = 3\) et \(e_3 = 1\). Bien entendu, \(e = e_1 + e_2 +
+\dots + e_k\). La descente qui constitue le \(i^\text{e}\) sommet a
+pour coût \index{deq@$\W{\fun{deq}}{n}$} \(\W{\fun{deq}}{e_i} = e_i +
+2\), à cause de la vacuité de la pile frontale, puisque nous avons
+démarré les montées à partir des abscisses. Les \(e_i-1\) prochaines
+descentes ont toutes un coût unitaire parce que la pile frontale n'est
+pas vide. Donc, la \(i^\text{e}\) montagne a pour coût
+\(e_i+(e_i+2)+(e_i-1) = 3e_i+1\). Alors \(\A{e,k} =
+\sum_{i=1}^{k}{(3e_i+1)} = 3e + k\). Le coût maximum est atteint en
+maximisant \(\A{e,k}\) pour un~\(e\) donné:
+\begin{equation*}
+\W{}{e,e} := \max_{1 \leqslant k \leqslant e}{\A{e,k}} = \A{e,e} = 4e
+= 2n,\,\; \text{où \(n=e+d=2e\)},
+\end{equation*}
+où \(\W{}{e,e}\) est le coût maximum quand il y a \(e\)~enfilages et
+\({d=e}\) défilages. En d'autres termes, le pire des cas quand
+\(e=d=7\) est le chemin de Dyck en dents de scie montré à la
+\fig~\vref{fig_max_dyck}.
+
+Pour conclure, il est crucial de voir qu'il n'y a pas d'autres chemins
+de Dyck dont le réordonnancement mène à ce pire des cas, la raison
+étant que la transformation inverse, des chaînes de montagnes vers les
+chemins généraux, opère sur des défilages de coût unitaire et la
+solution que nous avons trouvée est la seule sans défilage de coût
+unitaire.
+\begin{figure}
+\centering
+\includegraphics[bb=86 657 507 726,scale=0.7]{max_dyck}
+\caption{Pire des cas si \(e=d=7\)\label{fig_max_dyck}}
+\end{figure}
+
+\paragraph{Méandre de Dyck}
+\index{méandre de Dyck}
+
+Un autre cas parmi les pires se produit si \(e = d + 1\) et la ligne
+est alors un \emph{méandre de Dyck} dont l'extrémité finale est un
+point d'ordonnée \(e-d=1\). Un exemple est donné à la
+\fig~\ref{fig_meander1},
+\begin{figure}[b]
+\centering
+\includegraphics[bb=75 570 480 727,scale=0.82]{meander1}
+\caption{Méandre de Dyck modélisant des opérations sur une file
+\label{fig_meander1}}
+\end{figure}
+où la dernière opération est un défilage. La ligne en pointillés
+marque le résultat du réordonnancement que nous avons défini sur les
+chemins de Dyck. Ici, la dernière opération devient un enfilage.
+
+Une autre possibilité est montrée à la \fig~\ref{fig_meander2},
+\begin{figure}
+\centering
+\includegraphics[bb=75 570 480 727,scale=0.82]{meander2}
+\caption{Méandre de Dyck modélisant des opérations sur une file
+\label{fig_meander2}}
+\end{figure}
+où la dernière opération est inchangée. La différence entre les deux
+exemples repose sur le fait que, à l'origine, le dernier défilage a,
+dans le premier cas, un coût unitaire (donc est changé) et, dans le
+dernier cas, un coût strictement supérieur à~\(1\) (donc inchangé). La
+troisième sorte de méandre de Dyck est celle qui termine avec un
+enfilage, mais parce que cet enfilage doit partir de l'axe des
+abscisses, nous nous trouvons dans la même situation qu'avec le
+résultat du réordonnancement d'un méandre conclu avec un défilage de
+coût unitaire (voir à nouveau la ligne en pointillés à la
+\fig~\ref{fig_meander1}). Par conséquent, nous n'avons qu'à comparer
+l'effet du réordonnancement des méandres se terminant avec un
+défilage, c'est-à-dire que nous envisageons les deux cas suivants.
+\begin{itemize}
+
+\item Si nous avons une chaîne de \(n-1\)~opérations suivies par un
+  enfilage, le coût maximum de la chaîne est le coût d'un chemin de
+  Dyck en dents de scie, \(\W{}{e-1,e-1}=4(e-1)=2n-2\), car
+  \(n=e+d=2e-1\), plus le coût d'un enfilage, totalisant donc
+  \(2n-1\).
+
+  \item Sinon, nous avons affaire à une chaîne de \(n-3\)~opérations
+  suivies par deux montées et une descente (de coût~\(6\)). Le coût
+  total est alors \(\W{}{e-2,e-2}+6=2n\), ce qui est un petit peu plus
+  que le cas précédent.
+
+\end{itemize}
+
+\mypar{Coût amorti}
+\index{coût!$\sim$ amorti}
+\index{file!coût amorti}
+
+Le coût~\(\A{n}\) d'une suite de \(n\)~mises à jour sur une file
+originellement vide est strictement encadré comme
+suit:\index{file@$\A{n}$}
+\begin{equation*}
+n \leqslant \A{n} \leqslant 2n,
+\end{equation*}
+où la borne inférieure est atteinte si toutes les mises à jour sont
+des enfilages, et la borne supérieure est atteinte quand une chaîne en
+dents de scie est suivie par un enfilage ou alors deux enfilages et un
+défilage. Par définition, le coût amorti d'une opération
+est~\(\A{n}/n\) et se trouve donc entre \(1\)~et~\(2\), ce qui est
+d'un ordre de grandeur asymptotique plus bas que ne l'avait laissé
+présager notre analyse initiale (\(\sim n/2\)). Nous avons publié
+\citep{Rinderknecht_2011} une analyse légèrement différente de la
+précédente, avec les mêmes exemples.
+
+\paragraph{Aparté}
+
+Nous pouvons gagner un peu plus d'abstraction en utilisant un constructeur dédié pour la file vide, \(\fun{nilq/0}\), et en changeant la définition de
+\fun{enq/2} dans~\eqref{def_enq} \vpageref{def_enq} de telle sorte qu'elle 
+filtre ce cas:
+\begin{equation*}
+\fun{enq}(x,\fun{nilq}()) \rightarrow \fun{q}([x],\el);
+\quad
+\fun{enq}(x,\fun{q}(r,f)) \rightarrow \fun{q}(\cons{x}{r},f).
+\end{equation*}
+Nous pouvons encore gagner un tout petit peu plus de temps en
+empilant~\(x\) directement sur la pile frontale:
+\begin{equation*}
+\fun{enq}(x,\fun{nilq}()) \rightarrow \fun{q}(\el,[x]);
+\quad
+\fun{enq}(x,\fun{q}(r,f)) \rightarrow \fun{q}(\cons{x}{r},f).
+\end{equation*}
+
+\paragraph{Exercices}
+\begin{enumerate}
+
+  \item Soit \(\fun{nxt}(q)\)\index{nxt@\fun{nxt/1}} le prochain
+    élément à être défilé de~\(q\):
+    \begin{equation*}
+      \begin{array}{r@{\;}l@{\;}l}
+        \fun{nxt}(\fun{q}(\cons{x}{r},\el)) & \rightarrow 
+        & \fun{nxt}(\fun{q}(\el,\fun{rcat}(r,[x])));\\
+        \fun{nxt}(\fun{q}(r,\cons{x}{f})) & \rightarrow & x.     
+        \index{q@\fun{q/2}}
+      \end{array}
+    \end{equation*}
+    Modifiez \fun{enq/2}\index{enq@\fun{enq/2}},
+    \fun{deq/1}\index{deq@\fun{deq/1}} et
+    \fun{nxt/1}\index{nxt@\fun{nxt/1}} de telle manière que
+    \(\C{\fun{nxt}}{n} = 1\)\index{nxt@$\C{\fun{nxt}}{n}$}, où
+    \(n\)~est le nombre d'éléments dans la file.
+
+    \item Trouvez~\(\A{n}\) en utilisant la définition légèrement
+      différente suivante:
+      \begin{equation*}
+        \begin{array}{@{}r@{\;}l@{\;}l@{}}
+          \fun{deq}(\fun{q}(\cons{x}{r},\el))
+          & \rightarrow
+          & \fun{deq}(\fun{q}(\el,\fun{rev}(\cons{x}{r})));\\
+          \fun{deq}(\fun{q}(r,\cons{x}{f}))
+          & \rightarrow
+          & \pair{\fun{q}(r,f)}{x}.
+        \end{array}
+      \end{equation*}
+
+\end{enumerate}

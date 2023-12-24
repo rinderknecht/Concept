@@ -1,0 +1,484 @@
+\section{Retournement}
+\label{sec_reversal}
+
+\paragraph{Involution}
+\index{pile!retournement!involution}
+
+Il est parfois nécessaire de concevoir un lemme pour faire aboutir une
+preuve. Considérons la définition d'une fonction
+\fun{rev\(_0\)/1}\label{def_rev0}\index{pile!retournement!définition}\index{rev0@\fun{rev\(_0\)/1}}
+qui retourne une pile:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
+  \fun{cat}(\el,t)\index{cat@\fun{cat/2}}
+& \xrightarrow{\smash{\alpha}} & t;
+& \fun{rev}_0(\el)
+& \xrightarrow{\smash{\gamma}} & \el;\\
+  \fun{cat}(\cons{x}{s},t)
+& \xrightarrow{\smash{\beta}} & \cons{x}{\fun{cat}(s,t)}.
+& \fun{rev}_0(\cons{x}{s})
+& \xrightarrow{\smash{\delta}} & \fun{cat}(\fun{rev}_0(s),[x]).
+\end{array}
+\end{equation*}
+Une évaluation est donnée en exemple avec des arbres de syntaxe
+abstraite à la \fig~\ref{fig_rev0_321}.
+\begin{figure}[!t]
+\centering
+\includegraphics[bb=69 620 328 721]{rev0_321_0}
+\includegraphics[bb=64 626 320 721]{rev0_321_1}
+\includegraphics[bb=69 627 375 721]{rev0_321_2}
+\includegraphics[bb=69 627 375 721]{rev0_321_3}
+\caption{\(\fun{rev}_0([3,2,1]) \twoheadrightarrow [1,2,3]\)
+\label{fig_rev0_321}\index{pile!retournement!exemple}}
+\end{figure}
+Soit \(\pred{Inv}{s}\)\index{Inv@\predName{Inv}|(} la propriété
+\(\fun{rev}_0(\fun{rev}_0(s)) \equiv s\), c'est-à-dire que la fonction
+\fun{rev\(_0\)/1}\index{rev0@\fun{rev\(_0\)/1}} est une
+\emph{involution}\index{pile!retournement!involution}. Pour prouver
+\(\forall s \in S.\pred{Inv}{s}\), le principe d'induction sur la
+structure de~\(s\)\index{induction!exemple|(} exige que nous
+établissions
+\begin{itemize}
+
+  \item la base \(\pred{Inv}{\el}\);
+
+  \item le pas inductif \(\forall s \in S.\pred{Inv}{s} \Rightarrow
+    \forall x \in T.\pred{Inv}{\cons{x}{s}}\).
+
+\end{itemize}
+La base est vite trouvée: \(\fun{rev}_0(\fun{rev}_0(\el))
+\xrightarrow{\smash{\gamma}} \fun{rev}_0(\el)
+\xrightarrow{\smash{\gamma}} \el\). L'hypothèse d'induction est
+\(\pred{Inv}{s}\) et nous voulons prouver
+\(\pred{Inv}{\cons{x}{s}}\)\index{Inv@\predName{Inv}|)}, pour
+tout~\(x\).  Si nous débutons frontalement:
+\(\fun{rev}_0(\fun{rev}_0(\cons{x}{s})) \xrightarrow{\smash{\delta}}
+\fun{rev}_0(\fun{cat}(\fun{rev}_0(s),[x]))\), nous sommes coincés.
+Mais le terme à réécrire implique à la fois \fun{rev$_0$/1} et
+\fun{cat/2}, ce qui nous incite à concevoir un lemme où le schéma de
+l'obstacle \(\fun{cat}(\fun{rev}_0(\dots),\dots)\) est présent et est
+équivalent à un terme plus simple.%\par\vskip\baselineskip
+
+Posons
+\(\pred{CatRev}{s,t}\)\index{CatRev@\predName{CatRev}} \label{CatRev}
+pour dire \(\fun{cat}(\fun{rev}_0(t),\fun{rev}_0(s)) \equiv
+\fun{rev}_0(\fun{cat}(s,t))\)\index{cat@\fun{cat/2}}. De façon à
+prouver cette propriété par induction sur la structure de~\(s\), nous
+avons besoin d'établir, pour tout~\(t\),
+\begin{itemize}
+
+  \item la base \(\pred{CatRev}{\el,t}\);
+
+  \item le pas inductif \(\forall s,t \in S.\pred{CatRev}{s,t}
+    \Rightarrow \forall x \in T.\pred{CatRev}{\cons{x}{s},t}\).
+
+\end{itemize}
+La base est presque à portée de main:
+\begin{equation*}
+\fun{rev}_0(\fun{cat}(\el,t)) \xrightarrow{\smash{\alpha}}
+\fun{rev}_0(t) \leftrightsquigarrow \fun{cat}(\fun{rev}_0(t),\el)
+\xleftarrow{\smash{\gamma}}
+\fun{cat}(\fun{rev}_0(t),\fun{rev}_0(\el)).
+\end{equation*}
+La part manquante est trouvée en montrant que
+\((\leftrightsquigarrow)\)~est en
+fait~\((\equiv)\).%\par\vskip\baselineskip
+
+Soit \(\pred{CatNil}{s}\)\index{CatNil@\predName{CatNil}|(} la
+propriété \(\fun{cat}(s,\el) \equiv s\)\index{cat@\fun{cat/2}}. Pour
+la prouver par induction sur la structure de~\(s\), nous devons
+prouver
+\begin{itemize}
+
+  \item la base \(\pred{CatNil}{\el}\);
+
+  \item le pas inductif \(\forall s \in S.\pred{CatNil}{s}
+    \Rightarrow \forall x \in T.\pred{CatNil}{\cons{x}{s}}\).
+
+\end{itemize}
+La base est facile, puisque \(\fun{cat}(\el,\el)
+\xrightarrow{\smash{\alpha}} \el\)\index{cat@\fun{cat/2}}. Le pas
+inductif, quant à lui, n'est pas compliqué non plus:
+\(\fun{cat}(\cons{x}{s},\el) \xrightarrow{\smash{\beta}}
+\cons{x}{\fun{cat}(s,\el)} \equiv \cons{x}{s}\), où l'équivalence est
+l'hypothèse d'induction
+\(\pred{CatNil}{s}\)\index{CatNil@\predName{CatNil}|)}.\hfill\(\Box\)
+
+Remarquons qu'à la place nous aurions pu prouver \(\fun{cat}(s,\el)
+\twoheadrightarrow s\), pour toute valeur~\(s\). La différence est que
+\(\pred{CatNil}{s}\) est vraie même si~\(s\) n'est pas une valeur,
+puisque tout ce que nous avons à faire est remplacer
+\(\fun{cat}(\cons{x}{s},\el) \xrightarrow{\smash{\beta}}
+\cons{x}{\fun{cat}(s,\el)}\) par \(\fun{cat}(\cons{x}{s},\el)
+\Rra{\beta} \cons{x}{\fun{cat}(s,\el)}\). Ce principe sera avéré dans
+toutes nos preuves: nous supposerons que toute variable dénote une
+valeur et, sinon, nous changeons simplement
+\((\xrightarrow{\smash{\beta}})\) en \((\Rra{\beta})\), pour toutes
+les règles~\(\beta\) dans la preuve. Notre hypothèse améliore
+peut-être la lisibilité.\par\vskip\baselineskip
+
+\noindent En supposant
+\(\pred{CatRev}{s,t}\)\index{CatRev@\predName{CatRev}}, nous devons
+établir \(\forall x \in T.\pred{CatRev}{\cons{x}{s},t}\):
+\index{cat@\fun{cat/2}|(} \index{rev0@\fun{rev\(_0\)/1}|(}
+\index{CatAssoc@\predName{CatAssoc}}
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{\;\;}r@{}}
+  \fun{cat}(\fun{rev}_0(t),\fun{rev}_0(\cons{x}{s}))
+& \xrightarrow{\smash{\delta}}
+& \fun{cat}(\fun{rev}_0(t),\fun{cat}(\fun{rev}_0(s),[x]))\\
+& \equiv
+& \fun{cat}(\fun{cat}(\fun{rev}_0(t),\fun{rev}_0(s)),[x])
+& (\predName{CatAssoc})\\
+& \equiv 
+& \fun{cat}(\fun{rev}_0(\fun{cat}(s,t)),[x])
+& (\pred{CatRev}{s,t})\\
+& \xleftarrow{\smash{\delta}}
+& \fun{rev}_0(\cons{x}{\fun{cat}(s,t)})\\
+& \xleftarrow{\smash{\beta}}
+& \fun{rev}_0(\fun{cat}(\cons{x}{s},t)).
+& \multicolumn{1}{r@{}}{\Box}
+\end{array}
+\end{equation*}
+Reprenons notre preuve de
+\(\pred{Inv}{\cons{x}{s}}\):\index{Inv@\predName{Inv}}
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{\quad}r@{}}
+  \fun{rev}_0(\fun{rev}_0(\cons{x}{s}))
+& \xrightarrow{\smash{\delta}}
+& \fun{rev}_0(\fun{cat}(\fun{rev}_0(s),[x]))\\
+& \equiv
+& \fun{cat}(\fun{rev}_0([x]),\fun{rev}_0(\fun{rev}_0(s)))
+& (\pred{CatRev}{\fun{rev}_0(s),[x]})\\
+& \equiv
+& \fun{cat}(\fun{rev}_0([x]),s)
+& (\pred{Inv}{s})\\
+& \xrightarrow{\smash{\delta}}
+& \fun{cat}(\fun{cat}(\fun{rev}_0(\el),[x]),s)\\
+& \xrightarrow{\smash{\gamma}}
+& \fun{cat}(\fun{cat}(\el,[x]),s)\\
+& \xrightarrow{\smash{\alpha}}
+& \fun{cat}([x],s)\\
+& \xrightarrow{\smash{\beta}} 
+& \cons{x}{\fun{cat}(\el,s)}\\
+& \xrightarrow{\smash{\alpha}} &
+\cons{x}{s}.
+& \hfill\Box
+\end{array}
+\end{equation*}
+\index{rev0@\fun{rev\(_0\)/1}|)}\index{cat@\fun{cat/2}|)}
+\index{CatRev@\predName{CatRev}}
+
+\paragraph{Équivalence}
+
+\hspace*{-2pt} Il se pourrait que nous ayons deux définitions d'une
+même fonction mais qui diffèrent en termes de complexité ou
+d'efficacité. Par exemple, nous avons donné une définition intuitive
+de \fun{rev\(_0\)/1}\index{rev0@\fun{rev\(_0\)/1}} où, à la
+règle~\(\delta\), l'élément~\(x\), qui est au sommet de la pile
+donnée, est placé au bas de la pile construite. Malheureusement, cette
+définition est inefficace du point de vue des calculs, c'est-à-dire
+qu'elle conduit à un grand nombre de réécritures par rapport à la
+taille de l'entrée.
+
+Supposons que nous ayons aussi une définition efficace pour le
+retournement de piles, nommée \fun{rev/1}\index{rev@\fun{rev/1}}, qui
+dépend d'une fonction auxiliaire
+\fun{rcat/2}\index{rcat@\fun{rcat/2}|(}\index{pile!retournement!$\sim$
+  et concaténation}\index{pile!retournement!$\sim$ efficace}
+(anglais, \emph{reverse and catenate}):
+\begin{equation}
+\fun{rev}(s) \xrightarrow{\smash{\epsilon}} \fun{rcat}(s,\el).\;\,
+\fun{rcat}(\el,t) \xrightarrow{\smash{\zeta}} t;\;\,
+\fun{rcat}(\cons{x}{s},t) \xrightarrow{\smash{\eta}} 
+                          \fun{rcat}(s,\cons{x}{t}).
+\label{def_rev}
+\end{equation}
+Un paramètre additionnel introduit par \fun{rcat/2} accumule des
+résultats partiels, et est donc appelé un
+\emph{accumulateur}\index{langage fonctionnel!accumulateur}. Nous
+pouvons le voir à l'{\oe}uvre à la \fig~\vref{fig_rev_321}.
+\begin{figure}
+\begin{equation*}
+\boxed{%
+\begin{array}{r@{\;}l@{\;}l}
+\fun{rev}([3,2,1])
+& \xrightarrow{\smash{\epsilon}} & \fun{rcat}([3,2,1],\el)\\
+& \xrightarrow{\smash{\eta}}     & \fun{rcat}([2,1],[3])\\
+& \xrightarrow{\smash{\eta}}     & \fun{rcat}([1],[2,3])\\
+& \xrightarrow{\smash{\eta}}     & \fun{rcat}(\el,[1,2,3])\\
+& \xrightarrow{\smash{\zeta}}    & [1,2,3].
+\end{array}}
+\end{equation*}
+\caption{\(\fun{rev}([3,2,1]) \twoheadrightarrow [1,2,3]\)
+\label{fig_rev_321}\index{pile!retournement!exemple}}
+\end{figure}
+\index{rcat@\fun{rcat/2}|)}
+
+Prouvons \label{EqRev} \(\pred{EqRev}{s} \colon \fun{rev}_0(s) \equiv
+\fun{rev}(s)\)\index{rev@\fun{rev/1}|(}\index{EqRev@\predName{EqRev}|(}
+par induction
+structurelle\index{pile!retournement!équivalence}\index{équivalence!preuve
+  d'$\sim$} sur~\(s\), c'est-à-dire
+\begin{itemize}
+
+  \item la base \(\pred{EqRev}{\el}\),
+
+  \item le pas inductif \(\forall s \in S.\pred{EqRev}{s} \Rightarrow
+    \forall x \in T.\pred{EqRev}{\cons{x}{s}}\).
+
+\end{itemize}
+La base est aisée: \(\fun{rev}_0(\el) \xrightarrow{\smash{\gamma}} \el
+\xleftarrow{\smash{\zeta}} \fun{rcat}(\el,\el)
+\xleftarrow{\smash{\epsilon}}
+\fun{rev}(\el)\)\index{rev0@\fun{rev\(_0\)/1}}. Pour le pas inductif,
+réécrivons \(\fun{rev}_0(\cons{x}{s})\) et \(\fun{rev}(\cons{x}{s})\)
+de telle sorte qu'ils convergent:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}lr@{}}
+  \fun{rev}_0(\cons{x}{s})
+& \xrightarrow{\smash{\delta}}
+& \fun{cat}(\fun{rev}_0(s),[x])\\
+& \equiv
+& \fun{cat}(\fun{rev}(s),[x])
+& (\pred{EqRev}{s})\\
+& \leftrightsquigarrow
+& \fun{rcat}(s,[x])
+& (\text{à déterminer})\\
+& \xleftarrow{\smash{\eta}}
+& \fun{rcat}(\cons{x}{s},\el)\\
+& \xleftarrow{\smash{\epsilon}}
+& \fun{rev}(\cons{x}{s}).
+\end{array}
+\end{equation*}
+La partie manquante est trouvée en montrant que
+\((\leftrightsquigarrow)\) est~\((\equiv)\) de la façon
+suivante.\index{rev@\fun{rev/1}|)}
+
+Soit
+\(\pred{RevCat}{s,t}\)\index{RevCat@\predName{RevCat}}\label{RevCat}
+la propriété \(\fun{rcat}(s,t) \equiv
+\fun{cat}(\fun{rev}(s),t)\).\index{rcat@\fun{rcat/2}}\index{cat@\fun{cat/2}|(}\index{rev@\fun{rev/1}}
+L'induction sur la structure de~\(s\) demande alors les preuves
+\begin{itemize}
+
+  \item de la base \(\forall t \in S.\pred{RevCat}{\el,t}\),
+
+  \item du pas inductif \(\forall s,t \in S.\pred{RevCat}{s,t}
+    \Rightarrow \forall x \in T.\pred{RevCat}{\cons{x}{s},t}\).
+
+\end{itemize}
+D'abord, \(\fun{rcat}(\el,t) \xrightarrow{\smash{\zeta}} t
+\xleftarrow{\smash{\alpha}} \fun{cat}(\el,t)
+\xleftarrow{\smash{\zeta}} \fun{cat}(\fun{rcat}(\el,\el),t)
+\xleftarrow{\smash{\epsilon}} \fun{cat}(\fun{rev}(\el),t)\).
+Supposons \(\forall s,t \in S.\pred{RevCat}{s,t}\) et prouvons
+\(\forall x \in T.\pred{RevCat}{\cons{x}{s},t}\):
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l@{}r@{}}
+  \fun{rcat}(\cons{x}{s},t)
+& \xrightarrow{\smash{\eta}}
+& \fun{rcat}(s,\cons{x}{t})\\
+& \equiv
+& \fun{cat}(\fun{rev}(s),\cons{x}{t})
+& (\pred{RevCat}{s,\cons{x}{t}})\\
+& \xleftarrow{\smash{\alpha}}
+& \fun{cat}(\fun{rev}(s),\cons{x}{\fun{cat}(\el,t)})\\
+& \xleftarrow{\smash{\beta}}
+& \fun{cat}(\fun{rev}(s),\fun{cat}([x],t))\\
+& \equiv
+& \fun{cat}(\fun{cat}(\fun{rev}(s),[x]),t)
+& (\pred{CatAssoc}{\fun{rev}(s),[x],t})\\
+& \equiv
+& \fun{cat}(\fun{rcat}(s,[x]),t)
+& (\pred{RevCat}{s,[x]})\\
+& \xleftarrow{\smash{\eta}}
+& \fun{cat}(\fun{rcat}(\cons{x}{s},\el),t)\\
+& \xleftarrow{\smash{\epsilon}}
+& \fun{cat}(\fun{rev}(\cons{x}{s}),t).
+& \multicolumn{1}{r@{}}{\Box}
+\end{array}
+\end{equation*}
+Finalement, nous avons prouvé \(\forall s.\pred{EqRev}{s}\),
+c'est-à-dire \(\fun{rev/1} =
+\fun{rev\(_0\)/1}\)\index{EqRev@\predName{EqRev}|)}\index{rev@\fun{rev/1}}\index{rev0@\fun{rev\(_0\)/1}}\index{cat@\fun{cat/2}|)}\index{induction!exemple|)}.\hfill\(\Box\)
+
+\paragraph{Coût}
+\label{cost_rev0}
+\index{pile!retournement!coût}
+
+La définition de \fun{rev\(_0\)/1}\index{rev0@\fun{rev\(_0\)/1}}
+mène directement aux récurrences\index{rev0@$\C{\fun{rev}_0}{n}$}
+\begin{equation*}
+\C{\fun{rev}_0}{0} = 1,\qquad \C{\fun{rev}_0}{k+1} = 1 +
+\C{\fun{rev}_0}{k} + \C{\fun{cat}}{k} = \C{\fun{rev}_0}{k} + k + 2,
+\end{equation*}
+parce que la longueur de \(\fun{rev}_0(s)\) est~\(k\) si la longueur
+de~\(s\) est~\(k\), et nous savons déjà que \(\C{\fun{cat}}{k} = k +
+1\)\index{cat@$\C{\fun{cat}}{n}$} (page~\pageref{cost_cat}). Nous
+avons
+\begin{equation*}
+\sum_{k=0}^{n-1}(\C{\fun{rev}_0}{k+1} - \C{\fun{rev}_0}{k}) =
+\C{\fun{rev}_0}{n} - \C{\fun{rev}_0}{0} = 
+\sum_{k=0}^{n-1}(k+2) = 2n + \sum_{k=0}^{n-1}{k}.
+\end{equation*}
+La somme restante est un classique de l'algèbre:
+\begin{equation*}
+2 \cdot \sum_{k=0}^{n-1}{k} = 
+\sum_{k=0}^{n-1}{k} + \sum_{k=0}^{n-1}{k} = 
+\sum_{k=0}^{n-1}{k} + \sum_{k=0}^{n-1}(n-k-1) = n(n-1).
+\end{equation*}
+Par conséquent,
+\begin{equation}
+\sum_{k=0}^{n-1}{k} = \frac{n(n-1)}{2},\label{eq_sum_k}
+\end{equation}
+et nous pouvons finalement conclure
+\begin{equation*}
+\C{\fun{rev}_0}{n} = \frac{1}{2}n^2 + \frac{3}{2}n + 1 \sim \frac{1}{2}n^2.
+\end{equation*}
+Une autre manière d'atteindre ce résultat est d'induire une
+\emph{trace d'évaluation}\index{langage
+  fonctionnel!évaluation!trace}. Une trace est une composition de
+règles de réécriture, notée selon l'usage conventionnel de la
+multiplication. D'après la \fig~\vref{fig_rev0_321}, nous déduisons la
+trace \(\T{\fun{rev}_0}{n}\)\index{trace_rev0@$\T{\fun{rev}_0}{n}$} de
+l'évaluation de \(\fun{rev}_0(s)\)\index{rev0@\fun{rev\(_0\)/1}}, où
+\(n\)~est la longueur de~\(s\):
+\begin{equation*}
+\T{\fun{rev}_0}{n} :=
+\delta^n\gamma\alpha(\beta\alpha)\dots(\beta^{n-1}\alpha) =
+\delta^n\gamma \prod_{k=0}^{n-1}{\beta^k\alpha}.
+\end{equation*}
+Si nous notons
+\(\len{\T{\fun{rev}_0}{n}}\)\index{trace_rev0@$\T{\fun{rev}_0}{n}$} la
+longueur de~\(\T{\fun{rev}_0}{n}\), c'est-à-dire, le nombre
+d'applications de règles quelle contient, nous nous attendons à
+obtenir les équations \(\len{x} = 1\), pour une règle~\(x\), et
+\(\len{x \cdot y} = \len{x} + \len{y}\), pour des règles
+\(x\)~et~\(y\). Par définition du coût, nous
+avons\index{rev0@$\C{\fun{rev}_0}{n}$}
+\begin{align*}
+\C{\fun{rev}_0}{n}
+  &:= \len{\T{\fun{rev}_0}{n}}
+    = \left\lvert\delta^n\gamma 
+        \prod_{k=0}^{n-1}{\beta^k\alpha}\right\lvert
+    = \len{\delta^n\gamma} + \sum_{k=0}^{n-1}\len{\beta^k\alpha}\\
+   &= (n+1) + \sum_{k=0}^{n-1}(k+1) = (n+1) + \sum_{k=1}^{n+1}k
+    = \frac{1}{2}n^2 + \frac{3}{2}n + 1.
+\end{align*}
+
+La raison de cette inefficacité se trouve dans le fait que la
+règle~\(\delta\) produit une série d'appels à
+\fun{cat/2}\index{cat@\fun{cat/2}} qui se conforment au schéma
+suivant:
+\begin{equation}
+\fun{rev}_0(s) \twoheadrightarrow \fun{cat}(\fun{cat}(\dots
+\fun{cat}(\el, [x_n]), \dots, [x_2]), [x_1]),
+\label{eq_rev0}
+\end{equation}
+où \(s = [x_1, x_2, \dots, x_n]\). Le coût de tous ces appels à
+\fun{cat/2}\index{cat@\fun{cat/2}} est donc
+\begin{equation*}
+1 + 2 + \dots + (n-1) = \tfrac{1}{2}n(n-1) \sim
+\tfrac{1}{2}n^2,
+\end{equation*}
+parce que le coût de \(\fun{cat}(s,t)\)\index{cat@\fun{cat/2}} est \(1
++ \fun{len}(s)\), où
+\begin{equation}
+\fun{len}(\el) \xrightarrow{\smash{a}} 0;
+\qquad
+\fun{len}(\cons{x}{s}) \xrightarrow{\smash{b}} 1 + \fun{len}(s).
+\label{eq_len}
+\end{equation}
+Le problème n'est pas le recours à \fun{cat/2}, mais le fait que les
+appels sont imbriqués de la façon la plus défavorable. En effet, si
+l'associativité\index{pile!concaténation!associativité} de
+\fun{cat/2}\index{cat@\fun{cat/2}}, prouvée à la
+\vpageref{proof_assoc_cat}, dit bien \(\fun{cat}(\fun{cat}(s,t),u)
+\equiv \fun{cat}(s,\fun{cat}(t,u))\), les coûts des deux membres
+diffèrent. Soit \(\Call{f(x)}\) le coût de l'appel \(f(x)\). Suit
+alors \(\Call{\fun{cat}(\fun{cat}(s,t),u)} = (\fun{len}(s) + 1) +
+(\fun{len}(\fun{cat}(s,t)) + 1) = (\fun{len}(s) + 1) + (\fun{len}(s) +
+\fun{len}(t) + 1) = 2 \cdot \fun{len}(s) + \fun{len}(t) + 2\), en
+usant de \(\pred{LenCat}{s,t} \colon \fun{len}(\fun{cat}(s,t)) =
+\fun{len}(s) + \fun{len}(t)\); mais
+\(\Call{\fun{cat}(s,\fun{cat}(t,u))} = (\fun{len}(t) + 1) +
+(\fun{len}(s) + 1) = \fun{len}(s) + \fun{len}(t) + 2\), c'est-à-dire
+\begin{equation}
+\Call{\fun{cat}(\fun{cat}(s,t),u)} = \fun{len}(s) +
+\Call{\fun{cat}(s,\fun{cat}(t,u))}.
+\label{ineq_cat_assoc}
+\end{equation}
+Les éléments de~\(s\) sont donc traversés deux fois, alors qu'une
+seule visite suffirait.
+
+Encore une autre manière de déterminer le coût de \fun{rev\(_0\)/1}
+consiste à deviner d'abord qu'il est
+\emph{quadratique}\index{coût!$\sim$ quadratique}, c'est-à-dire,
+\(\C{\fun{rev}_0}{n} = an^2 + bn +
+c\)\index{rev0@$\C{\fun{rev}_0}{n}$}, où \(a\), \(b\) et~\(c\) sont
+des inconnues. Puisqu'il y a trois coefficients, nous n'avons besoin
+que de trois valeurs de~\(\C{\fun{rev}_0}{n}\) pour les déterminer,
+par exemple, en produisant quelques traces, nous trouvons
+\(\C{\fun{rev}_0}{0} = 1\), \(\C{\fun{rev}_0}{1} = 3\) et
+\(\C{\fun{rev}_0}{2} = 6\), donc nous pouvons résoudre le système
+d'équations linéaires:
+\begin{equation*}
+\C{\fun{rev}_0}{0} = c = 1,\quad
+\C{\fun{rev}_0}{1} = a + b + c = 3,\quad
+\C{\fun{rev}_0}{2} = a \cdot 2^2 + b \cdot 2 + c = 6.
+\end{equation*}
+Nous tirons \(a = \myfrac1/2\), \(b = \myfrac3/2\) et \(c = 1\),
+c'est-à-dire \(\C{\fun{rev}_0}{n} = (n^2 + 3n +
+2)/2\)\index{rev0@$\C{\fun{rev}_0}{n}$}. Étant donné que l'hypothèse
+du comportement quadratique pourrait être fausse, il est alors crucial
+d'essayer d'autre valeurs dans la formule nouvellement obtenue, par
+exemple \(\C{\fun{rev}_0}{4} = (4+1)(4+2)/2 = 15\), et ensuite
+comparer le résultat avec le coût de
+\(\fun{rev}_0([1,2,3,4])\)\index{rev0@$\C{\fun{rev}_0}{n}$}, par
+exemple.  Dans ce cas, le contenu de la pile n'est pas significatif,
+seule sa longueur importe. Après avoir trouvé la formule pour le coût
+en utilisant la méthode empirique ci-dessus, il est nécessaire de
+l'établir pour toutes les valeurs de~\(n\). Puisque les équations
+originelles sont récurrentes, la méthode de choix est l'induction. Soit
+\(\pred{Quad}{n}\)\index{Quad@\predName{Quad}} la propriété
+\(\C{\fun{rev}_0}{n} = (n^2 + 3n + 2)/2\). Nous l'avons déjà vérifiée
+pour de petites valeurs \(n = 0, 1, 2\). Supposons alors qu'elle est
+valide pour une valeur de la variable~\(n\) (hypothèse d'induction) et
+prouvons \(\pred{Quad}{n+1}\) (pas inductif). Nous savons déjà que
+\(\C{\fun{rev}_0}{n+1} = \C{\fun{rev}_0}{n} + n +
+2\)\index{rev0@$\C{\fun{rev}_0}{n}$}. L'hypothèse d'induction implique
+alors
+\begin{equation*}
+\C{\fun{rev}_0}{n+1} = (n^2 + 3n + 2)/2 + n + 2
+                     = ((n+1)^2 + 3(n+1) + 2)/2,
+\end{equation*}
+ce qui n'est autre que \(\pred{Quad}{n+1}\)\index{Quad@\predName{Quad}}. 
+Conséquemment, le principe d'induction dit que le coût que nous avons déterminé expérimentalement est toujours correct.
+
+Pour déduire le coût de \fun{rev/1}\index{rev@\fun{rev/1}}, il suffit
+de remarquer que le premier argument de
+\fun{rcat/2}\index{rcat@\fun{rcat/2}} décroît strictement à chaque
+réécriture, donc toute trace d'évaluation a la forme
+\(\epsilon\eta^n\zeta\), d'où \(\C{\fun{rev}}{n} =
+\len{\epsilon\eta^n\zeta } = n + 2\). Le coût est
+\emph{linéaire}\index{coût!$\sim$ linéaire}, donc
+\fun{rev/1}\index{rev@\fun{rev/1}} doit être utilisée à la place de
+\fun{rev\(_0\)/1}\index{rev0@\fun{rev\(_0\)/1}} en toutes
+circonstances.
+
+\paragraph{Exercises}
+
+\begin{enumerate}
+
+  \item Prouvez \(\pred{LenRev}{s} \colon \fun{len}(\fun{rev}_0(s))
+    \equiv \fun{len}(s)\).
+
+  \item Prouvez \(\pred{LenCat}{s,t} \colon \fun{len}(\fun{cat}(s,t)) \equiv
+  \fun{len}(s) + \fun{len}(t)\).
+
+  \item Qu'est-ce qui ne va pas dans la preuve de l'involution de
+  \fun{rev/1}\index{rev@\fun{rev/1}} à la section~3.4.9 du livre de
+  \cite{CousineauMauny_1998}?
+
+\end{enumerate}
