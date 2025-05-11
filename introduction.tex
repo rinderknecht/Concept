@@ -20,8 +20,8 @@ règles, par exemple,
 Les règles~\(\alpha\), \(\beta\)~et~\(\gamma\) constituent alors un
 \emph{système de réécriture de chaînes}\index{système de
   réécriture}. Les règles \(\alpha\)~et~\(\beta\) peuvent se
-verbaliser ainsi: «Une perle noire absorbe la perle blanche à son
-côté.» Le but de ce jeu est d'obtenir le plus petit nombre de perles
+verbaliser ainsi: «~Une perle noire absorbe la perle blanche à son
+côté.~» Le but de ce jeu est d'obtenir le plus petit nombre de perles
 possible, ainsi notre exemple donne lieu aux \emph{réécritures}
 \begin{equation*}
 \circ \bullet \bullet \, \fbox{\(\bullet\; \circ\)} \circ \bullet
@@ -93,11 +93,12 @@ règles recouvrantes, appelées \emph{paires critiques}\index{système de
 la même chaîne, c'est-à-dire qu'elle soient \emph{joignables}. Dans
 notre exemple, toutes les interactions ont lieu sur des sous-chaînes
 constituées de trois perles, donc nous devons examiner dans la
-\fig~\vref{fig_bullets}
-\begin{figure}
+\fig~\vref{fig:bullets}
+\begin{figure}[t]
 \centering
 \includegraphics{bullets}
-\caption{Les paires critiques sont toutes joignables\label{fig_bullets}}
+\caption{Les paires critiques sont toutes joignables}
+\label{fig:bullets}
 \end{figure}
 huit configurations, que nous sommes à même d'ordonner comme si nous
 comptions en binaire de \(0\)~à~\(7\), (\(\circ\))~étant interprété
@@ -123,15 +124,15 @@ système de réécriture, par exemple, l'exemple précédent équivaut à
 \bullet \; \bullet \xrightarrow{\smash{\gamma}} \circ
 \end{equation*}
 Si nous acceptons de multiples occurrences d'une même variable dans le
-membre gauche d'une règle, un système dit \emph{non linéaire à
+membre gauche d'une règle, un système dit \emph{non-linéaire à
   gauche}\index{système de réécriture!$\sim$ linéaire}, nous pouvons
 diminuer la taille du système de la façon suivante:
 \begin{equation*}
 x  \; x \xrightarrow{\smash{\gamma+\delta}} \circ\qquad\qquad
 x  \; y \xrightarrow{\smash{\alpha+\beta}} \bullet
 \end{equation*}
-C'est-à-dire: «Deux perles adjacentes sont replacées par une perle
-blanche si elles ont même couleur, sinon par une perle noire.»
+C'est-à-dire: «~Deux perles adjacentes sont replacées par une perle
+blanche si elles ont même couleur, sinon par une perle noire.~»
 Remarquons la présence nouvelle d'un ordonnancement implicite des
 règles: la règle \(\gamma+\delta\) doit être examinée en premier pour
 \emph{filtrer} une partie de la chaîne courante, parce qu'elle est
@@ -201,18 +202,24 @@ peut n'avoir aucun argument, ainsi \(\fun{d}()\). Nous restreignons
 les membres gauches des règles a toujours être des appels de fonction.
 
 \section{Arbres pour illustrer les termes}
-\index{terme|see{arbre}} 
-\label{def_tree}
+\index{terme|see{arbre}}
+\label{def:tree}
 
+% Wrapping figure better declared before a paragraph
+%
+\begin{wrapfigure}[9]{r}[0pt]{0pt}
+% [9] vertical lines
+% {r} mandatory right placement
+% [0pt] of margin overhang
+\centering
+\includegraphics[bb=65 645 192 710]{tree_for_term}% [...720]
+\caption{Forme d'un arbre}
+\label{fig:tree_for_term}
+\end{wrapfigure}
 La compréhension topologique d'un appel de fonction ou d'un
 \(n\)-uplet est l'\emph{arbre}\index{arbre} fini. Un arbre est une
 configuration hiérarchique d'information et la
-\fig~\vref{fig_fib5shape}
-\begin{figure}[b]
-\centering
-\includegraphics{fib5shape}
-\caption{Forme d'un arbre\label{fig_fib5shape}}
-\end{figure}
+\fig~\vref{fig:tree_for_term}
 montre la forme d'un exemple. Les disques sont appelés
 \emph{n{\oe}uds}\index{arbre!n{\oe}ud} et les segments qui connectent
 deux n{\oe}uds sont nommés \emph{arcs}\index{arbre!arc}. Le n{\oe}ud
@@ -243,7 +250,7 @@ n{\oe}ud de l'autre. Un groupe d'arbres est une
 % [0pt] of margin overhang
 \centering
 \includegraphics[bb=68 652 123 708]{tree}% normal is [.. .. .. 715]
-\caption{\label{fig_tree}}
+\caption{}\label{fig:tree}
 \end{wrapfigure}
 Les arbres peuvent figurer les termes de la façon suivante. Un appel
 de fonction est un arbre dont la racine est le nom de la fonction et
@@ -251,7 +258,7 @@ les enfants sont les arbres dénotant les arguments. On peut considérer
 qu'un \(n\)-uplet possède un nom de fonction invisible, représenté par
 un n{\oe}ud avec un point (\texttt{.}) dans l'arbre, auquel cas les
 composantes du \(n\)-uplet sont ses enfants. Par exemple, l'arbre de
-la \fig~\vref{fig_tree} a pour racine~\fun{f} et pour feuilles~\(0\),
+la \fig~\vref{fig:tree} a pour racine~\fun{f} et pour feuilles~\(0\),
 \(x\), \(1\) et~\(y\). Remarquons que les variables \(x\)~et~\(y\)
 sont composées en italique pour les différencier des noms de fonction
 \fun{x}~et~\fun{y}, pour lesquels nous utilisons une police
@@ -259,7 +266,7 @@ linéale. Par exemple, \(\fun{d}((), \fun{e}([1]))\) peut être
 interprété comme un arbre avec la racine~\fun{d}, dont le premier
 sous-arbre immédiat est la représentation du \(n\)-uplet vide \(()\),
 et dont le second sous-arbre immédiat correspond à
-\(\fun{e}([1])\). La \fig~\ref{fig_tree} représente l'arbre associé à
+\(\fun{e}([1])\). La \fig~\ref{fig:tree} représente l'arbre associé à
 \(\fun{f}((\fun{g}(0),(x,1)),(),\fun{g}(y))\). Notons que les
 \(n\)-uplets, excepté celui vide, ne sont pas représentés dans l'arbre
 parce qu'ils codent la structure, qui est déjà visible. Le nombre
@@ -291,11 +298,11 @@ Nous voudrions de plus contraindre le calcul des appels de fonction en
 exigeant que les arguments soient réécrits avant que l'appel lui-même
 ne le soit. Cette stratégie est dite d'\emph{appel par
   valeurs}\index{langage fonctionnel!appel par
-  valeurs}.\label{def_call-by-value} Malheureusement, elle conduit à
+  valeurs}.\label{def:call-by-value} Malheureusement, elle conduit à
 la non-terminaison de certains programmes qui autrement termineraient.
 Par exemple, considérons
 \begin{equation*}
-\fun{f}(x) \xrightarrow{\smash{\alpha}} 0.\qquad 
+\fun{f}(x) \xrightarrow{\smash{\alpha}} 0.\qquad
 \fun{g}() \xrightarrow{\smash{\beta}} \fun{g}().
 \end{equation*}
 Nous avons \(\fun{f}(\fun{g}()) \xrightarrow{\smash{\alpha}} 0\) mais
@@ -324,7 +331,7 @@ système ordonné
 \begin{equation}
 \fun{fact}(0) \rightarrow 1;\qquad
 \fun{fact}(n) \rightarrow n \cdot \fun{fact}(n-1).
-\label{def_fact}
+\label{def:fact}
 \end{equation}
 Par conséquent, \(\fun{fact}(n) \twoheadrightarrow n!\) et le système
 détaille comment réduire pas à pas \(\fun{fact}(n)\) en sa valeur.
@@ -391,7 +398,7 @@ matériels. Soit~\(T\) l'ensemble de tous les termes possibles et \(S
 plus petit ensemble~\(\mathcal{S}\) tel que
 \begin{itemize}
 
-  \item \(\fun{nil}() \in \mathcal{S}\);\label{def_stack}
+  \item \(\fun{nil}() \in \mathcal{S}\);\label{def:stack}
 
   \item si \(x \in T\) et \(s \in \mathcal{S}\), alors
     \(\fun{cons}(x,s) \in \mathcal{S}\).
@@ -405,33 +412,45 @@ normale\index{système de réécriture!forme normale} n'est pas une
 valeur. En termes opérationnels, l'interprète échoue dans sa
 réécriture de l'appel pour certains arguments.
 
-Posons les abréviations commodes \(\el :=
-\fun{nil}()\)\index{nil@\fun{nil/0}|)} et \(\cons{x}{s} :=
-\fun{cons}(x,s)\)\index{cons@\fun{cons/2}|)}, d'après la convention du
-langage de programmation \Prolog
-\citep{SterlingShapiro_1994,Bratko_2000}.  Par exemple, nous pourrions
-écrire \([1|[2|[3|\el]]]\) au lieu de
+Posons les abréviations commodes
+\begin{itemize}
+
+  \item \(\el := \fun{nil}()\)\index{nil@\fun{nil/0}|)},
+
+  \item \(\cons{x}{s} := \fun{cons}(x,s)\)\index{cons@\fun{cons/2}|)},
+
+\end{itemize}
+d'après la convention du langage de programmation \Prolog
+\citep{SterlingShapiro_1994,Bratko_2000}. Ainsi, nous pouvons écrire
+\(\cons{1}{\cons{2}{\cons{3}{\el}}}\) au lieu de
 \(\fun{cons}(1,\fun{cons}(2,\fun{cons}(3,\fun{nil}())))\). Nous
-pouvons de plus abréger la notation \(\cons{x_1}{\cons{x_2}{\dots
-    \cons{x_n}{s}}}\) en \(\cons{x_1,x_2,\dots,x_n}{s}\), ainsi que
-\(\cons{x}{\el}\) en \([x]\). Par exemple, \([1|[2|[3|\el]]]\) est
-plus succinctement décrite par \([1,2,3]\). Notre système définissant
+pouvons de plus abréger les notations comme suit:
+\begin{itemize}
+
+  \item \(\cons{x_1,x_2,\dots,x_n}{s} := \cons{x_1}{\cons{x_2}{\dots
+      \cons{x_n}{s}}}\),
+
+  \item \([x] := \cons{x}{\el}\).
+
+\end{itemize}
+Par exemple, \(\cons{1}{\cons{2}{\cons{3}{\el}}}\) est plus
+succinctement décrite par \([1,2,3]\). Notre système définissant
 \fun{cat/2}\index{cat@\fun{cat/2}} devient maintenant bien plus
 lisible:
 \begin{equation}
 \fun{cat}(        \el,t) \xrightarrow{\smash{\alpha}} t;\qquad
 \fun{cat}(\cons{x}{s},t) \xrightarrow{\smash{\beta}}
 \cons{x}{\fun{cat}(s,t)}.
-\label{def_cat}\index{pile!concaténation!définition}
+\label{def:cat}\index{pile!concaténation!définition}
 \end{equation}
 Finalement, mettons-le à l'épreuve avec l'évaluation suivante:\index{pile!concaténation!exemple}
 \begin{equation*}
 \fun{cat}([1,2],[3,4])
-\!\xrightarrow{\smash{\beta}}\!
+\xrightarrow{\smash{\beta}}
 \cons{1}{\fun{cat}([2],[3,4])}
-\!\xrightarrow{\smash{\beta}}\!
+\xrightarrow{\smash{\beta}}
 \cons{1}{\cons{2}{\fun{cat}(\el,[3,4])}}
-\!\xrightarrow{\smash{\alpha}}\!
+\xrightarrow{\smash{\alpha}}
 [1,2,3,4].
 \end{equation*}
 
@@ -447,21 +466,21 @@ invariantes par l'application des règles de réécriture. Ce concept
 suppose que les termes résident dans une sorte d'espace et qu'ils
 peuvent être référencés à partir d'autres termes. Cet espace abstrait
 sert de modèle à la \emph{mémoire}\index{mémoire} d'un
-ordinateur. Considérons par exemple dans la \fig~\vref{fig_cat_dag} la
-même définition de \fun{cat/2} telle que donnée
-dans~\eqref{def_cat}. Les flèches en lieu d'arcs dénotent un partage
+ordinateur. Considérons par exemple dans la \fig~\vref{fig:cat_dag}
+\begin{figure}
+\centering
+\includegraphics[bb=73 654 300 720]{cat_dag}
+\caption{Définition de \fun{cat/2} avec des graphes orientés sans circuit}
+\label{fig:cat_dag}
+\end{figure}
+la même définition de \fun{cat/2} telle que donnée
+dans~\eqref{def:cat}. Les flèches en lieu d'arcs dénotent un partage
 de donnée. Quand des arbres sont utilisés pour visualiser des termes,
 ils sont appelés \emph{arbres de syntaxe abstraite}\index{arbre!$\sim$
   de syntaxe abstraite}. Quand des arbres partagent des sous-arbres,
 la forêt entière est un \emph{graphe orienté sans
-  circuit}.\index{graphe orienté sans circuit} \index{arbre|see{graphe
+circuit}.\index{graphe orienté sans circuit} \index{arbre|see{graphe
     orienté sans circuit}}
-\begin{figure}[h]
-\centering
-\includegraphics[bb=73 654 300 720]{cat_dag}
-\caption{Définition de \fun{cat/2} avec des graphes orientés sans circuit
-\label{fig_cat_dag}}
-\end{figure}
 
 \section{Analyse des algorithmes}
 
@@ -492,7 +511,7 @@ réécritures pour atteindre la valeur d'un appel de fonction, en
 supposant que les arguments sont des valeurs. En d'autres termes,
 c'est le nombre d'appels nécessaires pour calculer l'appel
 initial. Considérons à nouveau la concaténation de deux piles dans la
-définition~\eqref{def_cat}\index{cat@\fun{cat/2}}:
+définition~\eqref{def:cat}\index{cat@\fun{cat/2}}:
 \begin{equation*}
 \fun{cat}(        \el,t) \xrightarrow{\smash{\alpha}} t;\qquad
 \fun{cat}(\cons{x}{s},t) \xrightarrow{\smash{\beta}}
@@ -502,11 +521,14 @@ Nous observons que \(t\)~est invariant, donc le coût ne dépend que de
 la taille du premier argument. Soit
 \(\C{\fun{cat}}{n}\)\index{cat@$\C{\fun{cat}}{n}$} le coût de l'appel
 \(\fun{cat}(s,t)\)\index{cat@\fun{cat/2}}, où \(n\)~est la taille
-de~\(s\). La règle~\(\alpha\) nous amène à l'équation
-\(\C{\fun{cat}}{0} \eqn{\smash{\alpha}} 1\) et la règle~\(\beta\) à
-\(\C{\fun{cat}}{n+1} \eqn{\smash{\beta}} 1 + \C{\fun{cat}}{n}\);
-prises ensemble, elles conduisent à \(\C{\fun{cat}}{n} = n +
-1\).\label{cost_cat}\index{pile!concaténation!coût}
+de~\(s\). Les règles~\(\alpha\) et~\(\beta\) nous amènent aux
+équations
+\begin{equation*}
+  \C{\fun{cat}}{0} \eqn{\smash{\alpha}} 1 \qquad
+  \C{\fun{cat}}{n+1} \eqn{\smash{\beta}} 1 + \C{\fun{cat}}{n},
+\end{equation*}
+qui, prises ensemble, conduisent à \(\C{\fun{cat}}{n} = n + 1\).
+\label{cost_cat}\index{pile!concaténation!coût}
 
 
 \mypar{Extremums du coût}
@@ -563,7 +585,7 @@ sont dits \emph{en ligne}\index{algorithme en ligne}, parce que le
 processus de tri est temporellement entrelacé avec le processus
 d'acquisition des données. Ainsi, le tri par insertion est en ligne,
 alors que le tri de Hoare ne l'est pas parce qu'il repose sur une
-stratégie, dite «diviser pour régner,» qui partage l'ensemble des
+stratégie, dite «~diviser pour régner~», qui partage l'ensemble des
 données. Cette distinction est pertinente dans d'autres contextes
 aussi, comme celui des algorithmes qui sont intrinsèquement
 \emph{séquentiels}, au lieu de permettre au moins un peu de
@@ -601,8 +623,14 @@ Examinons un compteur énumérant les entiers de~\(0\) à~\(n\) en
 binaire en modifiant un tableau contenant des bits
 \cite[\S{}17.1]{CLRS_2009}. Dans le pire des cas, un incrément
 provoque l'inversion de tous les bits. Le nombre~\(m\) de bits
-de~\(n\) est trouvé en posant \(n := \sum_{i=0}^{m-1}{b_i2^i}\), où les~\(b_i\)
-sont les bits et \(b_{m-1}=1\). Alors
+de~\(n\) est trouvé en posant \(n := \sum_{i=0}^{m-1}{b_i2^i}\), où
+les~\(b_i\) sont les bits et \(b_{m-1}=1\). Par définition
+de~\(b_{m-1}\), la borne inférieur pour~\(n\) est \(2^{m-1}\). La
+borne supérieure est atteinte quand tous les bits sont~\(1\),
+c'est-à-dire, \(2^{m-1} + 2^{m-2} + \ldots + 2^0\). Nommons
+\(S_{m-1}\) cette somme. En simplifiant l'expression \(S_{m-1} = 2
+S_{m-1} - S_{m-1}\), nous obtenons \(S_{m-1} = 2^m - 1\). En regroupant
+les bornes, nous arrivons à:
 \begin{equation}
 2^{m-1} \leqslant n < 2^m \Rightarrow m - 1 \leqslant \lg n
 < m \Rightarrow m = \floor{\lg n} + 1,
@@ -620,16 +648,16 @@ pessimiste, car la propagation de la retenue remet à zéro une série de
 bits en partant de la droite, donc la prochaine addition ne fera
 basculer (en anglais, \emph{to flip}) qu'un seul bit, la suivante
 encore n'en changera que deux etc. comme cela est visible à la
-\fig~\vref{fig_flips}, où les bits qui vont basculer au prochain
+\fig~\vref{fig:flips}, où les bits qui vont basculer au prochain
 incrément sont en gras.
 \begin{figure}[t]
 \centering
-\subfloat[Basculements de bits\label{fig_flips}]{%
+\subfloat[Basculements de bits\label{fig:flips}]{%
 \includegraphics[bb=68 463 168 721]{flips}}
 \qquad
-\subfloat[$F(n) = \sum_{i \geqslant 0}\floor{n/2^i}$, où $n=22$\label{fig_ruler}]%
+\subfloat[$F(n) = \sum_{i \geqslant 0}\floor{n/2^i}$, où $n=22$\label{fig:ruler}]%
 {\includegraphics{ruler}}
-\caption{Bits comptés verticalement et en diagonale}
+\caption{Bits comptés verticalement et diagonalement}
 \end{figure}
 Compter les basculements \emph{verticalement} montre que le bit
 correspondant à~\(2^0\), donc le bit le moins significatif, bascule à
@@ -643,7 +671,7 @@ F(n) := \sum_{k \geqslant 0}{\left\lfloor\frac{n}{2^k}\right\rfloor}.
 \label{eq_F}
 \end{equation}
 Cette somme est en fait toujours finie, comme on le voit à la
-\fig~\vref{fig_ruler}, où, \emph{en diagonale} les bits à~\(1\) à la
+\fig~\vref{fig:ruler}, où, \emph{en diagonale} les bits à~\(1\) à la
 position~\(j\) sont situés aux positions décroissantes de~\(j-1\)
 jusqu'à~\(0\), donc contribuent \(2^j + 2^{j-1} + \dots + 2^0 =
 2^{j+1}-1\).  En toute généralité, posons \(n := 2^{e_r} + \dots +
@@ -667,7 +695,7 @@ où \(\nu_n := r + 1\)\index{somme des bits@$\nu_n$|see{somme des
 le nombre de bits à~\(1\). Cette valeur est nommé différemment selon
 les auteurs et les contextes: \emph{population}, \emph{somme oblique},
 \emph{somme des bits}\index{somme des bits} ou \emph{poids de
-  Hamming}; par exemple, dans la \fig~\vref{fig_ruler}, nous pouvons
+  Hamming}; par exemple, dans la \fig~\vref{fig:ruler}, nous pouvons
 lire \(F(22) = 41 = 2 \cdot 22 - 3\).
 
 Pour évaluer \(F(n)\) à l'asymptote, nous devons l'encadrer par des
@@ -686,14 +714,14 @@ où \(\ln n\)~est le \emph{logarithme naturel} de~\(n\). Par la suite,
 \begin{equation*}
 F(n) \sim 2n,\;\, \text{lorsque \(n \rightarrow \infty\)}.
 \end{equation*}
-Deux énumérations, l'une verticale, l'autre en diagonale, ont montré
-que le nombre total exact de basculements de bits est d'un ordre de
+Deux énumérations, l'une verticale, l'autre diagonale, ont montré que
+le nombre total exact de basculements de bits est d'un ordre de
 grandeur plus bas qu'attendu.
 
 Cet exemple ressortit à une classe particulière d'analyse du coût
 amorti appelée \emph{analyse agrégeante}, parce qu'elle repose sur un
 \emph{dénombrement combinatoire}
-\citep{Stanley_1997,Stanley_1999,Martin_2001} pour atteindre son but;
+\citep{Stanley_1999a,Stanley_1999b,Martin_2001} pour atteindre son but;
 plus précisément, elle agrège des quantités positives partielles,
 souvent de différentes manières, pour obtenir le coût total. Une
 variation visuellement plaisante sur l'exemple précédent consiste à
@@ -708,13 +736,16 @@ Remarquons que \(\fun{cat}([1], [2,3,4]) \twoheadrightarrow [1,2,3,4]
 \emph{classes d'équivalence} de termes qui sont joignables, fondée
 sur~\((\equiv)\) \index{équivalence@$a \equiv b$|see{équivalence
     d'expressions}} \index{équivalence!$\sim$ d'expressions} définie
-ainsi: \(a \equiv b\) s'il existe une valeur~\(v\) telle que \(a
-\xrightarrow{\smash[t]{*}} v\) et \(b \xrightarrow{\smash{*}} v\). Par
-exemple, \(\fun{cat}([1,2], [3,4]) \equiv \fun{cat}([1],
+ainsi:
+\begin{center}
+  \(a \equiv b\) si'il existe une valeur~\(v\) telle que \(a
+  \xrightarrow{\smash[t]{*}} v\) et \(b \xrightarrow{\smash{*}} v\).
+\end{center}
+Par exemple, \(\fun{cat}([1,2], [3,4]) \equiv \fun{cat}([1],
 [2,3,4])\). La relation (\(\equiv\)) est en effet une équivalence
 parce qu'elle est
 \begin{itemize}
- 
+
   \item \emph{réflexive}: \(a \equiv a\);
 
   \item \emph{symétrique}: si \(a \equiv b\), alors \(b \equiv a\);
@@ -723,19 +754,20 @@ parce qu'elle est
     \(a \equiv c\).
 
 \end{itemize}
-Les fait suivants sont intéressants. Si \(f(x)\) et~\(f(y)\) ont une
-valeur, alors \(x \equiv y\) implique \(f(x) \equiv f(y)\). Si \(x_1
-\leftarrow x_2 \twoheadrightarrow x_3 \equiv x_4 \rightarrow x_5
-\twoheadleftarrow x_6\), alors \(x_1 \equiv x_2 \equiv x_3 \equiv x_4
-\equiv x_5 \equiv x_6\). Dans le cas où \(x \twoheadrightarrow z
-\xrightarrow{\smash{\alpha}} t \twoheadleftarrow y\), nous employons
-la notation dédiée \(x \Rra{\alpha} y\) pour souligner le rôle que
-joue la règle~\(\alpha\) dans l'équivalence, au lieu du simple \(x
-\equiv y\). Si nous voulons prouver des équivalences avec des
-variables prenant leur valeurs dans des ensembles infinis, comme
-\(\fun{cat}(s,\fun{cat}(t,u)) \equiv
-\fun{cat}(\fun{cat}(s,t),u)\)\index{cat@\fun{cat/2}|)}, nous avons
-besoin d'un principe d'induction.
+%% Les fait suivants sont intéressants. Si \(f(x)\) et~\(f(y)\) ont une
+%% valeur, alors \(x \equiv y\) implique \(f(x) \equiv f(y)\). Si \(x_1
+%% \leftarrow x_2 \twoheadrightarrow x_3 \equiv x_4 \rightarrow x_5
+%% \twoheadleftarrow x_6\), alors \(x_1 \equiv x_2 \equiv x_3 \equiv x_4
+%% \equiv x_5 \equiv x_6\). Dans le cas où \(x \twoheadrightarrow z
+%% \xrightarrow{\smash{\alpha}} t \twoheadleftarrow y\), nous employons
+%% la notation dédiée \(x \Rra{\alpha} y\) pour souligner le rôle que
+%% joue la règle~\(\alpha\) dans l'équivalence, au lieu du simple \(x
+%% \equiv y\).
+
+Si nous voulons prouver des équivalences avec des variables
+parcourant des ensembles infinis, comme \(\fun{cat}(s,\fun{cat}(t,u))
+\equiv \fun{cat}(\fun{cat}(s,t),u)\)\index{cat@\fun{cat/2}|)}, nous
+avons besoin d'un \emph{principe d'induction}.
 
 \mypar{Induction bien fondée}
 \label{par_well-founded}
@@ -747,10 +779,13 @@ ensemble~\(A\) comme étant une relation binaire \((\succ)\) sans
 \emph{chaînes infiniment descendantes}\index{induction!chaînes
   infiniment descendantes}, c'est-à-dire que nous n'avons pas les
 relations \(a_0 \succ a_1 \succ \dots\) Le \emph{principe d'induction
-  bien fondée} énonce alors que, pour tout prédicat~\(\aleph\), sa
-validité universelle \(\forall a \in A.\aleph(a)\) est impliquée par
+bien fondée} énonce alors que, pour tout prédicat~\(\aleph\),
+\begin{center}
+  \(\forall a \in A.\aleph(a)\) est impliquée par
 \(\forall a.(\forall b.a \succ b \Rightarrow \aleph(b)) \Rightarrow
-\aleph(a)\). L'absence de chaînes infiniment décroissantes fait que
+\aleph(a)\).
+\end{center}
+L'absence de chaînes infiniment décroissantes fait que
 tout sous-ensemble \(B \subseteq A\) contient des éléments minimaux
 \(M \subseteq B\), c'est-à-dire qu'il n'y a pas de \(b \in B\) tel que
 \(a \succ b\), si \(a \in M\). Dans ce cas, dit \emph{la base},
@@ -762,75 +797,18 @@ l'\emph{induction complète} \citep{Buck_1963}\index{induction!$\sim$
 si, et seulement si, \(s\)~est un \emph{sous-terme
   propre}\index{terme!sous-terme}\index{terme!sous-terme propre}
 de~\(t\), en d'autres termes, l'arbre de syntaxe abstraite de~\(s\)
-est inclus dans l'arbre de~\(t\) et \(s \neq t\). Parfois, une forme
-restreinte est suffisante. Par exemple, nous pouvons définir
-\(\cons{x}{s} \succ s\)\index{cons@\fun{cons/2}}, pour tout
-terme~\(x\) et toute pile~\(s \in S\). (À la fois \(x\)~et~\(s\) sont
-des \emph{sous-termes immédiats}\index{terme!sous-terme immédiat} de
-\(\cons{x}{s}\)\index{cons@\fun{cons/2}}.) Il n'existe pas de chaînes
-infiniment décroissantes parce que \(\el\)~est l'unique élément
-minimal de~\(S\): aucun~\(s\) ne satisfait \(\el \succ s\); donc le
-cas de base est \(t=\el\) et \(\forall t.(\forall s.t \succ s
+est inclus dans l'arbre de~\(t\) et \(s \neq t\).
+
+Parfois, une forme restreinte est suffisante. Par exemple, nous
+pouvons définir \(\cons{x}{s} \succ s\)\index{cons@\fun{cons/2}}, pour
+tout terme~\(x\) et toute pile~\(s \in S\). (À la fois \(x\)~et~\(s\)
+sont des \emph{sous-termes immédiats}\index{terme!sous-terme immédiat}
+de \(\cons{x}{s}\)\index{cons@\fun{cons/2}}.) Il n'existe pas de
+chaînes infiniment décroissantes parce que \(\el\)~est l'unique
+élément minimal de~\(S\): aucun~\(s\) ne satisfait \(\el \succ s\);
+donc le cas de base est \(t=\el\) et \(\forall t.(\forall s.t \succ s
 \Rightarrow \aleph(s)) \Rightarrow \aleph(t)\) dégénère en
 \(\aleph(\el)\).
-
-\paragraph{Associativité}
-\label{proof_assoc_cat}
-
-Prouvons l'associativité\index{pile!concaténation!associativité}
-\index{induction!exemple} de \fun{cat/2}\index{cat@\fun{cat/2}}, que
-nous exprimons symboliquement par \(\pred{CatAssoc}{s,t,u} \colon
-\fun{cat}(s,\fun{cat}(t,u)) \equiv
-\fun{cat}(\fun{cat}(s,t),u)\)\index{CatAssoc@\predName{CatAssoc}|(},
-où \(s\), \(t\) et~\(u\) sont des valeurs de pile. Nous employons le
-principe d'induction bien fondée à la structure de~\(s\), donc nous
-devons établir
-\begin{itemize}
-
-  \item la base \(\forall t,u \in S.\pred{CatAssoc}{\el,t,u}\);
-
-  \item le pas \(\forall s,t,u \in S.\pred{CatAssoc}{s,t,u}
-    \Rightarrow \forall x \in T.\pred{CatAssoc}{\cons{x}{s},t,u}\).
-
-\end{itemize}
-Le cas de base est direct: \(\fun{cat}(\el,\fun{cat}(s,t))
-\xrightarrow{\smash{\alpha}} \fun{cat}(s,t)
-\xleftarrow{\smash{\alpha}}
-\fun{cat}(\fun{cat}(\el,t),u)\)\index{cat@\fun{cat/2}}. Supposons
-maintenant \(\pred{CatAssoc}{s,t,u}\), appelé l'\emph{hypothèse
-  d'induction}\index{induction!hypothèse d'$\sim$}, et prouvons
-\(\pred{CatAssoc}{\cons{x}{s},t,u}\)\index{CatAssoc@\predName{CatAssoc}|)},
-pour tout terme~\(x\). Nous avons
-\begin{equation*}
-\begin{array}{r@{\;}l@{\;}l@{\qquad}r@{}}
-  \fun{cat}(\cons{x}{s},\fun{cat}(t,u))
-& \Rra{\beta}
-& \cons{x}{\fun{cat}(s,\fun{cat}(t,u))}\\
-& \equiv
-& \cons{x}{\fun{cat}(\fun{cat}(s,t),u)}
-& (\pred{CatAssoc}{s,t,u})\\
-& \Lla{\beta}
-& \fun{cat}(\cons{x}{\fun{cat}(s,t)},u)\\
-& \Lla{\beta}
-& \fun{cat}(\fun{cat}(\cons{x}{s},t),u).\index{cat@\fun{cat/2}}
-\end{array}
-\end{equation*}
-Donc\index{CatAssoc@\predName{CatAssoc}}
-\(\pred{CatAssoc}{\cons{x}{s},t,u}\) est vraie et \(\forall s,t,u \in
-S.\pred{CatAssoc}{s,t,u}\)\index{CatAssoc@\predName{CatAssoc}}.\hfill\(\Box\)
-
-Écrire \(\fun{cat}(\cons{x}{s},\fun{cat}(t,u))
-\xrightarrow{\smash{\beta}} \cons{x}{\fun{cat}(s,\fun{cat}(t,u))}\)
-est incorrect parce que la sémantique de notre langage fonctionnel
-exige que les arguments soient évalués avant l'appel. Néanmoins,
-si~\(s\), \(t\) et~\(u\) ne sont pas des valeurs, il est suffisant
-qu'elles en aient une pour que \(\pred{CatAssoc}{s,t,u}\) soit vrai
-aussi; par exemple, si \(f(s)\) a la valeur~\(v\), alors
-\(\pred{CatAssoc}{f(s),t,u}\) est vrai car
-\(\fun{cat}(f(s),\fun{cat}(t,u)) \twoheadrightarrow
-\fun{cat}(v,\fun{cat}(t,u)) \equiv \fun{cat}(\fun{cat}(v,t),u)
-\twoheadleftarrow \fun{cat}(\fun{cat}(f(s),t),u)\). Par conséquent, la
-terminaison est une propriété importante que nous devons établir.
 
 \mypar{Terminaison}
 \label{par_ackermann}
@@ -855,9 +833,9 @@ d'usages.
 Considérons l'exemple suivant où \(m,n \in \mathbb{N}\):
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{}}
-\fun{ack}(0,n)     & \xrightarrow{\smash{\theta}} & n+1;\\
-\fun{ack}(m+1,0)   & \xrightarrow{\smash{\iota}}  & \fun{ack}(m,1);\\
-\fun{ack}(m+1,n+1) & \xrightarrow{\smash{\kappa}} 
+\fun{ack}(0,n)     & \smashedrightarrow{\theta} & n+1;\\
+\fun{ack}(m+1,0)   & \smashedrightarrow{\iota} & \fun{ack}(m,1);\\
+\fun{ack}(m+1,n+1) & \smashedrightarrow{\kappa}
                    & \fun{ack}(m,\fun{ack}(m+1,n)).
 \end{array}
 \end{equation*}
@@ -866,7 +844,9 @@ des premiers exemples d'une fonction calculable, récursive et totale
 qui n'est pas primitive. Sa définition fait usage d'une double
 récursivité et de deux paramètres pour calculer des valeurs dont la
 taille croît comme une tour d'exponentielles, par exemple,
-\(\fun{ack}(4,3) \twoheadrightarrow 2^{2^{65536}} - 3\). Sa
+\begin{equation*}
+  \fun{ack}(4,3) \twoheadrightarrow 2^{2^{65536}} - 3.
+\end{equation*}
 terminaison n'est pas évidente, parce que si le premier argument
 décroît bien, le second croît énormément.
 
@@ -878,7 +858,7 @@ comme suit sur \(A \times B\) est bien fondé:
 \begin{equation}
 (a_0,b_0) \succ_{A \times B} (a_1,b_1) :\Leftrightarrow \text{\(a_0
     \succ_A a_1\) ou (\(a_0 = a_1\) et \(b_0 \succ_B b_1\)).}
-\label{def_lexico}
+\label{def:lexico}
 \end{equation}
 Si \(A=B=\mathbb{N}\), alors \((\succ_A) = (\succ_B) = (>)\). Pour
 prouver que \(\fun{ack}(m,n)\) termine pour tout \(m,n \in
@@ -888,17 +868,26 @@ totalement ordonnés sans chaînes infiniment décroissantes. Dans ce
 cas, un ordre lexicographique sur \((m,n) \in \mathbb{N}^2\), étendu à
 \(\fun{ack}(m,n)\), fait l'affaire:
 \begin{equation*}
-\fun{ack}(a_0,b_0) \succ \fun{ack}(a_1,b_1) :\Leftrightarrow 
+\fun{ack}(a_0,b_0) \succ \fun{ack}(a_1,b_1) :\Leftrightarrow
 \text{\(a_0 > a_1\) ou (\(a_0 = a_1\) et \(b_0 > b_1\)).}
 \end{equation*}
 Clairement, \(\fun{ack}(0,0)\) est l'élément minimum. Ensuite, nous
 devons prouver que \(\fun{ack}(m,n)\), avec \(m > 0\) ou \(n > 0\), se
-réécrit en appels plus petits. Avec la règle~\(\iota\), nous avons
-\(\fun{ack}(m+1,0) \succ \fun{ack}(m,1)\). Avec la règle~\(\kappa\),
-nous avons \(\fun{ack}(m+1,n+1) \succ \fun{ack}(m+1,n)\) et
-\(\fun{ack}(m+1,n+1) \succ \fun{ack}(m,p)\), pour toute valeur~\(p\),
-en particulier quand \(\fun{ack}(m+1,n) \twoheadrightarrow
-p\)\index{ack@\fun{ack/2}|)}.\hfill\(\Box\)
+réécrit en appels plus petits. Nous n'avons besoin d'examiner que les
+règles~\(\iota\) et~\(\kappa\). Avec la première, nous avons
+l'inégalité
+\begin{equation*}
+  \fun{ack}(m+1,0) \succ \fun{ack}(m,1).
+\end{equation*}
+Avec la règle~\(\kappa\), nous avons les inégalités suivantes:
+\begin{equation*}
+  \begin{array}{@{}r@{\;}l@{\;}l@{}}
+    \fun{ack}(m+1,n+1) & \succ & \fun{ack}(m+1,n),\\
+    \fun{ack}(m+1,n+1) & \succ & \fun{ack}(m,p),
+  \end{array}
+\end{equation*}
+pour toute valeur~\(p\), en particulier quand \(\fun{ack}(m+1,n)
+\twoheadrightarrow p\)\index{ack@\fun{ack/2}|)}.\hfill\(\Box\)
 
 Une série d'exemples de preuves de
 terminaison\index{terminaison}\index{système de
@@ -906,6 +895,89 @@ terminaison\index{terminaison}\index{système de
 publiée par \cite{Dershowitz_1995,ArtsGiesl_2001}. Un compendium
 accessible a été rédigé par \cite{Dershowitz_1987}. \cite{Knuth_2000a}
 a analysé des fonctions récursives particulièrement compliquées.
+
+\paragraph{Associativité}
+\label{proof_assoc_cat}
+
+Rappelons la définition~\eqref{def:cat} de la concaténation de deux
+piles:
+\begin{equation*}
+\fun{cat}(        \el,t) \xrightarrow{\smash{\alpha}} t;\qquad
+\fun{cat}(\cons{x}{s},t) \xrightarrow{\smash{\beta}}
+\cons{x}{\fun{cat}(s,t)}.
+\index{stack!concatenation!definition}
+\end{equation*}
+et prouvons l'associativité\index{pile!concaténation!associativité}
+\index{induction!exemple} de \fun{cat/2}\index{cat@\fun{cat/2}},
+symboliquement exprimée par
+\begin{equation*}
+  \pred{CatAssoc}{s,t,u} \colon
+\fun{cat}(s,\fun{cat}(t,u)) \equiv
+\fun{cat}(\fun{cat}(s,t),u)
+\index{CatAssoc@\predName{CatAssoc}|(}
+\end{equation*}
+où \(s\), \(t\) et~\(u\) sont des valeurs de pile.
+
+L'objectif ici est d'utiliser le système de réécriture comme une
+machine abstraite pour prouver une propriété, avec l'aide opportune du
+principe d'induction. Précisément, nous voulons réécrire chaque membre
+de l'équivalence que nous souhaitons prouver, jusqu'à ce que nous
+obtenions le même terme (égalité), ou employions le principe
+d'induction (équivalence). Nous voulons être libre de choisir une
+réécriture parmi celles possibles pour un terme donné, et cette
+liberté nous est donnée par la conjonction de la terminaison et de la
+confluence du système de réécriture définissant les fonctions: nous
+supposons toujours qu'elles sont avérées lorsque nous prouvons des
+propriétés de telles fonctions.
+
+Nous employons le principe d'induction bien fondée à la structure
+de~\(s\), donc nous devons établir la base et le pas inductif
+suivants:
+\begin{itemize}
+
+  \item la base \(\forall t,u \in S.\pred{CatAssoc}{\el,t,u}\);
+
+  \item le pas \(\forall s,t,u \in S.\pred{CatAssoc}{s,t,u}
+    \Rightarrow \forall x \in T.\pred{CatAssoc}{\cons{x}{s},t,u}\).
+
+\end{itemize}
+
+\noindent En soulignant l'appel qui est réécrit, le cas de base
+est:
+\begin{equation*} \ufun{cat}(\el,\fun{cat}(t,u))
+  \xrightarrow{\smash{\alpha}} \fun{cat}(t,u)
+  \xleftarrow{\smash{\alpha}} \fun{cat}(\ufun{cat}(\el,t),u).
+  \index{cat@\fun{cat/2}}
+\end{equation*}
+Supposons maintenant \(\pred{CatAssoc}{s,t,u}\), appelé
+l'\emph{hypothèse d'induction}\index{induction!hypothèse d'$\sim$}, et
+prouvons
+\(\pred{CatAssoc}{\cons{x}{s},t,u}\)\index{CatAssoc@\predName{CatAssoc}|)},
+pour tout terme~\(x\). Nous avons
+\begin{equation*}
+\begin{array}{r@{\;}l@{\;}l@{\qquad}r@{}}
+  \ufun{cat}(\cons{x}{s},\fun{cat}(t,u))
+& \xrightarrow{\smash\beta}
+& \cons{x}{\fun{cat}(s,\fun{cat}(t,u))}\\
+& \equiv
+& \cons{x}{\fun{cat}(\fun{cat}(s,t),u)}
+& (\pred{CatAssoc}{s,t,u})\\
+& \xleftarrow{\smash\beta}
+& \ufun{cat}(\cons{x}{\fun{cat}(s,t)},u)\\
+& \xleftarrow{\smash\beta}
+& \fun{cat}(\ufun{cat}(\cons{x}{s},t),u).\index{cat@\fun{cat/2}}
+\end{array}
+\end{equation*}
+Donc\index{CatAssoc@\predName{CatAssoc}}
+\(\pred{CatAssoc}{\cons{x}{s},t,u}\) est vraie et \(\forall s,t,u \in
+S.\pred{CatAssoc}{s,t,u}\)\index{CatAssoc@\predName{CatAssoc}}.\hfill\(\Box\)
+
+Remarquons que nous avons filtré ici une expression, c'est-à-dire
+\(\fun{cat}(\cons{x}{s},\fun{cat}(t,u))\), au lieu d'une valeur, comme
+c'est le cas avec une stratégie d'évaluation par appel, parce nous
+travaillons avec des équivalences et nous supposons que le système
+termine et est confluent, donc \emph{toute stratégie de réduction
+convient}.
 
 \section{Réalisation de logiciel}
 \label{sec_implementation}
@@ -980,15 +1052,13 @@ programmation approfondie.
 \paragraph{Patrons conceptuels}
 
 Le patron conceptuel en \Java qui modélise une pile\index{pile!$\sim$
-  en \Java} s'appuie sur les méthodes polymorphes, les classes
-récursives et les génériques. Une classe abstraite et générique
-\texttt{Stack} capture l'essence d'une pile comme suit:
+  en \Java} s'appuie sur les méthodes polymorphes et les classes
+génériques et abstraites. Une telle classe \texttt{Stack} capture
+l'essence d'une pile:
 \begin{alltt}
-// Stack.java
-\public \abstractX \class Stack<Item> \{
+\public \abstractX \class Stack<Item> \{ // Stack.java
   \public \final NStack<Item> push(\final Item item) \{
-    \return \new NStack<Item>(item,\this); \}
-\}
+    \return \new NStack<Item>(item,\this); \} \}
 \end{alltt}
 Une pile est vide ou non et la classe \texttt{Stack} est abstraite
 parce qu'elle affirme que ces deux cas sont des piles et qu'ils
@@ -999,8 +1069,8 @@ méthode. L'argument \texttt{item} de \texttt{push} est déclaré
 \final{} parce que nous voulons qu'il soit constant dans le corps de
 la méthode, suivant en cela le paradigme fonctionnel. La pile
 vide~\(\el\) est associée à une extension \texttt{EStack} de
-\texttt{Stack}, capturant la relation «Une pile vide est une pile.» La
-classe \texttt{EStack} ne contient aucune donnée.
+\texttt{Stack}, capturant la relation «~une pile vide est une
+pile~». La classe \texttt{EStack} ne contient aucune donnée.
 \begin{alltt}
 // EStack.java
 \public \final \class EStack<Item> \extends Stack<Item> \{\}
@@ -1011,6 +1081,7 @@ sous-classe de \texttt{Stack}:
 // NStack.java
 \public \final \class NStack<Item> \extends Stack<Item> \{
   \private \final Item head;
+
   \private \final Stack<Item> tail;
 
   \public NStack(\final Item item, \final Stack<Item> stack) \{
@@ -1029,8 +1100,8 @@ qui peut-être réutilise d'autres piles comme composants constants.
 \paragraph{Concaténation de piles}
 
 Pour illustrer les piles en \Java,\index{pile!concaténation!$\sim$ en
-  \Java|(} rappelons-nous de la définition~\eqref{def_cat} à la
-page~\pageref{def_cat}\index{cat@\fun{cat/2}|(} pour concaténer deux
+  \Java|(} rappelons-nous de la définition~\eqref{def:cat} à la
+page~\pageref{def:cat}\index{cat@\fun{cat/2}|(} pour concaténer deux
 piles:
 \begin{equation*}
 \fun{cat}(        \el,t) \xrightarrow{\smash{\alpha}} t;\qquad
@@ -1048,7 +1119,7 @@ second de \fun{cat/2}):
 \end{alltt}
 La règle~\(\alpha\) s'applique seulement à l'objet
 représentant~\(\el\), donc la traduction correspondante est une
-méthode de \texttt{EStack} qui retourne son argument:
+méthode de \texttt{EStack} qui retourne son argument inchangé:
 \begin{alltt}
 \public Stack<Item> cat(\final Stack<Item> t) \{ \return t; \}
 \end{alltt}

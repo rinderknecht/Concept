@@ -8,19 +8,32 @@
 
 % Bibliographic style
 %
-\usepackage[comma]{natbib}       % Before babel
+\usepackage[comma]{natbib}       % Before babel!
 \bibliographystyle{plainnat-fr}
 \usepackage{etoolbox}
 \apptocmd{\thebibliography}{\raggedright}{}{} % No Underfull \hbox
 
 % Language and fonts
 %
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}       % Required for \DJ and hyphenation
-\usepackage[francais]{babel}
-\usepackage{url}               % To typeset URLs
-\usepackage[scaled]{beramono}  % Nice bold/italic teletype font
-\usepackage{microtype}         % Microtypographic enhancements
+\usepackage[french]{babel}        % French
+\usepackage[T1]{fontenc}          % Required for hyphenation and \DJ
+\usepackage[utf8]{inputenc}       % UTF-8 encoding
+%\usepackage{hyphenat}            % Not needed with Babel French
+\usepackage{url}                  % To typeset URLs
+\usepackage[scaled=0.8]{beramono} % Nice bold/italic teletype font
+\usepackage{microtype}            % Microtypographic enhancements
+\usepackage{framed}
+
+% Hyperlinks
+%
+% Note: figure references do not seem to work.
+% Note: Set "USE_PS := yes" in Makefile.cfg
+%
+%\usepackage[ps2pdf,breaklinks]{hyperref}
+%\hypersetup{colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue}
+
+\frenchspacing  % Follow French conventions after a period
+\hfuzz 2pt      % Do not report overhang less than 2pt
 
 % Tricky hyphenations
 %
@@ -41,8 +54,8 @@
 % Figures/Graphics
 %
 \usepackage{graphicx}   % Inclusion
-\usepackage[justification=raggedleft]{caption}
 \usepackage{float}      % Before package `wrapfig'
+\usepackage[justification=raggedleft]{caption}
 \usepackage{subfig}     % Subfigures
 \captionsetup[subfloat]{justification=raggedleft}
 \usepackage{wrapfig}    % Wrapping text around figures
@@ -60,16 +73,23 @@
 \usepackage{verbatim} % Inputting in verbatim environment
 \usepackage{alltt}    % Extended verbatim environment
 
+% Tables
+%
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{tabulary}
+\usepackage{hhline}
+
 % Miscellanea
 %
 \usepackage{xspace}    % Automatic insertion of a space after a macro
 \usepackage[french]{varioref}  % References with page numbers
 \usepackage{booktabs}
 
-
 % New commands
 %
 \input{commands}
+\input{comp_macros}
 \input{xmllint}
 \input{saxon}
 \input{erlc}
@@ -82,6 +102,8 @@
 \title{\Huge Conception et analyse des programmes purement fonctionnels}
 \author{\Large Christian Rinderknecht}
 \date{}
+
+\includeonly{introduction}
 
 % ---------------------------------------------------------------------
 %
