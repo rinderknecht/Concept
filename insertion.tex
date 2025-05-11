@@ -1,5 +1,5 @@
 \chapter{Tri par insertion}
-\label{chap_insertion}
+\label{chap:insertion}
 \index{tri!$\sim$ par insertion|(}
 
 Si nous avons une pile de clés totalement ordonnées, il est aisé d'y
@@ -16,11 +16,11 @@ dans un jeu de cartes: chaque carte, de gauche à droite, est comparée
 et déplacée vers la gauche jusqu'à ce qu'elle atteigne sa place.
 
 \section{Insertion simple}
-\label{sec_straight_ins}
+\label{sec:straight_ins}
 \index{tri par insertion!insertion simple|(}
 
 Soit~\(\fun{ins}(s,x)\)\index{ins@\fun{ins/2}} (à ne pas confondre
-avec la fonction de même nom et arité à la section~\ref{sec_opt_sort})
+avec la fonction de même nom et arité à la section~\ref{sec:opt_sort})
 la pile ordonnée de façon croissante et résultant de l'\emph{insertion
   simple} de~\(x\) dans la pile~\(s\). La fonction \fun{ins/2} peut
 être définie en supposant une fonction minimum et maximum,
@@ -55,18 +55,18 @@ redéfinir~\fun{ins/2}\index{ins@\fun{ins/2}|(} comme
   \fun{ins}(\cons{y}{s},x)
 & \xrightarrow{\smash{\kappa}}
 & \cons{y}{\fun{ins}(s,x)}, \,\text{si \(x \succ y\)};
-& \fun{isrt}(\el) 
+& \fun{isrt}(\el)
 & \xrightarrow{\smash{\mu}}
 & \el;\\
   \fun{ins}(s,x)
 & \xrightarrow{\smash{\lambda}}
 & \cons{x}{s}.
 & \fun{isrt}(\cons{x}{s})
-& \xrightarrow{\smash{\nu}} 
+& \xrightarrow{\smash{\nu}}
 & \fun{ins}(\fun{isrt}(s),x).
 \end{array}
 \end{equation*}
-Considérons un court exemple à la \fig~\vref{fig_isrt_312}.
+Considérons un court exemple à la \fig~\vref{fig:isrt_312}.
 \begin{figure}
 \begin{equation*}
 \boxed{%
@@ -92,7 +92,7 @@ Considérons un court exemple à la \fig~\vref{fig_isrt_312}.
 \end{array}}
 \end{equation*}
 \caption{\(\fun{isrt}([3,1,2]) \twoheadrightarrow [1,2,3]\)
-\label{fig_isrt_312}\index{tri par insertion!insertion simple!exemple}}
+\label{fig:isrt_312}\index{tri par insertion!insertion simple!exemple}}
 \end{figure}
 \index{isrt@\fun{isrt/1}|)} \index{ins@\fun{ins/2}|)}
 
@@ -121,7 +121,7 @@ moyen.\index{isrt@$\C{\fun{isrt}}{n}$|)}
 
 \addcontentsline{toc}{subsection}{Coût}
 \paragraph{Coût minimum}
-\index{tri par insertion!insertion simple!coût minimum} 
+\index{tri par insertion!insertion simple!coût minimum}
 
 Le meilleur des cas se passe de la règle~\(\kappa\). En d'autres
 termes, à la règle~\(\nu\), chaque clé~\(x\) insérée dans une pile
@@ -129,7 +129,7 @@ triée non-vide \(\fun{isrt}(s)\)\index{isrt@\fun{isrt/1}} est
 inférieure ou égale au sommet de la pile. Cette règle insère les clés
 dans l'ordre inverse:
 \begin{equation}
-\fun{isrt}([x_1,\dots,x_n]) \twoheadrightarrow 
+\fun{isrt}([x_1,\dots,x_n]) \twoheadrightarrow
 \fun{ins}(\fun{ins}(\dots(\fun{ins}(\el,x_n)\dots),x_2),x_1).
 \label{inv_isrt}
 \end{equation}
@@ -171,7 +171,7 @@ Une autre façon consiste à prendre la longueur de la trace maximale:
 Ce coût ne devrait pas nous surprendre parce que
 \fun{isrt/1}\index{isrt@\fun{isrt/1}} et
 \fun{rev\(_0\)/1}\index{rev0@\fun{rev\(_0\)/1}}, à la
-section~\ref{sec_reversal}, produisent la même sorte de réécritures
+section~\ref{sec:reversal}, produisent la même sorte de réécritures
 partielles, comme on peut le constater en comparant~\eqref{inv_isrt}
 \vpageref{inv_isrt} et~\eqref{eq_rev0} \vpageref{eq_rev0}, et aussi
 \(\C{\fun{cat}}{n} =
@@ -182,7 +182,7 @@ où \(n\)~est la taille de leur premier argument. Par conséquent,
 \index{isrt@$\W{\fun{isrt}}{n}$}
 
 \paragraph{Coût moyen}
-\label{par_ave_isrt}
+\label{par:ave_isrt}
 \index{tri par insertion!insertion simple!coût moyen}
 
 Le coût moyen satisfait l'équation~\eqref{eq_cost_isrt} parce que
@@ -196,7 +196,7 @@ Sans perte de généralité, on dira que
 l'insertion de la clé \(i+1\) dans toutes les permutations de
 \((1,\dots,i)\), divisé par \(i+1\). (C'est ainsi que l'ensemble des
 permutations\index{permutation} d'une taille donnée est construit
-inductivement à la page~\pageref{par_permutations}.) L'évaluation
+inductivement à la page~\pageref{par:permutations}.) L'évaluation
 partielle~\eqref{inv_isrt}\index{langage fonctionnel!évaluation!$\sim$
   partielle} à la page~\pageref{inv_isrt} a pour longueur
 \(\len{\nu^n\mu}=n+1\). La trace correspondant à l'insertion dans une
@@ -290,31 +290,31 @@ est que le nombre moyen d'inversions dans une permutation aléatoire de
 
 Comme nous l'avons fait pour la preuve de correction\index{tri par
   insertion!correction|(} de \fun{cut/2}\index{cut@\fun{cut/2}}
-\vpageref{par_cut_sound}, nous devons exprimer ici les propriétés
+\vpageref{par:cut_sound}, nous devons exprimer ici les propriétés
 caractéristiques que nous attendons du résultat de \fun{isrt/1},
-d'abord informellement, puis formellement. Nous pourrions dire: «La
+d'abord informellement, puis formellement. Nous pourrions dire: «~La
 pile \(\fun{isrt}(s)\)\index{isrt@\fun{isrt/1}} est totalement
 ordonnée de façon croissante et contient toutes les clés présentes
-dans~\(s\), sans plus.» Cela capture tout ce que l'on attend d'un
+dans~\(s\), sans plus.~» Cela capture tout ce que l'on attend d'un
 algorithme de tri.
 
-Soit \(\pred{Ord}{s}\)\index{Ord@\predName{Ord}|(} la proposition « La
-pile~\(s\) est triée en ordre croissant.» Pour définir formellement ce
+Soit \(\pred{Ord}{s}\)\index{Ord@\predName{Ord}|(} la proposition «~ La
+pile~\(s\) est triée en ordre croissant.~» Pour définir formellement ce
 concept, utilisons des \emph{définitions logiques inductives}.
 \index{induction!définition par $\sim$} Nous avons employé cette
 technique pour définir formellement les piles, à
-la~\vpageref{def_stack}, d'une manière qui engendre un ordre bien
+la~\vpageref{def:stack}, d'une manière qui engendre un ordre bien
 fondé simple qui est mis à profit par l'induction structurelle, à
 savoir, \(\cons{x}{s} \succ x\) et \(\cons{x}{s} \succ s\). Ici, nous
 allons prouver \(\pred{Ord}{s}\) si \(\pred{Ord}{t}\) est vraie pour
 tout~\(t\) tel que~\(s \succ t\). Nous avons défini \fun{cut/2} à la
-section~\ref{sec_cutting}, \vpageref{sec_cutting}, en utilisant la
+section~\ref{sec:cutting}, \vpageref{sec:cutting}, en utilisant la
 même technique sur des règles d'inférence. Ces trois cas, structure de
 donnée, proposition et fonction, sont des cas particuliers de
 définitions inductives. Définissons par construction
 \(\predName{Ord}\) à l'aide des axiomes \(\TirName{Ord}_0\) et
 \(\TirName{Ord}_1\), et de la règle d'inférence \(\TirName{Ord}_2\)
-comme suit:\label{def_Ord}
+comme suit:\label{def:Ord}
 \begin{mathpar}
 \inferrule*{}{\pred{Ord}{\el}}
 \;\TirName{Ord}_0
@@ -349,13 +349,13 @@ putative, ou comme une \emph{analyse par cas sur une définition
 \paragraph{Piles équivalentes}
 \index{pile!équivalence}
 
-La seconde partie de notre définition informelle ci-dessus était: «La
+La seconde partie de notre définition informelle ci-dessus était: «~La
 pile \(\fun{isrt}(s)\)\index{isrt@\fun{isrt/1}} contient toutes les
-clés de~\(s\), sans plus.» Ici encore, nous avons affaire à une
-conjonction de deux propositions. La première correspond à: «La
-pile~\(s\) contient toutes les clés de la pile~\(t\), sans plus.» Les
-permutations nous permettent de préciser le propos: «Les piles
-\(s\)~et~\(t\) sont des permutations l'une de l'autre,» ce que nous
+clés de~\(s\), sans plus.~» Ici encore, nous avons affaire à une
+conjonction de deux propositions. La première correspond à: «~La
+pile~\(s\) contient toutes les clés de la pile~\(t\), sans plus.~» Les
+permutations nous permettent de préciser le propos: «~Les piles
+\(s\)~et~\(t\) sont des permutations l'une de l'autre,~» ce que nous
 notons \(s \approx t\) et \(t \approx s\). Le rôle de~\(s\) ne
 différant en rien de celui de~\(t\), la relation \((\approx)\) doit
 être symétrique: \(s \approx t \Rightarrow t \approx s\). De plus, la
@@ -395,16 +395,16 @@ la transitivité et offre un exemple avec deux prémisses, donc une
 dérivation où elle apparaît est un \emph{arbre
   binaire}\index{arbre!$\sim$ binaire|see{arbre binaire}}\index{arbre
   binaire}, comme on peut le constater à la
-\fig~\vref{fig_arbres_de_preuves}.
+\fig~\vref{fig:arbres_de_preuves}.
 \begin{figure}[b]
 \centering
-\subfloat[Arbre étendu\label{fig_perm_proof}]{
+\subfloat[Arbre étendu\label{fig:perm_proof}]{
   \includegraphics[bb=135 672 369 723]{proof}}
 \qquad
-\subfloat[Arbre taillé\label{fig_312eq231}]{
+\subfloat[Arbre taillé\label{fig:312eq231}]{
   \includegraphics[bb=70 670 131 723]{312eq231}}
 \caption{Arbre de preuve de \({[}3,1,2{]} \protect\approx
-  {[}2,3,1{]}\)\label{fig_arbres_de_preuves}}
+  {[}2,3,1{]}\)\label{fig:arbres_de_preuves}}
 \end{figure}
 Les arbres de preuves\index{arbre!$\sim$ de preuve}, à la différence
 des autres arbres, sont dessinés avec leur racine vers le bas de la
@@ -414,7 +414,7 @@ Nous devons maintenant prouver la \emph{réflexivité} de~\((\approx)\),
 c'est-à-dire\index{Refl@\predName{Refl}|(} \(\pred{Refl}{s} \colon s
 \approx s\), par induction\index{induction!exemple|(} sur la structure
 de la dérivation. La différence avec la preuve de la correction de
-\fun{cut/2}\index{cut@\fun{cut/2}}, \vpageref{par_cut_sound}, est que
+\fun{cut/2}\index{cut@\fun{cut/2}}, \vpageref{par:cut_sound}, est que
 l'hypothèse d'induction s'applique aux deux prémisses de
 \TirName{Trans}. Par ailleurs, le théorème n'est pas explicitement une
 implication. Tout d'abord, nous établissons la véracité de
@@ -463,7 +463,7 @@ la suite, nous surlignons les variables du système d'inférence.
   de \TirName{Push} à cette dernière implique
   \(\cons{\overline{x}}{\overline{t}} \approx
   \cons{\overline{x}}{\overline{s}}\), c'est-à-dire, \(t \approx s\).
- 
+
   \item Si \(\Delta\) se termine avec \TirName{Trans}, alors l'hypothèse
   d'induction appliquée aux prémisses impliquent \(u \approx s\) et
   \(t \approx u\), qui peuvent être les prémisses de la règle
@@ -730,7 +730,7 @@ possède des caractéristiques attendues. Cette propriété est appelée
 \emph{correction partielle} quand il est pertinent de la distinguer de
 la \emph{correction totale}\index{correction!$\sim$
   totale|see{terminaison}}, qui est la conjonction de la correction
-partielle et de la terminaison. 
+partielle et de la terminaison.
 
 Prouvons alors la terminaison de \fun{isrt/1} par la méthode des
 paires de dépendance\index{terminaison!paire de dépendance}
@@ -766,13 +766,13 @@ troisième paire devient inutile:
 \end{equation*}
 où \(\fun{\ufun{ins}/2}\) dénote \fun{ins/2}\index{ins@\fun{ins/2}}
 prise comme un constructeur. (Nous avons utilisé cette notation à la
-\fig~\vref{fig_ver}.)\index{tri par insertion!insertion
+\fig~\vref{fig:ver}.)\index{tri par insertion!insertion
   simple!terminaison|)}\index{terminaison!tri par
   insertion|)}\index{tri par insertion!insertion
   simple|)}\hfill\(\Box\)
 
 \section{Insertion bidirectionnelle}
-\label{sec_2-way}
+\label{sec:2-way}
 \index{tri par insertion!insertion bidirectionnelle|(}
 
 Rappelons ici la définition du tri par insertion simple de clés:
@@ -781,14 +781,14 @@ Rappelons ici la définition du tri par insertion simple de clés:
   \fun{ins}(\cons{y}{s},x)
 & \xrightarrow{\smash{\kappa}}
 & \cons{y}{\fun{ins}(s,x)}, \,\text{si \(y \succ x\)};
-& \fun{isrt}(\el) 
+& \fun{isrt}(\el)
 & \xrightarrow{\smash{\mu}}
 & \el;\\
   \fun{ins}(s,x)
 & \xrightarrow{\smash{\lambda}}
 & \cons{x}{s}.
 & \fun{isrt}(\cons{x}{s})
-& \xrightarrow{\smash{\nu}} 
+& \xrightarrow{\smash{\nu}}
 & \fun{ins}(\fun{isrt}(s),x).
 \end{array}
 \end{equation*}
@@ -806,8 +806,8 @@ elle. La pile avec doigt virtuel peut être simulée par deux piles,
 \(t\)~et~\(u\), de telle sorte que la valeur de
 \(\fun{rcat}(t,u)\)\index{rcat@\fun{rcat/2}} soit la pile triée
 courante, correspondant à \(\fun{isrt}(s)\)\index{isrt@\fun{isrt/1}} à
-la règle~\(\nu\). (À la section~\ref{sec_queueing},
-\vpageref{sec_queueing}, nous avions utilisé deux piles pour simuler
+la règle~\(\nu\). (À la section~\ref{sec:queueing},
+\vpageref{sec:queueing}, nous avions utilisé deux piles pour simuler
 une file.) Appelons \(\fun{rcat}(t,u)\)\index{rcat@\fun{rcat/2}} la
 \emph{pile simulée}\index{pile!$\sim$ simulée}; la pile~\(t\) est un
 \emph{préfixe retourné}\index{pile!préfixe retourné} de la pile
@@ -855,14 +855,14 @@ pas triée) et \(\fun{rcat}(t,u)\)\index{rcat@\fun{rcat/2}} est la pile
 simulée courante, c'est-à-dire que \(t\)~est la pile de gauche
 (préfixe retourné) et \(u\)~est la pile de droite (le suffixe). La
 fonction \fun{i2w/1}\index{i2w@\fun{i2w/1}} est définie à la
-\fig~\vref{fig_i2w_def}.
+\fig~\vref{fig:i2w_def}.
 \begin{figure}[b]
 \begin{equation*}
 \boxed{%
 \begin{array}{r@{\;}l@{\;}ll}
 \fun{i2w}(s)         & \xrightarrow{\smash{\xi}}
                      & \fun{i2w}(s,\el,\el).\\
-\fun{i2w}(\el,\el,u) & \xrightarrow{\smash{\pi}} 
+\fun{i2w}(\el,\el,u) & \xrightarrow{\smash{\pi}}
                      & u;\\
 \fun{i2w}(\el,\cons{y}{t},u)
                      & \xrightarrow{\smash{\rho}}
@@ -881,7 +881,7 @@ fonction \fun{i2w/1}\index{i2w@\fun{i2w/1}} est définie à la
 \end{array}}
 \end{equation*}
 \caption{Tri par insertion bidirectionnelle avec \fun{i2w/1}
-\label{fig_i2w_def}}
+\label{fig:i2w_def}}
 \end{figure}
 La règle~\(\xi\) introduit les deux piles employées pour
 l'insertion. Les règles \(\pi\)~et~\(\rho\) pourraient être remplacées
@@ -890,12 +890,12 @@ avons préféré une définition plus courte et autonome. La
 règle~\(\sigma\) est utilisée pour déplacer les clés de la pile de
 droite vers la pile de gauche. La règle~\(\tau\) les déplace dans
 l'autre sens. La règle~\(\upsilon\) réalise l'insertion proprement
-dite, au sommet de la pile de droite. La \fig~\vref{fig_i2w2314}
+dite, au sommet de la pile de droite. La \fig~\vref{fig:i2w2314}
 \begin{figure}
 \centering
 \includegraphics[bb=71 523 257 721]{i2w2314}
 \caption{\(\fun{i2w}([2,3,1,4]) \twoheadrightarrow [1,2,3,4]\)
-\label{fig_i2w2314}}
+\label{fig:i2w2314}}
 \end{figure}
 montre l'évaluation \index{langage fonctionnel!évaluation!trace} de
 \(\fun{i2w}([2,3,1,4])\), dont la trace est donc
@@ -990,12 +990,12 @@ rôle \(x_1 \prec x_2\) et \(x_2 \prec x_0\).
   (\sigma\upsilon)(\sigma\upsilon)(\tau^2\upsilon)(\sigma^4\upsilon)
   (\rho^4\pi)\), dont la longueur est~\(19\). Elle est peut-être mieux
   visualisée à l'aide d'arcs orientés, révélant une spirale à la
-  \fig~\vref{fig_spiral}.
+  \fig~\vref{fig:spiral}.
   \begin{figure}[b]
     \centering
     \includegraphics[bb=71 671 185 716]{a3a0a1a2a4}
     \caption{Pire des cas pour \fun{i2w/1} si \(n=5\) (\(x_1 \prec x_2\))
-             \label{fig_spiral}}
+             \label{fig:spiral}}
   \end{figure}
 
 \end{itemize}
@@ -1018,7 +1018,7 @@ coût et \(\W{x_2 \prec x_0}{2p}\) le second.
     comme cela est suggéré par le tri de \([x_0,x_1,x_2,x_3,x_4,x_5,x_6]\):
     \begin{equation*}
       \!\begin{array}{@{}r@{\;}c@{\;}l@{}}
-        \fun{i2w}([x_0,x_1,x_2,x_3,x_4,x_5,x_6]) 
+        \fun{i2w}([x_0,x_1,x_2,x_3,x_4,x_5,x_6])
         & \xrightarrow{\smash{\xi}}
         & \fun{i2w}(\el,\el,\![x_0,x_1,x_2,x_3,x_4,x_5,x_6])\\
         & \xrightarrow{\smash{\upsilon}}
@@ -1164,18 +1164,18 @@ cas de \(\M{\fun{isrt}}{n}\), c'est-à-dire que nous recherchons la
 somme des coûts pour trier toutes les permutations de
 \((1,2,\dots,n)\), pour la diviser par~\(n!\). Les insertions sont
 illustrées par l'\emph{arbre d'évaluation}\index{arbre!$\sim$
-  d'évaluation} à la \fig~\ref{fig_2way_unbal},
+  d'évaluation} à la \fig~\ref{fig:2way_unbal},
 \begin{figure}
 \centering
 \includegraphics{2way_unbal}
 \caption{Tri de \([a,b,c]\) (premier argument de \fun{i2w/3} omis)
-\label{fig_2way_unbal}}
+\label{fig:2way_unbal}}
 \end{figure}
 où les clés \(a\), \(b\) et~\(c\) sont insérées dans une pile
 originellement vide, avec tous les ordres possibles. Notons comment
 toutes les permutations sont atteintes exactement une fois, aux
 n{\oe}uds externes\index{arbre!n{\oe}ud!$\sim$ externe} (voir
-page~\pageref{def_external_node}). Par exemple, \([a,b,c]\) et
+page~\pageref{def:external_node}). Par exemple, \([a,b,c]\) et
 \([c,b,a]\) sont des n{\oe}uds externes. Le coût total est la
 \emph{longueur externe}\index{arbre binaire!longueur
   externe}\label{external_path_length} de l'arbre, c'est-à-dire la
@@ -1272,7 +1272,7 @@ asymptotique reste néanmoins quadratique.\index{tri par
     avons choisi d'empiler la clé toujours sur la pile droite, à la
     règle~\(\upsilon\). Modifions légèrement cette stratégie et
     empilons plutôt sur la pile gauche quand celle-ci est vide. Voir
-    règle~(\(\leadsto\)) à la \fig~\vref{fig_i2w1}.
+    règle~(\(\leadsto\)) à la \fig~\vref{fig:i2w1}.
     \begin{figure}[b]
     \begin{equation*}
       \boxed{%
@@ -1300,7 +1300,7 @@ asymptotique reste néanmoins quadratique.\index{tri par
       \end{array}}
     \end{equation*}
     \caption{Variation \fun{i2w\(_1\)/1} sur \fun{i2w/1} (voir
-      (\(\leadsto\)))\label{fig_i2w1}}
+      (\(\leadsto\)))\label{fig:i2w1}}
     \end{figure}
     Prouvez que le coût moyen satisfait alors l'équation
     \index{i2w1@\fun{i2w\(_1\)/1}} \index{i2w1@\fun{i2w\(_1\)/3}}
@@ -1309,7 +1309,7 @@ asymptotique reste néanmoins quadratique.\index{tri par
       \M{\fun{i2w}_1}{n} = \M{\fun{i2w}}{n} - H_n + 2.
     \end{equation*}
     \emph{Aide:} Écrivez les exemples similaires à ceux de la
-    \fig~\vref{fig_2way_unbal}, déterminez la longueur moyenne externe
+    \fig~\vref{fig:2way_unbal}, déterminez la longueur moyenne externe
     et observez que la différence avec
     \fun{i2w/1}\index{i2w@\fun{i2w/1}} est que la configuration avec
     une pile gauche vide est remplacée par une configuration avec une
@@ -1319,7 +1319,7 @@ asymptotique reste néanmoins quadratique.\index{tri par
 
   \item À la règle~\(\upsilon\) de~\fun{i2w/3}\index{i2w@\fun{i2w/3}},
     la clé~\(x\) est empilée sur la pile droite. Considérez à la
-    \fig~\vref{fig_i2w2} (règle~(\(\leadsto\))) la variante où
+    \fig~\vref{fig:i2w2} (règle~(\(\leadsto\))) la variante où
     celle-ci est toujours empilée sur la pile gauche. Montrez très
     simplement que le coût moyen satisfait alors\index{i2w2@\fun{i2w\(_2\)/1}}
     \index{i2w2@\fun{i2w\(_2\)/3}}\index{i2w2@$\M{\fun{i2w}_2}{n}$}
@@ -1351,7 +1351,7 @@ asymptotique reste néanmoins quadratique.\index{tri par
       \end{array}}
     \end{equation*}
     \caption{Variation \fun{i2w\(_2\)/1} sur \fun{i2w/1} (voir
-      (\(\leadsto\)))\label{fig_i2w2}}
+      (\(\leadsto\)))\label{fig:i2w2}}
     \end{figure}
 
 \end{enumerate}
@@ -1365,7 +1365,7 @@ simulée. A priori, il n'y pas de raison de privilégier un sens ou un
 autre, donc nous pourrions maintenir le doigt au milieu de la pile
 pour réduire la distance parcourue en moyenne. Nous appelons cette
 approche \emph{insertions bidirectionnelles équilibrées}. L'adjectif
-«équilibrées» qualifie la forme de l'arbre de comparaisons engendré.
+«~équilibrées~» qualifie la forme de l'arbre de comparaisons engendré.
 
 En faisant de notre mieux pour maintenir les deux piles de la même
 longueur ou presque, nous obtenons deux cas: soit (\textsl{a})~elles
@@ -1414,7 +1414,7 @@ représente la différence de longueur entre les deux piles: \(0\)~si
 elles ont la même longueur et \(1\)~si la pile droite contient une clé
 de plus. Appelons cette nouvelle function
 \fun{i2wb/1}\index{i2wb@\fun{i2wb/1}}\index{i2wb@\fun{i2wb/3}} et
-définissons-la à la \fig~\vref{fig_i2wb}.
+définissons-la à la \fig~\vref{fig:i2wb}.
 \begin{figure}[t]
 \begin{equation*}
 \boxed{%
@@ -1423,14 +1423,14 @@ définissons-la à la \fig~\vref{fig_i2wb}.
 & \xrightarrow{\smash{\xi}} & \fun{i2wb}(s,\el,\el,0).\\
 \fun{i2wb}(\el,\el,u,d)
 & \xrightarrow{\smash{\pi}} & u;\\
-\fun{i2wb}(\el,\cons{y}{t},u,d)        
+\fun{i2wb}(\el,\cons{y}{t},u,d)
 & \xrightarrow{\smash{\rho}} & \fun{i2wb}(\el,t,\cons{y}{u},d);\\
 \fun{i2wb}(\cons{x}{s},t,\cons{z}{u},0)
 & \xrightarrow{\smash{\sigma}} &
 \fun{i2wb}(s,t,\cons{z}{\fun{iup}(u,x)},1),
 & \text{si \(x \succ z\)};\\
 \fun{i2wb}(\cons{x}{s},\cons{y}{t},u,0)
-& \xrightarrow{\smash{\tau}} & 
+& \xrightarrow{\smash{\tau}} &
 \fun{i2wb}(s,\fun{idn}(t,x),\cons{y}{u},1),
 & \text{si \(y \succ x\)};\\
 \fun{i2wb}(\cons{x}{s},t,u,0)
@@ -1443,18 +1443,18 @@ définissons-la à la \fig~\vref{fig_i2wb}.
 & \xrightarrow{\smash{\chi}}
 & \fun{i2wb}(s,\cons{y}{\fun{idn}(t,x)},u,0),
 & \text{si \(y \succ x\)};\\
-\fun{i2wb}(\cons{x}{s},t,u,1) & \xrightarrow{\smash{\psi}} & 
+\fun{i2wb}(\cons{x}{s},t,u,1) & \xrightarrow{\smash{\psi}} &
 \fun{i2wb}(s,\cons{x}{t},u,0).
 \end{array}}
 \end{equation*}
-\caption{Insertions bidirectionnelles équilibrées \label{fig_i2wb}}
+\caption{Insertions bidirectionnelles équilibrées \label{fig:i2wb}}
 \end{figure}
-À la \fig~\vref{fig_2way_bal}
+À la \fig~\vref{fig:2way_bal}
 \begin{figure}
 \centering
 \includegraphics{2way_bal}
 \caption{Tri de \([a,b,c]\) par insertions bidirectionnelles
-  équilibrées\label{fig_2way_bal}}
+  équilibrées\label{fig:2way_bal}}
 \end{figure}
 on peut voir toutes les traces possibles\index{arbre!$\sim$
   d'évaluation} et les résultats du tri de \([a,b,c]\). Remarquons que
@@ -1479,14 +1479,14 @@ piles initialement vides suffit pour nous convaincre que les clés
 doivent aller à droite, puis à gauche, produisant, par exemple \([x_3
 , x_1]\) et \([x_4, x_2, x_0]\). On peut mieux voir cela grâce à des
 arcs orientés qui révèlent un tourbillon, à la
-\fig~\ref{fig_whirlpool},
+\fig~\ref{fig:whirlpool},
 \begin{figure}[b]
 \centering
 \includegraphics[bb=71 671 185 716]{a1a3a4a2a0}
 \caption{Meilleur des cas de \fun{i2wb/1} si \(n=5\)
-\label{fig_whirlpool}}
+\label{fig:whirlpool}}
 \end{figure}
-à contraster avec la spirale de la \fig~\vref{fig_spiral} pour
+à contraster avec la spirale de la \fig~\vref{fig:spiral} pour
 \fun{i2w/1}.
 
 La règle définissant \fun{i2w/1} est employée d'abord. Ensuite, chaque
@@ -1519,7 +1519,7 @@ le pire des cas précisément.
 
 Considérons le cout moyen quand \(n=2p\). Alors\index{i2wb@$\M{\fun{i2wb}}{n}$}
 \begin{equation}
-\M{\fun{i2wb}}{2p} = 
+\M{\fun{i2wb}}{2p} =
   1 + \sum_{k=0}^{2p-1}{\M{}{k}} + \M{\curvearrowright}{p},
 \label{eq_i2wb_2p_orig}
 \end{equation}
@@ -1572,7 +1572,7 @@ Nous pouvons maintenant remplacer notre somme par des nombres
 harmoniques dans l'équation~\eqref{eq_i2wb_2p}:
 \begin{equation*}
 \M{\fun{i2wb}}{2p}
-  = \frac{1}{2}{p^2} + \frac{13}{4}{p} - \frac{1}{4}{H_{2p}} 
+  = \frac{1}{2}{p^2} + \frac{13}{4}{p} - \frac{1}{4}{H_{2p}}
     + \frac{1}{8}{H_p} + 2.
 \end{equation*}
 Le cas restant à résoudre \(\M{\fun{i2wb}}{2p+1}\) donne, par un
@@ -1585,7 +1585,7 @@ Réutilisons les calculs précédents:
 \begin{equation*}
 \M{\fun{i2wb}}{2p+1}
    = \M{\fun{i2wb}}{2p} + \M{}{2p}
-   = \frac{1}{2}{p^2} + \frac{15}{4}{p} - \frac{1}{4}{H_{2p+1}} 
+   = \frac{1}{2}{p^2} + \frac{15}{4}{p} - \frac{1}{4}{H_{2p+1}}
      + \frac{1}{8}{H_p} + \frac{13}{4}.
 \end{equation*}
 Nous avons \(1 + x < e^x\), pour tout réel \(x \neq 0\). En

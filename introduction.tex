@@ -279,7 +279,7 @@ les différent usages, l'arité d'une fonction devrait être indiquée
 après une barre oblique, ainsi \fun{c/1} et \fun{c/2}.
 
 \section{Langages purement fonctionnels}
-\label{sec_functional}
+\label{sec:functional}
 
 \hspace*{-3pt}Nous ne souhaitons considérer par la suite que des
 systèmes confluents parce qu'ils définissent des fonctions. Cette
@@ -369,7 +369,7 @@ linéaires dans un langage purement fonctionnel et comment faire
 exécuter nos programmes par un ordinateur.
 
 \paragraph{Piles}
-\label{par_stacks}
+\label{par:stacks}
 
 Considérons le programme abstrait suivant\index{cat@\fun{cat/2}|(}
 \index{cons@\fun{cons/2}|(}\index{nil@\fun{nil/0}|(}
@@ -547,7 +547,7 @@ se produit lorsque les clés sont déjà triées dans l'ordre attendu,
 alors que pour d'autres ce peut être l'ordre inverse etc.
 
 \mypar{Coût moyen}
-\label{par_mean_sort}
+\label{par:mean_sort}
 \index{coût!$\sim$ moyen}
 
 Une fois obtenu l'encadrement d'un coût, la question du \emph{coût
@@ -575,7 +575,7 @@ le nom de \emph{tri rapide} \cite[\S{}5.2.2]{Knuth_1998}
 échelle asymptotique \cite[\S{}9]{GrahamKnuthPatashnik_1994}.
 
 \paragraph{En ligne par opposition à hors ligne}
-\label{par_online_vs_offline}
+\label{par:online_vs_offline}
 
 Les algorithmes de tri peuvent être distingués selon qu'ils opèrent
 sur la totalité des clés ou bien clé par clé. Les premiers sont dits
@@ -594,7 +594,7 @@ par une suite de requêtes atomiques, mais des requêtes portant sur des
 parties disjointes des données peuvent être servies en parallèle.
 
 \mypar{Coût amorti}
-\label{par_amortised_cost}
+\label{par:amortised_cost}
 
 Parfois, une mise à jour est coûteuse parce qu'elle est retardée à
 cause d'un déséquilibre de la structure de donnée qui doit être
@@ -615,7 +615,7 @@ analyse du coût maximum d'une séquence de mises à jours, non d'une
 seule.
 
 \paragraph{Analyse agrégeante}
-\label{par_aggregate}
+\label{par:aggregate}
 \index{coût agrégé|see{coût, amorti}}
 \index{dénombrement combinatoire}
 
@@ -770,7 +770,7 @@ parcourant des ensembles infinis, comme \(\fun{cat}(s,\fun{cat}(t,u))
 avons besoin d'un \emph{principe d'induction}.
 
 \mypar{Induction bien fondée}
-\label{par_well-founded}
+\label{par:well-founded}
 \index{induction!$\sim$ bien fondée}
 
 Nous définissons un \emph{ordre bien fondé}
@@ -811,7 +811,7 @@ donc le cas de base est \(t=\el\) et \(\forall t.(\forall s.t \succ s
 \(\aleph(\el)\).
 
 \mypar{Terminaison}
-\label{par_ackermann}
+\label{par:ackermann}
 
 Lorsque nous avons défini notre langage purement fonctionnel, nous
 avons sciemment rendu possible la non-terminaison de certains
@@ -980,7 +980,7 @@ termine et est confluent, donc \emph{toute stratégie de réduction
 convient}.
 
 \section{Réalisation de logiciel}
-\label{sec_implementation}
+\label{sec:implementation}
 
 \mypar{Traduction en \Erlang}
 \index{langage fonctionnel!Erlang@\Erlang}
@@ -1023,7 +1023,7 @@ Notons qu'\Erlang offre une arithmétique entière exacte et que l'ordre
 des définitions n'est pas significatif.
 
 \mypar{Traduction en \Java}
-\label{par_java}
+\label{par:java}
 \index{Java@\Java|(}
 
 Les programmes fonctionnels opérant sur des piles peuvent être

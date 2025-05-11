@@ -1,5 +1,5 @@
 \section{Tri optimal}
-\label{sec_opt_sort}
+\label{sec:opt_sort}
 \index{tri}
 
 Trier consiste à arranger une suite donnée d'objets, appelés
@@ -10,10 +10,10 @@ dix-neuvième siècle pour l'établissement du recensement des États-Unis
 d'Amérique.
 
 \paragraph{Permutations}
-\label{par_permutations}
+\label{par:permutations}
 \index{permutation}
 
-\hspace*{-10pt} Nous avons vu \vpageref{par_mean_sort} que le coût
+\hspace*{-10pt} Nous avons vu \vpageref{par:mean_sort} que le coût
 moyen d'un algorithme de tri opérant par comparaisons est défini comme
 étant la moyen\-ne arithmétique des coûts du tri de toutes les
 permutations d'une taille fixe. Une permutation de \((1,2,\dots,n)\)
@@ -68,11 +68,12 @@ là où sa dérivée s'annule: \(P'(k_{\max}) = 0 \Leftrightarrow
 k_{\max}=(n+1)/2\). L'ordonnée correspondante est \(P(k_{\max}) =
 ((n+1)/2)^2 = k_{\max}^2\). Quand \(k\)~varie de~\(1\) à~\(n\),
 l'ordonnée minimum, \(n\), est atteinte aux points d'abscisses
-\(1\)~et~\(n\), comme le montre la \fig~\vref{fig_parabola}.
+\(1\)~et~\(n\), comme le montre la \fig~\vref{fig:parabola}.
 \begin{figure}
 \centering
 \includegraphics[bb=55 563 205 730]{parabola}
-\caption{Parabole \(P(k) := k(n+1-k)\)\label{fig_parabola}}
+\caption{Parabole \(P(k) := k(n+1-k)\)}
+\label{fig:parabola}
 \end{figure}
 Donc, \(1 \leqslant k \leqslant k_{\max}\) implique
 \begin{equation*}
@@ -82,7 +83,7 @@ P(1) \leqslant P(k) \leqslant P(k_{\max}),\quad \text{c'est-à-dire,}
 En multipliant les côtés pour des valeurs de la variable~\(k\)
 décrivant l'intervalle discret \([1..n]\) produit
 \begin{gather*}
-n^n = \prod_{k=1}^{n}{n} \leqslant n!^2 
+n^n = \prod_{k=1}^{n}{n} \leqslant n!^2
 \leqslant
 \prod_{k=1}^{n}{\left(\!\frac{n+1}{2}\!\right)^2} \!\!=
 \left(\!\frac{n+1}{2}\!\right)^{2n}
@@ -136,7 +137,7 @@ positions dans la permutation~\(p\). Par conséquent, il vient
 \end{equation*}
 où la fonction~\fun{push/2}\index{push@\fun{push/2}} (à ne pas
 confondre avec la fonction de même nom et arité à la
-section~\ref{sec_persistence}) est telle que tout
+section~\ref{sec:persistence}) est telle que tout
 appel~\(\fun{push}(x,t)\) empile l'élément~\(x\) sur toutes les
 permutations de la pile de permutation~\(t\). Leur ordre reste
 invariant:
@@ -264,7 +265,7 @@ Précisons alors notre dérivation précédente:
 \C{\fun{perm}}{n}
   &= \frac{1}{2}{nn!} + n! + \frac{7}{2}\sum_{k=1}^{n-1}{k!}
      + 2(n! - 1) + 2n - \frac{5}{2}\\
-  &= \frac{1}{2}{nn!} + 3n! 
+  &= \frac{1}{2}{nn!} + 3n!
      + 2n - \frac{9}{2} + \frac{7}{2}\sum_{k=1}^{n-1}{k!},\quad
      \text{où \(n > 0\)}.
 \end{align*}
@@ -352,7 +353,7 @@ permutations\index{permutation} \(\pi_a\)~et~\(\pi_b\) ainsi:
 \pi_b \circ \pi_a :=
 \begin{pmatrix}
               1 &               2 & \dots & n\\
-\pi_b(\pi_a(1)) & \pi_b(\pi_a(2)) & \dots & \pi_b(\pi_a(n)) 
+\pi_b(\pi_a(1)) & \pi_b(\pi_a(2)) & \dots & \pi_b(\pi_a(n))
 \end{pmatrix}.
 \end{equation*}
 Alors \(\pi_s~\circ~\pi_1 = \mathcal{I}\), où la \emph{permutation
@@ -386,31 +387,32 @@ parle alors de \emph{graphes bipartis}\index{graphe!$\sim$
 graphes sont faits de deux ensembles disjoints de n{\oe}uds de même
 cardinal, les index et les clés, et les arcs joignent un index et une
 clé, sans partager des n{\oe}uds avec d'autres arcs. Par exemple, la
-permutation ~\(\pi_1\) est montrée à la \fig~\vref{fig_perm1}
+permutation ~\(\pi_1\) est montrée à la \fig~\vref{fig:perm1}
 \begin{figure}
 \centering
-\subfloat[Bigraphe de \(\pi_1 = (2,4,1,5,3)\)\label{fig_perm1}]{%
+\subfloat[Bigraphe de \(\pi_1 = (2,4,1,5,3)\)\label{fig:perm1}]{%
 \includegraphics[bb=79 662 210 721]{perm1}
 }
 \qquad\qquad
-\subfloat[Bigraphe de \(\pi_1^{-1} = (3,1,5,2,4)\)\label{fig_perm3}]{%
+\subfloat[Bigraphe de \(\pi_1^{-1} = (3,1,5,2,4)\)\label{fig:perm3}]{%
 \includegraphics[bb=77 662 214 721]{perm3}
 }
-\caption{Permutation \(\pi_1\) et son inverse \(\pi_1^{-1}\)
-\label{fig_pi_1}\index{permutation!inverse}}
+\caption{Permutation \(\pi_1\) et son inverse \(\pi_1^{-1}\)}
+\label{fig:pi_1}
+\index{permutation!inverse}
 \end{figure}
 et son inverse \(\pi_1^{-1}\) est visible à la
-\fig~\vref{fig_perm3}. La composition\index{permutation!composition}
+\fig~\vref{fig:perm3}. La composition\index{permutation!composition}
 de~\(\pi_1^{-1}\) et~\(\pi_1\) est obtenue en identifiant les clés
 de~\(\pi_1\) avec les index de~\(\pi_1^{-1}\), comme montré à la
-\fig~\vref{fig_perm4}.
+\fig~\vref{fig:perm4}.
 \begin{figure}[t]
 \centering
-\subfloat[\(\pi_1^{-1} \circ \pi_1\)\label{fig_perm4}]{%
+\subfloat[\(\pi_1^{-1} \circ \pi_1\)\label{fig:perm4}]{%
 \includegraphics[bb=81 634 204 721]{perm4}
 }%
 \qquad\qquad
-\subfloat[\(\mathcal{I} = \pi_1^{-1} \circ \pi_1\)\label{fig_perm2}]{%
+\subfloat[\(\mathcal{I} = \pi_1^{-1} \circ \pi_1\)\label{fig:perm2}]{%
 \includegraphics[bb=81 634 204 721]{perm2}
 }
 \caption{Application de \(\pi_1\) à \(\pi_1^{-1}\).}
@@ -418,7 +420,7 @@ de~\(\pi_1\) avec les index de~\(\pi_1^{-1}\), comme montré à la
 La permutation identité\index{permutation!identité} est obtenue en
 remplaçant deux arcs adjacents par leur clôture transitive
 \index{clôture transitive} et en effaçant le n{\oe}ud intermédiaire,
-comme montré à la \fig~\vref{fig_perm2}. Notons qu'une permutation
+comme montré à la \fig~\vref{fig:perm2}. Notons qu'une permutation
 peut être son propre inverse, comme
 \begin{equation*}
 \pi_3 =
@@ -427,17 +429,18 @@ peut être son propre inverse, comme
 3 & 4 & 1 & 2 & 5
 \end{pmatrix}.
 \end{equation*}
-À la \fig~\ref{fig_involution}
+À la \fig~\ref{fig:involution}
 \begin{figure}
 \centering
-\subfloat[\(\pi_3 \circ \pi_3\)\label{fig_inv1}]{%
+\subfloat[\(\pi_3 \circ \pi_3\)\label{fig:inv1}]{%
 \includegraphics[bb=81 634 204 721]{inv1}
 }
 \qquad\qquad
 \subfloat[\(\pi_3 \circ \pi_3\)]{%
 \includegraphics[bb=81 634 204 721]{inv2}
 }
-\caption{L'involution \(\pi_3\) se trie elle-même\label{fig_involution}}
+\caption{L'involution \(\pi_3\) se trie elle-même}
+\label{fig:involution}
 \end{figure}
 est montré que \(\pi_3~\circ~\pi_3 = \pi_3\), donc \(\pi_3\) est une
 \emph{involution}.\index{permutation!involution}\index{permutation!inverse}
@@ -465,34 +468,35 @@ l'\emph{inverse\index{permutation!inverse} d'une permutation a le même
   nombre d'inversions\index{permutation!inversion} que la
   permutation\index{permutation} elle-même}. Cela est clairement vu
 par la comparaison des bigraphes\index{permutation!bigraphe}
-de~\(\pi_1\) et~\(\pi_1^{-1}\) à la \fig~\vref{fig_pi_1}: pour déduire
+de~\(\pi_1\) et~\(\pi_1^{-1}\) à la \fig~\vref{fig:pi_1}: pour déduire
 le bigraphe de~\(\pi_1^{-1}\) de celui correspondant à~\(\pi_1\),
 inversons l'orientation de chaque arc, puis échangeons les index et
 les clés, c'est-à-dire les deux lignes de n{\oe}uds. Une autre façon
 est d'imaginer que nous plions vers les bas la feuille de papier le
 long de la ligne des clés, puis regardons à travers et inversons les
 arcs. De toute façon, les intersections sont invariantes. La symétrie
-horizontale est évidente aux \figs~\ref{fig_perm4} et~\ref{fig_inv1}.
+horizontale est évidente aux \figs~\ref{fig:perm4} et~\ref{fig:inv1}.
 
 \paragraph{Minimiser le coût maximum}
-\label{par_minimax}
+\label{par:minimax}
 
 Après l'analyse du coût d'un algorithme de tri opérant par
 comparaisons, nous aurons besoin de savoir dans quelle mesure son
 efficacité est proche de celle d'un algorithme
 optimal.\index{tri!optimalité|(} Le premier problème théorique que
 nous examinerons est celui de minimiser le coût maximum. La
-\fig~\vref{fig_cmp_tree}
+\fig~\vref{fig:cmp_tree}
 \begin{figure}
 \centering
 \includegraphics[bb=71 636 327 723]{cmp_tree}
-\caption{Un arbre de comparaisons pour trois clés\label{fig_cmp_tree}}
+\caption{Un arbre de comparaisons pour trois clés}
+\label{fig:cmp_tree}
 \end{figure}
 montre l'arbre de toutes les comparaisons possibles
 \index{arbre!$\sim$ de comparaison|see{tri}} pour trier trois
 nombres. Les \emph{n{\oe}uds externes}\index{arbre
   binaire!n{\oe}ud externe}
-\label{def_external_node} sont toutes les
+\label{def:external_node} sont toutes les
 permutations\index{permutation|)} de \((a_1,a_2,a_3)\). Les
 \emph{n{\oe}uds internes}\index{arbre binaire!n{\oe}ud interne} sont
 des comparaisons entre deux clés \(a_i\)~et~\(a_j\), notée
@@ -505,11 +509,12 @@ algorithme qui commence par comparer \(a_1\)~et~\(a_2\) et il y a,
 bien sûr, bien d'autres stratégies. Mais il ne contient pas de
 comparaisons redondantes: si un chemin de la racine à une feuille
 inclut \({a_i < a_j}\) et \({a_j < a_k}\), nous n'avons pas besoin d'y
-trouver la comparaison \({a_i < a_k}\). La \fig~\vref{fig_red_cmp}
+trouver la comparaison \({a_i < a_k}\). La \fig~\vref{fig:red_cmp}
 \begin{figure}
 \centering
 \includegraphics[bb=71 638 217 723]{red_cmp}
-\caption{Inutilité de \(a_1 > a_3\)\label{fig_red_cmp}}
+\caption{Inutilité de \(a_1 > a_3\)}
+\label{fig:red_cmp}
 \end{figure}
 %\end{wrapfigure}
 montre un arbre de comparaisons avec une telle comparaison
@@ -531,7 +536,7 @@ Un \emph{chemin externe}\index{arbre binaire!chemin externe} est un
 chemin de la racine à un n{\oe}ud externe. Nous dirons que la
 \emph{hauteur}\index{arbre binaire!hauteur} d'un arbre est la
 longueur, comptée en nombre d'arcs, de son chemin externe le plus
-long. À la \fig~\ref{fig_cmp_tree}, la hauteur est~\(3\) et il y
+long. À la \fig~\ref{fig:cmp_tree}, la hauteur est~\(3\) et il y
 a~\(4\) chemins externes de longueur~\(3\), par exemple \((a_1 < a_2)
 \rightarrow (a_2 > a_3) \rightarrow (a_1 > a_3) \rightarrow
 (a_3,a_1,a_2)\).
@@ -557,10 +562,11 @@ sont deux n{\oe}uds internes ou bien deux n{\oe}uds
 % {r} mandatory right placement (better because of a list)
 \centering
 \includegraphics{comp_tree}
-\caption{Arbre binaire parfait de hauteur~\(3\)\label{fig_comp_tree}}
+\caption{Arbre binaire parfait de hauteur~\(3\)}
+\label{fig:comp_tree}
 \end{wrapfigure}
 externes. Si un tel arbre a hauteur~\(h\), alors il a
-\(2^h\)~n{\oe}uds externes. Par exemple, la \fig~\vref{fig_comp_tree}
+\(2^h\)~n{\oe}uds externes. Par exemple, la \fig~\vref{fig:comp_tree}
 illustre le cas où la hauteur~\(h\) est~\(3\) et nous constatons qu'il
 y a en effet \(2^h=8\) n{\oe}uds externes, figurés par des
 carrés. Puisque, par définition, les arbres minimisant les
@@ -606,7 +612,7 @@ un grand minorant de \(\lg n!\):
 \end{equation}
 
 \paragraph{Minimiser le coût moyen}
-\label{par_opt_sort_minimean}
+\label{par:opt_sort_minimean}
 \index{arbre binaire!longueur externe|(}
 
 Nous examinons ici la tâche consistant à minimiser le coût
@@ -614,7 +620,7 @@ moyen. Nommons \emph{longueur
   externe}\label{sorting__external_path_length} \index{arbre
   binaire!longueur externe} la somme des longueurs de tous les chemins
 externes d'un arbre donné. Le nombre moyen de comparaisons est la
-longueur externe moyenne. À la \fig~\vref{fig_cmp_tree}, elle vaut
+longueur externe moyenne. À la \fig~\vref{fig:cmp_tree}, elle vaut
 \((2+3+3+3+3+2)/3!=8/3\). Notre problème ici est donc de déterminer la
 forme de l'arbre de comparaisons optimal de longueur externe minimum.
 
@@ -658,7 +664,7 @@ construction, le dernier niveau peut être incomplet, donc \(0 < q
 \begin{equation*}
 (\ceiling{\lg n!} + 1) n! - 2^{\ceiling{\lg n!}}.
 \end{equation*}
-Soit \(M(n)\) \label{def_Mn} le plus petit nombre moyen de
+Soit \(M(n)\) \label{def:Mn} le plus petit nombre moyen de
 comparaisons effectuées par un algorithme de tri optimal. Nous avons
 alors
 \begin{equation*}

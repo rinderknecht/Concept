@@ -1,12 +1,12 @@
 \section{Retournement}
-\label{sec_reversal}
+\label{sec:reversal}
 
 \paragraph{Involution}
 \index{pile!retournement!involution}
 
 Il est parfois nécessaire de concevoir un lemme pour faire aboutir une
 preuve. Considérons la définition d'une fonction
-\fun{rev\(_0\)/1}\label{def_rev0}\index{pile!retournement!définition}\index{rev0@\fun{rev\(_0\)/1}}
+\fun{rev\(_0\)/1}\label{def:rev0}\index{pile!retournement!définition}\index{rev0@\fun{rev\(_0\)/1}}
 qui retourne une pile:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
@@ -21,23 +21,25 @@ qui retourne une pile:
 \end{array}
 \end{equation*}
 Une évaluation est donnée en exemple avec des arbres de syntaxe
-abstraite à la \fig~\ref{fig_rev0_321}.
-\begin{figure}[!t]
+abstraite à la \fig~\ref{fig:rev0_321}.
+\begin{figure}
 \centering
 \includegraphics[bb=69 620 328 721]{rev0_321_0}
 \includegraphics[bb=64 626 320 721]{rev0_321_1}
 \includegraphics[bb=69 627 375 721]{rev0_321_2}
 \includegraphics[bb=69 627 375 721]{rev0_321_3}
-\caption{\(\fun{rev}_0([3,2,1]) \twoheadrightarrow [1,2,3]\)
-\label{fig_rev0_321}\index{pile!retournement!exemple}}
+\caption{\(\fun{rev}_0([3,2,1]) \twoheadrightarrow [1,2,3]\)}
+\label{fig:rev0_321}
+\index{pile!retournement!exemple}
 \end{figure}
 Soit \(\pred{Inv}{s}\)\index{Inv@\predName{Inv}|(} la propriété
 \(\fun{rev}_0(\fun{rev}_0(s)) \equiv s\), c'est-à-dire que la fonction
 \fun{rev\(_0\)/1}\index{rev0@\fun{rev\(_0\)/1}} est une
-\emph{involution}\index{pile!retournement!involution}. Pour prouver
-\(\forall s \in S.\pred{Inv}{s}\), le principe d'induction sur la
-structure de~\(s\)\index{induction!exemple|(} exige que nous
-établissions
+\emph{involution}\index{pile!retournement!involution}.
+
+Pour prouver \(\forall s \in S.\pred{Inv}{s}\), le principe
+d'induction sur la structure de~\(s\)\index{induction!exemple|(} exige
+que nous établissions
 \begin{itemize}
 
   \item la base \(\pred{Inv}{\el}\);
@@ -46,18 +48,25 @@ structure de~\(s\)\index{induction!exemple|(} exige que nous
     \forall x \in T.\pred{Inv}{\cons{x}{s}}\).
 
 \end{itemize}
-La base est vite trouvée: \(\fun{rev}_0(\fun{rev}_0(\el))
-\xrightarrow{\smash{\gamma}} \fun{rev}_0(\el)
-\xrightarrow{\smash{\gamma}} \el\). L'hypothèse d'induction est
-\(\pred{Inv}{s}\) et nous voulons prouver
+La base est vite trouvée (nous soulignons l'appel qui est réécrit):
+\begin{equation*}
+  \fun{rev}_0(\ufun{rev}_0(\el))
+  \xrightarrow{\smash{\gamma}} \fun{rev}_0(\el)
+  \xrightarrow{\smash{\gamma}} \el.
+\end{equation*}
+L'hypothèse d'induction est \(\pred{Inv}{s}\) et nous voulons prouver
 \(\pred{Inv}{\cons{x}{s}}\)\index{Inv@\predName{Inv}|)}, pour
-tout~\(x\).  Si nous débutons frontalement:
-\(\fun{rev}_0(\fun{rev}_0(\cons{x}{s})) \xrightarrow{\smash{\delta}}
-\fun{rev}_0(\fun{cat}(\fun{rev}_0(s),[x]))\), nous sommes coincés.
-Mais le terme à réécrire implique à la fois \fun{rev$_0$/1} et
-\fun{cat/2}, ce qui nous incite à concevoir un lemme où le schéma de
-l'obstacle \(\fun{cat}(\fun{rev}_0(\dots),\dots)\) est présent et est
-équivalent à un terme plus simple.%\par\vskip\baselineskip
+tout~\(x\).  Si nous débutons frontalement avec
+\begin{equation*}
+  \fun{rev}_0(\ufun{rev}_0(\cons{x}{s}))
+  \xrightarrow{\smash{\delta}}
+  \fun{rev}_0(\fun{cat}(\fun{rev}_0(s),[x])),
+\end{equation*}
+nous sommes coincés.  Mais le terme à réécrire implique à la fois
+\fun{rev$_0$/1} et \fun{cat/2}, ce qui nous incite à concevoir un
+lemme où le schéma de l'obstacle
+\(\fun{cat}(\fun{rev}_0(\dots),\dots)\) est présent et est équivalent
+à un terme plus simple.\par\vskip\baselineskip
 
 Posons
 \(\pred{CatRev}{s,t}\)\index{CatRev@\predName{CatRev}} \label{CatRev}
@@ -81,8 +90,8 @@ La base est presque à portée de main:
 \fun{cat}(\fun{rev}_0(t),\fun{rev}_0(\el)).
 \end{equation*}
 La part manquante est trouvée en montrant que
-\((\leftrightsquigarrow)\)~est en
-fait~\((\equiv)\).%\par\vskip\baselineskip
+\((\leftrightsquigarrow)\)~est \(\pred{CatNil}{s}\).
+%\par\vskip\baselineskip
 
 Soit \(\pred{CatNil}{s}\)\index{CatNil@\predName{CatNil}|(} la
 propriété \(\fun{cat}(s,\el) \equiv s\)\index{cat@\fun{cat/2}}. Pour
@@ -104,18 +113,20 @@ inductif, quant à lui, n'est pas compliqué non plus:
 l'hypothèse d'induction
 \(\pred{CatNil}{s}\)\index{CatNil@\predName{CatNil}|)}.\hfill\(\Box\)
 
-Remarquons qu'à la place nous aurions pu prouver \(\fun{cat}(s,\el)
-\twoheadrightarrow s\), pour toute valeur~\(s\). La différence est que
-\(\pred{CatNil}{s}\) est vraie même si~\(s\) n'est pas une valeur,
-puisque tout ce que nous avons à faire est remplacer
-\(\fun{cat}(\cons{x}{s},\el) \xrightarrow{\smash{\beta}}
-\cons{x}{\fun{cat}(s,\el)}\) par \(\fun{cat}(\cons{x}{s},\el)
-\Rra{\beta} \cons{x}{\fun{cat}(s,\el)}\). Ce principe sera avéré dans
-toutes nos preuves: nous supposerons que toute variable dénote une
-valeur et, sinon, nous changeons simplement
-\((\xrightarrow{\smash{\beta}})\) en \((\Rra{\beta})\), pour toutes
-les règles~\(\beta\) dans la preuve. Notre hypothèse améliore
-peut-être la lisibilité.\par\vskip\baselineskip
+%% Remarquons qu'à la place nous aurions pu prouver \(\fun{cat}(s,\el)
+%% \twoheadrightarrow s\), pour toute valeur~\(s\). La différence est que
+%% \(\pred{CatNil}{s}\) est vraie même si~\(s\) n'est pas une valeur,
+%% puisque tout ce que nous avons à faire est remplacer
+%% \(\fun{cat}(\cons{x}{s},\el) \xrightarrow{\smash{\beta}}
+%% \cons{x}{\fun{cat}(s,\el)}\) par \(\fun{cat}(\cons{x}{s},\el)
+%% \Rra{\beta} \cons{x}{\fun{cat}(s,\el)}\). Ce principe sera avéré dans
+%% toutes nos preuves: nous supposerons que toute variable dénote une
+%% valeur et, sinon, nous changeons simplement
+%% \((\xrightarrow{\smash{\beta}})\) en \((\Rra{\beta})\), pour toutes
+%% les règles~\(\beta\) dans la preuve. Notre hypothèse améliore
+%% peut-être la lisibilité.\par\vskip\baselineskip
+
+\par\vskip\baselineskip
 
 \noindent En supposant
 \(\pred{CatRev}{s,t}\)\index{CatRev@\predName{CatRev}}, nous devons
@@ -130,7 +141,7 @@ peut-être la lisibilité.\par\vskip\baselineskip
 & \equiv
 & \fun{cat}(\fun{cat}(\fun{rev}_0(t),\fun{rev}_0(s)),[x])
 & (\predName{CatAssoc})\\
-& \equiv 
+& \equiv
 & \fun{cat}(\fun{rev}_0(\fun{cat}(s,t)),[x])
 & (\pred{CatRev}{s,t})\\
 & \xleftarrow{\smash{\delta}}
@@ -144,26 +155,26 @@ Reprenons notre preuve de
 \(\pred{Inv}{\cons{x}{s}}\):\index{Inv@\predName{Inv}}
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{\quad}r@{}}
-  \fun{rev}_0(\fun{rev}_0(\cons{x}{s}))
+  \fun{rev}_0(\ufun{rev}_0(\cons{x}{s}))
 & \xrightarrow{\smash{\delta}}
 & \fun{rev}_0(\fun{cat}(\fun{rev}_0(s),[x]))\\
 & \equiv
 & \fun{cat}(\fun{rev}_0([x]),\fun{rev}_0(\fun{rev}_0(s)))
 & (\pred{CatRev}{\fun{rev}_0(s),[x]})\\
 & \equiv
-& \fun{cat}(\fun{rev}_0([x]),s)
+& \fun{cat}(\ufun{rev}_0([x]),s)
 & (\pred{Inv}{s})\\
 & \xrightarrow{\smash{\delta}}
-& \fun{cat}(\fun{cat}(\fun{rev}_0(\el),[x]),s)\\
+& \fun{cat}(\fun{cat}(\ufun{rev}_0(\el),[x]),s)\\
 & \xrightarrow{\smash{\gamma}}
-& \fun{cat}(\fun{cat}(\el,[x]),s)\\
+& \fun{cat}(\ufun{cat}(\el,[x]),s)\\
 & \xrightarrow{\smash{\alpha}}
 & \fun{cat}([x],s)\\
-& \xrightarrow{\smash{\beta}} 
+& \xrightarrow{\smash{\beta}}
 & \cons{x}{\fun{cat}(\el,s)}\\
-& \xrightarrow{\smash{\alpha}} &
-\cons{x}{s}.
-& \hfill\Box
+& \xrightarrow{\smash{\alpha}}
+& \cons{x}{s}.
+& \hfill \Box
 \end{array}
 \end{equation*}
 \index{rev0@\fun{rev\(_0\)/1}|)}\index{cat@\fun{cat/2}|)}
@@ -186,19 +197,21 @@ retournement de piles, nommée \fun{rev/1}\index{rev@\fun{rev/1}}, qui
 dépend d'une fonction auxiliaire
 \fun{rcat/2}\index{rcat@\fun{rcat/2}|(}\index{pile!retournement!$\sim$
   et concaténation}\index{pile!retournement!$\sim$ efficace}
-(anglais, \emph{reverse and catenate}):
+(anglais, \emph{reverse and (con)catenate}):
 \begin{equation}
-\fun{rev}(s) \xrightarrow{\smash{\epsilon}} \fun{rcat}(s,\el).\;\,
-\fun{rcat}(\el,t) \xrightarrow{\smash{\zeta}} t;\;\,
-\fun{rcat}(\cons{x}{s},t) \xrightarrow{\smash{\eta}} 
-                          \fun{rcat}(s,\cons{x}{t}).
-\label{def_rev}
+  \begin{array}{@{}r@{\;}l@{\;}l@{}}
+    \fun{rev}(s) & \smashedrightarrow{\epsilon} & \fun{rcat}(s,\el).\\
+    \fun{rcat}(\el,t) & \smashedrightarrow{\zeta} & t;\\
+    \fun{rcat}(\cons{x}{s},t) & \smashedrightarrow{\eta} &
+    \fun{rcat}(s,\cons{x}{t}).
+  \end{array}
+  \label{def:rev}
 \end{equation}
 Un paramètre additionnel introduit par \fun{rcat/2} accumule des
 résultats partiels, et est donc appelé un
 \emph{accumulateur}\index{langage fonctionnel!accumulateur}. Nous
-pouvons le voir à l'{\oe}uvre à la \fig~\vref{fig_rev_321}.
-\begin{figure}
+pouvons le voir à l'{\oe}uvre à la \fig~\vref{fig:rev_321}.
+\begin{figure}[b]
 \begin{equation*}
 \boxed{%
 \begin{array}{r@{\;}l@{\;}l}
@@ -210,8 +223,9 @@ pouvons le voir à l'{\oe}uvre à la \fig~\vref{fig_rev_321}.
 & \xrightarrow{\smash{\zeta}}    & [1,2,3].
 \end{array}}
 \end{equation*}
-\caption{\(\fun{rev}([3,2,1]) \twoheadrightarrow [1,2,3]\)
-\label{fig_rev_321}\index{pile!retournement!exemple}}
+\caption{\(\fun{rev}([3,2,1]) \twoheadrightarrow [1,2,3]\)}
+\label{fig:rev_321}
+\index{pile!retournement!exemple}
 \end{figure}
 \index{rcat@\fun{rcat/2}|)}
 
@@ -319,13 +333,13 @@ de~\(s\) est~\(k\), et nous savons déjà que \(\C{\fun{cat}}{k} = k +
 avons
 \begin{equation*}
 \sum_{k=0}^{n-1}(\C{\fun{rev}_0}{k+1} - \C{\fun{rev}_0}{k}) =
-\C{\fun{rev}_0}{n} - \C{\fun{rev}_0}{0} = 
+\C{\fun{rev}_0}{n} - \C{\fun{rev}_0}{0} =
 \sum_{k=0}^{n-1}(k+2) = 2n + \sum_{k=0}^{n-1}{k}.
 \end{equation*}
 La somme restante est un classique de l'algèbre:
 \begin{equation*}
-2 \cdot \sum_{k=0}^{n-1}{k} = 
-\sum_{k=0}^{n-1}{k} + \sum_{k=0}^{n-1}{k} = 
+2 \cdot \sum_{k=0}^{n-1}{k} =
+\sum_{k=0}^{n-1}{k} + \sum_{k=0}^{n-1}{k} =
 \sum_{k=0}^{n-1}{k} + \sum_{k=0}^{n-1}(n-k-1) = n(n-1).
 \end{equation*}
 Par conséquent,
@@ -340,7 +354,7 @@ Une autre manière d'atteindre ce résultat est d'induire une
 \emph{trace d'évaluation}\index{langage
   fonctionnel!évaluation!trace}. Une trace est une composition de
 règles de réécriture, notée selon l'usage conventionnel de la
-multiplication. D'après la \fig~\vref{fig_rev0_321}, nous déduisons la
+multiplication. D'après la \fig~\vref{fig:rev0_321}, nous déduisons la
 trace \(\T{\fun{rev}_0}{n}\)\index{trace_rev0@$\T{\fun{rev}_0}{n}$} de
 l'évaluation de \(\fun{rev}_0(s)\)\index{rev0@\fun{rev\(_0\)/1}}, où
 \(n\)~est la longueur de~\(s\):
@@ -360,7 +374,7 @@ avons\index{rev0@$\C{\fun{rev}_0}{n}$}
 \begin{align*}
 \C{\fun{rev}_0}{n}
   &:= \len{\T{\fun{rev}_0}{n}}
-    = \left\lvert\delta^n\gamma 
+    = \left\lvert\delta^n\gamma
         \prod_{k=0}^{n-1}{\beta^k\alpha}\right\lvert
     = \len{\delta^n\gamma} + \sum_{k=0}^{n-1}\len{\beta^k\alpha}\\
    &= (n+1) + \sum_{k=0}^{n-1}(k+1) = (n+1) + \sum_{k=1}^{n+1}k
@@ -453,7 +467,7 @@ alors
 \C{\fun{rev}_0}{n+1} = (n^2 + 3n + 2)/2 + n + 2
                      = ((n+1)^2 + 3(n+1) + 2)/2,
 \end{equation*}
-ce qui n'est autre que \(\pred{Quad}{n+1}\)\index{Quad@\predName{Quad}}. 
+ce qui n'est autre que \(\pred{Quad}{n+1}\)\index{Quad@\predName{Quad}}.
 Conséquemment, le principe d'induction dit que le coût que nous avons déterminé expérimentalement est toujours correct.
 
 Pour déduire le coût de \fun{rev/1}\index{rev@\fun{rev/1}}, il suffit

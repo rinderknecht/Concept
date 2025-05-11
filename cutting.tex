@@ -1,5 +1,5 @@
 \section{Découpage}
-\label{sec_cutting}
+\label{sec:cutting}
 \index{pile!découpage}
 
 \index{cut@\fun{cut/2}|(} Étudions le problème du découpage d'une
@@ -22,16 +22,16 @@ pile n'est pas vide. Le premier est facile à deviner:
 Une conception à grand pas\index{conception!grands pas} emploie des
 appels récursifs sur des sous-structures pour établir la structure de
 la valeur dans le membre droit. Étant donné que \fun{cut/2} prend deux
-arguments, nous prévoyons l'usage d'un ordre lexicographique\index{induction!ordre lexicographique} 
-(définition~\eqref{def_lexico}, page~\pageref{def_lexico}):
+arguments, nous prévoyons l'usage d'un ordre lexicographique\index{induction!ordre lexicographique}
+(définition~\eqref{def:lexico}, page~\pageref{def:lexico}):
 \begin{equation*}
 \fun{cut}(s_0,k_0) \succ \fun{cut}(s_1,k_1)
-:\Leftrightarrow 
+:\Leftrightarrow
 \text{\(s_0 \succ s_1\) ou (\(s_0 = s_1\) et \(k_0 > k_1\))}.
 \end{equation*}
 En définissant (\(\succ\)) comme étant l'ordre des sous-termes
 propres\index{induction!ordre des sous-termes propres} sur les piles
-(section~\ref{par_well-founded}, page~\pageref{par_well-founded}),
+(section~\ref{par:well-founded}, page~\pageref{par:well-founded}),
 nous obtenons
 \begin{equation*}
 \fun{cut}(\cons{x}{s},k) \succ \fun{cut}(s,j);\quad
@@ -47,14 +47,14 @@ auxiliaire~\fun{push/2}\index{push@\fun{push/2}}:
 \begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
 \fun{cut}(s,0) & \rightarrow & \pair{\el}{s};
 & \fun{push}(x,\pair{t}{u}) & \rightarrow & \pair{\cons{x}{t}}{u}.\\
-\fun{cut}(\cons{x}{s},k) & \rightarrow 
+\fun{cut}(\cons{x}{s},k) & \rightarrow
 & \fun{push}(x,\fun{cut}(s,k-1)).
 \end{array}
 \end{equation*}
 
 
 \paragraph{Systèmes d'inférence}
-\label{par_infsys}
+\label{par:infsys}
 \index{système d'inférence}
 
 Quand la valeur d'un appel récursif a besoin d'être déstructurée, il
@@ -71,9 +71,9 @@ créer des fonctions auxiliaires comme \fun{push/2}:
 \end{mathpar}
 La nouvelle construction s'appelle une \emph{règle
   d'inférence}\index{système d'inférence!règle} parce qu'elle
-signifie: «Pour que la valeur de \(\fun{cut}(\cons{x}{s},k)\) soit
+signifie: «~Pour que la valeur de \(\fun{cut}(\cons{x}{s},k)\) soit
 \(\pair{\cons{x}{t}}{u}\), nous inférons que la valeur de
-\(\fun{cut}(s,k-1)\) doit être \(\pair{t}{u}\).» Cette interprétation
+\(\fun{cut}(s,k-1)\) doit être \(\pair{t}{u}\).~» Cette interprétation
 correspond à une lecture ascendante de la règle \TirName{Pref}
 (\emph{préfixe}). Tout comme nous pouvons composer horizontalement les
 règles de réécriture, nous composons les règles d'inférence
@@ -115,9 +115,9 @@ un \emph{axiome} et aucune ligne horizontale n'est tirée. La
 composition de règles d'inférence est une \emph{dérivation}. Dans le
 cas de \fun{cut/2}, toutes les dérivations sont isomorphes à une pile
 dont le sommet est la conclusion. La lecture logique de la règle
-\TirName{Pref} est: «Si \(\fun{cut}(s,k-1) \twoheadrightarrow
+\TirName{Pref} est: «~Si \(\fun{cut}(s,k-1) \twoheadrightarrow
 \pair{t}{u}\), alors \(\fun{cut}(\cons{x}{s},k) \twoheadrightarrow
-\pair{\cons{x}{t}}{u}\).» Une telle lecture descendante est dite
+\pair{\cons{x}{t}}{u}\).~» Une telle lecture descendante est dite
 \emph{déductive}\index{système d'inférence!lecture déductive}. On peut
 alors comprendre la dérivation précédente comme étant la preuve du
 théorème \(\fun{cut}([5,3,6,0,2],3) \twoheadrightarrow
@@ -139,7 +139,7 @@ preuve de la \emph{correction}\index{correction} de
 \fun{cut/2}\index{cut@\fun{cut/2}}.
 
 \mypar{Correction}
-\label{par_cut_sound}
+\label{par:cut_sound}
 
 Le concept de correction~\citep{McCarthy_1962, Floyd_1967, Hoare_1971,
   Dijkstra_1976} est une relation, donc nous devons toujours parler de

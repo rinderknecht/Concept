@@ -1,5 +1,5 @@
 \chapter{Recherche de motifs}
-\label{chap_factoring}
+\label{chap:factoring}
 \index{recherche de motifs|(}
 
 Nous appellerons \emph{alphabet}\index{recherche de motifs!alphabet}
@@ -91,10 +91,10 @@ réécriture) et le mot~\(t\) est le \emph{texte}\index{recherche de
   motifs!texte}.
 
 \section{Recherche na\"{\i}ve}
-\label{sec_naive_factoring}
+\label{sec:naive_factoring}
 \index{recherche de motifs!$\sim$ na\"{\i}ve|(}
 
-À la section~\ref{def_linear_search}, \vpageref{def_linear_search},
+À la section~\ref{def:linear_search}, \vpageref{def:linear_search},
 nous avons présenté la recherche linéaire\index{recherche linéaire},
 c'est-à-dire la recherche pas à pas de l'occurrence d'un élément dans
 une pile. Nous pouvons la généraliser à la recherche d'une suite
@@ -112,22 +112,22 @@ décalé de telle sorte que \(\ind{p}{0}\) soit aligné avec
 \(\ind{t}{1}\) et les comparaisons reprennent à partir de ce
 point. Si~\(p\) ne peut être décalé davantage parce que son extrémité
 dépasserait la fin de~\(t\), alors il n'est pas un facteur. L'essence
-de cette procédure est résumée à la \fig~\vref{fig_naive},
+de cette procédure est résumée à la \fig~\vref{fig:naive},
 \begin{figure}[t]
 \centering
 \includegraphics[bb=75 621 352 715]{naive}
-\caption{Recherche na\"{\i}ve du motif~\(p\) dans le texte~\(t\) 
-(échec grisé)\label{fig_naive}}
+\caption{Recherche na\"{\i}ve du motif~\(p\) dans le texte~\(t\)
+(échec grisé)\label{fig:naive}}
 \end{figure}
 où \(\ind{p}{i} \neq \ind{t}{j}\) (les lettres \word{a}~et~\word{b} ne
 sont pas significatives en elles-mêmes).
 
-La \fig~\vref{fig_loc0}
+La \fig~\vref{fig:loc0}
 \begin{figure}[t]
-\centering 
+\centering
 \includegraphics[bb=71 548 253 721]{loc0}
 \caption{Recherche na\"{\i}ve avec \fun{loc\(_0\)/2}
-\label{fig_loc0}}
+\label{fig:loc0}}
 \end{figure}
 montre un programme fonctionnel réalisant ce plan. L'appel
 \(\fun{loc}_0(p,t)\)\index{loc0@\fun{loc\(_0\)/2}} est évalué en
@@ -158,7 +158,7 @@ l'initiative à \fun{pre/2}. Ceci implique qu'elle a besoin de recevoir
 des arguments supplémentaires pour pouvoir terminer avec
 \(\fun{factor}(j)\) ou recommencer avec \(\fun{loc}_0(p,t,j+1)\),
 comme on s'y attend. Le programme correspondant est montré à la
-\fig~\ref{fig_loc1}.
+\fig~\ref{fig:loc1}.
 \begin{figure}[t]
 \begin{equation*}
 \boxed{%
@@ -174,15 +174,15 @@ comme on s'y attend. Le programme correspondant est montré à la
 \fun{pre}_1(p,t,p',\cons{a}{t'},j) & \rightarrow & \fun{loc}_1(p',t',j+1).
 \end{array}}
 \end{equation*}
-\caption{Raffinement de la \fig~\vref{fig_loc0}
-\label{fig_loc1}}
+\caption{Raffinement de la \fig~\vref{fig:loc0}
+\label{fig:loc1}}
 \end{figure}
 
 Un examen plus approfondi révèle que nous pouvons mêler
 \fun{loc\(_1\)/3}\index{loc1@\fun{loc\(_1\)/3}} et
 \fun{pre\(_1\)/5}\index{pre1@\fun{pre\(_1\)/5}} en
 \fun{pre/5}\index{pre@\fun{pre/5}} à\index{recherche de motifs!$\sim$
-  na\"{\i}ve!programme} la \fig~\vref{fig_loc}. Cette sorte de
+  na\"{\i}ve!programme} la \fig~\vref{fig:loc}. Cette sorte de
 conception progressive, où un programme est transformé en une série de
 programmes équivalents est un \emph{raffinement}. Ici, chaque
 raffinement est plus efficace que le précédent, mais moins lisible que
@@ -204,8 +204,8 @@ l'original, donc chaque étape doit être vérifiée attentivement.
                          & \fun{pre}(p',t',p',t',j+1).
 \end{array}}
 \end{equation*}
-\caption{Raffinement de la \fig~\vref{fig_loc1}
-\label{fig_loc}}
+\caption{Raffinement de la \fig~\vref{fig:loc1}
+\label{fig:loc}}
 \end{figure}
 
 \paragraph{Terminaison}
@@ -215,8 +215,8 @@ On veut montrer que l'index dans le texte augmente toujours, qu'une
 comparaison échoue ou non, donc nous définissons un ordre
 lexicographique sur les paires de dépendance de \fun{pre/5}
 \index{terminaison!paire de dépendance} constituées par le quatrième
-et le deuxième argument (définition~\eqref{def_lexico}
-\vpageref{def_lexico}), avec \(s \succ t\) si~\(t\) est la sous-pile
+et le deuxième argument (définition~\eqref{def:lexico}
+\vpageref{def:lexico}), avec \(s \succ t\) si~\(t\) est la sous-pile
 immédiate de~\(s\). La troisième règle satisfait \((t',\cons{a}{t})
 \succ (t',t)\). La quatrième est ordonnée aussi: \((\cons{b}{t'},t)
 \succ (t',t')\).\index{recherche de motifs!$\sim$
@@ -239,7 +239,7 @@ facile à établir:
 \(\fun{loc}(p,t) \twoheadrightarrow \fun{pre}(p_0,t_0,p_0',t_0',j)\)
 \textsl{implique} \(t_0' \succcurlyeq t_0\),
 \end{center}
-où (\(\succcurlyeq\)) est la relation de sous-pile réflexive. 
+où (\(\succcurlyeq\)) est la relation de sous-pile réflexive.
 Prouvons cette propriété par \emph{induction sur la longueur de la
   dérivation}.\index{induction!$\sim$ sur la longueur de la
   dérivation} Plus précisément, nous voulons établir la proposition
@@ -391,7 +391,7 @@ est d'autant moindre que l'alphabet est grand car \(\lim_{\breve{a}
 En cas d'échec de comparaison, la recherche na\"{\i}ve recommence à
 comparer les premières lettres de~\(p\) sans utiliser l'information du
 succès partiel, à savoir: \(\ind{p}{0,i-1} = \ind{t}{j-i,j-1}\) et
-\(\ind{p}{i} \neq \ind{t}{j}\) (voir \fig~\vref{fig_naive}). La
+\(\ind{p}{i} \neq \ind{t}{j}\) (voir \fig~\vref{fig:naive}). La
 comparaison de~\(p\) avec \(\ind{t}{j-i+1,j-1}\) pourrait réutiliser
 \(\ind{t}{j-i+1,j-1} = \ind{p}{1,i-1}\), en d'autres termes,
 \(\ind{p}{0,i-2}\)~est comparé à~\(\ind{p}{1,i-1}\): le motif~\(p\)
@@ -419,22 +419,22 @@ maximums peuvent se recouvrir partiellement, par exemple
 \Border{}{\word{a}\underline{\word{aaa}}} = \word{aaa}\).
 
 L'accélération apportée par Morris et Pratt à la recherche na\"{\i}ve
-est illustrée à la \fig~\vref{fig_mp}.
+est illustrée à la \fig~\vref{fig:mp}.
 \begin{figure}[b]
 \centering
 \includegraphics[bb=74 621 367 717]{mp}
 \caption{L'algorithme de Morris et Pratt (échec grisé)
-\label{fig_mp}}
+\label{fig:mp}}
 \end{figure}
 Notons que, contrairement à la recherche na\"{\i}ve, les lettres du
 texte sont comparées en ordre strictement croissant (on ne rebrousse
-jamais chemin). Considérons l'exemple de la \fig~\vref{fig_mp_ex} où,
+jamais chemin). Considérons l'exemple de la \fig~\vref{fig:mp_ex} où,
 à la fin,
 \begin{figure}[t]
 \centering
 \includegraphics{mp_ex}
 \caption{L'algorithme de Morris et Pratt au travail
-\label{fig_mp_ex}}
+\label{fig:mp_ex}}
 \end{figure}
 \(p\)~est n'est pas trouvé dans~\(t\). Comme d'habitude, les lettres
 sur fond gris correspondent à des échecs de comparaisons. Il est clair
@@ -450,7 +450,7 @@ bord maximum du bord maximum de~\(y\), c'est-à-dire \(\Border{2}{y}
 \cdot a\) etc. jusqu'à ce que \(\Border{q}{y} \cdot a\) soit un
 préfixe de~\(y\) ou \(\Border{q}{y} = \varepsilon\). Par exemple,
 \(\Border{}{y \cdot \word{a}} = \Border{3}{y} \cdot \word{a}\) à la
-\fig~\vref{fig_max_B}.
+\fig~\vref{fig:max_B}.
 \begin{figure}[b]
 \centering
 \includegraphics{max_B}
@@ -458,7 +458,7 @@ préfixe de~\(y\) ou \(\Border{q}{y} = \varepsilon\). Par exemple,
    = \Border{}{\Border{}{y} \cdot \word{a}}
    = \Border{}{\Border{2}{y} \cdot \word{a}}
    = \Border{3}{y} \cdot \word{a}\).
-\label{fig_max_B}}
+\label{fig:max_B}}
 \end{figure}
 
 Mathématiquement, pour tout mot \({y \neq \varepsilon}\) et toute lettre~\(a\),
@@ -516,15 +516,15 @@ appelée la \emph{fonction de suppléance} de~\(x\). Une définition
 \text{pour tout \(x\) et \(i\) tels que
 \(0 < i \leqslant \wlen{x}\)}.
 \end{equation*}
-Par exemple, à la \fig~\vref{fig_mp_fail}, nous trouvons la table des
+Par exemple, à la \fig~\vref{fig:mp_fail}, nous trouvons la table des
 bords maximums des préfixes du mot \word{abacabac}.
 \begin{figure}
 \centering
 \includegraphics{mp_fail}
 \caption{Fonction de suppléance de \word{abacabac}
-\label{fig_mp_fail}}
+\label{fig:mp_fail}}
 \end{figure}
-À la \fig~\vref{fig_mp}, la longueur du bord maximum est~\(k\), donc
+À la \fig~\vref{fig:mp}, la longueur du bord maximum est~\(k\), donc
 \(k=\MPfailure{p}{}{i}\) et \(\smash{\Ind{p}{\MPfailure{p}{}{i}}}\)
 est la première lettre à être comparée avec~\(\ind{t}{j}\) après le
 décalage. Par ailleurs, la figure présuppose que \({i>0}\), donc le
@@ -559,12 +559,12 @@ donné qu'un bord est un préfixe propre, c'est-à-dire que
 y\), car \({q > 0}\), et \(\Border{}{ya} = \Border{q}{y} \cdot a\). Ce
 raisonnement établit que
 \begin{equation*}
-\Border{}{ya} = 
+\Border{}{ya} =
 \left\{
   \begin{aligned}
    & \Border{q}{y} \cdot a,
    && \text{si \(\Border{q}{y} \cdot a \prefeq y\)};\\
-   & \varepsilon, 
+   & \varepsilon,
    && \text{sinon;}
   \end{aligned}
 \right.
@@ -575,7 +575,7 @@ simple parce qu'elle ne contient pas un appel imbriqué comme
 \(\Border{}{\Border{}{y} \cdot a}\). Nous pouvons maintenant prendre
 la longueur de chaque côté des équations:
 \begin{equation*}
-\wlen{\Border{}{ya}} = 
+\wlen{\Border{}{ya}} =
 \left\{
   \begin{aligned}
    & \wlen{\Border{q}{y} \cdot a} = 1 + \wlen{\Border{q}{y}},
@@ -615,7 +615,7 @@ d'induction. Supposons \(y \prefeq x\) et prouvons alors
 \(\pred{P}{q+1}\):
 \begin{equation*}
   \MPfailure{x}{q+1}{\wlen{y}}
-= \MPfailure{x}{q}{\MPfailure{x}{}{\wlen{y}}} 
+= \MPfailure{x}{q}{\MPfailure{x}{}{\wlen{y}}}
 = \MPfailure{x}{q}{\wlen{\Border{}{y}}}
 \doteq \wlen{\Border{q}{\Border{}{y}}}
 = \wlen{\Border{q+1}{y}},
@@ -644,8 +644,8 @@ définition~\eqref{eq_Border} \vpageref{eq_Border}: \({\Border{}{a} :=
 \MPfailure{x}{}{\wlen{a}} = \wlen{\Border{}{a}} = \wlen{\varepsilon} =
 0\) et, puisque la définition de~\(\MPfailureName\) implique
 \(\MPfailure{x}{}{1} = 1 + \MPfailure{x}{}{0}\), on a
-\(\MPfailure{x}{}{0} = -1\). La propriété «\(\Border{q}{y} \cdot a
-\prefeq y\) et \({ya \prefeq x}\) et \({\wlen{y} = i}\)» implique les
+\(\MPfailure{x}{}{0} = -1\). La propriété «~\(\Border{q}{y} \cdot a
+\prefeq y\) et \({ya \prefeq x}\) et \({\wlen{y} = i}\)~» implique les
 égalités \(\smash{\Ind{y}{\wlen{\Border{q}{y}}}} = a \Leftrightarrow
 \smash{\Ind{y}{\MPfailure{x}{q}{i}}} = a \Leftrightarrow
 \smash{\Ind{x}{\MPfailure{x}{q}{i}}} = \smash{\Ind{x}{\wlen{y}}}
@@ -679,7 +679,7 @@ que \(\MPfailure{x}{q}{i} = -1\) ou
 
 L'appel de fonction
 \(\fun{fail}_0(x,i)\)\index{fail0@\fun{fail\(_0\)/2}}, définie à la
-\fig~\vref{fig_fail0}, réalise \(\MPfailure{x}{}{i}\).
+\fig~\vref{fig:fail0}, réalise \(\MPfailure{x}{}{i}\).
 \begin{figure}[t]
 \abovedisplayskip=0pt
 \belowdisplayskip=0pt
@@ -701,7 +701,7 @@ L'appel de fonction
 \end{gather*}
 }}
 \caption{La fonction de suppléance \(\MPfailureName\) par \fun{fail\(_0\)/2}
-\label{fig_fail0}}
+\label{fig:fail0}}
 \end{figure}
 La fonction \fun{fp/3}\index{fp@\fun{fp/3}} (anglais, \emph{fixed
   point}) calcule \(\MPfailure{x}{q}{i-1}\), en commençant avec
@@ -729,7 +729,7 @@ mémorisation, au sens plus général). Dans ce cas, l'évaluation de
 \pair{\ind{x}{0}}{\MPfailure{x}{}{0}}].
 \end{equation*}
 La version avec mémoïsation de \fun{fail\(_0\)/2} est appelée
-\fun{fail/2}\index{fail@\fun{fail/2}} à la \fig~\ref{fig_fail}.
+\fun{fail/2}\index{fail@\fun{fail/2}} à la \fig~\ref{fig:fail}.
 \begin{figure}[b]
 \centering
 \abovedisplayskip=0pt
@@ -738,7 +738,7 @@ La version avec mémoïsation de \fun{fail\(_0\)/2} est appelée
 \begin{gather*}
 \fun{fail}(p,0) \rightarrow -1;
 \quad
-\fun{fail}(\cons{\pair{a}{k}}{p},i) \rightarrow 
+\fun{fail}(\cons{\pair{a}{k}}{p},i) \rightarrow
 \fun{fp}(p,a,k,i-1).
 \\
 \inferrule*{}{\fun{fp}(p,a,-1,i) \rightarrow 0;}\quad
@@ -753,7 +753,7 @@ La version avec mémoïsation de \fun{fail\(_0\)/2} est appelée
 \fun{suf}(\cons{a}{p},i) \rightarrow \fun{suf}(p,i-1).
 \end{gather*}
 }}
-\caption{Fonction de suppléance avec mémoïsation\label{fig_fail}}
+\caption{Fonction de suppléance avec mémoïsation\label{fig:fail}}
 \end{figure}
 Ici, nous travaillons avec le mémo~\(p\), qui est un préfixe retourné,
 au lieu de~\(x\), donc nous devons connaître sa longueur~\(i\) pour
@@ -775,7 +775,7 @@ Nommons \fun{pp/1}\index{pp@\fun{pp/1}} (anglais,
 \pair{\ind{x}{m-1}}{\MPfailure{x}{}{m-1}}]
 \end{equation*}
 pour un motif~\(x\) de taille~\(m\). Sa définition est montrée à la
-\fig~\vref{fig_pp},
+\fig~\vref{fig:pp},
 \begin{figure}[t]
 \begin{equation*}
 \boxed{%
@@ -789,17 +789,17 @@ pour un motif~\(x\) de taille~\(m\). Sa définition est montrée à la
 \end{array}}
 \end{equation*}
 \caption{Prétraitement d'un motif~\(y\) par \fun{pp/1}
-\label{fig_pp}}
+\label{fig:pp}}
 \end{figure}
 où \fun{rev/1}\index{rev@\fun{rev/1}} est la fonction de retournement
-(définition~\eqref{def_rev} \vpageref{def_rev}), et
+(définition~\eqref{def:rev} \vpageref{def:rev}), et
 \fun{pp/1}\index{pp@\fun{pp/1}} simplement appelle la fonction de
 suppléance \fun{fail/2} pour chaque nouvel index~\(i\) du mémo
 courant~\(p\) et créé un nouveau mémo en accouplant l'index de l'échec
 avec la lettre courante puis empile le mémo courant
 (\(\cons{\pair{a}{\fun{fail}(p,i)}}{p}\)). Le retournement de pile à
 la fin est nécessaire parce que le mémo contient les lettres en ordre
-inverse par rapport au motif. L'exemple à la \fig~\vref{fig_mp_fail}
+inverse par rapport au motif. L'exemple à la \fig~\vref{fig:mp_fail}
 mène à l'évaluation suivante:
 \begin{equation*}
 \fun{pp}(x) \twoheadrightarrow
@@ -843,7 +843,7 @@ alors qu'une comparaison négative demande deux appels:
 \(\Border{}{\Border{}{y} \cdot a}\). Par conséquent, une première idée
 serait de supposer que nous n'avons que des comparaisons positives:
 \begin{equation*}
-\Border{}{x} \!\eqn{n-2}\! 
+\Border{}{x} \!\eqn{n-2}\!
 \Border{}{\ind{x}{0,n-2}} \cdot \ind{x}{n-1}
 \!\eqn{n-1}\!\! \dots
 \eqn{0}\! \Border{}{\ind{x}{0}} \cdot \ind{x}{1,n-1}
@@ -962,10 +962,10 @@ Nous avons trouvé ci-dessus: \(n-2 \leqslant \OC{\fun{pp}}{n}
 \leqslant 2n - 5\), où les bornes sont atteignables si \(n \geqslant
 3\). Pour employer la valeur de \(\fun{pp}(p)\), nous pourrions
 commencer par modifier la recherche linéaire de la
-section~\ref{sec_naive_factoring}, en particulier le programme à la
-\fig~\ref{fig_loc} \vpageref{fig_loc}, tout en gardant un {\oe}il sur
-la \fig~\vref{fig_mp}. Le résultat est montré à la
-\fig~\vref{fig_mp_def}.
+section~\ref{sec:naive_factoring}, en particulier le programme à la
+\fig~\ref{fig:loc} \vpageref{fig:loc}, tout en gardant un {\oe}il sur
+la \fig~\vref{fig:mp}. Le résultat est montré à la
+\fig~\vref{fig:mp_def}.
 \begin{figure}[b]
 \centering
 \abovedisplayskip=0pt
@@ -988,13 +988,13 @@ la \fig~\vref{fig_mp}. Le résultat est montré à la
                          & \fun{mp}(\fun{suf}(p',k),t,p',k,j).
 \end{array}
 \end{gather*}}}
-\caption{L'algorithme de Morris et Pratt (recherche)\label{fig_mp_def}}
+\caption{L'algorithme de Morris et Pratt (recherche)\label{fig:mp_def}}
 \end{figure}
 Notons comment le premier argument de \fun{mp/5}\index{mp@\fun{mp/5}},
 \(p\), est la copie de travail et le troisième, \(p'\), est l'original
 qui demeure invariant (il est utilisé pour restaurer~\(p\) après
 l'échec d'une comparaison). Les index~\(i\), \(j\)~et~\(k\) sont les
-mêmes qu'à la \fig~\vref{fig_mp}. Le dernier n'est autre que la valeur
+mêmes qu'à la \fig~\vref{fig:mp}. Le dernier n'est autre que la valeur
 calculée par la fonction de suppléance; les variables \(i\)~et~\(j\)
 sont incrémentées à chaque fois qu'une lettre du motif est identique à
 une lettre du texte (troisième règle de \fun{mp/5}) et \(j\)~est aussi
@@ -1091,18 +1091,18 @@ reste du même texte, après qu'une occurrence du motif a été trouvée).
 \centering
 \includegraphics[bb=71 360 238 723]{metaprog}
 \caption{Recherche de \word{abacabac} dans~\(t\)% with a metaprogram
-\label{fig_metaprog}}
+\label{fig:metaprog}}
 \end{wrapfigure}
 Il existe une convention graphique commode pour le contenu de la table
-de suppléance à la \fig~\vref{fig_mp_fail}, appelée \emph{automate
+de suppléance à la \fig~\vref{fig:mp_fail}, appelée \emph{automate
   fini déterministe}\index{recherche de motifs!algorithme de Morris et
   Pratt!automate}\index{automate fini!$\sim$ déterministe} et montrée
-à la \fig~\vref{fig_abacabac}.
+à la \fig~\vref{fig:abacabac}.
 \begin{figure}[b]
 \centering
 \includegraphics[bb=80 651 390 710]{abacabac}
 \caption{Automate de Morris et Pratt du motif \word{abacabac}
-\label{fig_abacabac}}
+\label{fig:abacabac}}
 \end{figure}
 Nous ne décrirons ici que de manière sommaire les automates; pour un
 traitement mathématique et très approfondi, voir
@@ -1128,15 +1128,15 @@ correspond à une fonction et les transitions sont associées aux
 différentes règles de la définition de la fonction pour l'état d'où
 elles sortent.
 
-L'exemple \word{abacabac} est montré à la \fig~\ref{fig_metaprog}. Les
+L'exemple \word{abacabac} est montré à la \fig~\ref{fig:metaprog}. Les
 états de l'automate, \(0\), \(1\), jusqu'à \(7\), correspondent aux
 fonctions \fun{zero/2}, \fun{one/2} etc. jusqu'à \fun{seven/2}. Notons
 comment \fun{mp\(_0\)/1}\index{mp0@\fun{mp\(_0\)/1}} met l'index
 à~\(0\) quand elle initialise le premier état, c'est-à-dire, par
 l'appel à \fun{zero/2}\index{zero@\fun{zero/2}}. L'index~\(j\) joue le
-même rôle que dans la \fig~\ref{fig_mp} \vpageref{fig_mp}. La première
+même rôle que dans la \fig~\ref{fig:mp} \vpageref{fig:mp}. La première
 règle de chaque fonction correspond à une transition vers la droite
-dans l'automate de la \fig~\vref{fig_abacabac} et la deuxième règle
+dans l'automate de la \fig~\vref{fig:abacabac} et la deuxième règle
 est une transition rétrograde, donc un échec, sauf dans \fun{zero/2},
 où elle signifie que le motif est décalé d'une lettre. La fonction
 \fun{zero/2} possède une troisième règle traitant le cas où le motif
@@ -1155,7 +1155,7 @@ métaprogramme.\index{recherche de motifs!algorithme de Morris et
 \mypar{Variante de Knuth}
 \index{recherche de motifs!algorithme de Knuth, Morris et Pratt|(}
 
-Un coup d'{\oe}il à la \fig~\vref{fig_mp}, devrait nous fournir
+Un coup d'{\oe}il à la \fig~\vref{fig:mp}, devrait nous fournir
 matière à réflexion. Que se passerait-il si \(a = \word{a}\)?  Alors
 le décalage mènerait immédiatement à une comparaison négative. Donc,
 comparons \(\smash{\Ind{p}{\MPfailure{p}{}{i}}}\) à~\(\ind{t}{j}\)
@@ -1178,13 +1178,13 @@ pas~\(a\) ou alors nous devons décaler le motif. L'amélioration
 proposée par Knuth consiste à remplacer toutes ces transitions
 d'échecs successifs par une seule.
 
-Par exemple, l'automate de la \fig~\vref{fig_abacabac} est amélioré de
-cette façon à la \fig~\vref{fig_kmp_abac}.
+Par exemple, l'automate de la \fig~\vref{fig:abacabac} est amélioré de
+cette façon à la \fig~\vref{fig:kmp_abac}.
 \begin{figure}
 \centering
 \includegraphics[bb=80 645 390 735]{kmp_abac}
 \caption{Automate de Knuth, Morris et Pratt pour \word{abacabac}
-\label{fig_kmp_abac}}
+\label{fig:kmp_abac}}
 \end{figure}
 \index{recherche de motifs!algorithme de Knuth, Morris et Pratt|)}
 \index{recherche de motifs|)}
@@ -1206,7 +1206,7 @@ cette façon à la \fig~\vref{fig_kmp_abac}.
   \item Cherchez \(\B{\fun{mp}}{m,n}\) et \(\W{\fun{mp}}{m,n}\).
 
   \item Proposez une simple modification pour éviter l'appel à
-    \fun{rev/1} à la \fig~\vref{fig_pp}.\label{factoring_trick}
+    \fun{rev/1} à la \fig~\vref{fig:pp}.\label{factoring_trick}
 
   \item Modifiez \fun{fail/2} de telle manière que \fun{mp/2} réalise
     l'algorithme de Knuth, Morris et Pratt. Étudiez les cas meilleurs
@@ -1214,7 +1214,7 @@ cette façon à la \fig~\vref{fig_kmp_abac}.
     2m-6\), pour \(m \geqslant 3\).
 
   \item Écrivez le métaprogramme correspondant à l'automate à la
-    \fig~\vref{fig_kmp_abac}.
+    \fig~\vref{fig:kmp_abac}.
 
   \item Écrivez une fonction \fun{rlw/2}\index{rlw@\fun{rlw/2}}
     (anglais, \emph{remove the last word}) telle que l'appel

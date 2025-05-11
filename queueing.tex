@@ -1,9 +1,9 @@
 \section{Files d'attente}
-\label{sec_queueing}
+\label{sec:queueing}
 \index{file}
 
 Malgré ses qualités didactiques, l'analyse agrégeante (voir
-page~\pageref{par_aggregate}) est moins fréquemment appliquée quand
+page~\pageref{par:aggregate}) est moins fréquemment appliquée quand
 les structures de données ne sont pas en relation avec la
 numération. Nous proposons d'étendre sa portée en étudiant le cas des
 \emph{files d'attente fonctionnelles}
@@ -16,7 +16,7 @@ uniquement de l'autre:
 \begin{equation*}
 \begin{array}{@{}l@{}r@{\;}cc|c|c|c|c|c|cc@{\;}l@{}}
 \cline{4-9}
-& \text{Empilage, Dépilage} 
+& \text{Empilage, Dépilage}
 & \leftrightsquigarrow & & a & b & c & d & e &&&\\
 \cline{4-9}
 \end{array}
@@ -29,7 +29,7 @@ comme une pile où des éléments peuvent être ajoutés, ou
 \begin{equation*}
 \begin{array}{@{}l@{}r@{\;}cc|c|c|c|c|c|cc@{\;}l@{}}
 \cline{4-10}
-& \text{Enfilage (arrière)} 
+& \text{Enfilage (arrière)}
                 & \rightsquigarrow & & a & b & c & d & e &
 & \rightsquigarrow & \text{Défilage (front).}\\
 \cline{4-10}
@@ -67,14 +67,14 @@ et enfin défiler~\(c\).
 
 Modélisons une file comme nous avons modélisé un empilage par le
 constructeur \fun{cons/2}\index{cons@\fun{cons/2}}, à la
-page~\pageref{par_stacks}. Ici le constructeur de file sera
+page~\pageref{par:stacks}. Ici le constructeur de file sera
 \fun{q/2}\index{q@\fun{q/2}} et l'appel \(\fun{q}(r,f)\) dénote une
 file fonctionnelle dont la pile arrière est~\(r\) et la
 frontale~\(f\). Enfiler est réalisé par la fonction
 \fun{enq/2}\index{enq@\fun{enq/2}} (anglais, \emph{enqueue}):
 \begin{equation}
 \fun{enq}(x,\fun{q}(r,f)) \rightarrow \fun{q}(\cons{x}{r},f).
-\label{def_enq}
+\label{def:enq}
 \end{equation}
 Défiler requiert que le résultat soit une \emph{paire}\index{langage
   fonctionnel!paire} faite de l'élément défilé et de la nouvelle file
@@ -96,9 +96,9 @@ la fonction de défilage:
 & \xrightarrow{\smash{\iota}}
 & \pair{\fun{q}(r,f)}{x}.
 \end{array}
-\label{def_deq}
+\label{def:deq}
 \end{equation}
-Voir page~\pageref{def_rev} la définition~\eqref{def_rev}
+Voir page~\pageref{def:rev} la définition~\eqref{def:rev}
 de~\fun{rcat/2}\index{rcat@\fun{rcat/2}}. Nous dirons que la file a
 pour taille~\(n\) si le nombre total d'éléments dans les deux piles
 est~\(n\).  Le coût de l'enfilage\index{enq@$\C{\fun{enq}}{n}$} est
@@ -147,27 +147,27 @@ pour le pire des cas deviennent \(e=d\) (\(n\)~pair) ou \(e=d+1\)
 \paragraph{Chemin de Dyck}
 \index{chemin de Dyck}
 
-Décrivons les mises à jour comme à la \fig~\vref{fig_enq_deq}.
+Décrivons les mises à jour comme à la \fig~\vref{fig:enq_deq}.
 \begin{figure}
 \centering
-\subfloat[Enfilage\label{fig_enqueue}]{%
+\subfloat[Enfilage\label{fig:enqueue}]{%
   \includegraphics[bb=69 662 132 721,scale=0.75]{enqueue}
 }
 \qquad
-\subfloat[Défilage\label{fig_dequeue}]{%
+\subfloat[Défilage\label{fig:dequeue}]{%
   \includegraphics[bb=69 662 132 721,scale=0.75]{dequeue}
 }
-\caption{Représentation graphique des opérations sur les files
-\label{fig_enq_deq}}
+\caption{Représentation graphique des opérations sur les files}
+\label{fig:enq_deq}
 \end{figure}
 Textuellement, nous représentons un enfilage comme une parenthèse
 ouvrante et un défilage comme une parenthèse fermante. Par exemple,
-\texttt{((()()(()))())} correspond, à la \fig~\ref{fig_dyck_path},
+\texttt{((()()(()))())} correspond, à la \fig~\ref{fig:dyck_path},
 \begin{figure}
 \centering
 \includegraphics[bb=75 570 508 727,scale=0.77]{dyck_path}
-\caption{Chemin de Dyck modélisant des opérations sur une file
-\label{fig_dyck_path}}
+\caption{Chemin de Dyck modélisant des opérations sur une file}
+\label{fig:dyck_path}
 \end{figure}
 à un chemin de Dyck\index{chemin de Dyck}. Pour qu'une ligne brisée
 soit un chemin de Dyck de longueur~\(n\), elle doit commencer à
@@ -177,7 +177,7 @@ termes de \emph{langage de Dyck}, un enfilage est appelé une
 \emph{descente}\index{chemin de Dyck!descente}. Une montée suivie
 d'une descente, c'est-à-dire \texttt{()}, est appelé un
 \emph{sommet}\index{chemin de Dyck!sommet}. Par exemple, à la
-\fig~\ref{fig_dyck_path}, nous trouvons quatre sommets. Les nombres
+\fig~\ref{fig:dyck_path}, nous trouvons quatre sommets. Les nombres
 annotant les montées et les descentes sont les coûts encourus par
 l'opération. L'axe des abscisses est gradué avec le nombre ordinal de
 chaque opération.
@@ -190,12 +190,12 @@ sont aisément calculables et qui constituent tout chemin, ou bien cela
 peut signifier que nous associons tout chemin à un autre dont le coût
 est le même, mais plus simple.
 
-La \fig~\ref{fig_dyck_eq}
+La \fig~\ref{fig:dyck_eq}
 \begin{figure}[b]
 \centering
 \includegraphics[bb=75 570 508 727,scale=0.77]{dyck_eq}
-\caption{Chemin de Dyck équivalent à la \fig~\ref{fig_dyck_path}
-\label{fig_dyck_eq}}
+\caption{Chemin de Dyck équivalent à la \fig~\ref{fig:dyck_path}}
+\label{fig:dyck_eq}
 \end{figure}
 montre comment le chemin précédent est associé à un chemin équivalent,
 exclusivement fait d'une suite de triangles isocèles dont les bases
@@ -214,26 +214,26 @@ atteintes. Nous appelons cette méthode
 qu'elle revient, en termes opérationnels, à réordonner des
 sous-séquences d'opérations \emph{a posteriori}.
 
-Par exemple, la \fig~\vref{fig_rescheduling}
+Par exemple, la \fig~\vref{fig:rescheduling}
 \begin{figure}
 \centering
-\subfloat[Initial\label{fig_initial}]{%
+\subfloat[Initial\label{fig:initial}]{%
   \includegraphics[scale=0.77,bb=48 588 218 726]{mount0}}
 \qquad
 \subfloat[Échange de \(4\nearrow 5\) et \(5\searrow 6\)]{%
   \includegraphics[scale=0.77,bb=48 588 218 726]{mount1}}\\
-\subfloat[Échange de \(5\nearrow 6\) et \(8 \searrow 9\)\label{fig_valley}]{%
+\subfloat[Échange de \(5\nearrow 6\) et \(8 \searrow 9\)\label{fig:valley}]{%
   \includegraphics[scale=0.77,bb=48 588 218 726]{mount2}}
 \qquad
 \subfloat[Dernier]{%
   \includegraphics[bb=13 645 180 782,scale=0.77]{mount3}}
-\caption{Réordonnancement de la \fig~\ref{fig_dyck_path} en
-  \fig~\ref{fig_dyck_eq}\label{fig_rescheduling}}
+\caption{Réordonnancement de la \fig~\ref{fig:dyck_path} en  \fig~\ref{fig:dyck_eq}}
+\label{fig:rescheduling}
 \end{figure}
-montre le réordonnancement de la \fig~\vref{fig_dyck_path}. Remarquons
+montre le réordonnancement de la \fig~\vref{fig:dyck_path}. Remarquons
 que deux chemins différents peuvent être réordonnés en le même
-chemin. Ce qui rend la \fig~\ref{fig_valley} équivalente à la
-\fig~\ref{fig_initial} est l'invariance du coût parce que toutes les
+chemin. Ce qui rend la \fig~\ref{fig:valley} équivalente à la
+\fig~\ref{fig:initial} est l'invariance du coût parce que toutes les
 opérations concernées ont un coût unitaire. En effet, les enfilages
 ont toujours un coût unitaire et les défilages impliqués dans un
 réordonnancement ont aussi un coût unitaire, parce qu'ils trouvent la
@@ -242,7 +242,7 @@ chemins sont équivalents à une chaîne de montagnes de même coût, donc
 le coût maximum peut être recherché parmi les chaînes uniquement.
 
 Notons \(e_1, e_2, \dots, e_k\) les sous-séquences contiguës maximales
-de montées; par exemple, à la \fig~\ref{fig_dyck_eq}, nous avons
+de montées; par exemple, à la \fig~\ref{fig:dyck_eq}, nous avons
 \(e_1=3\), \(e_2 = 3\) et \(e_3 = 1\). Bien entendu, \(e = e_1 + e_2 +
 \dots + e_k\). La descente qui constitue le \(i^\text{e}\) sommet a
 pour coût \index{deq@$\W{\fun{deq}}{n}$} \(\W{\fun{deq}}{e_i} = e_i +
@@ -260,7 +260,7 @@ maximisant \(\A{e,k}\) pour un~\(e\) donné:
 où \(\W{}{e,e}\) est le coût maximum quand il y a \(e\)~enfilages et
 \({d=e}\) défilages. En d'autres termes, le pire des cas quand
 \(e=d=7\) est le chemin de Dyck en dents de scie montré à la
-\fig~\vref{fig_max_dyck}.
+\fig~\vref{fig:max_dyck}.
 
 Pour conclure, il est crucial de voir qu'il n'y a pas d'autres chemins
 de Dyck dont le réordonnancement mène à ce pire des cas, la raison
@@ -271,7 +271,8 @@ unitaire.
 \begin{figure}
 \centering
 \includegraphics[bb=86 657 507 726,scale=0.7]{max_dyck}
-\caption{Pire des cas si \(e=d=7\)\label{fig_max_dyck}}
+\caption{Pire des cas si \(e=d=7\)}
+\label{fig:max_dyck}
 \end{figure}
 
 \paragraph{Méandre de Dyck}
@@ -280,23 +281,23 @@ unitaire.
 Un autre cas parmi les pires se produit si \(e = d + 1\) et la ligne
 est alors un \emph{méandre de Dyck} dont l'extrémité finale est un
 point d'ordonnée \(e-d=1\). Un exemple est donné à la
-\fig~\ref{fig_meander1},
+\fig~\ref{fig:meander1},
 \begin{figure}[b]
 \centering
 \includegraphics[bb=75 570 480 727,scale=0.82]{meander1}
-\caption{Méandre de Dyck modélisant des opérations sur une file
-\label{fig_meander1}}
+\caption{Méandre de Dyck modélisant des opérations sur une file}
+\label{fig:meander1}
 \end{figure}
 où la dernière opération est un défilage. La ligne en pointillés
 marque le résultat du réordonnancement que nous avons défini sur les
 chemins de Dyck. Ici, la dernière opération devient un enfilage.
 
-Une autre possibilité est montrée à la \fig~\ref{fig_meander2},
+Une autre possibilité est montrée à la \fig~\ref{fig:meander2},
 \begin{figure}
 \centering
 \includegraphics[bb=75 570 480 727,scale=0.82]{meander2}
-\caption{Méandre de Dyck modélisant des opérations sur une file
-\label{fig_meander2}}
+\caption{Méandre de Dyck modélisant des opérations sur une file}
+\label{fig:meander2}
 \end{figure}
 où la dernière opération est inchangée. La différence entre les deux
 exemples repose sur le fait que, à l'origine, le dernier défilage a,
@@ -307,7 +308,7 @@ enfilage, mais parce que cet enfilage doit partir de l'axe des
 abscisses, nous nous trouvons dans la même situation qu'avec le
 résultat du réordonnancement d'un méandre conclu avec un défilage de
 coût unitaire (voir à nouveau la ligne en pointillés à la
-\fig~\ref{fig_meander1}). Par conséquent, nous n'avons qu'à comparer
+\fig~\ref{fig:meander1}). Par conséquent, nous n'avons qu'à comparer
 l'effet du réordonnancement des méandres se terminant avec un
 défilage, c'est-à-dire que nous envisageons les deux cas suivants.
 \begin{itemize}
@@ -348,7 +349,7 @@ précédente, avec les mêmes exemples.
 \paragraph{Aparté}
 
 Nous pouvons gagner un peu plus d'abstraction en utilisant un constructeur dédié pour la file vide, \(\fun{nilq/0}\), et en changeant la définition de
-\fun{enq/2} dans~\eqref{def_enq} \vpageref{def_enq} de telle sorte qu'elle 
+\fun{enq/2} dans~\eqref{def:enq} \vpageref{def:enq} de telle sorte qu'elle
 filtre ce cas:
 \begin{equation*}
 \fun{enq}(x,\fun{nilq}()) \rightarrow \fun{q}([x],\el);
@@ -370,9 +371,9 @@ empilant~\(x\) directement sur la pile frontale:
     élément à être défilé de~\(q\):
     \begin{equation*}
       \begin{array}{r@{\;}l@{\;}l}
-        \fun{nxt}(\fun{q}(\cons{x}{r},\el)) & \rightarrow 
+        \fun{nxt}(\fun{q}(\cons{x}{r},\el)) & \rightarrow
         & \fun{nxt}(\fun{q}(\el,\fun{rcat}(r,[x])));\\
-        \fun{nxt}(\fun{q}(r,\cons{x}{f})) & \rightarrow & x.     
+        \fun{nxt}(\fun{q}(r,\cons{x}{f})) & \rightarrow & x.
         \index{q@\fun{q/2}}
       \end{array}
     \end{equation*}
