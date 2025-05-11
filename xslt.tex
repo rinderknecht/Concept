@@ -48,7 +48,7 @@ ne l'utiliser que comme une référence pour les chapitres suivants.
 \mypar{\XML}
 
 L'acronyme \XML signifie en anglais \emph{eXtensible Markup Language},
-soit «langage d'annotations extensible». Il s'agit d'un langage pour
+soit «~langage d'annotations extensible~». Il s'agit d'un langage pour
 définir des arbres de Catalan (des arbres dont le degré des n{\oe}ud
 n'est pas fixe ou limité) avec simplement du texte, avec un nombre
 minimal de constructions syntaxiques. Ces arbres sont employés pour
@@ -93,11 +93,11 @@ Sujet: Devoirs
 \bigskip
 
 \noindent Ce courriel peut être modélisé par l'arbre à la
-\fig~\vref{fig_mail}.
+\fig~\vref{fig:mail}.
 \begin{figure}[b]
 \begin{center}
 \includegraphics[scale=1,bb=71 622 403 723]{mail}
-\caption{Un courriel vu comme un arbre \XML\label{fig_mail}}
+\caption{Un courriel vu comme un arbre \XML\label{fig:mail}}
 \end{center}
 \end{figure}
 Remarquons que les feuilles (sous forme de boîtes aux bords arrondis),
@@ -108,7 +108,7 @@ différence encore plus évidente, nous avons utilisé l'anglais pour le
 contenu des n{\oe}uds internes.) Puisque l'information dans les
 n{\oe}uds internes décrit l'information qui est formatée, elle est
 dite \emph{métadonnée} ou \emph{annotation}, ce qui explique une
-partie de l'acronyme «\textsf{XML}». Le document \XML correspondant
+partie de l'acronyme «~\textsf{XML}~». Le document \XML correspondant
 est:
 \begin{sverb}
 <email>
@@ -197,7 +197,7 @@ envoyer un courriel à plusieurs destinataires, nous écririons:
   <from>Moi</from>
   <subject>Devoirs</subject>
   <to>Vous</to>
-  \textbf{<to>Moi</to>} 
+  \textbf{<to>Moi</to>}
   <body>
   Une <definition>date-butoir</definition> est la date de remise
 d'un <emphasis>devoir</emphasis>.
@@ -297,7 +297,7 @@ utilisés par les balises. Par exemple, l'élément suivant
 <problem>Pour tout entier n, nous avons n < n + 1.</problem>
 \end{sverb}
 n'est pas valide parce que le texte entre les balises contient le
-caractère «\texttt{<}», qui est confondu par l'analyseur \XML avec le
+caractère «~\texttt{<}~», qui est confondu par l'analyseur \XML avec le
 début d'une balise:
 \begin{alltt}
 \small<problem>Pour tout entier n, nous avons n \fbox{<\,} n + 1.\fbox{<\,}/problem>
@@ -316,7 +316,7 @@ La séquence \verb|&lt;| est appelée une \emph{entité nommée
   prédéfinie}. De telles entités
 \begin{enumerate}
 
-  \item commencent par une esperluète (\verb|&|), 
+  \item commencent par une esperluète (\verb|&|),
 
   \item continuent avec un nom prédéfini (ici, \texttt{lt}),
 
@@ -380,7 +380,7 @@ constituée des composants suivants:
   \item le nom de l'élément racine,
 
   \item le caractère \verb|[|,
-  
+
   \item les déclarations d'\emph{entités de caractère nommé} (anglais,
     \emph{named character entities}),
 
@@ -510,7 +510,7 @@ de document comme suit:
   \item la fermeture \verb|>|
 
 \end{enumerate}
-Remarquons aussi que les entités brutes doivent être utilisées 
+Remarquons aussi que les entités brutes doivent être utilisées
 \begin{itemize}
 
   \item comme des valeurs d'attribut (dans
@@ -544,7 +544,7 @@ Il est parfois ennuyeux d'avoir à échapper des caractères,
 c'est-à-dire à employer des entités de caractères. Pour éviter le
 besoin d'échappement, il y a une construction spéciale: les
 \emph{sections CDATA} (abrégé de l'anglais \emph{Character DATA}, soit
-«donnée de type caractère»), qui sont faites
+«~donnée de type caractère~»), qui sont faites
 \begin{enumerate}
 
   \item d'une ouverture \verb|<!CDATA[|,
@@ -681,7 +681,7 @@ exemple, en français) l'espace de noms. Considérons l'espace de nom
 \texttt{course} (français, \emph{cours}) dans le document suivant:
 \begin{alltt}
 \small<?xml version="1.0"?>
-<\textbf{course:short} 
+<\textbf{course:short}
   \textbf{xmlns:course}="http://konkuk.ac.kr/~rinderkn/Mirror/XML">
  <\textbf{course:}date>26 Août 2006</\textbf{course:}date>
  <\textbf{course:}title>Quelques langages autour de XML</\textbf{course:}title>
@@ -705,7 +705,7 @@ nom. Donc, l'exemple précédent pourrait être plus simplement écrit ainsi:
 </short>
 \end{alltt}
 Notons l'absence de deux-points dans l'attribut d'espace de noms
-lorsque l'on écrit: «\texttt{xmlns=...}». Cet exemple illustre le fait
+lorsque l'on écrit: «~\texttt{xmlns=...}~». Cet exemple illustre le fait
 important que ce qui définit ultimement un espace de noms est une
 adresse \HTTP, pas un préfixe (comme \texttt{course}).
 
@@ -803,7 +803,7 @@ préfixe d'espace de noms (les exemples suivants sont tirés de
 \small<?xml version="1.1"?>
 
 <x xmlns:n1="http://www.w3.org">
-  <n1:a/> <!-- valide; le préfixe n1 est lié à                    
+  <n1:a/> <!-- valide; le préfixe n1 est lié à
                http://www.w3.org -->
     <x \textbf{xmlns:n1=""}>
       <n1:a/> <!-- invalide; le préfixe n1 n'est pas lié ici -->
@@ -942,7 +942,7 @@ Les \emph{listes} permettent de composer ensemble des paragraphes
 étroitement reliés entre-eux, comme des énumérations. Il existe trois
 espèces de listes:
 \begin{enumerate}
- 
+
   \item les listes non-ordonnées;
 
   \item les listes ordonnées;
@@ -1010,7 +1010,7 @@ exemple,
 Les éléments impliqués sont
 \begin{itemize}
 
-  \item \texttt{dl} (anglais, \emph{definition list}), qui contient 
+  \item \texttt{dl} (anglais, \emph{definition list}), qui contient
    tous les mots et leur définition;
 
   \item \texttt{dt} (anglais, \emph{definition term}), qui contient
@@ -1062,8 +1062,8 @@ nécessaire. L'exemple suivant est tiré de
 en-têtes de colonnes sont \textbf{Average}, \textbf{Red eyes},
 \textbf{height} et \textbf{weight}.\! La colonne \textbf{Average}
 couvre deux colonnes; autrement dit, elle contient deux sous-colonnes,
-\textbf{height} et \textbf{weight}. La légende dit: «\emph{A test
-  table with merged cells}.» Le code \HTML correspondant est:
+\textbf{height} et \textbf{weight}. La légende dit: «~\emph{A test
+  table with merged cells}.~» Le code \HTML correspondant est:
 \begin{sverb}
 <table border="1">
   <caption><em>A test table with merged cells</em></caption>
@@ -1085,7 +1085,7 @@ couvre deux colonnes; autrement dit, elle contient deux sous-colonnes,
 Le sens des éléments est le suivant:
 \begin{itemize}
 
-\item l'élément \texttt{table} contient la table; son attribut 
+\item l'élément \texttt{table} contient la table; son attribut
   \texttt{border} spécifie la largeur des bords de la table, soit les
   lignes séparant les cellules du reste;
 
@@ -1116,7 +1116,7 @@ texte \textbf{Average} et couvre deux colonnes car
 colonne) et aussi le placement correct de \textbf{height} et
 \textbf{weight}.
 
-Les \emph{hyperliens} en \HTML sont définis par l'élément «\texttt{a}»
+Les \emph{hyperliens} en \HTML sont définis par l'élément «~\texttt{a}~»
 avec son attribut obligatoire \texttt{href}
 (anglais, \emph{hyper-reference}). Par exemple, considérons
 l'hyperlien suivant:
@@ -1168,7 +1168,7 @@ déclaration inclut une \emph{définition de type de document} (anglais,
 \emph{Document Type Definition}), abrégée en \DTD. Donc la définition
 est incluse dans la déclaration. Il est possible que tout ou partie de
 la \DTD se trouve dans un fichier séparé, souvent avec l'extension
-«\texttt{.dtd}». Nous avons déjà rencontré les \emph{listes
+«~\texttt{.dtd}~». Nous avons déjà rencontré les \emph{listes
   d'attributs} \vpageref{xml_intro_ATTLIST} quand nous mettions en
 place des labels et des références à l'intérieur d'un document. En
 général, l'élément spécial \texttt{ATTLIST} peut être utilisé pour
@@ -1183,7 +1183,7 @@ l'élément \texttt{memo}:
                keyword    NMTOKEN        #IMPLIED>
 \end{sverb}
 \texttt{CDATA} veut dire, en anglais, \emph{character data}, soit
-«donnée textuelle», et représente n'importe quelle chaîne. Un
+«~donnée textuelle~», et représente n'importe quelle chaîne. Un
 \emph{lexème nommé} (anglais, \emph{named token}, ou \texttt{NMTOKEN})
 est une chaîne commençant par une lettre et qui peut contenir des
 lettres, des nombres et certain signes de ponctuation. Pour qu'un
@@ -1363,7 +1363,7 @@ l'environnement d'exécution automatiquement \emph{sérialise} le
 résultat.
 
 \paragraph{Filtrage}
-\label{par_matching}
+\label{par:matching}
 
 Complétons notre transformation vide comme suit:
 \smallXSLTinUnchecked{chapter.xsl}
@@ -1401,13 +1401,13 @@ racine: \smallXSLTinUnchecked{cookbook.xsl}
 \noindent Le résultat est maintenant
 \smallXMLinUnchecked{cookbook4_out.xml}
 \noindent Il est frappant de constater que le texte
-«\texttt{Chapters:}» n'est pas aligné avec le titre. Il est dommage
+«~\texttt{Chapters:}~» n'est pas aligné avec le titre. Il est dommage
 que le traitement des espaces et des fins de lignes est très compliqué
 en \XML et \XSLT, en particulier quand nous souhaitons ou non
 certaines espaces si le résultat, comme ici, est du texte brut. Nous
 ne discuterons pas de ce sujet épineux ici et nous renvoyons le
 lecteur curieux au livre de~\cite{Kay_2008}, page~141. En ce qui
-concerne le reste, le titre apparaît après «\texttt{Chapters:}», ce
+concerne le reste, le titre apparaît après «~\texttt{Chapters:}~», ce
 qui est déroutant.
 
 Si nous nous débarrassions simplement du titre, nous pourrions
@@ -1418,10 +1418,10 @@ simplement définir un patron vide qui filtre \texttt{title}:
 
 Si nous voulions conserver le titre, nous devrions extraire le texte
 du n{\oe}ud textuel qui est l'enfant de l'élément \texttt{title}, et
-le mettre avant «\texttt{Chapters:}». Une méthode consiste à appliquer
+le mettre avant «~\texttt{Chapters:}~». Une méthode consiste à appliquer
 les patrons à l'élément \texttt{title} seulement en utilisant
 l'attribut prédéfini \texttt{select}, dont la valeur est le nom de
-l'enfant, puis nous produisons «\texttt{Chapters:}», et finalement
+l'enfant, puis nous produisons «~\texttt{Chapters:}~», et finalement
 nous appliquons les patrons aux chapitres:
 \smallXSLTinUnchecked{cookbook1.xsl}
 \noindent Le résultat est maintenant
@@ -1439,13 +1439,13 @@ l'attribut \texttt{select}) a réuni tous les n{\oe}uds
 \emph{séquence}, les patrons ont été appliqués à tous les n{\oe}uds
 qu'elle contient et, finalement, un caractère de saut de ligne a été
 ajouté. La raison pour laquelle nous avions des sauts de ligne après
-chaque «\texttt{A chapter}» précédemment est due au fait que chacun de
+chaque «~\texttt{A chapter}~» précédemment est due au fait que chacun de
 ces textes constituait une séquence singleton. Pour recouvrer les
 sauts de ligne, nous pourrions employer l'élément spécial
 \texttt{xsl:text}, dont le but est de produire le contenu de son
 unique n{\oe}ud textuel \emph{tel quel}, sans ajuster les espaces et
 les sauts de ligne. Ici, nous pourrions forcer un saut après chaque
-«\texttt{A chapter}». En \XML, le caractère de saut de ligne est
+«~\texttt{A chapter}~». En \XML, le caractère de saut de ligne est
 l'entité numérotée \verb|&#10;|
 \smallXSLTinUnchecked{cookbook3.xsl}
 \noindent Le résultat est alors:
@@ -1455,7 +1455,7 @@ passons un peu de temps à comprendre les séquences.
 
 \section{Transformation de séquences}
 
-Comme nous l'avons déjà vu dans la partie~\ref{part_linear}, la
+Comme nous l'avons déjà vu dans la partie~\ref{part:linear}, la
 structure linéaire de prédilection dans les langages fonctionnels est
 la pile, appelée aussi liste. En \XSLT, c'est la \emph{séquence}. La
 séquence vide est écrite \texttt{()} et la séquence non-vide est
@@ -1511,7 +1511,7 @@ expression conditionnelle et réécrivons le programme sans filtrage par motifs:
 \label{def_len0_xslt}
 \end{equation}
 où \(\fun{tl}(s)\) (anglais, \emph{tail}) calcule la sous-pile
-immédiate de~\(s\). Notons que nous ne pouvons définir \fun{tail/1} 
+immédiate de~\(s\). Notons que nous ne pouvons définir \fun{tail/1}
 sans filtrage par motifs, donc elle doit être traduite en une fonction
 prédéfinie. Pour commencer l'écriture du programme \XSLT, nous devons
 être plus précis quant aux données. Supposons que nous obtenons une
@@ -1588,7 +1588,7 @@ particulièrement utile lorsqu'ils sont nombreux.
 Parvenus à ce point, il faut savoir qu'il existe des fonctions
 proprement dites en \XSLT, définies par l'élément
 \texttt{xsl:function}, et, bien que nous ayons choisi les patrons
-nommés pour la traduction, de «vraies» fonctions \XSLT auraient fait
+nommés pour la traduction, de «~vraies~» fonctions \XSLT auraient fait
 l'affaire aussi.
 
 En reprenant le fil de notre traduction, nous réalisons que nous
@@ -1776,11 +1776,11 @@ patron de façon à sélectionner les chapitres là où ils se trouvent maintena
   </xsl:template>
 \end{alltt}
 L'expression \texttt{contents/chapter} est une sélection en \XPath qui
-signifie: «Regrouper tous les enfants \texttt{contents} du n{\oe}ud
+signifie: «~Regrouper tous les enfants \texttt{contents} du n{\oe}ud
 contextuel (\texttt{book}), en préservant leur ordre relatif (ici, il
 n'y en a qu'un), puis sélectionner tous les enfants nommés
 \texttt{chapter} de tous ces n{\oe}uds, en préservant aussi leur ordre
-relatif.» À part cela, il n'y a pas besoin de changer le patron (sauf
+relatif.~» À part cela, il n'y a pas besoin de changer le patron (sauf
 son nom, maintenant \texttt{len3}). Notons aussi qu'utiliser des
 attributs \texttt{title} n'a fait aucune différence.
 
@@ -1791,7 +1791,7 @@ employer le patron avec toutes sortes d'éléments, pas seulement
 \emph{paramètre avec défaut}. En effet, le type du paramètre
 \texttt{chapters} du patron est \texttt{element(chapter)*}, donc il
 n'est pas assez général. La solution est le type \texttt{element()*},
-qui veut dire: «Une séquence d'éléments, peut-être vide.» De plus, la
+qui veut dire: «~Une séquence d'éléments, peut-être vide.~» De plus, la
 valeur initiale du paramètre~\texttt{n} doit toujours être~\texttt{0},
 donc nous pourrions faire de cette valeur un défaut en ajoutant un
 attribut \texttt{select} à l'élément \texttt{xsl:param} correspondant:
@@ -1852,9 +1852,9 @@ The only value that can pass type-checking is an empty sequence.
 Required item type of value of parameter $n is xs:integer;
 supplied value has item type xs:double
 \end{sverb}
-(«La seule valeur qui peut être typée est une séquence vide. Le type
+(«~La seule valeur qui peut être typée est une séquence vide. Le type
 exigé de la valeur du paramètre \texttt{\$n} est \texttt{xs:integer};
-la valeur fournie a le type \texttt{xs:double}.») et le résultat
+la valeur fournie a le type \texttt{xs:double}.~») et le résultat
 erroné \texttt{18135233274}, qui est la concaténation du contenu des
 n{\oe}uds textuels des éléments \texttt{num}. Qu'est-ce qui s'est
 passé? D'après le message, une chose est claire: le problème est lié
@@ -1915,7 +1915,7 @@ comme une spécification.
 \fun{sum}(\cons{x}{s}) \rightarrow \fun{sum}_0(\cons{x}{s},0).
 \end{equation*}
 En \XSLT, nous avons oublié d'interdire la séquence vide. Ceci est
-réalisé en spécifiant un type «séquence non-vide d'éléments»:
+réalisé en spécifiant un type «~séquence non-vide d'éléments~»:
 \texttt{element()+}.
 \begin{alltt}
 \small  <xsl:template match="numbers" as="xs:integer">
@@ -1931,8 +1931,8 @@ Si nous essayons l'entrée
 \begin{sverb}
 An empty sequence is not allowed as the value of parameter $elm
 \end{sverb}
-(«Une séquence vide ne peut être la valeur du paramètre
-\texttt{\$elm}») La transformation est complète maintenant:
+(«~Une séquence vide ne peut être la valeur du paramètre
+\texttt{\$elm}~») La transformation est complète maintenant:
 \smallXSLTinUnchecked{sum.xsl}
 
 Si nous préférions n'avoir aucun résultat, plutôt qu'un message
@@ -1966,11 +1966,11 @@ reste encore un problème avec les types: le patron filtrant
 valeur de type \texttt{xs:integer}, ce qui n'est pas possible si
 \texttt{\$elm} est vide, auquel cas, comme nous venons de le
 constater, une séquence vide est retournée (à cause de l'élément vide
-\texttt{xsl:when}). On peut exprimer en \XPath le type «Une séquence
-sans item ou exactement un.» en utilisant l'opérateur «\texttt{?}». Si
+\texttt{xsl:when}). On peut exprimer en \XPath le type «~Une séquence
+sans item ou exactement un.~» en utilisant l'opérateur «~\texttt{?}~». Si
 nous nous souvenons qu'une valeur peut toujours être implicitement
 convertie en une séquence contenant ladite valeur, alors
-\texttt{xs:integer?} veut dire: «Un entier ou une séquence vide.» Par
+\texttt{xs:integer?} veut dire: «~Un entier ou une séquence vide.~» Par
 conséquent, \smallXSLTinUnchecked{sum1.xsl}
 
 \mypar{Filtrage}
@@ -2064,7 +2064,7 @@ alors que \texttt{xsl:copy} se révèle utile: il effectue une
 \emph{copie superficielle du n{\oe}ud contextuel}. Le n{\oe}ud
 contextuel est le dernier n{\oe}ud qui a été filtré (attribut
 \texttt{match}) par un élément \texttt{xsl:template}, donc il s'agit
-ici de \texttt{book}, et «superficielle» veut dire que les enfants ne
+ici de \texttt{book}, et «~superficielle~» veut dire que les enfants ne
 sont pas copiés (nous voulons une copie mais aussi modifier les
 descendants).
 
@@ -2248,7 +2248,7 @@ bout du compte, nous avons
       <xsl:otherwise>
         <xsl:sequence select="$items[1]"/>
         <xsl:call-template name="cutp">
-          <xsl:with-param name="items" select="$tail" 
+          <xsl:with-param name="items" select="$tail"
                                        as="item()*"/>
         </xsl:call-template>
       </xsl:otherwise>
@@ -2266,7 +2266,7 @@ L'objectif de cet exercice est d'écrire une transformation \XSLT qui
 prend en entrée une table des matières avec des chapitres et produit
 la même table en \XML où l'ordre des chapitres a été inversé par
 rapport à l'ordre documentaire (donc, par exemple, l'introduction
-apparaît en dernier). À la section~\vref{sec_reversal}, nous avons vu
+apparaît en dernier). À la section~\vref{sec:reversal}, nous avons vu
 la définition directe de \fun{rev\(_0\)}:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
@@ -2320,7 +2320,7 @@ attributions suivantes à \texttt{xsl:transform} et
               omit-xml-declaration="yes"/>
 \end{sverb}
 Notons que nous avons défini un espace de noms \texttt{xhtml} pour les
-éléments \XHTML et que la version de \XHTML est~\texttt{1.0} («strict»
+éléments \XHTML et que la version de \XHTML est~\texttt{1.0} («~strict~»
 signifie que cette version de \XHTML est du \XML). Il se peut que la
 véritable nouveauté soit l'attribution
 \texttt{omit-xml-declaration="yes"}\!. Puisque \XHTML (strict) est
@@ -2332,7 +2332,7 @@ pas inclure cette déclaration par prudence.
 maintenant obtenir
 \begin{sverb}
 <!DOCTYPE html
-  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xml:lang="en" lang="en">
@@ -2401,8 +2401,8 @@ qui, interprété par un navigateur, est très probablement rendu ainsi:
   </xsl:template>
 \end{alltt}
 Remarquons premièrement la sélection \texttt{title/text()}, qui veut
-dire: «Les n{\oe}uds textuels de l'élément \texttt{title}, qui est
-l'enfant du n{\oe}ud contextuel (\texttt{book}).» Deuxièmement, nous
+dire: «~Les n{\oe}uds textuels de l'élément \texttt{title}, qui est
+l'enfant du n{\oe}ud contextuel (\texttt{book}).~» Deuxièmement, nous
 faisons connaissance avec un nouvel élément \XSLT,
 \texttt{xsl:value-of}, dont l'objet est de créer un n{\oe}ud textuel à
 partir des items sélectionnés. Si nous sélectionnions des éléments,
@@ -2415,7 +2415,7 @@ ce dernier un nouveau n{\oe}ud textuel soit alloué (au lieu d'être
 partagé avec l'entrée). Notons par ailleurs que nous avons décidé de
 spécialiser les types pour les faire coller le plus possible aux
 éléments à traiter, comme \texttt{element(xhtml:html)} qui signifie:
-«Un élément \texttt{html} dans l'espace de noms \texttt{xhtml}.» Le
+«~Un élément \texttt{html} dans l'espace de noms \texttt{xhtml}.~» Le
 retournement est effectué par le patron nommé \texttt{rev}:
 \begin{alltt}
 \small  <xsl:template name="rev" as="element(xhtml:li)*">
@@ -2431,8 +2431,8 @@ retournement est effectué par le patron nommé \texttt{rev}:
   </xsl:template>
 \end{alltt}
 À nouveau, nous avons spécialisé les types, comme
-\texttt{element(xhtml:li)*} dénotant une «séquence (éventuellement
-vide) d'éléments \texttt{li} dans l'espace de noms \texttt{xhtml}.» Et
+\texttt{element(xhtml:li)*} dénotant une «~séquence (éventuellement
+vide) d'éléments \texttt{li} dans l'espace de noms \texttt{xhtml}.~» Et
 \texttt{element(chapter)*} est une séquence de chapitres, sans espace
 de noms.
 
@@ -2457,8 +2457,8 @@ compilateur \XSLT.
 
 Le second extrait digne d'attention est la sélection
 \texttt{\$chap[1]/@title} par l'élément \texttt{xsl:value-of} qui veut
-dire: «L'attribut \texttt{title} du premier élément de la séquence
-\texttt{\$chap}.» Ici, nous ne pouvons substituer
+dire: «~L'attribut \texttt{title} du premier élément de la séquence
+\texttt{\$chap}.~» Ici, nous ne pouvons substituer
 \texttt{xsl:sequence}, comme avec le n{\oe}ud textuel avant. En effet,
 si nous essayons à la place \texttt{<xsl:sequence
   select="\$chap[1]/@title"/>}, le résultat est
@@ -2494,7 +2494,7 @@ Les attributs sont spéciaux et souvent une source de confusion pour
 les débutants.
 
 \mypar{Valeurs ponctuées}
-\label{par_CSV}
+\label{par:CSV}
 
 Le but de cet exercice est d'écrire une transformation \XSLT qui prend
 en entrée une séquence d'éléments contenant chacun un n{\oe}ud textuel
@@ -2519,27 +2519,27 @@ sous-séquence immédiate. La difficulté est plutôt de mettre en
 filtrent la racine du document (\texttt{/}) et l'élément racine
 (\texttt{numbers}) parce que nous ne reconstruisons pas un document
 \XML. De plus, nous pourrions remarquer le type \texttt{text()*}, qui
-veut dire: «Une séquence (éventuellement vide) de n{\oe}uds textuels.»
+veut dire: «~Une séquence (éventuellement vide) de n{\oe}uds textuels.~»
 Les autres bons morceaux sont les éléments \texttt{xsl:value-of}, en
 particulier le nouvel attribut \texttt{separator}. Sa valeur doit être
 une chaîne qui est employée pour séparer les items sélectionnés. Par
 défaut, cette chaîne est \texttt{'\textvisiblespace'}, c'est pourquoi
 nous l'initialisons ici avec la chaîne vide. Sinon, nous obtiendrions
-«\texttt{0\textvisiblespace,1\textvisiblespace,A\textvisiblespace,B\textvisiblespace,C\textvisiblespace.}». Remarquons
+«~\texttt{0\textvisiblespace,1\textvisiblespace,A\textvisiblespace,B\textvisiblespace,C\textvisiblespace.}~». Remarquons
 que la valeur de l'attribut \texttt{separator} est le \emph{contenu}
 d'une chaîne, donc si nous utilisions \texttt{"''"}, nous ne serions
 \emph{pas} en train de spécifier une chaîne vide et nous produirions à
-la place: «\texttt{0'',1'',A'',B'',C''.}».
+la place: «~\texttt{0'',1'',A'',B'',C''.}~».
 
 Parvenus à ce point, il peut être pertinent de tirer au clair les
 relations entre les différents types que nous avons rencontrés, et d'en
-apprendre quelques autres encore. Considérons l'arbre dans la \fig~\vref{fig_tests}.
+apprendre quelques autres encore. Considérons l'arbre dans la \fig~\vref{fig:tests}.
 \begin{figure}
 \includegraphics{tests}
-\caption{Sous-types \XPath\label{fig_tests}}
+\caption{Sous-types \XPath\label{fig:tests}}
 \end{figure}
 La lecture ascendante d'un arc à partir d'un n{\oe}ud~\(x\) vers un
-n{\oe}ud~\(y\) est: «\(x\)~est un [sous-type de] \(y\).» Par exemple,
+n{\oe}ud~\(y\) est: «~\(x\)~est un [sous-type de] \(y\).~» Par exemple,
 un \texttt{element()} est un \texttt{node()}. Ceci modélise une
 relation de sous-typage, ce qui signifie que dans tout contexte où un
 \texttt{node()} est correct, un \texttt{element()} l'est aussi. Cette
@@ -2551,7 +2551,7 @@ intéresse est placé dans les valeurs d'attributs, comme il suit:
 \smallXMLinUnchecked{csv_att.xml}
 \noindent La \DTD \texttt{csv\_att.dtd} est
 \smallDTDin{csv_att.dtd}
-\noindent Il suffit alors de changer la sélection du paramètre 
+\noindent Il suffit alors de changer la sélection du paramètre
 \texttt{item} ainsi:
 \begin{alltt}
 \small      <xsl:with-param name="items" select="numbers/hexa/\textbf{@val}"/>
@@ -2570,7 +2570,7 @@ d'après l'appel du patron initial, qu'il est en fait \texttt{text()}.
 Le type de \texttt{'.'} est \texttt{xs:string}. La séquence en
 question a donc le type \texttt{item()*}, car \texttt{xs:string} est
 un sous-type de \texttt{item()}, comme on peut le voir à la
-\fig~\vref{fig_tests}. Puisque le résultat du patron a pour type
+\fig~\vref{fig:tests}. Puisque le résultat du patron a pour type
 \texttt{text()*}, les chaînes qu'il contient seront transtypées en
 n{\oe}uds textuels, impliquant allocation de mémoire. Le sérialiseur
 est la partie finale du code produit par le compilateur \XSLT (la
@@ -2591,12 +2591,12 @@ anticiper et choisir un type de retour \texttt{xs:string*}, donc
   </xsl:template>
 \end{alltt}
 L'effet de cette modification est l'obtention de
-«\texttt{0,\textvisiblespace{}1,\textvisiblespace{}A,\textvisiblespace{}B,\textvisiblespace{}C.}». Les
+«~\texttt{0,\textvisiblespace{}1,\textvisiblespace{}A,\textvisiblespace{}B,\textvisiblespace{}C.}~». Les
 espaces supplémentaires viennent du fait que nous avons oublié que les
 éléments \texttt{xsl:value-of} créent des n{\oe}uds textuels et la
 sérialisation implicite de ceux-ci (par transtypage en
 \texttt{xs:string*}) engendre des séparateurs invisibles, ici rendus
-par «\texttt{\textvisiblespace}». La morale de cette aventure est
+par «~\texttt{\textvisiblespace}~». La morale de cette aventure est
 qu'il vaut mieux travailler avec des types non-primitifs, soit
 attributs et n{\oe}uds, si l'entrée contient des attributs et des
 n{\oe}uds, et de laisser le sérialiseur d'occuper de la linéarisation
@@ -2609,12 +2609,12 @@ Un dernier regard sur cet exercice nous suggère que l'algorithme peut
 être conçu comme \emph{opérant en parallèle} sur la séquence d'items,
 tant que nous savons distinguer le dernier item parce qu'il doit être
 traité différemment (il est suivi par un point au lieu d'une
-virgule). Mais «parallèle» n'implique pas nécessairement un sens
+virgule). Mais «~parallèle~» n'implique pas nécessairement un sens
 temporel, comme fils d'exécutions, et peut aussi être pensé comme
-traitement en isolement puis fusion des résultats partiels, ce qu'un
-\emph{mappage} (anglais, \emph{map}) fait. Nous avons rencontré les
-mappages lors de la présentation des itérateurs fonctionnels en
-\Erlang, \vpageref{par_maps}:
+traitement en isolement puis fusion des résultats partiels, ce qu'une
+\emph{projection} (anglais, \emph{map}) fait. Nous avons rencontré les
+projections lors de la présentation des itérateurs fonctionnels en
+\Erlang, \vpageref{par:maps}:
 \begin{equation*}
 \erlcode{map(\(F\),[\(X_1\),\(X_2\),\(\ldots\),\(X_{n}\)])}
 \equiv
@@ -2627,10 +2627,10 @@ map(F,[X|S]) -> [F(X)|map(F,S)].
 \end{verbatim}
 Notons que \texttt{map} est une fonction d'ordre supérieur et \XSLT
 propose seulement des patrons et des fonctions du premier
-ordre. Néanmoins, nous pouvons réaliser des mappages en utilisant une
-sorte de patron que nous avons en fait employée depuis le début de
+ordre. Néanmoins, nous pouvons réaliser des projections en utilisant
+une sorte de patron que nous avons en fait employée depuis le début de
 cette présentation de \XSLT, en commençant à la
-page~\pageref{par_matching}: le \emph{patron filtrant}. Le processeur
+page~\pageref{par:matching}: le \emph{patron filtrant}. Le processeur
 \XSLT (que nous entendons comme étant l'environnement d'exécution
 produit par le compilateur \XSLT) implicitement effectue un parcours
 en préordre de l'arbre \XML donné; quand il trouve un élément~\(e\),
@@ -2646,8 +2646,8 @@ chaque enfant en une seule séquence. Dans le contexte de l'exercice
 présent, nous souhaitons sélectionner une séquence d'éléments
 \texttt{hexa}, enfants de \texttt{numbers}, et nous nous attendons
 donc à un patron filtrant \texttt{hexa}. Nous voulons aussi grouper
-les résultats, comme un mappage le ferait. Ceci est réalisé en deux
-temps par la définition d'un patron
+les résultats, comme une projection le ferait. Ceci est réalisé en
+deux temps par la définition d'un patron
 \begin{sverb}
   <xsl:template match="hexa" as="text()*">
     ...
@@ -2679,7 +2679,7 @@ de traitement en parallèle, si c'est utile). Par exemple,
 \begin{sverb}
 <xsl:sequence select="text()"/>
 \end{sverb}
-signifie: «Référencer le n{\oe}ud textuel du n{\oe}ud contextuel,»
+signifie: «~Référencer le n{\oe}ud textuel du n{\oe}ud contextuel,~»
 (par opposition à le copier avec \texttt{xsl:value-of}).
 
 Nous emploierons des patrons filtrants dans la section qui vient à
@@ -2742,7 +2742,7 @@ ait deux paramètres, un pour les noms et un pour les notes:
 Notons que nous employons \texttt{xsl:copy} pour copier le n{\oe}ud
 contextuel \texttt{persons} et que nous avons utilisé le type de
 retour \texttt{element()*} car nous ne pouvons exprimer en \XPath:
-«Une séquence d'éléments (mêlés) \texttt{name} et \texttt{note}.» Le
+«~Une séquence d'éléments (mêlés) \texttt{name} et \texttt{note}.~» Le
 corps de ce patron se conforme à notre plan. Si les paramètres sont
 tous deux non-vides, nous faisons quelque chose, sinon une séquence
 vide implicite sera produite. Ce test est effectué en \XPath au moyen
@@ -2876,8 +2876,8 @@ La \DTD que nous avons à l'esprit est la suivante:
     ...
   </xsl:template>
 \end{sverb}
-Souvenons-nous que l'opérateur de type «\texttt{?}» signifie «Un ou
-aucun», donc \texttt{xs:integer?} dénote une séquence vide ou une
+Souvenons-nous que l'opérateur de type «~\texttt{?}~» signifie «~Un ou
+aucun~», donc \texttt{xs:integer?} dénote une séquence vide ou une
 séquence contenant un entier. Cette précaution est nécessaire parce
 que nous ne sommes pas certains que l'entrée contienne au moins un
 entier (nous avons même laissé la porte ouverte à des éléments
@@ -2889,7 +2889,7 @@ dernier avec le contenu du premier nombre:
 \begin{alltt}
 \small  <xsl:template match="numbers" as="xs:integer?">
     <xsl:call-template name="max">
-      <xsl:with-param name="int" 
+      <xsl:with-param name="int"
                       select="num[position()>1]/text()"/>
       <xsl:with-param name="cur" select="\textbf{num[1]/text()}"/>
     </xsl:call-template>
@@ -2916,7 +2916,7 @@ distinguer les situations suivantes:
 
   \item s'il y a un entier courant, et s'il est plus grand que le
     premier entier à examiner, nous recommençons en écartant ce
-    dernier; 
+    dernier;
 
   \item sinon, le premier entier à examiner devient le maximum courant
     et nous recommençons et écartons le maximum précédent.
@@ -2950,7 +2950,7 @@ Ce schéma est mis en {\oe}uvre comme suit:
 \end{sverb}
 Remarquons que nous avons vérifié la présence d'un maximum courant à
 l'aide de \texttt{not(empty(\$cur))} et l'opérateur booléen \XPath
-«plus grand ou égal à» est~\texttt{ge}. Dans les appels récursifs, le
+«~plus grand ou égal à~» est~\texttt{ge}. Dans les appels récursifs, le
 paramètre \texttt{int} vaut \texttt{\$int[position()>1]}, donc nous
 pourrions partager le code ainsi:
 \begin{alltt}
@@ -2994,7 +2994,7 @@ racine du document a des enfants, mais pas de petits-enfants. Les
 enfants portent un attribut et le résultat devrait être le même
 document sans les enfants qui sont dupliqués consécutivement. Ceci est
 réalisé par la fonction \fun{red/1} que nous avons vu à la
-\fig~\vref{fig_red}:
+\fig~\vref{fig:red}:
 \begin{equation*}
 \begin{array}{@{}r@{\;}c@{\;}l@{}}
 \fun{red}(\el) & \rightarrow & \el;\\
@@ -3047,13 +3047,13 @@ de toutes sortes de valeurs.
 
 
 \mypar{Interclassement}
-\label{par_merging}
+\label{par:merging}
 
 L'objectif de cet exercice est d'écrire une transformation \XSLT qui
 prend deux séquences d'éléments triés en l'ordre croissant d'un
 attribut entier, et retourne une séquence contenant tous les items
 triés en ordre croissant. Nous pouvons réutiliser la fonction
-\fun{mrg/2} à la \fig~\vref{fig_mrg}, qui interclasse (anglais,
+\fun{mrg/2} à la \fig~\vref{fig:mrg}, qui interclasse (anglais,
 \emph{merge}) deux piles ordonnées:
 \begin{equation*}
 \begin{array}{r@{\;}l@{\;}l}
@@ -3081,9 +3081,9 @@ n'aurions qu'à changer le code comme suit:
 ...
   <xsl:template match="lists" as="xs:integer*">
     <xsl:call-template name="merge">
-      <xsl:with-param name="seq1" select="list[1]/item" 
+      <xsl:with-param name="seq1" select="list[1]/item"
                                   as="xs:integer*"/>
-      <xsl:with-param name="seq2" select="list[2]/item" 
+      <xsl:with-param name="seq2" select="list[2]/item"
                                   as="xs:integer*"/>
     </xsl:call-template>
   </xsl:template>
@@ -3206,9 +3206,9 @@ expansions son appel récursif en un enfant du paramètre en question:
                           select="\$sections[position()>1]"/>
           \textbf{<xsl:with-param name="current" as="xs:integer">
             <xsl:call-template name="count">
-              <xsl:with-param name="sections" 
+              <xsl:with-param name="sections"
                               select="\$sections[1]/section"/>
-              <xsl:with-param name="current" 
+              <xsl:with-param name="current"
                               select="\$current + 1"/>
             </xsl:call-template>
           </xsl:with-param>}
@@ -3246,7 +3246,7 @@ une table des matières avec seulement des sections et produit la même
 table, en \XML, où les sections sont inversées, niveau par niveau, ce
 qui veut dire que l'arbre résultant est l'image de l'arbre d'entrée
 dans un miroir. Nous avons déjà défini une fonction abstraite
-\fun{mir/1} qui réalise cette opération à la \fig~\vref{fig_mirror}:
+\fun{mir/1} qui réalise cette opération à la \fig~\vref{fig:mirror}:
 \begin{equation*}
 \fun{mir}(\fun{ext}()) \rightarrow \fun{ext}();
 \quad
@@ -3349,7 +3349,7 @@ la valeur de l'attribut est alors considérée comme du texte, pas comme
 une sélection. Par conséquent, le problème se réduit à sélectionner un
 attribut qui n'est ni \texttt{test}, ni \texttt{select}. La solution
 réside dans un opérateur \XPath \texttt{\{...\}}, qui signifie:
-«Considérer le texte entre accolades comme du \XPath, pas du texte.»
+«~Considérer le texte entre accolades comme du \XPath, pas du texte.~»
 Autrement dit, nous pourrions écrire
 \begin{alltt}
 \small      <section title="\textbf{\{}\$sections[1]/@title\textbf{\}}">
@@ -3423,12 +3423,12 @@ traiter et de l'appeler avec \texttt{<xsl:apply-templates
 
 \end{enumerate}
 Comme nous l'avons vu \vpageref{match_as_map}, un patron filtrant est
-comme un mappage, l'application en parallèle d'un patron aux items
+comme une projection, l'application en parallèle d'un patron aux items
 d'une séquence. En d'autres termes, quand le traitement en
 \emph{parallèle} des éléments est envisagé, utilisons
 \texttt{xsl:apply-templates}, sinon un traitement \emph{séquentiel}
 est choisi, soit \texttt{xsl:call-template}. (Gardons à l'esprit que
-«parallèle» n'implique pas que la réalisation d'un processeur \XSLT
+«~parallèle~» n'implique pas que la réalisation d'un processeur \XSLT
 doit être multifils (anglais, \emph{multi-threaded}), seulement que
 c'est une possibilité. La fonction \texttt{map} en \Erlang est
 clairement séquentielle, par exemple, bien qu'elle pourrait être
@@ -3487,7 +3487,7 @@ aussi filtrât les sections. À cause de notre emploi de
 \texttt{xsl:copy} et \texttt{xsl:attribute}, il devient possible
 d'obtenir un patron commun filtrant les chapitres et les sections:
 \texttt{<xsl:template match="chapter|section">}, dont l'interprétation
-est: «Filtrer un \texttt{chapter} ou bien une \texttt{section}.» Voici
+est: «~Filtrer un \texttt{chapter} ou bien une \texttt{section}.~» Voici
 maintenant la différence avec la réponse antérieure:
 \begin{alltt}
 \small  <xsl:template match="chapter|section" as="element()*">
@@ -3542,7 +3542,7 @@ Le but de cet exercice est d'écrire une transformation \XSLT qui prend
 une table des matières et calcule sa hauteur.
 \begin{itemize}
 
-  \item La hauteur d'une table des matières est la plus grande hauteur 
+  \item La hauteur d'une table des matières est la plus grande hauteur
   de ses chapitres.
 
   \item La hauteur d'un chapitre (respectivement, d'une section)
@@ -3619,9 +3619,9 @@ numérotant. La \DTD est toujours la même:
 \noindent Le résultat attendu (sans numérotation) est alors
 \begin{sverb}
 <!DOCTYPE html
-  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns:xhtml="http://www.w3.org/1999/xhtml" 
+<html xmlns:xhtml="http://www.w3.org/1999/xhtml"
       xmlns="http://www.w3.org/1999/xhtml"
       xml:lang="en" lang="en">
   <head>
@@ -3712,17 +3712,17 @@ titres sont des valeurs d'attributs, donc nous avons besoin de
 \texttt{xsl:value-of} pour créer des n{\oe}uds textuels, tout comme
 pour \texttt{"author/@first,author/@last"}, ce qui est le même que
 \texttt{"(author/@first,author/@last)"}. Il aurait été possible
-d'écrire \texttt{"author/@*"}, ce qui signifie: «Toutes les valeurs
+d'écrire \texttt{"author/@*"}, ce qui signifie: «~Toutes les valeurs
 d'attributs de l'élément \texttt{author}, enfant du n{\oe}ud
-contextuel.»
+contextuel.~»
 
-À présent, ajoutons un nombre entre crochets après la balise \XHTML 
+À présent, ajoutons un nombre entre crochets après la balise \XHTML
 \texttt{<li>}, qui est la position de l'item dans la liste, comme
 \begin{alltt}
 \small<!DOCTYPE html
-  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns:xhtml="http://www.w3.org/1999/xhtml" 
+<html xmlns:xhtml="http://www.w3.org/1999/xhtml"
       xmlns="http://www.w3.org/1999/xhtml"
       xml:lang="en" lang="en">
   <head>
@@ -3771,7 +3771,7 @@ le patron filtrant les chapitres et les sections:
 \begin{alltt}
 \small <xsl:template match="section|chapter" as="element(xhtml:li)">
     <li xmlns="http://www.w3.org/1999/xhtml">
-      \textbf{<xsl:value-of select="('[',position(),'] ',@title)" 
+      \textbf{<xsl:value-of select="('[',position(),'] ',@title)"
                     separator=""/>}
       <xsl:if test="not(empty(section))">
         <ul><xsl:apply-templates select="section"/></ul>
@@ -3793,9 +3793,9 @@ le fil avec une entrée \emph{sans} nombres:
 comportera des chiffres arabes pour les chapitres comme pour les sections:
 \begin{sverb}
 <!DOCTYPE html
-  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns:xhtml="http://www.w3.org/1999/xhtml" 
+<html xmlns:xhtml="http://www.w3.org/1999/xhtml"
       xmlns="http://www.w3.org/1999/xhtml"
       xml:lang="en" lang="en">
   <head><meta http-equiv="Content-Type"
@@ -3841,7 +3841,7 @@ comportera des chiffres arabes pour les chapitres comme pour les sections:
 L'idée consiste à ajouter un paramètre \texttt{prefix} au patron
 filtrant les chapitres et les sections, qui reçoivent le préfixe
 numérotant le parent. Par exemple, lorsque nous filtrons la section
-intitulée «Declarations vs. definitions», la valeur du paramètre est
+intitulée «~Declarations vs. definitions~», la valeur du paramètre est
 la séquence \texttt{(1,'.',2,'.')}, donc nous concaténons simplement
 la position de la section parmi les n{\oe}uds de même niveau,
 soit~\texttt{1}. Ensuite, nous créons un n{\oe}ud textuel pour
@@ -3885,8 +3885,8 @@ document \XML
 \noindent mène au résultat suivant:
 {\small\verbatiminput{num_out.txt}}
 Le format de la sortie devrait nous rappeler des valeurs ponctuées,
-\vpageref{par_CSV}, et l'ordonnancement de l'interclassement de
-séquences triées, \vpageref{par_merging}. Alors, une première approche
+\vpageref{par:CSV}, et l'ordonnancement de l'interclassement de
+séquences triées, \vpageref{par:merging}. Alors, une première approche
 serait de parcourir l'arbre et de collecter les nombres sous forme de
 séquences ordonnées qui sont interclassées à l'aide du patron nommé
 \texttt{merge} jusqu'à ce qu'il ne reste qu'une seule séquence à

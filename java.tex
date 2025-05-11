@@ -13,7 +13,7 @@ programmes ne pourront pas être traduits et d'autres demanderont des
 traductions intermédiaires, appelées \emph{raffinements}, avant de
 pouvoir produire un équivalent en \Java.
 
-Dans l'introduction, \vpageref{par_java}, nous avons couché le patron
+Dans l'introduction, \vpageref{par:java}, nous avons couché le patron
 conceptuel pour les piles: une classe abstraite \texttt{Stack<Item>}
 paramétrisée par le type \texttt{Item} de ses éléments et deux
 extensions, \texttt{EStack<Item>} pour les piles vides et
@@ -44,7 +44,7 @@ fréquent de rencontrer une mise en {\oe}uvre des piles comme
 \}
 
 // EmptyStack.java
-\public \class EmptyStack \extends Exception \{\} 
+\public \class EmptyStack \extends Exception \{\}
 \end{alltt}
 Ce codage a plusieurs défauts. Tout d'abord, il est incorrect si le
 sommet (\texttt{head}) d'une pile est une référence
@@ -106,20 +106,20 @@ besoin d'une méthode \texttt{pop} parce que \texttt{head} et
 \texttt{tail} font partie de la structure de donnée elle-même.
 
 \section{Liaison dynamique}
-\label{sec_single_dispatch}
+\label{sec:single_dispatch}
 % \extends Comparable<? \super Item>
 
 \paragraph{Retournement de pile}
 \index{pile!retournement!$\sim$ en \Java|(}
 
-Comme nous l'avons vu à l'équation~\eqref{def_rev} \vpageref{def_rev},
+Comme nous l'avons vu à l'équation~\eqref{def:rev} \vpageref{def:rev},
 la manière efficace de retourner une pile dans notre langage
 fonctionnel consiste à utiliser un accumulateur comme suit:
 \begin{equation*}
 \fun{rev}(s) \xrightarrow{\smash{\epsilon}}
              \fun{rcat}(s,\el).\quad\;\;
 \fun{rcat}(\el,t) \xrightarrow{\smash{\zeta}} t;\quad\;\;
-\fun{rcat}(\cons{x}{s},t) \xrightarrow{\smash{\eta}} 
+\fun{rcat}(\cons{x}{s},t) \xrightarrow{\smash{\eta}}
                           \fun{rcat}(s,\cons{x}{t}).
 \end{equation*}
 La fonction \fun{rev/1} est définie par une seule règle qui ne
@@ -173,7 +173,7 @@ règle~\(\eta\) (\texttt{tail} est~\(s\), \texttt{head} est~\(x\)):
 \index{pile!filtrage!$\sim$ en \Java|(}
 
 Souvenons-nous de la fonction \fun{sfst/2} à la
-section~\vref{sec_skipping}:
+section~\vref{sec:skipping}:
 \begin{equation*}
 \fun{sfst}(\el,x)          \xrightarrow{\smash{\theta}} \el;\quad\;\;
 \fun{sfst}(\cons{x}{s},x)  \xrightarrow{\smash{\iota}}  s;\quad\;\;
@@ -233,7 +233,7 @@ suit:
 \hfill\extends Comparable<? \super Item>> \{
   ...
 \}
-\public \class EStack<Item \extends Comparable<? \super Item>> 
+\public \class EStack<Item \extends Comparable<? \super Item>>
        \extends Stack<Item> \{
   ...
 \}
@@ -254,21 +254,21 @@ compréhension détaillée des génériques en \Java, voir
 \index{tri par insertion!$\sim$ en \Java|(}
 \index{Java@\Java|see{tri par insertion}}
 
-Le tri par insertion a été défini à la section~\vref{sec_straight_ins}
+Le tri par insertion a été défini à la section~\vref{sec:straight_ins}
 ainsi:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
   \fun{ins}(\cons{y}{s},x)
 & \xrightarrow{\smash{\kappa}}
 & \cons{y}{\fun{ins}(s,x)}, \,\text{si \(x \succ y\)};
-& \fun{isrt}(\el) 
+& \fun{isrt}(\el)
 & \xrightarrow{\smash{\mu}}
 & \el;\\
   \fun{ins}(s,x)
 & \xrightarrow{\smash{\lambda}}
 & \cons{x}{s}.
 & \fun{isrt}(\cons{x}{s})
-& \xrightarrow{\smash{\nu}} 
+& \xrightarrow{\smash{\nu}}
 & \fun{ins}(\fun{isrt}(s),x).
 \end{array}
 \end{equation*}
@@ -284,7 +284,7 @@ facile d'abord:
   \public \abstractX Stack<Item> isrt();
 \}
 // EStack.java
-\public \class EStack<Item \extends Comparable<? \super Item>> 
+\public \class EStack<Item \extends Comparable<? \super Item>>
        \extends Stack<Item> \{
   ...
   \public EStack<Item> isrt() \{ \return \this; \}
@@ -327,7 +327,7 @@ traduire maintenant en \Java:
   \protectedX \abstractX NStack<Item> ins(\final Item x);
 \}
 // EStack.java
-\public \class EStack<Item \extends Comparable<? \super Item>> 
+\public \class EStack<Item \extends Comparable<? \super Item>>
        \extends Stack<Item> \{
   ...
   \protectedX NStack<Item> ins(\final Item x) \{\return push(x);\}
@@ -337,7 +337,7 @@ traduire maintenant en \Java:
        \extends Stack<Item> \{
   ...
   \protectedX NStack<Item> ins(\final Item x) \{
-    \return head.compareTo(x) < 0 ? 
+    \return head.compareTo(x) < 0 ?
            tail.ins(x).push(head) : push(x); \}
 \}
 \end{alltt}
@@ -383,13 +383,13 @@ aux sites d'appels.\index{test|)}
 \paragraph{Découpage}
 \index{pile!découpage!$\sim$ en \Java|(}
 
-À la section~\vref{sec_cutting}, nous avons vu comment découper une
+À la section~\vref{sec:cutting}, nous avons vu comment découper une
 pile en deux en spécifiant la longueur du préfixe:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
 \fun{cut}(s,0) & \rightarrow & \pair{\el}{s};
 & \fun{push}(x,\pair{t}{u}) & \rightarrow & \pair{\cons{x}{t}}{u}.\\
-\fun{cut}(\cons{x}{s},k) & \rightarrow 
+\fun{cut}(\cons{x}{s},k) & \rightarrow
 & \fun{push}(x,\fun{cut}(s,k-1)).
 \end{array}
 \end{equation*}
@@ -432,7 +432,7 @@ système de type, sur lui s'applique le \emph{sous-typage}
 \citep{Pierce_2002}.
 \begin{alltt}
 // EStack.java
-\public \class EStack<Item \extends Comparable<? \super Item>> 
+\public \class EStack<Item \extends Comparable<? \super Item>>
        \extends Stack<Item> \{
   ...
   \public Pair<Stack<Item>,Stack<Item>> cut(\final int k) \{
@@ -500,7 +500,7 @@ dynamique seule. Cette technique a été proposée il y a longtemps par
 \paragraph{Tri par interclassement}
 
 Par exemple, considérons à nouveau la définition de \fun{mrg/2} à la
-\fig~\vref{fig_tms}:
+\fig~\vref{fig:tms}:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{}}
 \fun{mrg}(\el,t)         & \rightarrow & t;\\
@@ -560,7 +560,7 @@ l'aide du sous-typage:\index{tri par interclassement!interclassement!$\sim$ en \
                                    \final Stack<Item> s);
 \}
 // EStack.java
-\public \class EStack<Item \extends Comparable<? \super Item>> 
+\public \class EStack<Item \extends Comparable<? \super Item>>
        \extends Stack<Item> \{
   ...
   \public Stack<Item> mrg(\final Stack<Item> t) \{ \return t; \}
@@ -633,7 +633,7 @@ programme \Erlang devrait être égal au résultat de l'évaluation de la
 traduction en \Java, ce qui facilite la phase de test.
 
 Finissons maintenant la traduction du tri par interclassement
-descendant à la \fig~\vref{fig_tms}. Nous avons
+descendant à la \fig~\vref{fig:tms}. Nous avons
 \begin{equation*}
 \fun{tms}(\cons{x,y}{t}) \xrightarrow{\smash{\alpha}}
  \fun{cutr}([x],\cons{y}{t},t);\qquad
@@ -708,7 +708,7 @@ raffiné:\index{tri par interclassement!$\sim$ descendant!$\sim$ en
   \protectedX \abstractX Stack<Item> tms0(\final Item x);
 \}
 // EStack.java
-\public \class EStack<Item \extends Comparable<? \super Item>> 
+\public \class EStack<Item \extends Comparable<? \super Item>>
        \extends Stack<Item> \{
   ...
   \public Stack<Item> tms() \{ \return \this; \}
@@ -735,12 +735,12 @@ plus fouillé de \texttt{tms0} révèle que nous avons traduit
 pour aller plus vite. De plus, nous appelons \texttt{cutr} sur
 \texttt{tail} parce que nous savons déjà que c'est le paramètre que
 nous allons utiliser pour discriminer lors de la traduction de
-\fun{cutr/3}, définie à la \fig~\vref{fig_tms}:
+\fun{cutr/3}, définie à la \fig~\vref{fig:tms}:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{}}
 \fun{cutr}(s,\cons{y}{t},\cons{a,b}{u})
                        & \rightarrow & \fun{cutr}(\cons{y}{s},t,u);\\
-\fun{cutr}(s,t,u)      & \rightarrow 
+\fun{cutr}(s,t,u)      & \rightarrow
                        & \fun{mrg}(\fun{tms}(s),\fun{tms}(t)).
 \end{array}
 \end{equation*}
@@ -753,14 +753,14 @@ fonctions auxilaires, \fun{cutr\(_0\)/3} et \fun{cutr\(_1\)/3}, et
 nous assurer que le troisième paramètre de \fun{cutr\(_0\)/3} contient
 au moins deux éléments et que le second paramètre de
 \fun{cutr\(_1\)/3} en contient au moins un. Le résultat est montré à
-la \fig~\ref{fig_cutr}.
+la \fig~\ref{fig:cutr}.
 \begin{figure}
 \begin{equation*}
 \boxed{
 \begin{array}{@{}r@{\;}l@{\;}l@{}}
 \fun{cutr}(s,t,\el)     & \rightarrow
                         & \fun{mrg}(\fun{tms}(s),\fun{tms}(t));\\
-\fun{cutr}(s,t,\cons{a}{u}) 
+\fun{cutr}(s,t,\cons{a}{u})
                         & \rightarrow & \fun{cutr}_0(s,t,u).\\
 \\
 \fun{cutr}_0(s,t,\el)   & \rightarrow
@@ -769,12 +769,12 @@ la \fig~\ref{fig_cutr}.
                         & \rightarrow & \fun{cutr}_1(s,t,u).\\
 \\
 \fun{cutr}_1(s,\el,u)   & \rightarrow & \fun{tms}(s);\\
-\fun{cutr}_1(s,\cons{y}{t},u) 
-                        & \rightarrow 
+\fun{cutr}_1(s,\cons{y}{t},u)
+                        & \rightarrow
                         & \fun{cutr}(\cons{y}{s},t,u).
 \end{array}}
 \end{equation*}
-\caption{Découpage et interclassement descendant\label{fig_cutr}}
+\caption{Découpage et interclassement descendant\label{fig:cutr}}
 \end{figure}
 Notons que \(\fun{cutr}_1(s,\el,u) \rightarrow
 \fun{mrg}(\fun{tms}(s),\fun{tms}(\el))\) a été simplifié en usant des théorèmes
@@ -794,7 +794,7 @@ s\). La traduction est directe:\index{tri par
                                        \final Stack<Item> u);
 \}
 // EStack.java
-\public \class EStack<Item \extends Comparable<? \super Item>> 
+\public \class EStack<Item \extends Comparable<? \super Item>>
        \extends Stack<Item> \{
   ...
   \public Stack<Item> cutr(\final Stack<Item> s,

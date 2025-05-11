@@ -2,13 +2,13 @@
 \index{langage fonctionnel!Erlang@\Erlang|(}
 
 Traduire notre langage fonctionnel en \Erlang est en fait une tâche
-très aisée. La section~\ref{sec_implementation} dans l'introduction
+très aisée. La section~\ref{sec:implementation} dans l'introduction
 proposait déjà un petit exemple. Au-delà de la nécessité d'en-têtes
 pour les modules, certaines conventions lexicales doivent être
 respectées, et nous devons avoir une certaine compréhension des
 mécanismes mis en jeu par le compilateur pour le partage de données
 par synonymie. De plus, nous expliquerons en termes du modèle de la
-mémoire à la section~\ref{sec_memory} comment les concepts de
+mémoire à la section~\ref{sec:memory} comment les concepts de
 \emph{pile de contrôle} (ou \emph{pile des appels}) et le \emph{tas}
 émergent, mais aussi nous présenterons une technique d'optimisation
 mise en {\oe}uvre par la plupart des compilateurs de langages
@@ -18,7 +18,7 @@ fonctionnels: l'\emph{optimisation des appels
 \paragraph{Lexique et syntaxe}
 
 En \Erlang, les piles sont appelées \emph{listes}. Néanmoins, nous
-continuerons à employer le mot «pile» pour permettre une lecture
+continuerons à employer le mot «~pile~» pour permettre une lecture
 uniforme de ce livre.
 
 La première lettre des variables est composée en majuscule, par
@@ -54,7 +54,7 @@ En ce qui concerne la syntaxe, nous devons traduire les règles de
 réécriture conditionnelles en utilisant le mot-clé
 \texttt{\textbf{when}} et écrire la condition du côté gauche. Par
 exemple, considérons à nouveau l'insertion simple à la
-section~\ref{sec_straight_ins}:
+section~\ref{sec:straight_ins}:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{}}
 \fun{ins}(\cons{y}{s},x) & \rightarrow &
@@ -76,11 +76,11 @@ appelée la \emph{garde}. En passant, les conventions lexicales, la
 syntaxe et le vocabulaire d'\Erlang ont été indirectement calqués sur
 le langage de programmation \Prolog
 \citep{SterlingShapiro_1994,Bratko_2000}. La structure d'une clause
-\Erlang est résumée à la \fig~\vref{fig_clause}.
+\Erlang est résumée à la \fig~\vref{fig:clause}.
 \begin{figure}[t]
 \centering
 \includegraphics[bb=214 602 397 646]{clause}
-\caption{Structure d'une clause en \Erlang\label{fig_clause}}
+\caption{Structure d'une clause en \Erlang\label{fig:clause}}
 \end{figure}
 
 Enfin, un commentaire débute par \erlcode{\%} et porte jusqu'à la fin
@@ -91,11 +91,11 @@ de la ligne.
 La traduction de programmes définis par un système d'inférence
 consiste soit à raffiner le système de telle sorte que la nouvelle
 version ne contienne plus aucune règle d'inférence (voir par exemple
-la \fig~\vref{fig_per} et la \fig~\ref{fig_per0}) et nous traduisons
+la \fig~\vref{fig:per} et la \fig~\ref{fig:per0}) et nous traduisons
 alors en \Erlang, ou bien nous utilisons directement en \Erlang une
 construction appelée \texttt{\textbf{case}}, qui est une expression
 conditionnelle générale. Considérons à nouveau la
-\fig~\vref{fig_per}. Une traduction directe en \Erlang est
+\fig~\vref{fig:per}. Une traduction directe en \Erlang est
 \begin{verbatim}
 per(ext)           -> {true,0};
 per({int,_,T1,T2}) ->
@@ -117,7 +117,7 @@ définie avant (en \OCaml, cela n'est pas possible), donc \erlcode{case
 possède la même valeur que la variable \erlcode{H} dans la
 conditionnelle \erlcode{case per(T1) of ... ; \{true,H\} -> ...}
 
-Considérons un autre exemple à la \fig~\vref{fig_comp}. Il est traduit
+Considérons un autre exemple à la \fig~\vref{fig:comp}. Il est traduit
 ainsi:
 \begin{verbatim}
 comp({int,_,ext,ext}) -> true;
@@ -135,14 +135,14 @@ les têtes restantes ne seront pas examinées. En factorisant l'appel
 \(\fun{comp}(t_1)\), nous résolvons ce problème et la règle
 d'inférence devient un seul cas à traiter.
 
-La fonction à la \fig~\vref{fig_pre2b0} devient, quant à elle:
+La fonction à la \fig~\vref{fig:pre2b0} devient, quant à elle:
 \begin{verbatim}
 pre2b0(S) -> case pre2b1(S) of
                {T,[]} -> T
              end.
 
 pre2b1([ext|S]) -> {ext,S};
-pre2b1([X|S])   -> 
+pre2b1([X|S])   ->
   case pre2b1(S) of
     {T1,S1} -> case pre2b1(S1) of
                  {T2,S2} -> {{int,X,T1,T2},S2}
@@ -164,7 +164,7 @@ pre2b1([X|S])   -> {T1,S1}=pre2b1(S),
 Considérons un exemple où les règles d'inférence ne sont pas
 utilisées, mais où nous réalisons que certaines fonctions se
 comportent uniquement comme des expressions conditionnelles. Nous en
-voyons un exemple à la \fig~\vref{fig_bst}, avec les fonctions
+voyons un exemple à la \fig~\vref{fig:bst}, avec les fonctions
 \fun{norm/1} et \fun{cmp/3}:
 \begin{verbatim}
 bst(T) -> case bst1(T,infty) of false -> false;
@@ -181,13 +181,13 @@ bst1({bst,X,T1,T2},M) -> case bst1(T2,M) of
 Remarquons que nous avons dû renommer une variable~\(m\)
 en~\erlcode{N}, pour éviter la liaison erronée avec la
 variable~\erlcode{M} avant. Est-ce que la définition de \fun{bst/1} à
-la \fig~\ref{fig_bst} aurait été plus courte si nous avions utilisé
+la \fig~\ref{fig:bst} aurait été plus courte si nous avions utilisé
 des règles d'inférence?
 
 La recherche de motifs dans un texte avec l'algorithme de Morris et
 Pratt\index{recherche de motifs!algorithme de Morris et Pratt} a
 abouti à une définition avec des règles d'inférence aux
-\figs~\vrefrange{fig_fail}{fig_mp_def}. En incluant ici la solution à
+\figs~\vrefrange{fig:fail}{fig:mp_def}. En incluant ici la solution à
 l'exercice~\vref{factoring_trick}, nous traduisons ce système en
 \Erlang de la façon suivante:
 \begin{verbatim}
@@ -264,9 +264,9 @@ dénotée par le symbole du dollar américain (\erlcode{\$}). Le
 caractère \(\talloblong\) dénote l'invite clignotante de la boucle
 \Erlang où la saisie a lieu. Si nous voulons fermer la boucle et
 revenir à l'interprète de commandes du terminal, il suffit de saisir
-«\erlcode{q().}» (anglais, \emph{quit}). Chaque commande doit être
+«~\erlcode{q().}~» (anglais, \emph{quit}). Chaque commande doit être
 terminée par un point~(\erlcode{.}) et suivie par la pression sur la
-touche «retour» (ou «entrée»).
+touche «~retour~» (ou «~entrée~»).
 \begin{alltt}
 1> q().
 ok
@@ -276,7 +276,7 @@ Le caractère \erlcode{\textvisiblespace} représente le lieu où les
 commandes pour le système d'exploitation sont saisies. Mais avant de
 sortir de la boucle \Erlang, la première action est souvent d'appeler
 le compilateur \Erlang pour traiter un module que nous voulons
-utiliser. Cela est réalisé par la commande~«\erlcode{c}», dont
+utiliser. Cela est réalisé par la commande~«~\erlcode{c}~», dont
 l'argument est le nom du module. Dans notre exemple, le nom de fichier
 est \texttt{math1.erl}:
 \begin{alltt}
@@ -294,21 +294,21 @@ montre. Calculons quelques factorielles maintenant:
 math1:fact(-3)
 4> \(\talloblong\)
 \end{alltt}
-Cette erreur est: «Pas de clause filtrant \texttt{math1:fact(-3)}.»
+Cette erreur est: «~Pas de clause filtrant \texttt{math1:fact(-3)}.~»
 Nous ne copierons que rarement les commandes et les résultats de la
 boucle \Erlang, nous n'écrirons même pas les modules complètement
 parce que nous voulons nous concentrer sur la conception et déléguer
 les aspects pratiques à un manuel d'utilisateur.
 
 \section{Mémoire}
-\label{sec_memory}
+\label{sec:memory}
 \index{mémoire|(}
 
 Passons en revue quelques programmes sous l'angle de l'utilisation de
 la mémoire plutôt que du coût. Dans l'introduction, nous avons affirmé
 que l'essence d'une expression est une représentation
 bidimensionnelle, à savoir un arbre, plutôt qu'une ligne de texte
-ponctué. À la section~\vref{sec_skipping}, nous avons présenté les
+ponctué. À la section~\vref{sec:skipping}, nous avons présenté les
 notions syntaxiques de contexte d'un appel et de forme terminale d'une
 définition. Nous avons aussi supposé que des structures de données
 identiques apparaissant dans un motif et dans le membre droit
@@ -402,7 +402,7 @@ une constante de proportionnalité.
 \paragraph{Concaténation de piles}
 \index{mémoire!concaténation de piles|(}
 
-La définition à la \fig~\vref{def_cat} est
+La définition à la \fig~\vref{def:cat} est
 \begin{equation*}
 \fun{cat}(        \el,t) \xrightarrow{\smash{\alpha}} t;\qquad
 \fun{cat}(\cons{x}{s},t) \xrightarrow{\smash{\beta}}
@@ -418,7 +418,7 @@ règle~\(\beta\). Clairement, l'appel \(\fun{cat}(s,t)\) créé
 \paragraph{Retournement de piles}
 \index{mémoire!retournement de piles|(}
 
-La définition de~\fun{rev\(_0\)/1} à la section~\ref{sec_reversal}:
+La définition de~\fun{rev\(_0\)/1} à la section~\ref{sec:reversal}:
 \begin{equation*}
 \fun{rev}_0(\el) \xrightarrow{\smash{\gamma}} \el;\qquad
 \fun{rev}_0(\cons{x}{s}) \xrightarrow{\smash{\delta}}
@@ -433,12 +433,12 @@ nombre d'empilages est \(\sum_{k=1}^{n-1}k = \tfrac{1}{2}n(n-1)\), si
 la pile originelle contient \(n\)~éléments. Nous devons ajouter un
 empilage pour chaque \([x]\), soit~\(n\). Au total: \(n(n+1)/2\).
 
-La définition optionnelle~\eqref{def_rev} du retournement,
-\vpageref{def_rev}, est
+La définition optionnelle~\eqref{def:rev} du retournement,
+\vpageref{def:rev}, est
 \begin{equation*}
 \fun{rev}(s) \xrightarrow{\smash{\epsilon}} \fun{rcat}(s,\el).\quad\;\;
 \fun{rcat}(\el,t) \xrightarrow{\smash{\zeta}} t;\quad\;\;
-\fun{rcat}(\cons{x}{s},t) \xrightarrow{\smash{\eta}} 
+\fun{rcat}(\cons{x}{s},t) \xrightarrow{\smash{\eta}}
                           \fun{rcat}(s,\cons{x}{t}).
 \end{equation*}
 Le nombre total d'empilages est~\(n\), la longueur de la pile donnée.
@@ -474,33 +474,33 @@ l'évaluation. Définissons une fonction \fun{sum/1} telle que l'appel
 \fun{sum}([n]) \xrightarrow{\smash{\alpha}} n;\qquad
 \fun{sum}(\cons{n}{s}) \xrightarrow{\smash{\beta}} n + \fun{sum}(s).
 \end{equation*}
-Considérons à la \fig~\vref{fig_sum_ast} l'arbre de syntaxe abstraite
+Considérons à la \fig~\vref{fig:sum_ast} l'arbre de syntaxe abstraite
 de l'expression \(1+(2+\fun{sum}([3,4]))\) et l'appel de fonction
-qu'elle contient à la \fig~\ref{fig_sum_call}.
+qu'elle contient à la \fig~\ref{fig:sum_call}.
 \begin{figure}
 \centering
-\subfloat[Expression\label{fig_sum_ast}]{%
+\subfloat[Expression\label{fig:sum_ast}]{%
   \includegraphics[bb=71 627 134 721]{sum_ast}
 }
 \qquad
 \subfloat[Instances du contexte \(n +
-  \texttt{\textvisiblespace}\)\label{fig_sum_ctxt}]{%
+  \texttt{\textvisiblespace}\)\label{fig:sum_ctxt}]{%
   \includegraphics[bb=55 627 135 721]{sum_ctxt}
 }
 \quad
-\subfloat[Appel\label{fig_sum_call}]{%
+\subfloat[Appel\label{fig:sum_call}]{%
   \includegraphics[bb=71 663 110 731]{sum_call}
 }
 \qquad
-\subfloat[Argument\label{fig_sum_arg}]{%
+\subfloat[Argument\label{fig:sum_arg}]{%
   \includegraphics[bb=64 679 118 731]{sum_arg}
 }
 \caption{\(1+(2+\fun{sum}([3,4]))\)}
 \end{figure}
 En prenant comme origine le n{\oe}ud \fun{sum}, l'arbre de syntaxe
 abstraite peut être divisé en la partie sous celui-ci, à savoir
-l'argument à la \fig~\ref{fig_sum_arg}, et la partie au-dessus, nommée
-\emph{instances du contexte}, à la \fig~\ref{fig_sum_ctxt}.
+l'argument à la \fig~\ref{fig:sum_arg}, et la partie au-dessus, nommée
+\emph{instances du contexte}, à la \fig~\ref{fig:sum_ctxt}.
 
 Le principal intérêt des arbres de syntaxe abstraite est qu'aucune
 parenthèse n'est nécessaire, parce qu'une sous-expression est dénotée
@@ -509,11 +509,11 @@ autre. De plus, les espaces sont absentes aussi et ainsi l'essentiel
 est mis en valeur. Pour illustrer le gain en visibilité, considérons à
 nouveau la précédente évaluation dans sa totalité, de gauche à droite
 (le n{\oe}ud qui va être réécrit est encadré), à la
-\fig~\ref{fig_sum1234}.
+\fig~\ref{fig:sum1234}.
 \begin{figure}
 \centering
 \includegraphics[bb=72 620 412 721]{sum1234}
-\caption{Évaluation de \(\fun{sum}([1,2,3,4])\)\label{fig_sum1234}}
+\caption{Évaluation de \(\fun{sum}([1,2,3,4])\)\label{fig:sum1234}}
 \end{figure}
 Il est clair maintenant que les instances du contexte s'accumulent et
 croissent en proportion inverse de la taille de l'argument: les
@@ -525,12 +525,12 @@ mémoire totale utilisée est en effet constante, sauf pour la dernière
 réécriture.
 
 Examinons à nouveau l'exemple filé et ce qui advient du contexte, à
-chaque réécriture, à la \fig~\vref{fig_sum1234_stack}.
+chaque réécriture, à la \fig~\vref{fig:sum1234_stack}.
 \begin{figure}
 \centering
 \includegraphics{sum1234_stack}
 \caption{Contextes pour l'évaluation de \(\fun{sum}([1,2,3,4])\)
-\label{fig_sum1234_stack}}
+\label{fig:sum1234_stack}}
 \end{figure}
 Cet exemple montre que les instances du contexte croissent, cependant
 que la taille de l'argument décroît de telle manière que la mémoire
@@ -541,7 +541,7 @@ totale utilisée reste constante.
 \index{mémoire!contexte d'appel|)}
 
 \paragraph{Forme terminale}
-\label{sec_tail}
+\label{sec:tail}
 \index{langage fonctionnel!forme terminale|(}
 
 Considérons la fonction \erlcode{sum/1}, qui somme les entiers dans
@@ -711,7 +711,7 @@ l'associativité, de la symétrie et de la neutralité, et couchons les
   &\eqn{\smash{\ref{add_comm}}}  ((2 + 1) + 3) + 4\\
   &\eqn{\smash{\ref{add_comm}}}  ((1 + 2) + 3) + 4\\
   &\eqn{\smash{\ref{add_assoc}}} (1 + 2) + (3 + 4)\\
-  &\eqn{\smash{\ref{add_assoc}}} 1 + (2 + (3 + 4)).\quad\Box 
+  &\eqn{\smash{\ref{add_assoc}}} 1 + (2 + (3 + 4)).\quad\Box
 \end{align*}
 Tout ceci semble bien compliqué, pour un si petit programme. Y a-t-il
 un moyen de réécrire \erlcode{sum0/1} pour ne pas utiliser toutes les
@@ -774,12 +774,12 @@ termes, si la pile d'entrée contient \(n\)~entiers, le nombre de
 réécritures dans une évaluation est exactement \(n+1\).
 
 Renommons \erlcode{sum0/1} en \fun{sum\(_0\)/1} à la
-\fig~\vref{fig_sum0}.
+\fig~\vref{fig:sum0}.
 \begin{figure}[b]
 \begin{equation*}
 \boxed{%
 \begin{array}{@{}r@{\;}l@{\;}l@{}}
-\fun{sum}_0(\cons{n}{t}) & \xrightarrow{\smash{\gamma}} 
+\fun{sum}_0(\cons{n}{t}) & \xrightarrow{\smash{\gamma}}
                          & \fun{sum}_0(n,t).\\
       \fun{sum}_0(n,\el) & \xrightarrow{\smash{\delta}} & n;\\
 \fun{sum}_0(n,\cons{m}{s}) & \xrightarrow{\smash{\epsilon}}
@@ -787,15 +787,15 @@ Renommons \erlcode{sum0/1} en \fun{sum\(_0\)/1} à la
 \end{array}}
 \end{equation*}
 \caption{Somme d'entiers dans une pile avec \fun{sum\(_0\)/1}
-\label{fig_sum0}}
-\end{figure} 
+\label{fig:sum0}}
+\end{figure}
 Considérons l'arbre de syntaxe abstraite des expressions réécrites à
-la \fig~\ref{fig_sum0_1234}.
+la \fig~\ref{fig:sum0_1234}.
 \begin{figure}
 \centering
 \includegraphics{sum0_1234}
 \caption{Arbres de syntaxe abstraite de \(\fun{sum}_0([1,2,3,4])
-  \twoheadrightarrow 10\)\label{fig_sum0_1234}}
+  \twoheadrightarrow 10\)\label{fig:sum0_1234}}
 \end{figure}
 Les arbres intermédiaires de~\(m+n\) ont été ignorés pour mettre en
 valeur la décroissance stricte de la taille des arbres et la constance
@@ -847,18 +847,18 @@ uniformément répandu sur un interval qui inclut zéro, nous devrions
 conserver la clause.
 \index{langage fonctionnel!forme terminale|)}
 \index{mémoire|)}
-\label{sec_tail_call_opt}
+\label{sec:tail_call_opt}
 
 \mypar{Synonymie}
 \index{mémoire!synonymie|(}
 \index{pile!aplatissement!synonymie|(}
 
-À la section~\ref{sec_persistence}, nous avons supposé que le partage
+À la section~\ref{sec:persistence}, nous avons supposé que le partage
 entre le motif et le membre droit d'une même règle était maximal. En
 pratique, les compilateurs n'assurent pas cette propriété et les
 programmeurs doivent expliciter le partage lorsqu'il va au-delà de
 simples variables. Par exemple, examinons à nouveau la
-\fig~\vref{fig_flat0} où la fonction \fun{flat\(_0\)/1} est
+\fig~\vref{fig:flat0} où la fonction \fun{flat\(_0\)/1} est
 définie. En \Erlang, le partage maximum à la règle~\(\gamma\) est
 réalisé en nommant \(\cons{x}{s}\) dans le motif et en réutilisant ce
 nom dans le membre droit. Ce nom est un \emph{synonyme} (anglais,
@@ -871,7 +871,7 @@ flat0(      [Y|T]) -> [Y|flat0(T)].
 \end{alltt}
 \index{pile!aplatissement!synonymie|)} \index{pile!compression|(} Un
 autre exemple est la fonction \fun{red/1} (anglais, \emph{reduce}),
-vue à la \fig~\vref{fig_red} et qui recopie la pile donnée tout en
+vue à la \fig~\vref{fig:red} et qui recopie la pile donnée tout en
 écartant les éléments qui sont successivement répétés:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{}}
@@ -891,7 +891,7 @@ red(      [X|S]) -> [X|red(S)].
 
 \index{tri par interclassement!synonymie|(}
 \noindent Un autre cas important est l'interclassement à la
-\fig~\vref{fig_mrg}:
+\fig~\vref{fig:mrg}:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{}}
 \fun{mrg}(\el,t)         & \rightarrow & t;\\
@@ -911,7 +911,7 @@ mrg(  [X|S],    T)            -> [X|mrg(S,T)].
 \end{alltt}
 Nous devons faire attention aux abréviations dans les notations pour
 les piles. Par exemple, la fonction \fun{tms/1}, à la
-\fig~\vref{fig_tms}, devrait être traduite comme suit:
+\fig~\vref{fig:tms}, devrait être traduite comme suit:
 \begin{alltt}
 tms([X|T=[\_|U]]) -> cutr([X],T,U);
 tms(          T) -> T.
@@ -921,12 +921,12 @@ tms(          T) -> T.
 
 \index{tri par insertion!synonymie|(}
 \noindent Un autre exemple est l'insertion bidirectionnelle,
-\fig~\vref{fig_i2w_def}:
+\fig~\vref{fig:i2w_def}:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}ll@{}}
 \fun{i2w}(s)         & \xrightarrow{\smash{\xi}}
                      & \fun{i2w}(s,\el,\el).\\
-\fun{i2w}(\el,\el,u) & \xrightarrow{\smash{\pi}} 
+\fun{i2w}(\el,\el,u) & \xrightarrow{\smash{\pi}}
                      & u;\\
 \fun{i2w}(\el,\cons{y}{t},u)
                      & \xrightarrow{\smash{\rho}}
@@ -956,11 +956,11 @@ i2w(  [X|S],    T,    U)            -> i2w(S,T,[X|U]).
 \end{alltt}
 Remarquons que les atomes (les constructeurs constants), en
 particulier la pile vide \erlcode{[]}, sont automatiquement partagés,
-donc, par exemple, le synonyme~\erlcode{S} dans «\erlcode{f(S=[]) ->
-  S.}» est inutile.\index{tri par insertion!synonymie|)}
+donc, par exemple, le synonyme~\erlcode{S} dans «~\erlcode{f(S=[]) ->
+  S.}~» est inutile.\index{tri par insertion!synonymie|)}
 
 La recherche à la Andersson avec un arbre candidat bénéficie aussi de
-la synonymie. Les définitions de la \fig~\vref{fig_mem3} sont
+la synonymie. Les définitions de la \fig~\vref{fig:mem3} sont
 traduites au mieux ainsi:
 \begin{alltt}
 mem3(Y,T) -> mem4(Y,T,T).
@@ -972,7 +972,7 @@ mem4(_,           ext,        _)            -> false.
 \end{alltt}
 
 Parfois, la synonymie est cruciale. Par exemple, toute la discussion à
-propos de la persistance, à la section~\ref{sec_persistence}, repose
+propos de la persistance, à la section~\ref{sec:persistence}, repose
 sur l'existence d'un partage maximum dans chaque règle de réécriture,
 mais, ici, \Erlang a besoin de synonymes pour mettre en {\oe}uvre
 cette condition, donc les définitions~\eqref{eq_push_pop_persistence}
@@ -1007,20 +1007,20 @@ l'évaluation d'un appel soit réduite.
 
 Pour une meilleure compréhension de la gestion de la mémoire, nous
 avons besoin de rendre le partage explicite, comme dans la définition
-de \fun{sum/1} à la \fig~\vref{fig_sum_dag}.
+de \fun{sum/1} à la \fig~\vref{fig:sum_dag}.
 \begin{figure}
 \centering
 \includegraphics{sum_dag}%[bb=71 666 237 721]
 \caption{Définition de \fun{sum/1} avec partage maximum
-\label{fig_sum_dag}}
+\label{fig:sum_dag}}
 \end{figure}
 Évaluons \(\fun{sum}([3,7,5])\) et montrons les premières réécritures
-à la \fig~\vref{fig_sum375_push},
+à la \fig~\vref{fig:sum375_push},
 \begin{figure}[b]
 \centering
 \includegraphics{sum375_push}
 \caption{Évaluation de \(\fun{sum}([3,7,5])\) avec un graphe (phase 1/2)
-\label{fig_sum375_push}}
+\label{fig:sum375_push}}
 \end{figure}
 où l'état complet de la mémoire est figuré comme une succession
 d'instantanés entre des flèches hachurées. \index{graphe orienté sans
@@ -1031,16 +1031,16 @@ toutes les données après chaque réécriture.
 
 Naturellement, cela donne envie de savoir comment la valeur de l'appel
 originel est finalement trouvée (\(15\)). En examinant la
-\fig~\ref{fig_sum375_push} et en comparant les instantanés de la
+\fig~\ref{fig:sum375_push} et en comparant les instantanés de la
 mémoire de la gauche vers la droite, nous réalisons que les
 racines~(\(+\)) ont été accumulées à la droite de l'appel originel,
 jusqu'à ce qu'une référence à une valeur a été atteinte, ici
 l'entier~\(5\). Ce processus est analogue à empiler des éléments, bien
 que la pile en question ne contienne pas seulement des valeurs, mais
 aussi des expressions comme \(7 + \fun{sum}([5])\), et nous le nommons
-«phase d'empilage.» Ceci nous invite à effectuer l'opération inverse,
+«~phase d'empilage.~» Ceci nous invite à effectuer l'opération inverse,
 c'est-à-dire le dépilage des expressions en question de manière à
-terminer l'évaluation, et que nous appelons «phase de dépilage.» Plus
+terminer l'évaluation, et que nous appelons «~phase de dépilage.~» Plus
 précisément, nous voulons calculer, de la droite vers la gauche, des
 \emph{valeurs} à partir des arbres qui composent le graphe, dont les
 racines sont considérées des éléments dans une pile spéciale, jusqu'à
@@ -1056,30 +1056,30 @@ le graphe est une référence à la valeur immédiate~\(5\). \emph{Quand
   l'arbre le plus à droite est une valeur immédiate ou une référence à
   une valeur, la seconde phase de l'évaluation (vers la gauche) peut
   commencer.} Dans ce qui suit, pour gagner en concision, nous
-écrirons «valeur» quand une référence à une valeur est aussi possible.
+écrirons «~valeur~» quand une référence à une valeur est aussi possible.
 
 Bien que notre modèle d'évaluation raffiné ne fasse aucune place à la
 suppression de n{\oe}uds parce que celle-ci est la tâche exclusive du
 glaneur de cellules, il permet cependant le remplacement par sa valeur
 de l'arc aboutissant au dernier appel réécrit. Comme nous l'avons
 expliqué précédemment, ces appels ont été successivement encadrés à la
-\fig~\vref{fig_sum375_push}. La phase de dépilage consiste ici à
+\fig~\vref{fig:sum375_push}. La phase de dépilage consiste ici à
 remplacer l'arc vers le n{\oe}ud \fun{sum} précédent par un arc vers
 la valeur courante. Ensuite, l'arbre ainsi modifié est évalué à son
 tour, et cela mène peut-être à l'empilement d'autres arbres et des
 phases subséquentes de dépilage jusqu'à ce qu'une seule valeur soit
 présente dans la pile.
 
-La phase de dépilage est montrée en action à la \fig~\vref{fig_sum375_pop},
+La phase de dépilage est montrée en action à la \fig~\vref{fig:sum375_pop},
 \begin{figure}[b]
 \centering
 \includegraphics{sum375_pop}
 \caption{Évaluation de \(\fun{sum}([3,7,5])\) (phase 2/2)
-\label{fig_sum375_pop}}
+\label{fig:sum375_pop}}
 \end{figure}
 qui doit être lue de droite à gauche. L'état de la mémoire le plus à
 droite est le résultat de la phase d'empilage précédente, à partir du
-dernier état de la \fig~\ref{fig_sum375_push}. Remarquons que tous les
+dernier état de la \fig~\ref{fig:sum375_push}. Remarquons que tous les
 n{\oe}uds \fun{sum} et~(\(+\)) deviennent inutiles, pas à pas,
 c'est-à-dire qu'ils ne peuvent être atteints depuis la pile (ces
 n{\oe}uds se trouvent sous la ligne de base horizontale). À des fins
@@ -1104,7 +1104,7 @@ programmeur (seuls les n{\oe}uds qui deviennent inatteignables sont
 Notre exemple requiert un examen plus approfondi. En effet, nous
 pouvons prédire exactement quand les n{\oe}uds \fun{sum} peuvent être
 réclamés: après chaque pas en arrière (de la droite vers la gauche à
-la \fig~\ref{fig_sum375_pop}), le n{\oe}ud \fun{sum} le plus à droite
+la \fig~\ref{fig:sum375_pop}), le n{\oe}ud \fun{sum} le plus à droite
 devient inutile. Idem pour la valeur intermédiaire~\(12\): elle
 devient inaccessible depuis les racines du graphe dès qu'elle a servi
 à calculer~\(15\). La même observation peut être faite à propos des
@@ -1121,36 +1121,36 @@ totale. Par ailleurs, pour des raisons techniques de mise en
 {\oe}uvre, la pile de contrôle ne contient jamais de valeurs
 construites, mais des références à celles-ci dans le tas.
 
-Considérons comment le calcul à la \fig~\vref{fig_sum375_pop} peut
-être amélioré à la \fig~\vref{fig_sum375_pop1} avec un glanage
+Considérons comment le calcul à la \fig~\vref{fig:sum375_pop} peut
+être amélioré à la \fig~\vref{fig:sum375_pop1} avec un glanage
 automatique fondé sur une pile.
 \begin{figure}[b]
 \centering
 \includegraphics{sum375_pop1}
 \caption{Évaluation de \(\fun{sum}([3,7,5])\) (phase 2/2, pile et tas)
-\label{fig_sum375_pop1}}
+\label{fig:sum375_pop1}}
 \end{figure}
 Gardons en tête que la valeur \([3,7,5]\) est rangée dans le tas, pas
 dans la pile de contrôle, et qu'elle peut être partagée. De plus, à
 cause de l'espace limité sur une page, la dernière étape est en fait
-double, comme elle l'était à la \fig~\vref{fig_sum375_pop}. Nous
+double, comme elle l'était à la \fig~\vref{fig:sum375_pop}. Nous
 pouvons saisir la croissance de la pile de contrôle à la
-\fig~\vref{fig_sum375_stack_push}.
+\fig~\vref{fig:sum375_stack_push}.
 \begin{figure}
 \centering
 \includegraphics{sum375_stack_push}
 \caption{Pile de contrôle pour évaluer \(\fun{sum}([3,7,5])\) (phase
   1/2)
-  \label{fig_sum375_stack_push}}
+  \label{fig:sum375_stack_push}}
 \end{figure}
 Les dépilages, de droite à gauche, sont présentés à la
-\fig~\ref{fig_sum375_stack_pop}.
+\fig~\ref{fig:sum375_stack_pop}.
 \begin{figure}
 \centering
 \includegraphics{sum375_stack_pop}
-\caption{Pile de contrôle pour évaluer \(\fun{sum}([3,7,5])\) 
+\caption{Pile de contrôle pour évaluer \(\fun{sum}([3,7,5])\)
 (phase 2/2)
-\label{fig_sum375_stack_pop}}
+\label{fig:sum375_stack_pop}}
 \end{figure}
 
 L'algorithme correspondant consiste en les étapes suivantes. Supposons
@@ -1163,33 +1163,33 @@ que nous les qualifierons toutes deux de valeurs dans la suite.
     dépilons la valeur, mais sans l'écarter, donc un autre arbre
     devient le sommet;
     \begin{enumerate}
-      
+
     \item si la racine de l'arbre au sommet est un n{\oe}ud \fun{sum},
       alors nous le dépilons et empilons à sa place la valeur;
-      
+
     \item sinon, le n{\oe}ud \fun{sum} dans l'arbre possède un arc
       entrant:
       \begin{enumerate}
-        
+
       \item nous changeons sa destination de telle sorte qu'il
         atteigne la valeur et nous nous débarrassons du n{\oe}ud
         \fun{sum};
-        
+
       \item nous évaluons l'arbre modifié au sommet et nous itérons le
         procédé.
-        
+
       \end{enumerate}
-      
+
     \end{enumerate}
-    
+
   \item L'unique élément restant dans la pile de contrôle est le résultat.
-    
+
 \end{enumerate}
 En fait, nous avons permis la résidence des entiers dans la pile de
 contrôle, car nous pouvions ainsi remplacer tout arbre qui consiste
 seulement en une référence vers cette sorte de valeur dans le tas par
 une copie de ladite valeur. Nous pouvons voir à la
-\fig~\ref{fig_sum375_stack_push} que la pile de contrôle croît à
+\fig~\ref{fig:sum375_stack_push} que la pile de contrôle croît à
 chaque étape jusqu'à ce qu'une valeur est atteinte.
 \index{mémoire!tas|)} \index{mémoire!pile de contrôle|)}
 
@@ -1199,7 +1199,7 @@ chaque étape jusqu'à ce qu'une valeur est atteinte.
 
 Étudions ce qui se passe quand nous utilisons une définition
 équivalente en forme terminale, telle \fun{sum\(_0\)/1} à la
-\fig~\vref{fig_sum0}. La \fig~\ref{fig_sum0_375}
+\fig~\vref{fig:sum0}. La \fig~\ref{fig:sum0_375}
 \begin{figure}[!t]
 \centering
 \includegraphics[bb=71 630 356 721]{sum0_375_0}
@@ -1208,7 +1208,7 @@ chaque étape jusqu'à ce qu'une valeur est atteinte.
 
 \includegraphics[bb=71 636 394 721]{sum0_375_2}
 \caption{\(\fun{sum}_0([3,7,5]) \twoheadrightarrow 15\)
-sans optimisation des appels terminaux\label{fig_sum0_375}}
+sans optimisation des appels terminaux\label{fig:sum0_375}}
 \end{figure}
 montre seulement la première phase, qui consiste à empiler sur la pile
 de contrôle l'arbre nouvellement produit par une règle et à partager
@@ -1229,7 +1229,7 @@ langages fonctionnels, consiste à dépiler l'arbre qui précède (celui
 filtré par le motif de la règle) et à empiler le nouveau (créé par le
 membre droit de la même règle). De cette manière, la pile de contrôle
 ne contient qu'un élément à tout instant. Cette optimisation est
-montrée à la \fig~\vref{fig_sum0_375tco}
+montrée à la \fig~\vref{fig:sum0_375tco}
 \begin{figure}[!t]
 \centering
 \includegraphics[bb=71 628 327 721]{sum0_375tco0}
@@ -1237,22 +1237,22 @@ montrée à la \fig~\vref{fig_sum0_375tco}
 \includegraphics[bb=71 636 375 721]{sum0_375tco2}
 \caption{\(\fun{sum}_0([3,7,5])
   \twoheadrightarrow 15\) avec optimisation des appels terminaux
-  \label{fig_sum0_375tco}}
+  \label{fig:sum0_375tco}}
 \end{figure}
-et devrait être contrastée avec la série à la \fig~\vref{fig_sum0_375}.
+et devrait être contrastée avec la série à la \fig~\vref{fig:sum0_375}.
 
 \emph{L'optimisation des appels terminaux peut être appliquée à toutes
   les fonctions en forme terminale.} Visualisons un autre exemple:
 l'évaluation de \(\fun{cat}([1,2],[3,4])\), en employant la définition
-à la \fig~\vref{fig_cat_dag}, qui n'est pas en forme terminale.
+à la \fig~\vref{fig:cat_dag}, qui n'est pas en forme terminale.
 \begin{enumerate}
 
   \item La première phase, qui consiste à empiler les arbres
   nouvellement créés sur la pile de contrôle est montré à la
-  \fig~\vref{fig_cat1234_push}.
+  \fig~\vref{fig:cat1234_push}.
 
   \item La seconde phase de l'évaluation de \(\fun{cat}([1,2],[3,4])\)
-  est montrée à la \fig~\vref{fig_cat1234_pop}. Elle consiste à
+  est montrée à la \fig~\vref{fig:cat1234_pop}. Elle consiste à
   remplacer de la droite vers la gauche la référence à l'appel
   précédent par la (référence à la) valeur courante, jusqu'à ce que
   l'appel initial lui-même soit ôté et seul le résultat final
@@ -1263,16 +1263,16 @@ l'évaluation de \(\fun{cat}([1,2],[3,4])\), en employant la définition
 \end{enumerate}
 \begin{figure}[!t]
 \centering
-\subfloat[Fin de la phase 1/2\label{fig_cat1234_push}]{
+\subfloat[Fin de la phase 1/2\label{fig:cat1234_push}]{
 \includegraphics[bb=71 615 287 734]{cat1234_push}
 %\caption{Evaluation of \(\fun{cat}([1,2],[3,4])\) (end of phase 1/2)
-%\label{fig_cat1234_push}}
+%\label{fig:cat1234_push}}
 }
 \vskip32pt
 %\end{figure}
 %\begin{figure}
 %\centering
-\subfloat[Phase 2/2\label{fig_cat1234_pop}]{
+\subfloat[Phase 2/2\label{fig:cat1234_pop}]{
 \begin{minipage}[l]{0.9\textwidth}
 \centering
 \includegraphics[bb=71 613 287 714]{cat1234_pop0}
@@ -1283,17 +1283,17 @@ l'évaluation de \(\fun{cat}([1,2],[3,4])\), en employant la définition
 \end{minipage}
 }
 \caption{\(\fun{cat}([1,2],[3,4]) \twoheadrightarrow [1,2,3,4]\)} %(phase 2/2)
-%\label{fig_cat1234_pop}}
+%\label{fig:cat1234_pop}}
 \end{figure}
 \index{mémoire!optimisation des appels terminaux|)}
 
 %\vspace*{-5mm}
 
 \mypar{Transformation en forme terminale}
-\label{sec_into_tail_form}
+\label{sec:into_tail_form}
 \index{pile!aplatissement!forme terminale|(}
 
-Notre définition de \fun{flat/1} à la \fig~\vref{fig_flat}, est
+Notre définition de \fun{flat/1} à la \fig~\vref{fig:flat}, est
 facilement traduite en \Erlang comme suit: \verbatiminput{flat.def}
 Elle est presque en forme terminale: seule la dernière règle possède
 un appel avec un contexte non-vide. En ajoutant un accumulateur, cette
@@ -1340,7 +1340,7 @@ flat([[X|S]|T],A) \(\smashedrightarrow{\delta}\) flat([X,S|T],A);
 flat(    [X|T],A) \(\smashedrightarrow{\epsilon}\) flat(T,[X|A]).
 \end{alltt}
 La définition est maintenant complète et en forme terminale. Qu'en
-est-il de \erlcode{flat0/1} à la \fig~\vref{fig_flat0}? Nous avons:
+est-il de \erlcode{flat0/1} à la \fig~\vref{fig:flat0}? Nous avons:
 \verbatiminput{flat0.def} Cette définition a la particularité que
 certaines de ses clauses contiennent au moins deux appels (n'oublions
 pas que le fait qu'un appel soit récursif n'a rien à voir avec le fait
@@ -1773,7 +1773,7 @@ systématique comme suit.
     appel à une nouvelle fonction \erlcode{appk/2} avec le corps et
     l'accumulateur inchangés;
 
-  \item pour chaque corps qui n'est pas en forme terminale, ceux de 
+  \item pour chaque corps qui n'est pas en forme terminale, ceux de
     \erlcode{appk/2} inclus,
     \begin{enumerate}
 
@@ -1977,7 +1977,7 @@ nous comprenons que cette dernière peut être dérivée de la première si
 la paire \erlcode{\{k1,Y\}} est remplacée par~\erlcode{Y}. Ceci est
 possible parce que c'est le seul atome qui a été produit. La
 définition de \erlcode{appk/2} est alors équivalente à
-\erlcode{rcat/2} (section~\vref{sec_reversal}):
+\erlcode{rcat/2} (section~\vref{sec:reversal}):
 \verbatiminput{rev.def}
 \end{enumerate}
 La philosophie sous-jacente à notre méthode générale pour transformer
@@ -1998,8 +1998,8 @@ la phase de conception, probables. Une autre raison d'employer la
 transformation est la compilation vers un langage de bas niveau, comme
 \Clang (en utilisant seulement des sauts \texttt{goto}).
 
-Transformons l'insertion simple (section~\ref{sec_straight_ins}
-\vpageref{sec_straight_ins}) et analysons le coût de la définition
+Transformons l'insertion simple (section~\ref{sec:straight_ins}
+\vpageref{sec:straight_ins}) et analysons le coût de la définition
 résultante. Nous débutons avec
 \begin{alltt}
 isrt(   [])             \(\smashedrightarrow{\beta}\) [];
@@ -2050,7 +2050,7 @@ ins([Y|S],X,A) when X > Y \(\smashedrightarrow{\delta}\) ins(S,X,\textbf{[\{k2,Y
 \textbf{appk(V,[\{k2,Y\}|A])        \(\rightarrow\) appk([Y|V],A);}
 \end{alltt}
 La dernière clause est~\(\epsilon\), qui est en forme terminale et ne
-contient aucun appel, donc nous devons passer son corps à 
+contient aucun appel, donc nous devons passer son corps à
 \erlcode{appk/2} pour vérifier s'il y a encore des contextes à
 reconstruire et évaluer:
 \begin{alltt}
@@ -2208,7 +2208,7 @@ clause~\(\delta\) n'est jamais utilisée). \emph{Si les clés ne sont
   pas répétées, le meilleur des cas de \erlcode{isrt/1} est le pire des
 cas de \erlcode{isrt\_tf/1}, et le pire des cas de \erlcode{isrt/1} est
 le meilleur des cas de \erlcode{isrt\_tf/1}.} Ceci tient parce que
-«non-croissant» signifie la même chose que «croissant» lorsqu'il n'y a
+«~non-croissant~» signifie la même chose que «~croissant~» lorsqu'il n'y a
 pas de répétition.
 
 Dans le but de déterminer le coût minimum de la version finale de
@@ -2428,21 +2428,21 @@ empilage correspond à un n{\oe}ud, tout comme un \(n\)-uplet. \emph{En
 écririons les \(n\)-uplets imbriqués
 \erlcode{\{k3,\(X_1\),\{k1,\(V\),\(E\),\{k3,\(X_2\),\{\}\}\}\}}. Les
 deux arbres de syntaxe abstraite sont facilement comparés à la
-\fig~\ref{fig_tuple_vs_stack}.
+\fig~\ref{fig:tuple_vs_stack}.
 \begin{figure}
 \centering
-\subfloat[Avec une pile de \(n\)-uplets\label{fig_acc_stack}]{
+\subfloat[Avec une pile de \(n\)-uplets\label{fig:acc_stack}]{
   \includegraphics[bb=72 642 220 721]{acc_stack}
 }
-\subfloat[Avec des \(n\)-uplets imbriqués\label{fig_acc_tup}]{
+\subfloat[Avec des \(n\)-uplets imbriqués\label{fig:acc_tup}]{
   \includegraphics[bb=71 659 195 721]{acc_tup}
 }
 \caption{Deux mises en {\oe}uvre du même accumulateur linéaire
-\label{fig_tuple_vs_stack}}
+\label{fig:tuple_vs_stack}}
 \end{figure}
 Le codage d'une pile d'accumulation par le biais de \(n\)-uplets
 uniquement suppose d'ajouter une composante à chaque \(n\)-uplet, qui
-contient ce qui était le «prochain» \(n\)-uplet dans la pile. La
+contient ce qui était le «~prochain~» \(n\)-uplet dans la pile. La
 mémoire ainsi économisée consiste en une référence (arc) pour chaque
 \(n\)-uplet initial, plus tous les n{\oe}uds d'empilage, c'est-à-dire
 que s'il y avait \(m\)~\(n\)-uplets, nous économisons \(m\)~références
@@ -2481,7 +2481,7 @@ appk(V,       \{\})    \(\smashedrightarrow{\iota}\) V.
 \index{pile!codage avec des \(n\)-uplets|)}
 
 \paragraph{Améliorations}
-\label{par_fib_ameliorations}
+\label{par:fib_ameliorations}
 \index{fonction de Fibonacci!coût|(}
 
 Juste pour illustrer le fait que les améliorations effectuées sur une
@@ -2535,7 +2535,7 @@ Laissons de côté pour un instant la convergence et recherchons une
 forme close de \(f(x)\). On a \(xf(x) = \sum_{k > 0}{F_{k-1}x^k}\) et
 \(x^2f(x) = \sum_{k>1}{F_{k-2}x^k}\):
 \begin{equation*}
-f(x) - xf(x) - x^2f(x) = F_0 + F_1x - F_0x 
+f(x) - xf(x) - x^2f(x) = F_0 + F_1x - F_0x
                          + \sum_{k>1}{(F_k - F_{k-1} - F_{k-2})x^k}
                        = x.
 \end{equation*}
@@ -2619,11 +2619,11 @@ Comment pouvons-nous améliorer cette définition?
 Nous devons résister la tentation de la transformer en forme terminale
 parce que cela ne rendrait service qu'à la pile de contrôle, pas au
 coût, en général. En regardant l'arbre des appels de \erlcode{fib(5)}
-à la \fig~\vref{fig_fib5tree},
+à la \fig~\vref{fig:fib5tree},
 \begin{figure}[b]
 \centering
 \includegraphics{fib5tree}
-\caption{Arbre des appels de \texttt{fib(5)}\label{fig_fib5tree}}
+\caption{Arbre des appels de \texttt{fib(5)}\label{fig:fib5tree}}
 \end{figure}
 nous réalisons que quelques petits sous-arbres sont dupliqués, comme
 ceux dont la racine est \erlcode{fib(2)}, et des plus grands comme
@@ -2644,12 +2644,12 @@ nous pouvons obtenir l'arbre des appels complet pour \erlcode{fib(5)}
 en faisant croître l'arbre à partir de la racine, tout en partageant
 certains sous-arbres, c'est-à-dire en les réutilisant plutôt qu'en les
 recalculant, donc l'arbre ressemble maintenant à la
-\fig~\vref{fig_fib5shared}
+\fig~\vref{fig:fib5shared}
 \begin{figure}
 \centering
 \includegraphics[bb=71 671 349 718]{fib5shared}
 \caption{Arbre des appels de \erlcode{fib(5)} avec partage maximum
-\label{fig_fib5shared}}
+\label{fig:fib5shared}}
 \end{figure}
 où les arcs fléchés dénotent le partage de sous-arbres. À proprement
 parler, il s'agit d'un graphe orienté sans circuits, et cette
@@ -2713,7 +2713,7 @@ slst0(S,X) -> rev(sfst0(rev(S),X)).
 où toutes les fonctions composées sont en forme terminale. Bien sûr,
 une composition de fonctions, comme \erlcode{sfst0/2}, n'est pas, par
 définition, en forme terminale, mais ce n'est pas un problème. La
-taille de la pile de contrôle nécessaire pour évaluer les appels à 
+taille de la pile de contrôle nécessaire pour évaluer les appels à
 \erlcode{slst0/2} sera majorée par une petite constante, parce qu'elle
 n'est pas récursive.
 
@@ -2725,7 +2725,7 @@ n'est pas récursive.
 \index{tri par insertion!$\sim$ polymorphe|(}
 
 Il y a un aspect du tri par insertion simple avec \erlcode{isrt/1}
-(section~\ref{sec_straight_ins} \vpageref{sec_straight_ins}) qui
+(section~\ref{sec:straight_ins} \vpageref{sec:straight_ins}) qui
 mérite une seconde réflexion. Les fonctions en \Erlang sont
 \emph{polymorphes}\index{langage fonctionnel!polymorphisme},
 c'est-à-dire qu'elles peuvent opérer sur certains arguments d'une
@@ -2749,7 +2749,7 @@ type de valeurs à ordonner. Par conséquent, nous avons besoin de
 polymorphisme pour \emph{des paramètres fonctionnels}, plus
 précisément, nous voulons qu'une fonction puisse être une valeur, donc
 puisse être un argument. \Erlang offre cette possibilité d'une façon
-naturelle et de nombreux langages fonctionnels aussi. 
+naturelle et de nombreux langages fonctionnels aussi.
 
 Dans notre cas, il faut que l'appelant de \erlcode{isrt/1} fournisse
 un argument additionnel qui soit une fonction de comparaison de deux
@@ -2932,7 +2932,7 @@ est l'application du tri de factures que nous avons mentionné
 précédemment. Comme l'exemple du tri d'entiers en ordre non-croissant
 le suggère, nous n'avons seulement besoin ici que d'écrire comment
 comparer deux piles d'entiers au moyen de la fonction \erlcode{sum0/1}
-à la \fig~\vref{fig_sum0}). Nous avons \(\C{\fun{sum}_0}{n} = n +
+à la \fig~\vref{fig:sum0}). Nous avons \(\C{\fun{sum}_0}{n} = n +
 2\). Nous pouvons alors définir la comparaison \erlcode{gt\_bill/2},
 fondée sur l'opérateur~(\erlcode{>}):
 \begin{alltt}
@@ -2977,7 +2977,7 @@ de paires dont la première composante, appelée la \emph{clé}, est un
 représentant simple et petit de la seconde composante, appelée dans ce
 contexte la \emph{valeur} (pas très correctement, car les clés sont
 des valeurs \Erlang aussi, mais telle est la nomenclature
-traditionnelle). 
+traditionnelle).
 
 Cette structure de donnée est parfois appelée \emph{liste
   d'association}. Seule la clé est utilisée pour le tri, pas la
@@ -3023,7 +3023,7 @@ où nous trions des piles par leur longueurs non-croissantes:
                        [[1,5,2,9],[7],[2,5,11],[4,3]]),
                fun({K1,_},{K2,_}) -> K1 < K2 end))
 \end{verbatim}
-où \erlcode{len0/1} est définie à la \fig~\vref{fig_len0}.
+où \erlcode{len0/1} est définie à la \fig~\vref{fig:len0}.
 \begin{figure}[b]
 \begin{equation*}
 \boxed{
@@ -3034,7 +3034,7 @@ où \erlcode{len0/1} est définie à la \fig~\vref{fig_len0}.
 \end{array}}
 \end{equation*}
 \caption{Calcul de la longueur d'une pile (forme terminale)
-\label{fig_len0}}
+\label{fig:len0}}
 \end{figure}
 Le résultat est
 \begin{center}
@@ -3073,7 +3073,7 @@ atomes~\erlcode{lt} (anglais, \emph{lower than}), \erlcode{gt}
 isrtf(   [],  \_, \_)   \(\MyArrow{\dblarrow}{\beta}\) [];
 isrtf([X|S],Cmp,\textbf{Eq})   \(\MyArrow{\dblarrow}{\gamma}\) ins(isrtf(S,Cmp,\textbf{Eq}),X,Cmp,\textbf{Eq}).
 ins(T=[Y|S],X,Cmp,\textbf{Eq}) \(\MyArrow{\dblarrow}{\delta\sb{0}}\) case Cmp(X,Y) of
-                            gt \(\smashedrightarrow{\zeta}\) [Y|ins(S,X,Cmp,\textbf{Eq})]; 
+                            gt \(\smashedrightarrow{\zeta}\) [Y|ins(S,X,Cmp,\textbf{Eq})];
                             lt \(\smashedrightarrow{\eta}\) [X|T];
                             eq \(\smashedrightarrow{\theta}\) \textbf{Eq(X,T)}\hfill% \emph{Nouveau cas}
                           end;
@@ -3094,7 +3094,7 @@ qui aboutit à \erlcode{[1,3,4,5]}. En passant, cette technique résout
 le problème de l'élimination des doublons dans une pile de clés pour
 lesquelles il existe un ordre total. Néanmoins, si nous ne souhaitons
 ôter que les clés identiques contiguës, la fonction \erlcode{red/1},
-définie à la \fig~\vref{fig_red}, est plus efficace parce que son coût
+définie à la \fig~\vref{fig:red}, est plus efficace parce que son coût
 est linéaire en la taille de l'entrée.
 
 Nous devons préciser qu'une fonction d'ordre supérieur n'est pas
@@ -3128,7 +3128,7 @@ pour calculer la composition de deux autres fonctions, le résultat
 
 \paragraph{Itérateurs fonctionnels}
 \addcontentsline{toc}{subsection}{Mappage et compositions itérées}
-\label{par_maps}
+\label{par:maps}
 
 Nous pourrions désirer une fonction qui additionne les images d'une
 pile~\(S\) d'entiers par une fonction donnée~\(f\). En notation
@@ -3141,8 +3141,8 @@ procéder en deux temps: d'abord, nous avons besoin d'une fonction
 d'ordre supérieur qui calcule les images des éléments d'une pile par
 une fonction; ensuite, nous avons besoin d'une fonction qui somme les
 entiers d'une pile. Nous avons déjà rencontré cette dernière, à la
-\fig~\vref{fig_sum0} en la personne de \erlcode{sum0/1}. La première
-fonction est un \emph{mappage} (en anglais, \emph{map}) et nommée
+\fig~\vref{fig:sum0} en la personne de \erlcode{sum0/1}. La première
+fonction est une \emph{projection} (en anglais, \emph{map}) et nommée
 \erlcode{map/2}, de telle sorte que l'appel \erlcode{map(\(F\),\(S\))}
 applique la fonction~\(F\) à tous les éléments de la pile~\(S\) et
 s'évalue en la pile des résultats. C'est-à-dire,
@@ -3203,8 +3203,8 @@ Le compilateur \Erlang afficherait l'avertissement suivant:
 \emph{\texttt{Warning: variable 'Perms' shadowed in
     'fun'.}}\label{shadowing}
 \end{center}
-qui veut dire: «Avertissement: la variable \erlcode{Perms} est
-occultée par \erlcode{fun}.» En d'autres termes, dans le corps de la
+qui veut dire: «~Avertissement: la variable \erlcode{Perms} est
+occultée par \erlcode{fun}.~» En d'autres termes, dans le corps de la
 fonction anonyme, toute occurrence de \erlcode{Perms} fait référence à
 \erlcode{fun(Perms)}, mais pas à \erlcode{push(X,Perms)}. Dans ce cas,
 ce n'est pas une erreur, mais les concepteurs du compilateur ont voulu
@@ -3230,7 +3230,7 @@ ne pose pas problème car il équivaut à
 qui est une occultation correcte.
 
 \paragraph{Composition itérée}
-\label{par_folds}
+\label{par:folds}
 
 D'autres schémas récursifs fréquemment utiles peuvent être réifiés en
 une autre fonction d'ordre supérieur. Considérons une fonction qui
@@ -3238,12 +3238,12 @@ traverse complètement une pile tout en administrant un accumulateur
 dont le contenu peut dépendre de l'élément couramment visité. Au bout
 du compte, le résultat est la valeur finale de l'accumulateur, ou bien
 une autre fonction est appelée pour le finaliser. Un exemple simple
-est \fun{len0/1} à la \fig~\vref{fig_len0}. Dans ce cas,
+est \fun{len0/1} à la \fig~\vref{fig:len0}. Dans ce cas,
 l'accumulateur est un entier et l'opération à laquelle il est soumis
 est l'incrémentation, indépendamment de l'élément courant. Une autre
-fonction retourne une pile (équation~\eqref{def_rev}
-\vpageref{def_rev}):
-\verbatiminput{rev.def} 
+fonction retourne une pile (équation~\eqref{def:rev}
+\vpageref{def:rev}):
+\verbatiminput{rev.def}
 Ici, l'accumulateur est une pile et l'opération consiste à empiler
 l'élément courant. Abstrayons séparément ces deux tâches en une seule
 fonction d'ordre supérieur
@@ -3260,9 +3260,9 @@ fonction d'ordre supérieur
 Une fonction célèbre qui fait cela en \Erlang est \erlcode{foldl/3},
 ce qui signifie en anglais \emph{fold left}, ou \emph{pliage à gauche}
 parce qu'une fois que le nouvel accumulateur a été formé, le préfixe
-de la pile peut être «plié» derrière la page où elle est écrite car il
-n'est plus utile. Donc le nom devrait être compris comme «composition
-itérée de gauche à droite» ou \emph{composition itérée à droite}. Nous
+de la pile peut être «~plié~» derrière la page où elle est écrite car il
+n'est plus utile. Donc le nom devrait être compris comme «~composition
+itérée de gauche à droite~» ou \emph{composition itérée à droite}. Nous
 voulons
 \begin{equation*}
 \erlcode{foldl(\(F\),\(A\),[\(X_1\),\(X_2\),\(\ldots\),\(X_{n}\)])}
@@ -3270,7 +3270,7 @@ voulons
 \erlcode{\(F\)(\(X_{n}\),\(\ldots\),\(F\)(\(X_2\),\(F\)(\(X_1\),\(A\)))\(\ldots\))},
 \end{equation*}
 où \(A\)~est la valeur initiale de l'accumulateur. La
-\fig~\vref{fig_foldl} montre les arbres de syntaxe abstraite
+\fig~\vref{fig:foldl} montre les arbres de syntaxe abstraite
 correspondants.
 \begin{figure}
 \centering
@@ -3282,7 +3282,7 @@ correspondants.
   \includegraphics[bb=62 660 135 721]{foldl}%[bb=69 651 164 721]
 }
 \caption{Résultat de \erlcode{foldl/3} sur une pile non-vide
-\label{fig_foldl}}
+\label{fig:foldl}}
 \end{figure}
 La définition suivante réalise l'effet désiré:
 \begin{verbatim}
@@ -3327,14 +3327,14 @@ l'ordre des éléments n'est pas significatif, parce que \erlcode{map/2}
 a besoin d'une pile de contrôle aussi longue que la pile
 d'entrée. Ceci nous amène naturellement à présenter une autre fonction
 d'ordre supérieur: \erlcode{foldr/3}, dont le nom signifie
-«composition itérée de droite à gauche» (anglais, \emph{fold right}),
+«~composition itérée de droite à gauche~» (anglais, \emph{fold right}),
 ou \emph{composition itérée à gauche}. Nous voulons dire:
 \begin{equation*}
 \erlcode{foldr(\(F\),\(A\),[\(X_1\),\(X_2\),\(\ldots\),\(X_{n}\)])}
 \equiv
 \erlcode{\(F\)(\(X_1\),\(F\)(\(X_2\),\(\ldots\),\(F\)(\(X_{n}\),\(A\)))\(\ldots\))}.
 \end{equation*}
-La \fig~\vref{fig_foldr} montre les arbres de syntaxe abstraite
+La \fig~\vref{fig:foldr} montre les arbres de syntaxe abstraite
 correspondants.
 \begin{figure}
 \centering
@@ -3346,7 +3346,7 @@ correspondants.
   \includegraphics[bb=62 660 132 721]{foldr}
 }
 \caption{Résultat de \erlcode{foldr/3} sur une pile non-vide
-\label{fig_foldr}}
+\label{fig:foldr}}
 \end{figure}
 Nous parvenons à ce comportement avec la définition suivante:
 \begin{verbatim}
@@ -3424,7 +3424,7 @@ Qu'est-ce qui ne peut être programmé par compositions itérées? Com\-me
 leur propriété caractéristique le montrent, les compositions itérées
 traversent la pile d'entrée dans sa totalité, donc il n'y a pas moyen
 de descendre du train pendant qu'il roule. Par exemple, \fun{sfst/2} à
-la section~\ref{sec_skipping}, \vpageref{sec_skipping}, est, en
+la section~\ref{sec:skipping}, \vpageref{sec:skipping}, est, en
 \Erlang,
 \begin{alltt}
 sfst(   [],X) \(\smashedrightarrow{\theta}\) [];
@@ -3439,8 +3439,8 @@ clause~\(\iota\). Toutefois, en théorie, si nous acceptons une
 traversée complète de la pile à chaque appel, alors \erlcode{sfst/2}
 peut être programmée par le biais d'une composition itérée vers la
 droite. La technique usuelle est d'avoir un accumulateur qui est soit
-un atome signifiant «absent» ou une paire avec un atome signifiant
-«présent» et la pile reconstruite. Si le résultat est «absent,» alors
+un atome signifiant «~absent~» ou une paire avec un atome signifiant
+«~présent~» et la pile reconstruite. Si le résultat est «~absent,~» alors
 nous retournons simplement la pile originelle. La fonction suivante
 est un cas plus fort parce qu'elle ne peut absolument pas être
 exprimée au moyen de compositions itérées, même au prix de
@@ -3460,10 +3460,11 @@ fonction~\(F\) peut être exprimée de manière équivalente par un appel
 exemple, on a \(\erlcode{ctail([])} \equiv \erlcode{ctail([2])}\) mais
 \(\erlcode{ctail([1])} \mathrel{\not\equiv} \erlcode{ctail([1,2])}\).
 
-Un effet secondaire positif de l'emploi de mappages et compositions
+Un effet secondaire positif de l'emploi de projections et compositions
 itérées est qu'ils permettent parfois au programmeur de reconnaître
 certaines compositions qui peuvent être améliorées au moyen d'une
-équivalence. Par exemple, nous avons, pour toutes fonctions~\(F\) et~\(G\):
+équivalence. Par exemple, nous avons, pour toutes fonctions~\(F\)
+et~\(G\):
 \begin{equation*}
 \erlcode{map(\(F\),map(\(G\),\(S\)))}
 \equiv
@@ -3482,7 +3483,7 @@ droit a pour coût \(n+2\), donc il est supérieur à l'autre. Une autre
 premières clauses des définitions de \erlcode{foldl/3} et
 \erlcode{foldr/3} impliquent, pour tout \(F\)~et~\(A\),
 \begin{equation*}
-\erlcode{foldl(\(F\),\(A\),[])} \equiv A 
+\erlcode{foldl(\(F\),\(A\),[])} \equiv A
 \equiv \erlcode{foldr(\(F\),\(A\),[])}.
 \end{equation*}
 Pour des piles non-vides, cette équation signifie
@@ -3683,7 +3684,7 @@ sum2(S=[_|_]) -> foldr(fun(X,A) -> X+A end,0,S).
 \end{verbatim}
 simplement parce que l'addition est associative et symétrique.
 
-\paragraph{Codage fonctionnel des mappages}
+\paragraph{Codage fonctionnel des projections}
 \addcontentsline{toc}{subsection}{Codages fonctionnels}
 %\mypar{Mappings without association lists}
 
@@ -3694,7 +3695,7 @@ les listes d'association sont des collections de paires clé-valeur,
 réalisées simplement au moyen de piles, par exemple,
 \erlcode{[\{a,0\},\{b,1\},\{a,5\}]}.
 
-Un \emph{mappage} est une liste d'association qui est fouillée en
+Une \emph{projection} est une liste d'association qui est fouillée en
 fonction des clés. Typiquement, nous avons
 \begin{alltt}
 find(_,       []) -> absent;
@@ -3705,30 +3706,29 @@ Remarquons que si une clé est répétée, seule la première paire sera
 prise en compte, par exemple,
 \erlcode{find(a,[\{a,0\},\{b,1\},\{a,5\}])} résultera en~\erlcode{0},
 pas~\erlcode{5}. Ces paires sont appelées \emph{liaisons}. Supposons
-maintenant que nous voulions présenter symboliquement ce qu'est un
-mappage mais sans employer aucun langage de programmation
+maintenant que nous voulions présenter symboliquement ce qu'est une
+projection, mais sans employer aucun langage de programmation
 particulier. Dans ce cas, nous devons user des mathématiques pour
-exprimer le concept, plus précisément, des fonctions
-mathématiques.
+exprimer le concept, plus précisément, des fonctions mathématiques.
 
-Nous dirions qu'un mappage~\(M\) est une fonction d'un ensemble fini
-de valeurs~\(\mathcal{K}\) vers un ensemble fini de
+Nous dirions qu'une projection~\(M\) est une fonction d'un ensemble
+fini de valeurs~\(\mathcal{K}\) vers un ensemble fini de
 valeurs~\(\mathcal{V}\). Par conséquent, ce qui était précédemment la
 conjonction d'un type de donnée (une pile) et d'une recherche
-(\erlcode{find/2}) est maintenant une seule fonction, représentant le
-mappage \emph{et} la recherche en même temps. Une liaison \(x \mapsto
-y\) n'est qu'une autre notation pour la paire~\((x, y)\), où \(x \in
-\mathcal{K}\) et \(y \in \mathcal{V}\). Nous avons besoin alors
-d'exprimer comment un mappage est mis à jour, c'est-à-dire, comment un
-mappage est étendu avec une nouvelle liaison.
+(\erlcode{find/2}) est maintenant une seule fonction, représentant la
+projection \emph{et} la recherche en même temps. Une liaison \(x
+\mapsto y\) n'est qu'une autre notation pour la paire~\((x, y)\), où
+\(x \in \mathcal{K}\) et \(y \in \mathcal{V}\). Nous avons besoin
+alors d'exprimer comment une projection est mise à jour, c'est-à-dire,
+comment une projection est étendue avec une nouvelle liaison.
 
 Avec une pile, ceci est simplement réalisé en empilant une nouvelle
 paire mais, sans pile, nous dirions qu'une mise à jour est une
-fonction prenant un mappage et une liaison en arguments et calculant
-un nouveau mappage. \emph{Un mappage est donc une fonction d'ordre
-  supérieur.} Soit la fonction~\((\oplus)\) telle que \(M
-\mathrel{\oplus} x_1 \mapsto y\) est la \emph{mise à jour} du
-mappage~\(M\) par la liaison \(x_1 \mapsto y\), définie par
+fonction prenant une projection et une liaison en arguments et
+calculant une nouvelle projection. \emph{Une projection est donc une
+fonction d'ordre supérieur.} Soit la fonction~\((\oplus)\) telle que
+\(M \mathrel{\oplus} x_1 \mapsto y\) est la \emph{mise à jour} de la
+projection~\(M\) par la liaison \(x_1 \mapsto y\), définie par
 \begin{equation*}
 (M \mathrel{\oplus} x_1 \mapsto y)(x_2) :=
 \begin{cases}
@@ -3738,10 +3738,10 @@ mappage~\(M\) par la liaison \(x_1 \mapsto y\), définie par
 \end{equation*}
 Nous pouvons vérifier que nous trouvons la valeur associée à la
 première clé qui correspond à la donnée, comme nous nous y
-attendions. Le mappage vide serait une fonction spéciale retournant un
-symbol spécial signifiant «absent,» comme \(M_\varnothing(x) = \bot\),
-pour tout~\(x\). Le mappage contenant la liaison \((1,5)\) serait
-\(M_\varnothing \mathrel{\oplus} 1 \mapsto 5\).
+attendions. La projection vide serait une fonction spéciale retournant
+un symbol spécial signifiant «~absent,~» comme \(M_\varnothing(x) =
+\bot\), pour tout~\(x\). La projection contenant la liaison \((1,5)\)
+serait \(M_\varnothing \mathrel{\oplus} 1 \mapsto 5\).
 
 Tout ceci est très abstrait et indépendant de tout langage de
 programmation, tout en étant totalement précis. Si le besoin alors se
@@ -3749,19 +3749,19 @@ fait sentir de montrer comment cette définition peut être programmée,
 c'est l'occasion pour les langages fonctionnels de briller. Une mise à
 jour serait directement écrite en \Erlang ainsi:
 \begin{verbatim}
-update(M,{X1,Y}) -> fun(X2) -> case X2 of X1 -> Y; 
-                                           _ -> M(X2) 
+update(M,{X1,Y}) -> fun(X2) -> case X2 of X1 -> Y;
+                                           _ -> M(X2)
                                end
                     end.
 \end{verbatim}
 La correspondance avec la définition formelle est presque immédiate,
 il n'y a pas besoin d'introduire une structure de donnée et son
-interprétation, ni de prouver sa correction. Le mappage vide est
+interprétation, ni de prouver sa correction. La projection vide est
 simplement
 \begin{verbatim}
 empty(_) -> absent.
 \end{verbatim}
-Par exemple, le mappage représenté par la pile
+Par exemple, la projection représentée par la pile
 \erlcode{[\{a,0\},\{b,1\},\{a,5\}]} peut être modelé avec des
 fonctions d'ordre supérieur seulement ainsi:
 \begin{center}
@@ -3897,7 +3897,7 @@ devient l'accouplement:
 \begin{verbatim}
 push(X,S) -> {X,S}.
 \end{verbatim}
-Ce codage a été présenté à la \fig~\vref{fig_tuple_vs_stack} pour
+Ce codage a été présenté à la \fig~\vref{fig:tuple_vs_stack} pour
 économiser de la mémoire avec les accumulateurs linéaires. Ici, nous
 voulons aller plus loin et nous débarrasser des paires elles-mêmes par
 le biais de leur interprétation fonctionnelle vue plus haut, donc
@@ -3966,14 +3966,14 @@ codée, sinon un appelant confondrait la pile vide avec un
 
 De nombreuses fonctions ont besoin d'auxiliaires pour mener à bien des
 tâches secondaires ou discrètes. Par exemple, considérons la
-\fig~\vref{fig_len0} où \erlcode{len0/2} est la fonction
+\fig~\vref{fig:len0} où \erlcode{len0/2} est la fonction
 auxiliaire. Pour interdire son usage en dehors de la portée du module,
 elle doit être omise dans la clause \erlcode{-export} dans l'en-tête,
 mais elle pourrait toujours être appelée depuis l'intérieur du module
 où elle est définie. Pour éviter cela aussi, les fonctions anonymes
 sont utiles:
 \begin{alltt}
-len0(S) -> 
+len0(S) ->
   Len = fun(   [],N) -> N;
            ([\_|S],N) -> \textbf{Len}(S,N+1)\hfill% \emph{Ne compile pas}
         end,
@@ -4009,8 +4009,8 @@ avertissements suivants (nous avons écarté le numéro de ligne):
 \begin{center}
 \emph{\texttt{Warning: variable 'S' shadowed in 'fun'.}}
 \end{center}
-Ce qui signifie: «Avertissement: la variable \erlcode{S} est occultée
-par \erlcode{fun}.» Nous avons déjà vu cela auparavant,
+Ce qui signifie: «~Avertissement: la variable \erlcode{S} est occultée
+par \erlcode{fun}.~» Nous avons déjà vu cela auparavant,
 \vpageref{shadowing}. Ici, l'occultation est bénigne, parce qu'à
 l'intérieur de la fonction anonyme dénotée par~\erlcode{Len}, la
 valeur originelle de~\erlcode{S}, à savoir, l'argument de
@@ -4065,7 +4065,7 @@ mais, en \Erlang, les variables et les noms de fonctions sont deux
 catégories syntaxiques distinctes, donc il n'y a pas de contradiction
 dans les termes.) La voici à nouveau:
 \begin{alltt}
-len0(S) -> 
+len0(S) ->
  Len = fun(   [],N) -> N;
           ([\_|S],N) -> Len(S,N+1)\hfill% \emph{Malheureusement invalide}
        end,
@@ -4154,7 +4154,7 @@ Si nous supposons la propriété mathématique \(\forall x.f(x) = g(x)
 \erlcode{y(F)} \equiv \erlcode{F(y(F))},
 \end{equation*}
 qui, par définition, montre que \erlcode{y(F)} est un point fixe
-de~\erlcode{F}. Attention à 
+de~\erlcode{F}. Attention à
 \begin{alltt}
 y(F) -> F(y(F)).\hfill% \emph{Boucle infinie}
 \end{alltt}
@@ -4274,11 +4274,11 @@ aussi être mis en {\oe}uvre dans les langages impératifs, comme
   \textbf{return} n? n * ((\textbf{int} (*)(fp,\textbf{int}))f)(f,n-1) : 1; \}
 
 \textbf{int} read(\textbf{int} dec, \textbf{char} arg[]) \{
-  \textbf{return} ('0' <= *arg && *arg <= '9')? 
+  \textbf{return} ('0' <= *arg && *arg <= '9')?
          read(10*dec+(*arg - '0'),arg+1) : dec; \}
 
 \textbf{int main}(\textbf{int} argc, \textbf{char}** argv) \{
-  \textbf{if} (argc == 2) 
+  \textbf{if} (argc == 2)
      printf("%u\textbackslash{n}",fact(&fact,read(0,argv[1])));
   \textbf{else} printf("Un entier seulement.\textbackslash{n}");
   \textbf{return} 0;
@@ -4291,7 +4291,7 @@ aussi être mis en {\oe}uvre dans les langages impératifs, comme
 \mypar{Continuations}
 \index{langage fonctionnel!$\sim$ d'ordre supérieur!continuations|(}
 
-À la section~\ref{sec_into_tail_form}, la transformation en forme
+À la section~\ref{sec:into_tail_form}, la transformation en forme
 terminale est appliquée à des programmes de premier ordre, à savoir
 ceux sans fonctions d'ordre supérieur, et le résultat est un programme
 du premier ordre aussi. Ici, nous expliquons brièvement une
@@ -4300,7 +4300,7 @@ supérieur \emph{avec continuations} (anglais,
 \emph{continuation-passing style}, ou CPS). Le principal avantage est
 que les programmes sont plus courts. Le premier exemple était
 \erlcode{flat/1}: \verbatiminput{flat.def} En appliquant l'algorithme
-de la section~\ref{sec_into_tail_form}, la forme terminale était
+de la section~\ref{sec:into_tail_form}, la forme terminale était
 \begin{verbatim}
 flat_tf(T)         -> flat(T,[]).
 flat(       [],A)  -> appk([],A);
@@ -4439,8 +4439,8 @@ flat0\_k([Y=[\_|\_]|T],K) ->
               flat0\_k(T,fun(W) -> \textbf{cat\_k(V,W,\fbcode{HHH}\,)} end) end);
 \end{alltt}
 Finalement, nous devons mettre à contribution la
-continuation~\erlcode{K}: «Appeler~\erlcode{K} avec la valeur de
-\erlcode{cat(flat0(Y),flat0(T))}.» Parvenu à ce point, nous ne
+continuation~\erlcode{K}: «~Appeler~\erlcode{K} avec la valeur de
+\erlcode{cat(flat0(Y),flat0(T))}.~» Parvenu à ce point, nous ne
 connaissons pas la valeur de cet appel, donc nous devons
 passer~\erlcode{K} à \erlcode{cat\_k/3}, qui connaîtra cette valeur:
 \begin{alltt}
@@ -4498,13 +4498,13 @@ fib_k(N,K) ->
 avec continuations est aussi intéressant parce qu'il permet
 d'identifier certaines possibilités d'optimisation
 \citep{Danvy_2004}. Le dessein de \fun{sfst\(_0\)/2} à la
-\fig~\vref{fig_sfst0} était motivé par la nécessité de partager
+\fig~\vref{fig:sfst0} était motivé par la nécessité de partager
 l'entrée au cas où l'élément recherché était absent. Cette sorte
 d'amélioration est fréquente dans les algorithmes qui combinent une
 recherche et une mise à jour locale optionnelle. Par exemple,
 considérons à nouveau l'insertion de feuilles \emph{sans doublons}
 dans un arbre binaire de recherche\index{arbre binaire de recherche} à
-la \fig~\vref{fig_insl0}:
+la \fig~\vref{fig:insl0}:
 \begin{alltt}
 insl0(Y,\{bst,X,T1,T2\}) when X > Y -> \{bst,X,insl0(Y,T1),T2\};
 insl0(Y,\{bst,X,T1,T2\}) when Y > X -> \{bst,X,T1,insl0(Y,T2)\};
@@ -4565,8 +4565,8 @@ insl\_(Y,          ext)            -> \{bst,Y,ext,ext\};
 insl\_(Y,            T)            -> \textbf{throw(dup)}.
 \end{alltt}
 Ce style est préférable à celui avec continuations parce qu'il
-préserve presque tout le programme originel («style
-direct»). Néanmoins, ceci montre que les continuations sont utiles
+préserve presque tout le programme originel («~style
+direct~»). Néanmoins, ceci montre que les continuations sont utiles
 pour écrire un compilateur, pour éliminer des constructions comme les
 exceptions, du moment que les fonctions d'ordre supérieur sont
 disponibles \citep{Appel_1992}. Celles-ci, à leur tour, peuvent être
@@ -4603,11 +4603,11 @@ sur les continuations \citep{DanvyGoldberg_2001}:
 pal(S)               -> pal(S,S,fun(\_) -> true end).
 pal(    S,     [],K) -> K(S);\hfill% \emph{Longueur paire}
 pal([\_|S],    [\_],K) -> K(S);\hfill% \emph{Longueur impaire}
-pal([X|S],[\_,\_|T],K) -> 
+pal([X|S],[\_,\_|T],K) ->
 \hfill{}pal(S,T,fun([Y|U]) -> X == Y andalso K(U) end).
 \end{alltt}
 Nous réutilisons ici une idée que nous avons vue à la
-\fig~\vref{fig_tms}: dupliquer la référence à~\erlcode{S} et nous
+\fig~\vref{fig:tms}: dupliquer la référence à~\erlcode{S} et nous
 déplacer dans la seconde copie deux fois plus vite que dans la
 première (dernière clause); lorsque nous atteignons la fin de la
 seconde copie (première et deuxième clause de \erlcode{pal/3}), la
@@ -4659,7 +4659,7 @@ Un autre exemple divertissant est proposé encore par
 \cite{Danvy_1988,Danvy_1989}. Le but est de former tous les préfixes
 d'un mot, par exemple, \(\erlcode{allp([a,b,c,d])} \twoheadrightarrow
 \erlcode{[[a],[a,b],[a,b,c],[a,b,c,d]]}\), et le nom de la fonction,
-\erlcode{allp/1}, veut dire «tous les préfixes» en anglais (\emph{all
+\erlcode{allp/1}, veut dire «~tous les préfixes~» en anglais (\emph{all
   prefixes}). Trouver tous les suffixes en coût linéaire serait bien
 plus facile; en particulier, il est aisé de maximiser le partage de la
 mémoire à l'aide d'un synonyme:
@@ -4667,7 +4667,7 @@ mémoire à l'aide d'un synonyme:
 alls(     []) -> [];
 alls(S=[_|T]) -> [S|alls(T)].
 \end{verbatim}
-Le nom \erlcode{alls} veut dire «tous les suffixes» en anglais
+Le nom \erlcode{alls} veut dire «~tous les suffixes~» en anglais
 (\emph{all suffixes}). Nous avons \(\erlcode{alls([a,b,c,d])}
 \twoheadrightarrow \erlcode{[[a,b,c,d],[b,c,d],[c,d],[d]]}\) et aussi
 \(\C{\fun{alls}}{n} = n + 1\).
@@ -4679,8 +4679,8 @@ allp(S)       -> allp(S,fun(X) -> X end).
 allp(   [],_) -> [];
 allp([X|S],K) -> [K([X])|allp(S,fun(T) -> K([X|T]) end)].
 \end{verbatim}
-Une autre solution d'ordre supérieur s'appuie sur un mappage\!
-(page~\pageref{par_maps}):
+Une autre solution d'ordre supérieur s'appuie sur une projection
+(page~\pageref{par:maps}):
 \begin{verbatim}
 allp0(   []) -> [];
 allp0([X|S]) -> [[X]|map(fun(T) -> [X|T] end,allp0(S))].

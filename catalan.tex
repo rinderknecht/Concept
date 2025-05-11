@@ -1,18 +1,18 @@
 \chapter{Arbres de Catalan}
-\label{chap_Catalan}
+\label{chap:Catalan}
 
-Dans la partie~\ref{part_linear} de ce livre, nous traitons des
+Dans la partie~\ref{part:linear} de ce livre, nous traitons des
 structures linéaires, comme les piles et les files d'attente, mais,
 pour vraiment comprendre les programmes qui opèrent sur ces
 structures, nous avons besoin du concept d'arbre. C'est pourquoi nous
 avons présenté très tôt les arbres de syntaxe
 abstraite\index{arbre!$\sim$ de syntaxe abstraite}, les graphes
-orientés sans circuits (\fig~\vref{fig_cat_dag}), les arbres de
-comparaison (\fig~\vref{fig_cmp_tree}), les arbres binaires
-(\fig~\vref{fig_comp_tree}), les arbres de preuve
-(\fig~\vref{fig_perm_proof}), les arbres d'évaluation
-(\fig~\vref{fig_2way_unbal}) et les arbres d'interclassement
-(\fig~\vref{fig_bot_up1}). Ces arbres étaient des méta-objets, ou
+orientés sans circuits (\fig~\vref{fig:cat_dag}), les arbres de
+comparaison (\fig~\vref{fig:cmp_tree}), les arbres binaires
+(\fig~\vref{fig:comp_tree}), les arbres de preuve
+(\fig~\vref{fig:perm_proof}), les arbres d'évaluation
+(\fig~\vref{fig:2way_unbal}) et les arbres d'interclassement
+(\fig~\vref{fig:bot_up1}). Ces arbres étaient des méta-objets, ou
 concepts, employés pour comprendre la structure linéaire à l'étude.
 
 Dans ce chapitre, nous prenons un point de vue plus abstrait et nous
@@ -33,7 +33,7 @@ le coût de le traverser de différentes façons.
 % [0pt] of margin overhang
 \centering
 \includegraphics[bb=71 646 160 716]{catalan_tree}
-\caption{Arbre de Catalan de hauteur~5\label{fig_catalan_tree}}
+\caption{Arbre de Catalan de hauteur~5\label{fig:catalan_tree}}
 \end{wrapfigure}
 Les arbres de Catalan sont un type spécial de graphe, soit un objet
 constitué de \emph{n{\oe}uds} (appelés aussi \emph{sommets}) reliés
@@ -45,7 +45,7 @@ Catalan sont souvent appelés \emph{arbres ordonnés} (anglais,
 \emph{ordered trees} ou \emph{planted plane trees}), en théorie des
 graphes, et \emph{arbres généraux} (anglais, \emph{unranked trees}, ou
 \emph{\(n\)-ary trees}) en théorie de la programmation. Un exemple est
-donné à la \fig~\ref{fig_catalan_tree}. Remarquons que la racine est
+donné à la \fig~\ref{fig:catalan_tree}. Remarquons que la racine est
 le n{\oe}ud situé en haut de la figure et qu'elle possède quatre
 sous-arbres ordonnés, dont les racines sont nommées
 \emph{enfants}. Les n{\oe}uds dessinés comme des disques blancs
@@ -72,7 +72,7 @@ n{\oe}uds, ou bien nous comptons le nombre d'arcs. En fait, le choix
 de l'une ou l'autre mesure n'est dicté que par des considérations de commodité ou de style: il y a \(n\)~arcs s'il y a \(n+1\) n{\oe}uds, tout simplement parce que chaque n{\oe}ud, sauf la racine, possède un parent. Il arrive fréquemment que les formules à propos des arbres de Catalan soient un peu plus simples lorsqu'elles font référence au nombre d'arcs, donc ce sera là notre mesure de la taille dans ce chapitre.
 
 \section{Énumeration}
-\label{sec_Catalan_enumeration}
+\label{sec:Catalan_enumeration}
 
 Un grand nombre de manuels \cite[\S~5.1
 \&~5.2]{SedgewickFlajolet_1996} montre comment déterminer le nombre
@@ -95,13 +95,13 @@ objets doivent être aisément dénombrables.
 % {r} mandatory right placement
 % [0pt] of margin overhang
 \centering
-\subfloat[Chemin de Dyck\label{fig_dyck}]{%
+\subfloat[Chemin de Dyck\label{fig:dyck}]{%
   \includegraphics[bb=71 634 158 712]{dyck}}
 \quad
-\subfloat[Arbre de Catalan\label{fig_ctree}]{%
+\subfloat[Arbre de Catalan\label{fig:ctree}]{%
 \includegraphics[bb=65 663 127 721]{ctree}
 }
-\caption{Bijection\label{fig_bijection}}
+\caption{Bijection\label{fig:bijection}}
 \end{wrapfigure}
 Les objets qui conviennent le mieux à notre objectif sont ici les
 \emph{chemins monotones dans un trellis}, \index{chemin monotone dans
@@ -119,7 +119,7 @@ montrer qu'\emph{il existe une bijection entre les chemins de Dyck de
 \begin{wrapfigure}[7]{r}[0pt]{0pt}
 \centering
 \includegraphics[bb=71 661 128 720]{ctree_pre}
-\caption{\label{fig_ctree_pre}}
+\caption{\label{fig:ctree_pre}}
 \end{wrapfigure}
 Pour comprendre cette bijection, nous devons d'abord présenter un type
 particulier de \emph{parcours}\index{arbre!parcours}, ou
@@ -137,9 +137,9 @@ cette tournée et celle que nous envisagerons ici est dite un
 encore été emprunté et nous parcourons le sous-arbre correspondant en
 préordre; lorsque nous sommes de retour, nous itérons le choix avec
 les enfants qui restent. Pour plus de clarté, nous montrons à la
-\fig~\ref{fig_ctree_pre} la \emph{numérotation en
+\fig~\ref{fig:ctree_pre} la \emph{numérotation en
   préordre}\index{arbre!$\sim$ de Catalan!numérotation en préordre} de
-la \fig~\ref{fig_ctree}, où l'ordre dans lequel un n{\oe}ud est
+la \fig~\ref{fig:ctree}, où l'ordre dans lequel un n{\oe}ud est
 rencontré la première fois remplace le disque noir \((\bullet)\).
 
 La première partie de la bijection est une injection des arbres de
@@ -162,13 +162,13 @@ d'arbres de Catalan avec \(n\)~arcs.
 \centering
 \includegraphics[bb=71 591 186 721]{reflection}
 \caption{Réflexion d'un préfixe par rapport à \(y = x - 1\)
-\label{fig_reflection}}
+\label{fig:reflection}}
 \end{wrapfigure}
 Le nombre total de chemins monotones de longueur~\(2n\) est le nombre
 de choix de \(n\)~montées parmi \(2n\)~pas, soit
 \(\binom{2n}{n}\). Nous devons ensuite soustraire le nombre de chemins
 qui débutent par une montée et qui traversent la diagonale. Un tel
-chemin est montré à la \fig~\ref{fig_reflection}, dessiné avec un
+chemin est montré à la \fig~\ref{fig:reflection}, dessiné avec un
 trait continu et gras. Le premier point atteint sous la diagonale est
 utilisé pour tracer une ligne en pointillés parallèle à la
 diagonale. Tous les pas depuis ce point vers \((0,0)\) sont alors
@@ -183,7 +183,7 @@ vers leur contrepartie originelle. En d'autres termes, la réflexion
 est bijective. (Une autre approche visuelle et intuitive de ce même
 fait a été publiée par \cite{Callan_1995}.) Par conséquent, il y a
 autant de chemins monotones de \((0,0)\) à \((n,n)\) qui coupent la
-diagonale qu'il y a de chemins monotones de \((1,-1)\) à \((n,n)\). Ces derniers sont aisément énumérés: \(\binom{2n}{n-1}\). En conclusion, le nombre de chemins de Dyck de longueur~\(2n\) 
+diagonale qu'il y a de chemins monotones de \((1,-1)\) à \((n,n)\). Ces derniers sont aisément énumérés: \(\binom{2n}{n-1}\). En conclusion, le nombre de chemins de Dyck de longueur~\(2n\)
 est\label{eq_Ann}
 \begin{align*}
 C_n &= \binom{2n}{n} - \binom{2n}{n-1}
@@ -201,19 +201,19 @@ l'équation~\eqref{eq_Stirling} à la page~\pageref{eq_Stirling}, nous trouvons 
 \end{equation}
 
 \section{Hauteur moyenne}
-\label{sec_Catalan_height}
+\label{sec:Catalan_height}
 
 Comme mentionné plus haut, la \emph{hauteur} d'un arbre est le nombre
 de n{\oe}uds sur un chemin maximal de la racine à une feuille,
 c'est-à-dire un n{\oe}ud sans sous-arbres; par exemple, nous pouvons
 suivre vers le bas et compter les n{\oe}uds~\((\circ)\) dans la
-\fig~\ref{fig_catalan_tree}. Un arbre réduit à une unique feuille a
+\fig~\ref{fig:catalan_tree}. Un arbre réduit à une unique feuille a
 pour hauteur~\(0\).
 
 Nous commençons par l'observation clé qu'un arbre de Catalan avec
 \(n\)~arcs et de hauteur~\(h\) est en bijection avec un chemin de Dyck
 de longueur~\(2n\) \emph{et de hauteur \(h-1\)} (voir
-\fig~\vref{fig_catalan_tree} et \fig~\ref{fig_bijection}). Ce simple
+\fig~\vref{fig:catalan_tree} et \fig~\ref{fig:bijection}). Ce simple
 fait nous permet de raisonner sur la hauteur des chemins de Dyck et de
 transférer le résultat vers les arbres de Catalan de départ.
 
@@ -231,26 +231,26 @@ d'arbres avec \(n\)~arcs et de hauteur supérieure à~\(h\):
 S_n = \sum_{h \geqslant 1}h(A_{n,h}-A_{n,h-1})
     = \sum_{h \geqslant 1}h(B_{n,h-1}-B_{n,h}) = \sum_{h\geqslant 0} B_{n,h}.
 \label{eq_Sn}
-\end{equation} 
+\end{equation}
 
 Avec la détermination de~\(A_{n,h}\) en tête, considérons à la
-\fig~\ref{fig_height} un chemin de Dyck de longueur~\(2n\) et
+\fig~\ref{fig:height} un chemin de Dyck de longueur~\(2n\) et
 hauteur~\(h-1\).
 \begin{figure}[!b]
 \centering
 \subfloat[Chemin de Dyck de longueur~\(2n\) et
-de hauteur \(h-1\) \label{fig_height}]{
+de hauteur \(h-1\) \label{fig:height}]{
 \includegraphics[scale=0.9,bb=71 565 247 721]{height}}
 \quad
 \subfloat[Chemin de \(A\) à \(\Omega\) évitant \(y=x+s\) et
-\(y=x-t\)\label{fig_mohanty}]{
+\(y=x-t\)\label{fig:mohanty}]{
 \includegraphics[scale=0.9,bb=71 621 219 721]{mohanty}}
-\caption{Chemins évitant des frontières diagonales\label{fig_boundaries}}
+\caption{Chemins évitant des frontières diagonales\label{fig:boundaries}}
 \end{figure}
 Les lignes doubles sont des frontières qui ne peuvent être atteintes
 par le chemin. Ceci est en fait un cas particulier d'un chemin
 monotone entre deux frontières diagonales, comme on peut le voir à la
-\fig~\ref{fig_mohanty}, où \(s\)~dénote la distance verticale à partir
+\fig~\ref{fig:mohanty}, où \(s\)~dénote la distance verticale à partir
 de~\(A\), et \(t\)~est la distance horizontale à partir de~\(A\). Il
 est bien connu que le nombre de chemins monotones s'étendant
 de~\(A(0,0)\) à~\(\Omega(a,b)\) et évitant les frontières est
@@ -317,7 +317,7 @@ sa preuve ici parce qu'elle n'est pas facile à trouver de nos jours.
 \end{proof}
 
 En reprenant le fil de notre argumentation, si nous faisons se
-correspondre les figures dans la \fig~\ref{fig_boundaries}, nous
+correspondre les figures dans la \fig~\ref{fig:boundaries}, nous
 déduisons que \(s=h\), \(t=1\), \(a=b=n\), d'où \(a+b=2n\) et
 \(b+k(s+t)=n+k(h+1)\), que nous remplaçons dans la
 formule~\eqref{eq_mohanty} où nous changeons \(h\)~en \(h-1\):
@@ -364,7 +364,7 @@ peuvent être employées sur les chemins monotones dans des treillis, au
 lieu des arbres de Catalan \citep[page~64]{Kemp_1984}
 \citep{FlajoletNebelProdinger_2006}.
 
-\citet*{SedgewickFlajolet_1996} \citep{FlajoletSedgewick_2009} utilisent l'analyse combinatoire et l'analyse réelle pour obtenir l'approximation asymptotique de~\(B_{n,h}\). Ils écrivent~\cite[p.~260]{SedgewickFlajolet_1996}: «Cette analyse est la plus difficile de celles que nous menons dans ce livre. Elle combine des techniques pour résoudre des récurrences linéaires et des fractions continuées, des développements limités de fonctions génératrices, en particulier au moyen du théorème d'inversion de Lagrange, les approximations binomiales et les sommes d'Euler\--Maclaurin.» Il n'est pas possible d'entrer dans les détails ici, mais nous pouvons esquisser comment une approximation asymptotique peut être menée à bien.
+\citet*{SedgewickFlajolet_1996} \citep{FlajoletSedgewick_2009} utilisent l'analyse combinatoire et l'analyse réelle pour obtenir l'approximation asymptotique de~\(B_{n,h}\). Ils écrivent~\cite[p.~260]{SedgewickFlajolet_1996}: «~Cette analyse est la plus difficile de celles que nous menons dans ce livre. Elle combine des techniques pour résoudre des récurrences linéaires et des fractions continuées, des développements limités de fonctions génératrices, en particulier au moyen du théorème d'inversion de Lagrange, les approximations binomiales et les sommes d'Euler\--Maclaurin.~» Il n'est pas possible d'entrer dans les détails ici, mais nous pouvons esquisser comment une approximation asymptotique peut être menée à bien.
 
 L'équation~\eqref{eq_Sn} implique \(S_{n} = \sum_{h \geqslant 1}
 B_{n,h-1}\), d'où
@@ -380,7 +380,7 @@ approche consiste à exprimer les coefficients binomiaux en termes de
 \(\binom{2n}{n-kh}\) comme suit:
 \begin{align*}
 \binom{2n}{n-m+1} &= \frac{(2n)!}{(n-m+1)!\,(n+m-1)!}\\
-                  &= \frac{(2n)!\,(n+m)}{(n-m)!\,(n-m+1)(n+m)!} 
+                  &= \frac{(2n)!\,(n+m)}{(n-m)!\,(n-m+1)(n+m)!}
                    = \frac{n+m}{n-m+1}\binom{2n}{n-m},\\
 \binom{2n}{n-m-1} &= \frac{(2n)!}{(n-m-1)!\,(n+m+1)!}\\
                   &= \frac{(2n)!\,(n-m)}{(n-m)!\,(n+m)!\,(n+m+1)}
@@ -413,7 +413,7 @@ approximations précédentes diminuent exponentiellement, nous avons
 \begin{equation*}
 h_{n} \sim \sum_{h \geqslant 1}\sum_{k \geqslant 1}
 (4k^2h^2\!/n - 2)e^{-k^2h^2\!/n}
-= \sum_{h \geqslant 1}H(h/\!\sqrt{n}), 
+= \sum_{h \geqslant 1}H(h/\!\sqrt{n}),
 \end{equation*}
 avec \(H(x) := \sum_{k \geqslant
   1}(4k^2x^2-2)e^{-k^2x^2}\). Finalement,
@@ -459,19 +459,19 @@ qui sont comptés.)
 
 Le premier pas de notre méthode pour obtenir la longueur moyenne (des
 chemins) nécessite la définition d'une nouvelle bijection entre les
-arbres de Catalan et les chemins de Dyck. À la \fig~\vref{fig_ctree},
+arbres de Catalan et les chemins de Dyck. À la \fig~\vref{fig:ctree},
 nous voyons un arbre de Catalan équivalent au chemin de Dyck à la
-\fig~\ref{fig_dyck}, construit à partir du parcours en préordre de cet
-arbre. La \fig~\ref{fig_ctree_deg}
+\fig~\ref{fig:dyck}, construit à partir du parcours en préordre de cet
+arbre. La \fig~\ref{fig:ctree_deg}
 \begin{figure}
 \centering
-\subfloat[Chemin de Dyck\label{fig_dyck_deg}]{%
+\subfloat[Chemin de Dyck\label{fig:dyck_deg}]{%
   \includegraphics[bb=71 634 158 721]{dyck_deg}}
 \qquad
-\subfloat[Arbre de Catalan\label{fig_ctree_deg}]{%
+\subfloat[Arbre de Catalan\label{fig:ctree_deg}]{%
 \includegraphics[bb=58 660 140 721]{ctree_deg}
 }
-\caption{Bijection fondée sur les degrés\label{fig_bijection_deg}}
+\caption{Bijection fondée sur les degrés\label{fig:bijection_deg}}
 \end{figure}
 montre le même arbre, où le contenu des n{\oe}uds est leur degré. Le
 parcours en préordre (des degrés) est \([3,0,0,2,1,0,0]\). Puisque le
@@ -484,7 +484,7 @@ exemple, \(3\)~est traduit en (\(\uparrow, \uparrow, \uparrow,
 \([3,0,0,2,1,0]\) est traduit en \([\uparrow, \uparrow, \uparrow,
 \rightarrow, \rightarrow, \rightarrow, \uparrow, \uparrow,
 \rightarrow, \uparrow, \rightarrow, \rightarrow]\), ce qui correspond
-au chemin de Dyck à la \fig~\ref{fig_dyck_deg}. Il est aisé de se
+au chemin de Dyck à la \fig~\ref{fig:dyck_deg}. Il est aisé de se
 convaincre soi-même que nous pouvons reconstruire l'arbre à partir du
 chemin de Dyck, par conséquent, nous avons bien là une bijection.
 
@@ -495,24 +495,24 @@ longueur moyenne des chemins, en appliquant une idée de
 \cite{Ruskey_1983}. D'après la bijection, il est clair que le nombre
 d'arbres dont la racine a pour degré~\(r=3\) est le nombre de chemins
 de Dyck contenant le segment de \((0,0)\) à \((0,r)\), suivi d'une
-descente (voir le point \((1,r)\) à la \fig~\ref{fig_dyck_deg}), et
+descente (voir le point \((1,r)\) à la \fig~\ref{fig:dyck_deg}), et
 ensuite tous les chemins monotones au-dessus de la diagonale jusqu'au
 coin en haut à droite \((n,n)\).  Par conséquent, nous devons
 déterminer le nombre de ces chemins.
 
-Nous avons vu à la section~\vref{sec_Catalan_height} la réflexion
+Nous avons vu à la section~\vref{sec:Catalan_height} la réflexion
 bijective de chemins et l'énumération à l'aide du principe d'inclusion
 et d'exclusion. Ajoutons maintenant à notre arsenal une bijection de
 plus qui se révèle souvent utile: le \emph{retournement}. Elle
 consiste simplement à renverser l'ordre des pas constitutifs d'un
-chemin. Considérons par exemple la \fig~\ref{fig_path_reversal}.
+chemin. Considérons par exemple la \fig~\ref{fig:path_reversal}.
 \begin{figure}
 \centering
 \subfloat[Retournement de la
-\fig~\ref{fig_reflection} \label{fig_path_reversal}]{
+\fig~\ref{fig:reflection} \label{fig:path_reversal}]{
 \includegraphics[bb=71 606 188 721]{path_reversal}}
 \qquad
-\subfloat[Retournement et réflexion de la \fig~\ref{fig_dyck_deg} après \((1,3)\)\label{fig_path_deg}]{
+\subfloat[Retournement et réflexion de la \fig~\ref{fig:dyck_deg} après \((1,3)\)\label{fig:path_deg}]{
 \includegraphics[bb=62 634 168 721]{path_deg}}
 \caption{Retournements et réflexions}
 \end{figure}
@@ -521,13 +521,13 @@ la composition d'un retournement et d'une réflexion est bijective,
 donc les chemins monotones au-dessus de la diagonale de \((1,r)\) à
 \((n,n)\) sont en bijection avec les chemins monotones au-dessus de la
 diagonale de \((0,0)\) à \((n-r,n-1)\). Par exemple, la
-\fig~\ref{fig_path_deg} montre le retournement et la réflexion du
-chemin de Dyck de la \fig~\ref{fig_dyck_deg} après le point \((1,3)\),
+\fig~\ref{fig:path_deg} montre le retournement et la réflexion du
+chemin de Dyck de la \fig~\ref{fig:dyck_deg} après le point \((1,3)\),
 distingué par un disque noir (\(\bullet\)).
 
 En nous souvenant que les arbres de Catalan avec \(n\)~arcs sont en
 bijection avec les chemins de Dyck de longueur~\(2n\)
-(section~\vref{sec_Catalan_enumeration}), nous savons à présent que le
+(section~\vref{sec:Catalan_enumeration}), nous savons à présent que le
 nombre d'arbres de Catalan avec \(n\)~arcs et dont la racine a pour
 degré~\(r\) est le nombre de chemins monotones au-dessus de la
 diagonale du point \((0,0)\) à \((n-r,n-1)\). Nous pouvons trouver ce
@@ -546,7 +546,7 @@ termes, c'est le nombre d'interclassements de \(n\)~montées avec
 l'équation~\eqref{eq_Cn}, le nombre \(\mathcal{R}_n(r)\) d'arbres avec
 \(n\)~arcs et racine de degré~\(r\) est
 \begin{equation*}
-\mathcal{R}_n(r) = \binom{2n-r-1}{n-1} - \binom{2n-r-1}{n} 
+\mathcal{R}_n(r) = \binom{2n-r-1}{n-1} - \binom{2n-r-1}{n}
                  = \frac{r}{2n-r} \binom{2n-r}{n}.
 \end{equation*}
 
@@ -558,23 +558,23 @@ le met en relation avec \(\mathcal{R}_n(r)\) dans l'équation suivante:
 \begin{equation*}
 \mathcal{N}_n(l,d) = \mathcal{R}_{n+l}(2l+d).
 \end{equation*}
-À la \fig~\ref{fig_level_deg}
+À la \fig~\ref{fig:level_deg}
 \begin{figure}
 \centering
-\subfloat[\(n\)~arcs, (\(\bullet\)) de degré~\(d\) et niveau~\(l\) \label{fig_level_deg}]{%
+\subfloat[\(n\)~arcs, (\(\bullet\)) de degré~\(d\) et niveau~\(l\) \label{fig:level_deg}]{%
   \includegraphics[bb=71 594 150 721]{level_deg}}
 \quad
 \subfloat[\(n+l\) arcs, racine de degré~\(2l+d\)
-\label{fig_lifted_node}]{%
+\label{fig:lifted_node}]{%
 \includegraphics[bb=71 663 295 721]{lifted_node}
 }
-\caption{Bijection\label{fig_bij_root_level}}
+\caption{Bijection\label{fig:bij_root_level}}
 \end{figure}
 se trouve le motif général d'un arbre de Catalan avec un n{\oe}ud
 (\(\bullet\)) au niveau~\(d\) et de degré~\(d\). Les arcs doubles
 dénotent un ensemble d'arcs, donc \(\mathcal{L}_i\), \(\mathcal{R}_i\)
 et \(\mathcal{B}_i\) représentent en fait des forêts. À la
-\fig~\ref{fig_lifted_node}, nous voyons un arbre de Catalan en
+\fig~\ref{fig:lifted_node}, nous voyons un arbre de Catalan en
 bijection avec le premier, obtenu de celui-ci en élevant le n{\oe}ud
 qui nous intéresse (\(\bullet\)) pour en faire la racine, les forêts
 \(\mathcal{L}_i\) avec leurs parents respectifs sont attachées
@@ -644,7 +644,7 @@ et~\eqref{eq_Cn} \vpageref{eq_Cn}, alors
 \end{align*}
 La somme restante est facile à débloquer parce qu'elle est la somme de
 la moitié d'une ligne paire dans le triangle de Pascal. Nous voyons à
-la \fig~\vref{fig_pascal_triangle} que la première moitié égale la
+la \fig~\vref{fig:pascal_triangle} que la première moitié égale la
 seconde, seul l'élément central restant (il y a un nombre impair
 d'éléments dans une ligne paire). Ceci est vite vu:
 \(\sum_{j=0}^{n-1}\binom{2n}{j} = \sum_{j=0}^{n-1}\binom{2n}{2n-j} =

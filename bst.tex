@@ -16,7 +16,7 @@ t_2)\),\index{bst@\fun{bst/3}}
 \begin{wrapfigure}[7]{r}[0pt]{0pt}
 \centering
 \includegraphics[bb=68 661 123 721]{bst_ex}
-\caption{\label{fig_bst_ex}}
+\caption{\label{fig:bst_ex}}
 \end{wrapfigure}
 est un arbre binaire tel que la clé~\(x\) est supérieure aux clés
 de~\(t_1\) et inférieure aux clés de~\(t_2\). (Le n{\oe}ud externe
@@ -24,17 +24,17 @@ de~\(t_1\) et inférieure aux clés de~\(t_2\). (Le n{\oe}ud externe
 comparaison dépend de la nature des clés, mais doit être
 \emph{totale}, c'est-à-dire que toute clé est comparable avec
 n'importe quelle autre clé. Un exemple est donné à la
-\fig~\vref{fig_bst_ex}. Une conséquence immédiate est que le parcours
+\fig~\vref{fig:bst_ex}. Une conséquence immédiate est que le parcours
 infixe\index{arbre binaire!parcours infixe} d'un arbre binaire de
 recherche est toujours une pile triée par ordre croissant, par exemple
-\([3,5,11,13,17,29]\) pour l'arbre de la \fig~\ref{fig_bst_ex}
+\([3,5,11,13,17,29]\) pour l'arbre de la \fig~\ref{fig:bst_ex}
 ci-dessus.
 
 Cette propriété permet de vérifier simplement qu'un arbre binaire est
 en fait un arbre de recherche: effectuer un parcours infixe et ensuite
 vérifier l'ordre de la pile résultante. La fonction correspondante,
 \fun{bst\(_0\)/1}\index{bst0@\fun{bst\(_0\)/1}}, est lisible à la
-\fig~\vref{fig_bst0},
+\fig~\vref{fig:bst0},
 \begin{figure}[t]
 \begin{equation*}
 \boxed{
@@ -52,11 +52,11 @@ vérifier l'ordre de la pile résultante. La fonction correspondante,
 \end{array}}
 \end{equation*}
 \caption{Vérification na\"{\i}ve d'un arbre binaire de recherche
-\label{fig_bst0}}
+\label{fig:bst0}}
 \end{figure}
 où \fun{in\(_2\)/2}\index{in2@\fun{in\(_2\)/2}} est simplement une
 redéfinition de \fun{in/2}\index{in@\fun{in/2}} à la
-\fig~\vref{fig_in}. Donc, le coût de \(\fun{in}_2(t)\), quand
+\fig~\vref{fig:in}. Donc, le coût de \(\fun{in}_2(t)\), quand
 \(t\)~est de taille~\(n\), est \(\C{\fun{in}_2}{n} = \C{\fun{in}}{n} =
 2n + 2\).
 
@@ -88,7 +88,7 @@ comparé qu'une fois, avec la clé la plus grande, mais nous
 n'essaierons pas d'optimiser cela, par peur d'obscurcir le dessein.
 
 Le programme est montré à la
-\fig~\vref{fig_bst}.\index{bst@\fun{bst/1}}\index{bst1@\fun{bst\(_1\)/2}}
+\fig~\vref{fig:bst}.\index{bst@\fun{bst/1}}\index{bst1@\fun{bst\(_1\)/2}}
 \begin{figure}[t]
 \begin{equation*}
 \boxed{
@@ -96,7 +96,7 @@ Le programme est montré à la
   \fun{bst}(t) & \rightarrow & \fun{norm}(\fun{bst}_1(t,\fun{infty}())).\\
   \\
   \fun{bst}_1(\fun{ext}(),m) & \rightarrow & m;\\
-  \fun{bst}_1(\fun{bst}(x,t_1,t_2),m) & \rightarrow & 
+  \fun{bst}_1(\fun{bst}(x,t_1,t_2),m) & \rightarrow &
   \fun{cmp}(x,t_1,\fun{bst}_1(t_2,m)).\\
 \\
 \fun{cmp}(x,t_1,\fun{infty}()) & \rightarrow & \fun{bst}_1(t_1,x);\\
@@ -108,7 +108,7 @@ Le programme est montré à la
 \fun{norm}(m) & \rightarrow & \fun{true}().
 \end{array}}
 \end{equation*}
-\caption{Vérification d'un arbre binaire de recherche\label{fig_bst}}
+\caption{Vérification d'un arbre binaire de recherche\label{fig:bst}}
 \end{figure}
 Le paramètre~\(m\) représente la clé \emph{minimum} jusqu'à
 présent. Le seul but de \fun{norm/1}\index{norm@\fun{norm/1}} est de
@@ -148,7 +148,7 @@ configurations font l'affaire:
 & \xrightarrow{\smash{8}} \fun{false}(),
 \end{align*}
 où \(x \succcurlyeq y\). (Le deuxième arbre est la rotation à gauche
-du premier. Nous avons vu \vpageref{par_rotation} que les parcours
+du premier. Nous avons vu \vpageref{par:rotation} que les parcours
 infixes sont invariants par rotations.) Le coût minimum dans les deux
 cas est \(\B{\fun{bst}}{n} = 8\),\index{bst@$\B{\fun{bst}}{n}$} à
 contraster avec le coût linéaire \(\B{\fun{bst}_0}{n} = 2n +
@@ -165,26 +165,26 @@ que \(y \succ x\), alors nous la recherchons récursivement
 dans~\(t_2\); sinon, si \(x \succ y\), nous examinons~\(t_1\);
 finalement, si \(y = x\), c'est que nous venons de la trouver à la
 racine de l'arbre donné. La définition de \fun{mem/2} (anglais,
-\emph{membership}) est donnée à la \fig~\vref{fig_mem}.
+\emph{membership}) est donnée à la \fig~\vref{fig:mem}.
 \begin{figure}
 \begin{equation*}
 \boxed{
 \begin{array}{r@{\;}l@{\;}l}
 \fun{mem}(y,\fun{ext}()) & \rightarrow & \fun{false}();\\
 \fun{mem}(x,\fun{bst}(x,t_1,t_2)) & \rightarrow & \fun{true}();\\
-\fun{mem}(y,\fun{bst}(x,t_1,t_2)) & \rightarrow & 
+\fun{mem}(y,\fun{bst}(x,t_1,t_2)) & \rightarrow &
   \fun{mem}(y,t_1), \; \text{si \(x \succ y\)};\\
 \fun{mem}(y,\fun{bst}(x,t_1,t_2)) & \rightarrow &
   \fun{mem}(y,t_2).
 \end{array}}
 \end{equation*}
-\caption{Appartenance à un arbre binaire de recherche\label{fig_mem}}
+\caption{Appartenance à un arbre binaire de recherche\label{fig:mem}}
 \end{figure}
 Le point crucial est que nous ne sommes pas forcément amenés à visiter
 tous les n{\oe}uds. Plus précisément, si tous les n{\oe}uds sont
 visités, alors l'arbre est dégénéré\index{arbre binaire!$\sim$
   dégénéré}, à savoir, il est isomorphe à une pile, comme les arbres à
-la \fig~\vref{fig_tree_stack} et~\vref{fig_zigzag}. Il est évident que
+la \fig~\vref{fig:tree_stack} et~\vref{fig:zigzag}. Il est évident que
 le coût minimum d'une recherche positive (la clé est trouvée) se
 produit quand la clé est à la racine, donc
 \(\B{\fun{mem}}{n{\scriptscriptstyle (+)}} =
@@ -297,22 +297,22 @@ déterminer \(\M{\fun{mem}}{n{\scriptscriptstyle (+)}}\)
 l'équation~\eqref{eq_Mmem}.
 
 Mais avant, nous pourrions peut-être remarquer qu'à la
-\fig~\vref{fig_mem} nous n'avons pas suivi l'ordre des comparaisons
+\fig~\vref{fig:mem} nous n'avons pas suivi l'ordre des comparaisons
 tel que nous l'avions décrit. Dans le cas d'une recherche positive, la
 comparaison \(y = x\) est vraie exactement une fois, à la fin; par
 conséquent, la vérifier avant les autres, comme nous l'avons fait dans
-la deuxième règle à la \fig~\vref{fig_mem}, signifie qu'elle échoue
+la deuxième règle à la \fig~\vref{fig:mem}, signifie qu'elle échoue
 pour toute clé sur le chemin de recherche, sauf la dernière. Si nous
 mesurons le coût en tant que nombre d'appels de fonction, cela ne
 change rien, mais, si nous sommes intéressés par la minimisation du
 nombre de comparaisons d'une recherche, il est préférable de déplacer
 cette règle \emph{après} les autres tests d'inégalité, comme à la
-\fig~\vref{fig_mem0}.
+\fig~\vref{fig:mem0}.
 \begin{figure}
 \begin{equation*}
 \boxed{
 \begin{array}{r@{\;}l@{\;}l}
-\fun{mem}_0(y,\fun{bst}(x,t_1,t_2)) & \rightarrow & 
+\fun{mem}_0(y,\fun{bst}(x,t_1,t_2)) & \rightarrow &
   \fun{mem}_0(y,t_1), \; \text{si \(x \succ y\)};\\
 \fun{mem}_0(y,\fun{bst}(x,t_1,t_2)) & \rightarrow &
   \fun{mem}_0(y,t_2),\; \text{si \(y \succ x\)};\\
@@ -320,7 +320,7 @@ cette règle \emph{après} les autres tests d'inégalité, comme à la
 \fun{mem}_0(y,t) & \rightarrow & \fun{true}().
 \end{array}}
 \end{equation*}
-\caption{Chercher avec moins de comparaisons bivaluées\label{fig_mem0}}
+\caption{Chercher avec moins de comparaisons bivaluées\label{fig:mem0}}
 \end{figure}
 (Nous supposons qu'une égalité est vérifiée aussi vite qu'une
 inégalité.) Avec \fun{mem\(_0\)/2}\index{mem0@\fun{mem\(_0\)/2}}, le
@@ -334,8 +334,8 @@ chemin de recherche contient exactement un n{\oe}ud externe à la fin,
 donc il est probablement plus efficace de vérifier cela en dernier. En
 passant, tous les manuels dont nous avons connaissance supposent
 qu'une seule comparaison atomique avec trois résultats possibles (une
-\emph{comparaison trivaluée} résulte en «inférieur», «supérieur» ou
-«égal») a lieu, bien que les programmes qu'ils donnent emploient
+\emph{comparaison trivaluée} résulte en «~inférieur~», «~supérieur~» ou
+«~égal~») a lieu, bien que les programmes qu'ils donnent emploient
 explicitement les \emph{comparaisons bivaluées} \((=)\) et
 \((\succ)\). Ce point aveugle général rend toute analyse théorique
 fondée sur le nombre de comparaisons moins pertinente, parce que la
@@ -358,7 +358,7 @@ terminal est le même, mais le coût d'une recherche positive est plus
 élevé. Néanmoins, l'avantage est que \emph{l'égalité n'est pas testée
   à la descente}, seulement quand le n{\oe}ud externe est atteint,
 donc seulement une comparaison par n{\oe}ud est nécessaire. Le
-programme est montré à la \fig~\vref{fig_mem1}.
+programme est montré à la \fig~\vref{fig:mem1}.
 \begin{figure}
 \begin{equation*}
 \boxed{
@@ -375,7 +375,7 @@ programme est montré à la \fig~\vref{fig_mem1}.
 \fun{mem}_2(y,\fun{ext}(),c) & \rightarrow & \fun{false}().
 \end{array}}
 \end{equation*}
-\caption{Recherche à la Andersson (clé candidate)\label{fig_mem1}}
+\caption{Recherche à la Andersson (clé candidate)\label{fig:mem1}}
 \end{figure}
 La candidate est le troisième argument de
 \fun{mem\(_2\)/2}\index{mem2@\fun{mem\(_2\)/2}} et sa première valeur
@@ -385,7 +385,7 @@ seule différence conceptuelle avec
 \fun{mem\(_0\)/2}\index{mem0@\fun{mem\(_0\)/2}} est la manière dont
 une recherche positive est identifiée: si, quelque part lors de la
 descente, \(x = y \), alors \(x\)~devient la candidate et elle sera
-passée aux autres appels («vers le bas») jusqu'à un n{\oe}ud externe
+passée aux autres appels («~vers le bas~») jusqu'à un n{\oe}ud externe
 où \(x = x\).
 
 Le pire des cas se produit quand l'arbre est dégénéré\index{arbre
@@ -393,13 +393,13 @@ Le pire des cas se produit quand l'arbre est dégénéré\index{arbre
 comparaisons bivaluées, soit \(\OW{\fun{mem}_1}{n} = n +
 1\),\index{mem1@$\OW{\fun{mem}_1}{n}$} d'après les notations que nous
 avons utilisées dans l'analyse du tri par interclassement\index{tri
-  par interclassement}, au chapitre~\ref{chap_merge_sort}
-\vpageref{chap_merge_sort}.
+  par interclassement}, au chapitre~\ref{chap:merge_sort}
+\vpageref{chap:merge_sort}.
 
 Dans le cas de \fun{mem\(_0\)/2}, l'appel récursif au sous-arbre droit
 entraîne deux fois plus de comparaisons qu'au sous-arbre gauche, donc
 le pire des cas est un arbre dégénéré penchant à droite, comme celui à
-la \fig~\vref{fig_min_pre0}, tous les n{\oe}uds internes étant
+la \fig~\vref{fig:min_pre0}, tous les n{\oe}uds internes étant
 visités: \(\OW{\fun{mem}_0}{n} = 2n\).\index{mem0@$\OW{\fun{mem}_0}{n}$}
 
 Dans le cas de \fun{mem/2}, le nombre de comparaisons est symétrique
@@ -408,7 +408,7 @@ arbre dégénéré dans lequel une recherche négative amène à visiter tous
 les n{\oe}uds internes et un n{\oe}ud externe: \(\OW{\fun{mem}}{n} =
 2n + 1\).\index{mem@$\OW{\fun{mem}}{n}$} Asymptotiquement, nous avons
 \begin{equation*}
-\OW{\fun{mem}}{n} \sim \OW{\fun{mem}_0}{n} 
+\OW{\fun{mem}}{n} \sim \OW{\fun{mem}_0}{n}
 \sim 2 \cdot \OW{\fun{mem}_1}{n}.
 \end{equation*}
 
@@ -433,7 +433,7 @@ Finalement, nous pouvons simplifier le programme d'Andersson en nous
 débarrassant du test de la valeur \(\fun{ext}()\) au début de
 \fun{mem\(_1\)/2}.\index{mem1@\fun{mem\(_1\)/2}} Nous devons alors
 simplement avoir un sous-arbre candidat, dont la racine est la clé
-candidate dans le programme originel. Voir \fig~\vref{fig_mem3}
+candidate dans le programme originel. Voir \fig~\vref{fig:mem3}
 \begin{figure}
 \begin{equation*}
 \boxed{
@@ -448,7 +448,7 @@ candidate dans le programme originel. Voir \fig~\vref{fig_mem3}
 \fun{mem}_4(y,\fun{ext}(),t) & \rightarrow & \fun{false}().
 \end{array}}
 \end{equation*}
-\caption{Recherche à la Andersson (arbre candidat)\label{fig_mem3}}
+\caption{Recherche à la Andersson (arbre candidat)\label{fig:mem3}}
 \end{figure}
 où nous avons \(\OW{\fun{mem}_3}{n} = \OW{\fun{mem}_1}{n} = n + 1\).
 Cette version ne devrait être privilégiée que si le langage de
@@ -464,7 +464,7 @@ lecture de \cite{Spuler_1992}.
 
 
 \section{Insertion}
-\label{sec_bst_insertion}
+\label{sec:bst_insertion}
 
 \mypar{Insertion de feuilles}\index{arbre binaire de
   recherche!insertion de feuilles|(}
@@ -472,7 +472,7 @@ lecture de \cite{Spuler_1992}.
 Puisque toutes les recherches se terminent à un n{\oe}ud externe, il
 est extrêmement tentant de commencer l'insertion d'une clé distincte
 par une recherche négative et ensuite remplacer le n{\oe}ud externe
-par une feuille contenant la clé à ajouter. La \fig~\vref{fig_insl}
+par une feuille contenant la clé à ajouter. La \fig~\vref{fig:insl}
 \begin{figure}[b]
 \begin{equation*}
 \boxed{
@@ -484,13 +484,13 @@ par une feuille contenant la clé à ajouter. La \fig~\vref{fig_insl}
 \fun{insl}(y,\fun{ext}()) & \xrightarrow{\smash{\phi}} & \fun{bst}(y,\fun{ext}(),\fun{ext}()).
 \end{array}}
 \end{equation*}
-\caption{Insertion de feuilles avec doublons possibles\label{fig_insl}}
+\caption{Insertion de feuilles avec doublons possibles\label{fig:insl}}
 \end{figure}
 montre le programme pour \fun{insl/2}\index{insl@\fun{insl/2}}
 (anglais, \emph{insert a leaf}). Remarquons qu'il permet la présence
 de clés en doublon, ce qui complique considérablement l'analyse du
 coût \citep{Burge_1976,ArchibaldClement_2006,Pasanen_2010}.  La
-\fig~\vref{fig_insl0}
+\fig~\vref{fig:insl0}
 \begin{figure}
 \begin{equation*}
 \boxed{
@@ -504,13 +504,13 @@ coût \citep{Burge_1976,ArchibaldClement_2006,Pasanen_2010}.  La
 \fun{insl}_0(y,t) & \rightarrow & t.
 \end{array}}
 \end{equation*}
-\caption{Insertion de feuilles sans doublons\label{fig_insl0}}
+\caption{Insertion de feuilles sans doublons\label{fig:insl0}}
 \end{figure}
 montre une variante qui maintient l'unicité des clés, basée sur la
 définition de \fun{mem\(_0\)/2}\index{mem0@\fun{mem\(_0\)/2}} à la
-\fig~\vref{fig_mem0}. Nous pouvons aussi réutiliser la recherche à la
+\fig~\vref{fig:mem0}. Nous pouvons aussi réutiliser la recherche à la
 Andersson pour inspirer une autre solution à la
-\fig~\vref{fig_insl1}.\index{insl1@\fun{insl/1}}
+\fig~\vref{fig:insl1}.\index{insl1@\fun{insl/1}}
 %\bigskip
 %\bigskip
 %\bigskip
@@ -528,7 +528,7 @@ Andersson pour inspirer une autre solution à la
 \fun{insl}_2(y,\fun{ext}(),t) & \rightarrow & \fun{bst}(y,\fun{ext}(),\fun{ext}()).
 \end{array}}
 \end{equation*}
-\caption{Insertion à la Andersson\label{fig_insl1}}
+\caption{Insertion à la Andersson\label{fig:insl1}}
 \end{figure}
 
 \mypar{Coût moyen}
@@ -554,7 +554,7 @@ identifiées, laissant l'arbre de recherche invariant.)
 
 \hspace*{-3pt} Définissons une fonction \fun{mkl/1}\index{mkl@\fun{mkl/1}}
 \index{mkl@\fun{mkl/2}} (anglais, \emph{make leaves}) à la
-\fig~\vref{fig_mkl}
+\fig~\vref{fig:mkl}
 \begin{figure}
 \begin{equation*}
 \boxed{
@@ -564,7 +564,7 @@ identifiées, laissant l'arbre de recherche invariant.)
 & & & \fun{mkl}(\cons{x}{s},t) & \xrightarrow{\smash{\omega}} & \fun{mkl}(s,\fun{insl}(x,t)).
 \end{array}}
 \end{equation*}
-\caption{Créer un arbre avec des insertions de feuilles\label{fig_mkl}}
+\caption{Créer un arbre avec des insertions de feuilles\label{fig:mkl}}
 \end{figure}
 qui construit un arbre binaire de recherche en insérant des feuilles
 dont le contenu est donné dans une pile. Remarquons que nous pourrions
@@ -652,7 +652,7 @@ Cette équation est facile si nous soustrayons son instance \(n-1\):
 \begin{equation*}
 \abovedisplayskip=6pt
 \belowdisplayskip=6pt
-2 + \M{\fun{mem}}{n-1{\scriptscriptstyle(-)}} = 
+2 + \M{\fun{mem}}{n-1{\scriptscriptstyle(-)}} =
 (n+1) \M{\fun{mem}}{n{\scriptscriptstyle (-)}}
 - n \M{\fun{mem}}{n-1{\scriptscriptstyle (-)}}.
 \end{equation*}
@@ -698,7 +698,7 @@ de \(\M{\fun{mem}}{n{\scriptscriptstyle(-)}}\) et
 différence plutôt que leur rapport:
 \begin{equation*}
 \M{\fun{mem}}{n{\scriptscriptstyle (-)}} -
-\M{\fun{mem}}{n{\scriptscriptstyle (+)}} = 
+\M{\fun{mem}}{n{\scriptscriptstyle (+)}} =
 \frac{2}{n}(n + 1 - H_{n+1}) \sim 2
 \quad\text{et}\quad
 1 \leqslant \M{\fun{mem}}{n{\scriptscriptstyle (-)}} -
@@ -738,7 +738,7 @@ arbres binaires normaux.
 
 Si nous nous intéressons à des résultats un petit plus théoriques,
 nous pourrions rechercher le nombre moyen de comparaisons pour une
-recherche et une insertion. Un coup d'{\oe}il à la \fig~\vref{fig_mem}
+recherche et une insertion. Un coup d'{\oe}il à la \fig~\vref{fig:mem}
 révèle que deux comparaisons bivaluées par n{\oe}ud interne sont
 effectuées à la descente et une comparaison bivaluée (égalité) est
 faite si la clé est atteinte, sinon aucune:
@@ -765,7 +765,7 @@ Clairement, nous avons \(\OM{\fun{mem}}{n{\scriptscriptstyle(+)}} \sim
 \OM{\fun{mem}}{n{\scriptscriptstyle(-)}} \sim 4\ln n\). De plus,
 \begin{equation*}
 \OM{\fun{mem}}{n{\scriptscriptstyle (-)}} -
-\OM{\fun{mem}}{n{\scriptscriptstyle (+)}} = 
+\OM{\fun{mem}}{n{\scriptscriptstyle (+)}} =
 \frac{4}{n+1} - \frac{4}{n}H_n + 3 \sim 3
 \quad\text{et}\quad
 1 \leqslant \OM{\fun{mem}}{n{\scriptscriptstyle (-)}} -
@@ -778,7 +778,7 @@ sont faciles à déduire aussi, grâce aux
 et~\eqref{eq_Mmem_fail} à la page~\pageref{eq_Mmem_fail}:
 \(\M{\fun{mem}_3}{n} = 2H_{n+1} \sim 2 \ln
 n\).\index{mem3@$\M{\fun{mem}_3}{n}$} Un retour sur la
-\fig~\vref{fig_mem3} met en exergue qu'une comparaison bivaluée (\(x
+\fig~\vref{fig:mem3} met en exergue qu'une comparaison bivaluée (\(x
 \succ y\)) est effectuée en descendant dans l'arbre et une de plus
 pour l'arrêt à un n{\oe}ud externe, que la recherche soit positive ou
 non:
@@ -822,10 +822,10 @@ Le pire des cas pour l'insertion d'une feuille se produit quand
 l'arbre de recherche est dégénéré\index{arbre binaire!$\sim$ dégénéré}
 et la clé à insérer devient la feuille la plus éloignée de la racine.
 Si l'arbre a pour taille~\(n\), alors \(n+1\) appels sont effectués,
-comme nous pouvons le voir à la \fig~\vref{fig_insl}, donc
+comme nous pouvons le voir à la \fig~\vref{fig:insl}, donc
 \(\W{\fun{insl}}{n} = n + 1\)\index{insl@$\W{\fun{insl}}{n}$} et
 \(\OW{\fun{insl}}{n} = n\).\index{insl@$\OW{\fun{insl}}{n}$} Dans le
-cas de l'insertion à la Andersson, à la \fig~\vref{fig_insl1}, le pire
+cas de l'insertion à la Andersson, à la \fig~\vref{fig:insl1}, le pire
 des cas est identique mais il y a un appel supplémentaire pour
 initialiser la clé candidate, d'où \(\W{\fun{insl}_1}{n} = n +
 2\).\index{insl1@$\W{\fun{insl}_1}{n}$} De plus, le nombre de
@@ -863,12 +863,12 @@ possible si l'arbre croît comme un arbre parfait\index{arbre
   binaire!$\sim$ parfait} ou presque parfait.\index{arbre
   binaire!$\sim$ presque parfait} Un arbre parfait est un arbre dont
 les n{\oe}uds externes appartiennent au même niveau, une configuration
-que nous avons déjà rencontrée \vpageref{par_perfection} (l'arbre est
+que nous avons déjà rencontrée \vpageref{par:perfection} (l'arbre est
 contenu sans vide dans un triangle isocèle); un arbre presque parfait
 est un arbre dont les n{\oe}uds externes sont sur deux niveaux
 consécutifs et nous avons vu ce genre d'arbre au paragraphe consacré
 aux arbres de comparaison et à la minimisation du coût moyen du tri
-\vpageref{par_opt_sort_minimean}.
+\vpageref{par:opt_sort_minimean}.
 
 Supposons d'abord que l'arbre est parfait, de taille~\(n\) et
 hauteur~\(h\).\index{arbre binaire!hauteur} La hauteur est la
@@ -988,8 +988,8 @@ de ces rotations fait monter la feuille jusqu'à la racine. La rotation
 à droite, \fun{rotr/1}\index{rotr@\fun{rotr/1}} (anglais, \emph{rotate
   right}) et à gauche, \fun{rotl/1}\index{rotl@\fun{rotl/1}} (anglais,
 \emph{rotate left}),\index{arbre binaire!rotation} ont été discutées à
-la section~\ref{sec_traversals} \vpageref{par_rotation} et sont
-définies à la \fig~\vref{fig_rotations}.
+la section~\ref{sec:traversals} \vpageref{par:rotation} et sont
+définies à la \fig~\vref{fig:rotations}.
 \begin{figure}[b]
 \begin{equation*}
 \boxed{
@@ -1000,7 +1000,7 @@ définies à la \fig~\vref{fig_rotations}.
 & \xrightarrow{\smash{\zeta}} & \fun{bst}(y,\fun{bst}(x,t_1,t_2),t_3).
 \end{array}}
 \end{equation*}
-\caption{Rotation à droite (\(\smash{\epsilon}\)) et à gauche (\(\smash{\zeta}\))\label{fig_rotations}}
+\caption{Rotation à droite (\(\smash{\epsilon}\)) et à gauche (\(\smash{\zeta}\))\label{fig:rotations}}
 \end{figure}
 Clairement, elles commutent et sont inverses l'une de l'autre:
 \begin{equation*}
@@ -1018,7 +1018,7 @@ De plus, bien que moins évident, elle préservent les parcours infixes:
 où \fun{in\(_3\)/1}\index{in3@\fun{in\(_3\)/1}} calcule le parcours
 infixe d'un arbre: \(\fun{in}_3(t) \rightarrow \fun{in}_2(t,\el)\), et
 \fun{in\(_2\)/2}\index{in2@\fun{in\(_2\)/2}} est définie à la
-\fig~\vref{fig_bst0}. Ce théorème est relié de façon inhérente à
+\fig~\vref{fig:bst0}. Ce théorème est relié de façon inhérente à
 \(\pred{Rot}{x,y,t_1,t_2,t_3}\)\index{Rot@\predName{Rot}},
 \vpageref{def_Rot}, et il est facile à démontrer, sans recours à
 l'induction. D'abord, nous remarquons que si \(\fun{in}_3(t) \equiv
@@ -1028,7 +1028,7 @@ donne \(\fun{in}_3(\fun{rotr}(t)) \equiv
 nous n'avons besoin de prouver que \(\fun{in}_3(\fun{rotl}(t)) \equiv
 \fun{in}_3(t)\). Puisque le membre gauche est plus grand, nous
 devrions essayer de le réécrire en le membre droit. Les réécritures à
-la \fig~\vref{fig_in_rotr} supposent une rotation gauche, donc l'arbre
+la \fig~\vref{fig:in_rotr} supposent une rotation gauche, donc l'arbre
 a la forme \(t=\fun{bst}(x,t_1,\fun{bst}(y,t_2,t_3))\).
 \begin{figure}
   \begin{equation*}
@@ -1055,21 +1055,21 @@ a la forme \(t=\fun{bst}(x,t_1,\fun{bst}(y,t_2,t_3))\).
 }
 \end{equation*}
 \caption{Preuve de \(\fun{in}_3(\fun{rotl}(t)) \equiv
-  \fun{in}_3(t)\)\label{fig_in_rotr}}
+  \fun{in}_3(t)\)\label{fig:in_rotr}}
 \end{figure}
 Si nous appliquons une rotation à des sous-arbres, comme nous l'avons
-fait, par exemple, à la \fig~\vref{fig_rot}, le même théorème implique
+fait, par exemple, à la \fig~\vref{fig:rot}, le même théorème implique
 que le parcours infixe de l'arbre en entier est invariant.
 
 Un corollaire est que les rotations laissent inchangée la propriété
-d'être un arbre binaire de recherche (\fig~\vref{fig_bst}):
+d'être un arbre binaire de recherche (\fig~\vref{fig:bst}):
 \begin{equation*}
 \abovedisplayskip=5pt
 \belowdisplayskip=5pt
 \fun{bst}(\fun{rotl}(t)) \equiv \fun{bst}(\fun{rotr}(t)) \equiv \fun{bst}(t).
 \end{equation*}
 En effet, en supposant que \fun{bst/1} est la spécification de
-\fun{bst\(_0\)/1} à la \fig~\vref{fig_bst0}, et que celle-ci est
+\fun{bst\(_0\)/1} à la \fig~\vref{fig:bst0}, et que celle-ci est
 correcte, à savoir \(\fun{bst}(t) \equiv \fun{bst}_0(t)\), il est
 assez aisé de démontrer notre théorème, avec l'aide du théorème
 précédent \(\fun{in}_3(\fun{rotl}(t)) \equiv \fun{in}_3(t)\), qui
@@ -1085,13 +1085,13 @@ alors:
 \end{equation*}
 
 Considérons maintenant un exemple d'insertion d'une racine à la
-\fig~\vref{fig_insr_ex}, où l'arbre de la \fig~\vref{fig_bst_ex} est
+\fig~\vref{fig:insr_ex}, où l'arbre de la \fig~\vref{fig:bst_ex} est
 augmenté avec~\(7\).
 \begin{figure}
 \centering
 \includegraphics[bb=71 641 406 724]{insr_ex}%[bb=71 645 406 718]
-\caption{Insertion de la racine \(7\) dans la \fig~\vref{fig_bst_ex}
-\label{fig_insr_ex}}
+\caption{Insertion de la racine \(7\) dans la \fig~\vref{fig:bst_ex}
+\label{fig:insr_ex}}
 \end{figure}
 Remarquons que la clôture transitive \((\twoheadrightarrow)\) capture
 l'insertion de feuille préliminaire, que
@@ -1099,7 +1099,7 @@ l'insertion de feuille préliminaire, que
 \((\xrightarrow{\smash{\zeta}})\) est une rotation à gauche. Il ne
 s'agit maintenant que de simplement modifier la définition de
 \fun{insl/2} pour qu'elle devienne l'insertion de racine sous le nom
-de \fun{insr/2}, à la \fig~\vref{fig_insr}.
+de \fun{insr/2}, à la \fig~\vref{fig:insr}.
 \begin{figure}
 \begin{equation*}
 \boxed{
@@ -1112,14 +1112,14 @@ de \fun{insr/2}, à la \fig~\vref{fig_insr}.
 \fun{insr}(y,\fun{ext}()) & \xrightarrow{\smash{\iota}} & \fun{bst}(y,\fun{ext}(),\fun{ext}()).
 \end{array}}
 \end{equation*}
-\caption{Insertion de racine avec doublons possibles\label{fig_insr}}
+\caption{Insertion de racine avec doublons possibles\label{fig:insr}}
 \end{figure}
 Notons que nous pouvons éviter de créer les n{\oe}uds internes
 temporaires \(\fun{bst}(x,\dots,t_2)\) et \(\fun{bst}(x,t_1,\dots)\)
 en modifiant \fun{rotl/1} et \fun{rotr/1} de telle sorte qu'elles
 prennent trois arguments (\fun{rotl\(_0\)/3} et \fun{rotr\(_0\)/3}),
 comme on le voit avec la nouvelle version \fun{insr\(_0\)/2} à la
-\fig~\ref{fig_insr0}.
+\fig~\ref{fig:insr0}.
 \begin{figure}[b]
 \begin{equation*}
 \boxed{
@@ -1138,7 +1138,7 @@ comme on le voit avec la nouvelle version \fun{insr\(_0\)/2} à la
 & \rightarrow & \fun{bst}(y,\fun{bst}(x,t_1,t_2),t_3).
 \end{array}}
 \end{equation*}
-\caption{Insertion de racine avec doublons possibles (bis)\label{fig_insr0}}
+\caption{Insertion de racine avec doublons possibles (bis)\label{fig:insr0}}
 \end{figure}
 
 Une comparaison entre les insertions de feuille et de racine révèle
@@ -1158,7 +1158,7 @@ par insertion de racines ou de feuilles parce que
 \end{equation}
 où \fun{mkr/1}\index{mkr@\fun{mkr/1}} \index{mkr@\fun{mkr/2}}
 (anglais, \emph{make roots}) est aisément définie à la
-\fig~\vref{fig_mkr}.
+\fig~\vref{fig:mkr}.
 \begin{figure}
 \begin{equation*}
 \boxed{
@@ -1170,7 +1170,7 @@ où \fun{mkr/1}\index{mkr@\fun{mkr/1}} \index{mkr@\fun{mkr/2}}
 \end{array}}
 \end{equation*}
 \caption{Créer des arbres avec des insertions de racines
-\label{fig_mkr}}
+\label{fig:mkr}}
 \end{figure}
 Remarquons que cela équivaut à affirmer \(\fun{mkr}(s) \equiv
 \fun{mklR}(s)\), où \fun{mklR/1} est définie par
@@ -1192,7 +1192,7 @@ Nous commençons par remarquer que \(\pred{RootLeaf}{s}\) équivaut à
 \index{RootLeaf0@\predName{RootLeaf\(_0\)}}
 \end{equation*}
 où \fun{rev\(_0\)/1} est définie au début de la
-section~\vref{sec_reversal}, où nous prouvons \(\pred{EqRev}{s} \colon
+section~\vref{sec:reversal}, où nous prouvons \(\pred{EqRev}{s} \colon
 \fun{rev}_0(s) \equiv \fun{rev}(s)\).\index{EqRev@\predName{EqRev}}
 C'est souvent une bonne idée d'employer \fun{rev\(_0\)/1} dans des
 preuves inductives parce que la règle~\(\smash{\delta}\) définit
@@ -1256,7 +1256,7 @@ devront être démontrés ultérieurement. Nous avons:
   \fun{insl}(x,\fun{mkr}(s,\fun{ext}()))\\
 & \equiv_1 & \fun{mkr}(s,\fun{insl}(x,\fun{ext}()))
 & (\text{Lemme})\\
-& \xrightarrow{\smash{\phi}} & 
+& \xrightarrow{\smash{\phi}} &
   \fun{mkr}(s,\fun{bst}(x,\fun{ext}(),\fun{ext}()))\\
 & \xleftarrow{\smash{\iota}} &
   \fun{mkr}(s,\fun{insr}(x,\fun{ext}()))\\
@@ -1339,7 +1339,7 @@ même terme:
            & (\pred{MkrInsr}{x,s,\fun{insr}(y,t)}\!)\\
 & \equiv_2 & \fun{mkr}(s,\fun{insr}(y,\fun{insl}(x,t)))
            & (\text{Lemme})\\
-& \Lla{\mu} & 
+& \Lla{\mu} &
   \fun{mkr}(\cons{y}{s},\fun{insl}(x,t)).
 & \hfill\Box
 \end{array}
@@ -1380,7 +1380,7 @@ avons l'analyse par cas suivante:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{\quad}r@{}}
 \otimes
-& \xrightarrow{\smash{\upsilon}} & 
+& \xrightarrow{\smash{\upsilon}} &
   \fun{bst}(y,\fun{ext}(),\fun{insl}(x,\fun{ext}()))
 & (x \succ y)\\
 & \xrightarrow{\smash{\phi}} &
@@ -1442,18 +1442,18 @@ Deux cas complémentaires font surface: \(a \succ x\) ou \(x \succ a\).
         \otimes & \Rra{\eta} &
         \fun{rotr}(\fun{bst}(a,\fun{insr}(y,\fun{insl}(x,t_1)),t_2))
         & (a \succ y)\\
-        & \equiv_2 & \fun{rotr}(\fun{bst}(a,\fun{insl}(x,  
+        & \equiv_2 & \fun{rotr}(\fun{bst}(a,\fun{insl}(x,
         \fun{insr}(y,t_1)),t_2)) & (\pred{Ins}{x,y,t_1})\\
         & \Lla{\tau} & \fun{rotr}(\fun{insl}(x,
         \fun{bst}(a,\fun{insr}(y,t_1),t_2)))\\
         & \equiv & \fun{rotr}(\fun{insl}(x,
         \fun{rotl}(\fun{rotr}(\fun{bst}(a,\fun{insr}(y,t_1),t_2)))))\\
         & \xleftarrow{\smash{\eta}} &
-        \fun{rotr}(\fun{insl}(x,\fun{rotl}(\fun{insr}(y, 
+        \fun{rotr}(\fun{insl}(x,\fun{rotl}(\fun{insr}(y,
         \fun{bst}(a,t_1,t_2)))))\\
         & = & \fun{rotr}(\fun{insl}(x,\fun{rotl}(\fun{insr}(y,t))))
         & (t=\fun{bst}(a,t_1,t_2))\\
-        & \equiv_3 & \fun{rotr}(\fun{rotl}(\fun{insl}(x, 
+        & \equiv_3 & \fun{rotr}(\fun{rotl}(\fun{insl}(x,
         \fun{insr}(y,t))))) & (\text{Lemme})\\
         & \equiv & \fun{insl}(x,\fun{insr}(y,t)).
         & (\fun{rotr}(\fun{rotl}(z)) \equiv z)
@@ -1481,10 +1481,10 @@ Deux cas complémentaires font surface: \(a \succ x\) ou \(x \succ a\).
   & \Lla{\tau} &
   \fun{rotl}(\fun{insl}(x,\fun{bst}(a,t_1,\fun{insr}(y,t_2)))\\
   & \equiv &
-  \fun{rotl}(\fun{insl}(x,\fun{rotr}(\fun{rotl}(\fun{bst}(a,t_1,    
+  \fun{rotl}(\fun{insl}(x,\fun{rotr}(\fun{rotl}(\fun{bst}(a,t_1,
   \fun{insr}(y,t_2))))))\\
   & \xleftarrow{\smash{\theta}} &
-  \fun{rotl}(\fun{insl}(x,\fun{rotr}(\fun{insr}(y, 
+  \fun{rotl}(\fun{insl}(x,\fun{rotr}(\fun{insr}(y,
   \fun{bst}(a,t_1,t_2)))))\\
   & = & \fun{rotl}(\fun{insl}(x,\fun{rotr}(\fun{insr}(y,t))))
   & (t=\fun{bst}(a,t_1,t_2))\\
@@ -1522,10 +1522,10 @@ l'insertion d'une feuille.
   & (a \succ y)\\
   & \Lla{\upsilon} &
   \fun{rotr}(\fun{insl}(x,\fun{bst}(a,\fun{insr}(y,t_1),t_2)))\\
-  & \equiv & \fun{rotr}(\fun{insl}(x, 
+  & \equiv & \fun{rotr}(\fun{insl}(x,
   \fun{rotl}(\fun{rotr}(\fun{bst}(a,\fun{insr}(y,t_1),t_2)))))\\
   & \xleftarrow{\smash{\eta}} &
-  \fun{rotr}(\fun{insl}(x,\fun{rotl}(\fun{insr}(y, 
+  \fun{rotr}(\fun{insl}(x,\fun{rotl}(\fun{insr}(y,
   \fun{bst}(a,t_1,t_2)))))\\
   & = & \fun{rotr}(\fun{insl}(x,\fun{rotl}(\fun{insr}(y,t))))
   & (t=\fun{bst}(a,t_1,t_2))\\
@@ -1543,7 +1543,7 @@ a pas besoin de l'hypothèse d'induction. La différence est qu'ici
   \item Si \(y \succ a\), alors
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{\qquad}r@{}}
-  \otimes & \Rra{\theta} & 
+  \otimes & \Rra{\theta} &
   \fun{rotl}(\fun{bst}(a,t_1,\fun{insr}(y,\fun{insl}(x,t_2))))\\
   & \equiv_2 & \fun{rotl}(\fun{bst}(a,t_1,\fun{insl}(x,
   \fun{insr}(y,t_2)))) & (\pred{Ins}{x,y,t_2})\\
@@ -1596,9 +1596,9 @@ Deux cas sont à considérer: \(b \succ x\) ou \(x \succ b\).
   \item Si \(b \succ x\), alors \(\otimes \xrightarrow{\smash{\tau}}
   \fun{bst}(b,\fun{insl}(x,\fun{bst}(a,t_1,t_2)),t_3) \; \otimes\).
   Nous avons donc deux sous-cas: \(a \succ x\) ou \(x \succ a\).
- 
+
   \(\begin{array}{@{}r@{\;}l@{\;}l@{}}
-      \text{\;-- Si \(a \succ x\), alors \(\otimes\)} &       
+      \text{\;-- Si \(a \succ x\), alors \(\otimes\)} &
       \xrightarrow{\smash{\tau}} &
       \fun{bst}(b,\fun{bst}(a,\fun{insl}(x,t_1),t_2),t_3)\\
       & \Lla{\zeta} &
@@ -1614,7 +1614,7 @@ Deux cas sont à considérer: \(b \succ x\) ou \(x \succ b\).
       \text{\;-- Si \(x \succ a\), alors \(\otimes\)} &
       \xrightarrow{\smash{\upsilon}} &
       \fun{bst}(b,\fun{bst}(a,t_1,\fun{insl}(x,t_2)),t_3)\\
-      & \Lla{\zeta} & 
+      & \Lla{\zeta} &
       \fun{rotl}(\fun{bst}(a,t_1,\fun{bst}(b,\fun{insl}(x,t_2),t_3)))\\
       & \xleftarrow{\smash{\tau}} &
       \fun{rotl}(\fun{bst}(a,t_1,\fun{insl}(x,\fun{bst}(b,t_2,t_3))))\\
@@ -1727,7 +1727,7 @@ racine avec exactement une rotation (à gauche si la clé était l'enfant
 libre à nouveau pour une autre insertion efficace (\fun{insr/2}). Au
 bout du compte, l'arbre de recherche est dégénéré; en fait, il y a
 exactement deux arbres de coût minimum, dont les formes sont celles de
-la \fig~\vref{fig_tree_stack}. Il est intéressant de noter que ces
+la \fig~\vref{fig:tree_stack}. Il est intéressant de noter que ces
 arbres sont de coût maximum lorsqu'ils sont construits avec des
 insertions de feuilles. La première clé n'est pas comparée, donc nous
 avons \(\OB{\fun{mkr}}{n} = n - 1 \sim \OB{\fun{mkl}}{n}/\lg n\). Il
@@ -1759,13 +1759,13 @@ c \sim \frac{1}{2}\OW{\fun{mkl}}{n}.
   \item Prouvez \(\fun{bst}_0(t) \equiv \fun{bst}(t)\). Voir les
   définitions de \fun{bst\(_0\)/1}\index{bst0@\fun{bst\(_0\)/1}} et
   \fun{bst/1}\index{bst@\fun{bst/1}}, respectivement, à la
-  \fig~\vref{fig_bst0} et à la \fig~\vref{fig_bst}.
+  \fig~\vref{fig:bst0} et à la \fig~\vref{fig:bst}.
 
   \item Prouvez \(\fun{mem}(y,t) \equiv \fun{mem}_3(y,t)\), c'est-à-dire
   la correction de la recherche à la Andersson. Voir les définitions
   de \fun{mem/2}\index{mem@\fun{mem/2}} et
   \fun{mem\(_3\)/2}\index{mem3@\fun{mem\(_3\)/2}}, à la
-  \fig~\vref{fig_mem} et à la \fig~\vref{fig_mem3}.
+  \fig~\vref{fig:mem} et à la \fig~\vref{fig:mem3}.
 
   \item Prouvez \(\fun{insr}(x,t) \equiv \fun{bst}(x,t_1,t_2)\).
   \index{insr@\fun{insr/2}} En d'autres termes, l'insertion d'une
@@ -1777,7 +1777,7 @@ c \sim \frac{1}{2}\OW{\fun{mkl}}{n}.
 
   \item Prouvez \(\fun{bst}(t) \equiv \fun{true}() \Rightarrow
   \fun{mkl}(\fun{pre}(t)) \equiv t\). Voir la définition de
-  \fun{pre/1} \index{pre@\fun{pre/1}} à la \fig~\vref{fig_pre}. Est-ce
+  \fun{pre/1} \index{pre@\fun{pre/1}} à la \fig~\vref{fig:pre}. Est-ce
   que la réciproque est vraie elle aussi?
 
 \end{enumerate}
@@ -1788,7 +1788,7 @@ c \sim \frac{1}{2}\OW{\fun{mkl}}{n}.
 
 La suppression d'une clé dans un arbre binaire de recherche est un peu
 délicate, ce qui contraste avec l'insertion d'une feuille. Bien sûr,
-«suppression» est une convention dans le contexte des langages
+«~suppression~» est une convention dans le contexte des langages
 fonctionnels, où les structures de données sont persistantes, donc
 suppression signifie que nous reconstruisons un nouvel arbre de
 recherche sans la clé en question. Comme avec l'insertion, nous
@@ -1799,7 +1799,7 @@ par la clé minimum du sous-arbre droit ou la clé maximum du sous-arbre
 gauche.
 
 Les définitions pour ces deux phases se trouvent à la
-\fig~\vref{fig_del}.
+\fig~\vref{fig:del}.
 \begin{figure}[!b]
 \begin{equation*}
 \boxed{
@@ -1808,21 +1808,21 @@ Les définitions pour ces deux phases se trouvent à la
   \fun{bst}(x,\fun{del}(y,t_1),t_2),\; \text{si \(x \succ y\)};\\
 \fun{del}(y,\fun{bst}(x,t_1,t_2)) & \rightarrow &
   \fun{bst}(x,t_1,\fun{del}(y,t_2)),\; \text{si \(y \succ x\)};\\
-\fun{del}(y,\fun{bst}(x,t_1,t_2)) & \rightarrow & 
+\fun{del}(y,\fun{bst}(x,t_1,t_2)) & \rightarrow &
    \fun{aux}_0(x,t_1,\fun{min}(t_2));\\
 \fun{del}(y,\fun{ext}()) & \rightarrow & \fun{ext}().\\
 \\
 \fun{min}(\fun{bst}(x,\fun{ext}(),t_2)) & \rightarrow & \pair{x}{t_2};\\
-\fun{min}(\fun{bst}(x,t_1,t_2)) & \rightarrow & 
+\fun{min}(\fun{bst}(x,t_1,t_2)) & \rightarrow &
   \fun{aux}_1(x,\fun{min}(t_1),t_2).\\
 \\
-\fun{aux}_1(x,\pair{m}{t'_1},t_2) & \rightarrow & 
+\fun{aux}_1(x,\pair{m}{t'_1},t_2) & \rightarrow &
   \pair{m}{\fun{bst}(x,t'_1,t_2)}.\\
 \\
 \fun{aux}_0(x,t_1,\pair{m}{t'_2}) & \rightarrow & \fun{bst}(m,t_1,t'_2).
 \end{array}}
 \end{equation*}
-\caption{Suppression dans un arbre binaire de recherche\label{fig_del}}
+\caption{Suppression dans un arbre binaire de recherche\label{fig:del}}
 \end{figure}
 Nous avons \(\fun{min}(t_2) \twoheadrightarrow
 \pair{m}{t'_2}\),\index{min@\fun{min/1}} où \(m\)~est la clé minimum
@@ -1862,7 +1862,7 @@ l'arbre binaire de recherche. En tant que tels, ils sont comme des
 zombies, ni vivants ni morts, ou on pourrait parler de suppression
 paresseuse. Plus sérieusement, ceci nécessite deux sortes de n{\oe}uds
 internes, \fun{bst/3} et \fun{del/3}.\index{del@\fun{del/3}} Cette
-autre conception est montrée à la \fig~\vref{fig_del0}.
+autre conception est montrée à la \fig~\vref{fig:del0}.
 \begin{figure}
 \begin{equation*}
 \boxed{
@@ -1871,7 +1871,7 @@ autre conception est montrée à la \fig~\vref{fig_del0}.
   \fun{bst}(x,\fun{del}_0(y,t_1),t_2),\; \text{si \(x \succ y\)};\\
 \fun{del}_0(y,\fun{bst}(x,t_1,t_2)) & \rightarrow &
   \fun{bst}(x,t_1,\fun{del}_0(y,t_2)),\; \text{si \(y \succ x\)};\\
-\fun{del}_0(y,\fun{bst}(x,t_1,t_2)) & \rightarrow & 
+\fun{del}_0(y,\fun{bst}(x,t_1,t_2)) & \rightarrow &
   \fun{del}(x,t_1,t_2);\\
 \fun{del}_0(y,\fun{del}(x,t_1,t_2)) & \rightarrow &
   \fun{del}(x,\fun{del}_0(y,t_1),t_2),\; \text{si \(x \succ y\)};\\
@@ -1880,7 +1880,7 @@ autre conception est montrée à la \fig~\vref{fig_del0}.
 \fun{del}_0(y,t) & \rightarrow & t.\\
 \end{array}}
 \end{equation*}
-\caption{Suppression paresseuse dans un arbre de recherche\label{fig_del0}}
+\caption{Suppression paresseuse dans un arbre de recherche\label{fig:del0}}
 \end{figure}
 Remarquons que l'insertion d'une clé qui a été supprimée
 paresseusement n'a pas besoin d'être réalisée à un n{\oe}ud externe:
@@ -1919,4 +1919,3 @@ et son résultat a été republié par \cite{CLRS_2009} à la section~12.4.
 
 \cite{ChauvinDrmotaJabbour-Hattab_2001} ont étudié la largueur moyenne
 des arbres binaires de recherche.
-

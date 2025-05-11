@@ -1,11 +1,11 @@
 \section{Filtrage de pile}
-\label{sec_skipping}
+\label{sec:skipping}
 
 Nous étudions ici comment recopier une pile donnée tout en ignorant un
 élément donné. [\emph{La progression est volontairement très lente.}]
 
 \paragraph{Première occurrence}
-\label{def_linear_search}
+\label{def:linear_search}
 \index{pile!filtrage!première occurrence}
 
 Supposons que \(\fun{sfst}(s,x)\)\index{sfst@\fun{sfst/2}|(} (anglais,
@@ -20,7 +20,7 @@ attendons aux évaluations suivantes:\label{sfst_ex}
 \fun{sfst}(\el,3) & \twoheadrightarrow & \el;\\
 \fun{sfst}(\el,\el) & \twoheadrightarrow & \el;\\
 \fun{sfst}([3,\el],[5,2]) & \twoheadrightarrow & [3,\el];\\
-\fun{sfst}([\el,[1,2],4,\el,4],4) & \twoheadrightarrow & 
+\fun{sfst}([\el,[1,2],4,\el,4],4) & \twoheadrightarrow &
   [\el,[1,2],\el,4];\\
 \fun{sfst}([4,[1,2],\el,\el,4],\el)
  & \twoheadrightarrow & [4,[1,2],\el,4].
@@ -137,7 +137,7 @@ Nous pourrions alors éprouver les cas suivants:
 Le programme semble marcher: l'élément~\(x\) est dans la pile~\(s\) si
 le résultat est~\(x\), sinon nous obtenons~\(\el\). Toutefois, cette
 fonction n'est pas correcte.\index{correction} L'assomption cachée et
-incorrecte est qu'«un élément ne peut être une pile», malgré les
+incorrecte est qu'«~un élément ne peut être une pile~», malgré les
 contre-exemples donnés au début pour illustrer le comportement attendu
 de \fun{sfst/2}. En particulier, un élément peut être la pile vide et
 cela cause une ambiguïté avec notre définition de \fun{mem/2}:
@@ -147,8 +147,8 @@ cela cause une ambiguïté avec notre définition de \fun{mem/2}:
 Il n'est pas possible de discriminer les deux cas, le premier
 signifiant absence de l'élément et le second présence, car tous deux
 terminent avec la pile vide. En fait, nous aurions dû distinguer deux
-constructeurs pour dénoter «l'élément est présent» et «l'élément est
-absent.» Par exemple,
+constructeurs pour dénoter «~l'élément est présent~» et «~l'élément est
+absent.~» Par exemple,
 \begin{equation*}
 \begin{array}{r@{\;}l@{\;}l}
 \fun{mem}(\el,x)         & \smashedrightarrow{\zeta}  & \fun{false}();\\
@@ -412,12 +412,12 @@ par l'équation~\eqref{eq_sum_k} \vpageref{eq_sum_k}.
 Notons que la règle~\(\kappa\) implique la création d'un
 n{\oe}ud~(\texttt{|}), que nous appelons \emph{n{\oe}ud
   d'empilage}\index{n{\oe}ud d'empilage}, comme on peut le voir à la
-\fig~\vref{fig_sfst_dag}.
+\fig~\vref{fig:sfst_dag}.
 \begin{figure}
 \centering
 \includegraphics[bb=71 664 345 721]{sfst_dag}
-\caption{Graphe orienté sans circuit pour \fun{sfst/2}
-\label{fig_sfst_dag}}
+\caption{Graphe orienté sans circuit pour \fun{sfst/2}}
+\label{fig:sfst_dag}
 \end{figure}
 Ainsi, alors que le contenu de la nouvelle pile est partagé avec la
 pile originelle, \(j\)~n{\oe}uds sont alloués si~\(x\) se trouve à la
@@ -440,25 +440,25 @@ de~\(\kappa\). Nous utilisons l'accumulateur dans une nouvelle
 règle~\(\nu\) déduite de~\(\iota\). La nouvelle version de
 \fun{sfst/2} est appelée
 \fun{sfst\(_0\)/2}\index{sfst0@\fun{sfst\(_0\)/2}} et est montrée dans
-la \fig~\ref{fig_sfst0}.\index{sfst@\fun{sfst/4}}
+la \fig~\ref{fig:sfst0}.\index{sfst@\fun{sfst/4}}
 \begin{figure}[b]
 \begin{equation*}
 \boxed{%
 \begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
   \fun{rcat}(\el,t)              & \xrightarrow{\smash{\zeta}} & t; &
   \fun{sfst}(\el,x,t,u)          & \xrightarrow{\smash{\mu}} & u;\\
-  \fun{rcat}(\cons{x}{s},t)      & \xrightarrow{\smash{\eta}} 
-                               & \fun{rcat}(s,\cons{x}{t}). & 
+  \fun{rcat}(\cons{x}{s},t)      & \xrightarrow{\smash{\eta}}
+                               & \fun{rcat}(s,\cons{x}{t}). &
 \fun{sfst}(\cons{x}{s},x,t,u)  & \xrightarrow{\smash{\nu}}
                                & \fun{rcat}(t,s);\\
-\fun{sfst}_0(s,x)              & \xrightarrow{\smash{\lambda}} 
+\fun{sfst}_0(s,x)              & \xrightarrow{\smash{\lambda}}
                                & \fun{sfst}(s,x,\el,s). &
 \fun{sfst}(\cons{y}{s},x,t,u)  & \xrightarrow{\smash{\xi}}
                                & \fun{sfst}(s,x,\cons{y}{t},u).
 \end{array}}
 \end{equation*}
-\caption{Ôter la première occurrence avec partage maximum
-\label{fig_sfst0}}
+\caption{Ôter la première occurrence avec partage maximum}
+\label{fig:sfst0}
 \end{figure}
 
 Bien entendu, alors que dans~\(\iota\) nous avons simplement
@@ -507,7 +507,7 @@ pile; le coût maximum lorsque l'élément est tout au fond de la pile.
 Puisqu'appeler \fun{rcat/2}\index{rcat@\fun{rcat/2}} pour retourner
 les éléments visités est la source du coût supplémentaire, nous
 pourrions essayer de maintenir l'ordre de ces éléments comme dans la
-\fig~\vref{fig_sfst1}\index{sfst1@\fun{sfst\(_1\)/1}}
+\fig~\vref{fig:sfst1}\index{sfst1@\fun{sfst\(_1\)/1}}
 \begin{figure}
 \begin{equation*}
 \boxed{%
@@ -520,8 +520,8 @@ pourrions essayer de maintenir l'ordre de ces éléments comme dans la
                                 & \fun{sfst}_2(s,x,\fun{cat}(t,[y]),u).
 \end{array}}
 \end{equation*}
-\caption{Ôter la première occurrence (mauvais programme)
-\label{fig_sfst1}}
+\caption{Ôter la première occurrence (mauvais programme)}
+\label{fig:sfst1}
 \end{figure}
 mais en usant de la concaténation de piles au lieu de l'empilement. Le
 problème est que la dernière règle de
@@ -592,14 +592,14 @@ de~\(x\) au fond aurait pu être vérifiée avec une seule. Toutes ces
 observations suggèrent qu'une meilleure conception vaut la peine
 d'être envisagée.
 
-Considérons la \fig~\ref{fig_slst},
+Considérons la \fig~\ref{fig:slst},
 \begin{figure}[b]
 \begin{equation*}
 \boxed{%
 \begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
   \fun{slst}(\el,x)           & \xrightarrow{\smash{\rho}} & \el;
 & \fun{slst}(\el,x,t)         & \xrightarrow{\smash{\upsilon}} & t;\\
-  \fun{slst}(\cons{x}{s},x)   & \xrightarrow{\smash{\sigma}} & 
+  \fun{slst}(\cons{x}{s},x)   & \xrightarrow{\smash{\sigma}} &
                                            \fun{slst}(s,x,s);
 & \fun{slst}(\cons{x}{s},x,t) & \xrightarrow{\smash{\phi}} &
                                            \cons{x}{\fun{slst}(t,x)};\\
@@ -609,8 +609,9 @@ Considérons la \fig~\ref{fig_slst},
                                            \fun{slst}(s,x,t).
 \end{array}}
 \end{equation*}
-\caption{Ôter la dernière occurrence avec \fun{slst/2}
-\label{fig_slst}\index{pile!filtrage!dernière occurrence}}
+\caption{Ôter la dernière occurrence avec \fun{slst/2}}
+\label{fig:slst}
+\index{pile!filtrage!dernière occurrence}
 \end{figure}
 où, avec l'aide d'une recherche linéaire\index{recherche linéaire}
 (règles \(\rho\)~et~\(\tau\)), nous trouvons la première occurrence
@@ -631,7 +632,7 @@ l'occurrence précédente fut trouvée. Ceci est nécessaire
 puisque~\(y\), dans la règle~\(\chi\), doit être écarté parce que nous
 ne savons pas à ce moment-là si le~\(x\) précédent était le dernier.
 
-Considérons l'évaluation à \fig~\vref{fig_slst_27071}.
+Considérons l'évaluation à \fig~\vref{fig:slst_27071}.
 \begin{figure}
 \begin{equation*}
 \boxed{%
@@ -641,7 +642,7 @@ Considérons l'évaluation à \fig~\vref{fig_slst_27071}.
 & \cons{2}{\fun{slst}([7,0,7,1],7)}\\
 & \xrightarrow{\smash{\sigma}}
 & \cons{2}{\fun{slst}([0,7,1],7,[0,7,1])}\\
-& \xrightarrow{\smash{\chi}} 
+& \xrightarrow{\smash{\chi}}
 & \cons{2}{\fun{slst}([7,1],7,[0,7,1])}\\
 & \xrightarrow{\smash{\phi}}
 & \cons{2,7}{\fun{slst}([0,7,1],7)}\\
@@ -649,14 +650,15 @@ Considérons l'évaluation à \fig~\vref{fig_slst_27071}.
 & \cons{2,7,0}{\fun{slst}([7,1],7)}\\
 & \xrightarrow{\smash{\sigma}}
 & \cons{2,7,0}{\fun{slst}([1],7,[1])}\\
-& \xrightarrow{\smash{\chi}} 
+& \xrightarrow{\smash{\chi}}
 & \cons{2,7,0}{\fun{slst}(\el,7,[1])}\\
 & \xrightarrow{\smash{\upsilon}}
 & \cons{2,7,0}{[1]} = [2,7,0,1].
 \end{array}}
 \end{equation*}
-\caption{\(\fun{slst}([2,7,0,7,1],7) \twoheadrightarrow
-  [2,7,0,1]\)\label{fig_slst_27071}\index{pile!filtrage!exemple}}
+\caption{\(\fun{slst}([2,7,0,7,1],7) \twoheadrightarrow [2,7,0,1]\)}
+\label{fig:slst_27071}
+\index{pile!filtrage!exemple}
 \end{figure}
 Si l'élément est manquant, la recherche linéaire échoue, comme à
 l'accoutumée, avec un coût de \(\len{\tau^n\rho} = n + 1\). Sinon,
@@ -666,7 +668,7 @@ d'évaluation\index{langage fonctionnel!évaluation!trace} est
 \begin{equation*}
 \abovedisplayskip=0pt
 \belowdisplayskip=0pt
-\tau^{x_1} 
+\tau^{x_1}
 \cdot
 \prod_{k=2}^{p}(\sigma\chi^{x_k-x_{k-1}-1})(\phi\tau^{x_k-x_{k-1}-1})
 \cdot
@@ -693,7 +695,7 @@ concourent à la valeur~\(2n\). Le coût moyen\index{pile!filtrage!coût
 requiert la détermination du coût pour toutes les paires \((f,l)\)
 possibles, donc avec \(0 \leqslant f \leqslant l < n\):
 \begin{align*}
-\M{\fun{slst}}{n} 
+\M{\fun{slst}}{n}
   &= \frac{2}{n(n+1)} \sum_{f=0}^{n-1}\sum_{l=f}^{n-1}{\C{\fun{slst}}{n,f,l}}
    = \frac{2}{n(n+1)} \sum_{f=0}^{n-1}\sum_{l=f}^{n-1}{(n+l-f+1)}\\
   &= \frac{2}{n(n+1)} \sum_{f=0}^{n-1}\bigg(\!\!(n-f+1)(n-f)
@@ -719,7 +721,7 @@ annulations deux à deux, sauf le premier et le dernier terme:
 + &&&\;\;\vdots\notag\\
 + && \boxed{(n+1)^3} - n^3 &= 3n^2 + 3n + 1\notag
 \intertext{\rule{\linewidth}{0.4pt}}
-\Rightarrow 
+\Rightarrow
   &&\boxed{(n+1)^3} - \boxed{1^3}
   &= 3 \sum_{k=1}^{n}{k^2} + 3 \sum_{k=1}^{n}{k} + n\notag\\
   && n^3 + 3n^2 + 3n

@@ -1,5 +1,5 @@
 \section{Aplatissement}
-\label{sec_flattening}
+\label{sec:flattening}
 \index{pile!aplatissement|(}
 
 Concevons une fonction~\fun{flat/1}\index{flat@\fun{flat/1}} telle que
@@ -44,7 +44,7 @@ l'avant-dernier ou l'antépénultième motif l'aurait filtrée. Presque tous les
 être guidée selon deux principes légèrement différents. Si nous
 regardons de nouveau les définitions de~\fun{rev\(_0\)/1}
 \index{rev0@\fun{rev\(_0\)/1}|(} et~\fun{rev/1}\index{rev@\fun{rev/1}}
-à la section~\ref{sec_reversal}, nous comprenons que la première avait
+à la section~\ref{sec:reversal}, nous comprenons que la première avait
 été conçue avec le résultat en tête, comme si les flèches atteignaient
 directement une valeur qui est alors décomposée en fonction des
 variables du membre gauche correspondant:
@@ -61,7 +61,7 @@ finale, typiquement via un accumulateur:
 \begin{equation*}
 \fun{rev}(s) \xrightarrow{\smash{\epsilon}} \fun{rcat}(s,\el).\quad\;\;
 \fun{rcat}(\el,t) \xrightarrow{\smash{\zeta}} t;\quad\;\;
-\fun{rcat}(\cons{x}{s},t) \xrightarrow{\smash{\eta}} 
+\fun{rcat}(\cons{x}{s},t) \xrightarrow{\smash{\eta}}
 \fun{rcat}(s,\cons{x}{t}).
 \end{equation*}
 La première approche pourrait être appelée \emph{conception à grands
@@ -71,7 +71,7 @@ consiste à voir que la première utilise le contexte de l'appel
 récursif pour construire la valeur, alors que la seconde repose
 exclusivement sur un argument (l'accumulateur\index{langage
   fonctionnel!accumulateur}) et l'appel récursif est terminal. Par
-exemple, à la section~\ref{sec_skipping}, nous trouvons que la
+exemple, à la section~\ref{sec:skipping}, nous trouvons que la
 définition de \fun{sfst/2}\index{sfst@\fun{sfst/2}} suit un modèle à
 grands pas, alors que \fun{sfst\(_0\)/2}\index{sfst@\fun{sfst/2}} est
 un cas de modèle à petits pas.
@@ -90,12 +90,12 @@ exemple, dans le cas de la règle~\(\gamma\), les sous-structures de
 \(\fun{flat}(\cons{x}{s})\)\index{flat@\fun{flat/1}} et
 \(\fun{flat}(t)\), nous obtenons une nouvelle version,
 \fun{flat\(_0\)/1}\index{flat0@\fun{flat$_0$/1}}, à la
-\fig~\vref{fig_flat0}.
+\fig~\vref{fig:flat0}.
 \begin{figure}
 \begin{equation*}
 \boxed{%
 \begin{array}{r@{\;}l@{\;}l}
-\fun{flat}_0(\el)                   & \xrightarrow{\smash{\psi}} 
+\fun{flat}_0(\el)                   & \xrightarrow{\smash{\psi}}
                                     & \el;\\
 \fun{flat}_0(\cons{\el}{t})         & \xrightarrow{\smash{\omega}}
                                     & \fun{flat}_0(t);\\
@@ -105,17 +105,18 @@ exemple, dans le cas de la règle~\(\gamma\), les sous-structures de
                                     & \cons{y}{\fun{flat}_0(t)}.
 \end{array}}
 \end{equation*}
-\caption{Aplatir une pile avec \fun{flat\(_0\)/1}
-\label{fig_flat0}\index{pile!aplatissement!définition}}
+\caption{Aplatir une pile avec \fun{flat\(_0\)/1}}
+\label{fig:flat0}
+\index{pile!aplatissement!définition}
 \end{figure}
 
-Considérons un exemple à la \fig~\vref{fig_flat0_ex},
+Considérons un exemple à la \fig~\vref{fig:flat0_ex},
 \begin{figure}
 \begin{equation*}
 \boxed{%
 \begin{array}{r@{\;}l@{\;}l}
 \fun{flat}_0([\el,[[1],2],3])
-& \xrightarrow{\smash{\omega}} 
+& \xrightarrow{\smash{\omega}}
 & \fun{flat}_0([[[1],2],3])\\
 & \xrightarrow{\smash{\gamma}}
 & \fun{cat}(\underline{\fun{flat}_0([[1],2])},\fun{flat}_0([3]))\\
@@ -137,13 +138,14 @@ Considérons un exemple à la \fig~\vref{fig_flat0_ex},
 \end{array}
 }
 \end{equation*}
-\caption{\(\fun{flat}_0([\el,[[1],2],3]) \twoheadrightarrow [1,2,3]\)
-\label{fig_flat0_ex}\index{pile!aplatissement!exemple}}
+\caption{\(\fun{flat}_0([\el,[[1],2],3]) \twoheadrightarrow [1,2,3]\)}
+\label{fig:flat0_ex}
+\index{pile!aplatissement!exemple}
 \end{figure}
 où l'appel qui va être réécrit juste après est souligné en cas
 d'ambiguïté. Remarquons que la stratégie d'évaluation par
 valeurs\index{langage fonctionnel!appel par valeurs}
-(section~\ref{sec_functional}) ne spécifie pas l'ordre d'évaluation
+(section~\ref{sec:functional}) ne spécifie pas l'ordre d'évaluation
 des arguments d'un appel: dans notre exemple, nous avons retardé
 l'évaluation de \(\fun{cat}([1],[2])\) \index{cat@\fun{cat/2}|(}
 jusqu'à ce que celle de
@@ -203,7 +205,7 @@ coûts supérieurs, quand les paramètres \(n\), \(\Omega\) et~\(\Gamma\)
 sont fixés. Un schéma d'appel semblable à
 \fun{cat/2}\index{cat@\fun{cat/2}} avec un coût quadratique est aussi
 produit en appelant \fun{rev\(_0\)/1}\index{rev0@\fun{rev\(_0\)/1}},
-comme on peut le vérifier à la \fig~\vref{fig_rev0_321}, après la
+comme on peut le vérifier à la \fig~\vref{fig:rev0_321}, après la
 première application de la règle~\(\alpha\). Le membre droit de la
 règle~\(\gamma\) est
 \(\fun{cat}(\fun{flat}_0(\cons{x}{s}),\fun{flat}_0(t))\)
@@ -219,20 +221,20 @@ n{\oe}uds \fun{cat} constituent la \emph{branche}\index{arbre!branche}
 la plus à droite dans l'arbre de syntaxe abstraire. (Une branche est
 une suite de n{\oe}uds où l'un est le parent du suivant, de la racine
 à une feuille.) Si \(\Omega \geqslant \Gamma\), la configuration
-minimale est montrée à la \fig~\ref{fig_cat_min1}
+minimale est montrée à la \fig~\ref{fig:cat_min1}
 \begin{figure}
 \centering
 \subfloat[Si \(\Omega \geqslant \Gamma\), le minimum est \(\Gamma\).
-\label{fig_cat_min1}]{\includegraphics[bb=66 660 200 722]{cat_min1}}
+\label{fig:cat_min1}]{\includegraphics[bb=66 660 200 722]{cat_min1}}
 \quad
 \subfloat[Si \(\Omega < \Gamma\), le minimum est \(2\Gamma-\Omega\).
-\label{fig_cat_min2}]{\includegraphics[bb=70 643 230 721]{cat_min2}}
-\caption{Coûts minimums pour la concaténation avec \fun{flat\(_0\)/1}
-\label{fig_cat_min}}
+\label{fig:cat_min2}]{\includegraphics[bb=70 643 230 721]{cat_min2}}
+\caption{Coûts minimums pour la concaténation avec \fun{flat\(_0\)/1}}
+\label{fig:cat_min}
 \end{figure}
 (au moins une pile vide doit être placée dans toute pile non-vide dont
 l'aplatissement résulte en une pile vide). Sinon, l'arbre de syntaxe
-abstraite de coût minimum est donné à la \fig~\ref{fig_cat_min2}, où
+abstraite de coût minimum est donné à la \fig~\ref{fig:cat_min2}, où
 toutes les piles vides disponibles (\(\Omega\)) sont utilisées par les
 n{\oe}uds \fun{cat} les plus profonds. Nous en concluons que le coût
 minimum\index{pile!aplatissement!coût minimum}
@@ -241,21 +243,21 @@ est\index{flat0@$\B{\fun{flat}_0}{n}$}
 \min\{\Omega,\Gamma\}\).
 
 Le coût maximum\index{pile!aplatissement!coût maximum} à la
-\fig~\ref{fig_cat_max}
+\fig~\ref{fig:cat_max}
 \begin{figure}
 \centering
-\subfloat[Coût maximum \((n+1)\Gamma\)\label{fig_cat_max}]{
+\subfloat[Coût maximum \((n+1)\Gamma\)\label{fig:cat_max}]{
 \includegraphics[bb=71 660 188 721]{cat_max}}
 \qquad
-\subfloat[$\protect\fun{flat}(\cons{\cons{x}{s}}{t})$\label{fig_lift1}]%
+\subfloat[$\protect\fun{flat}(\cons{\cons{x}{s}}{t})$\label{fig:lift1}]%
 {\includegraphics[bb=55 661 122 721]{flat_embed}}
 \qquad
-\subfloat[$\protect\fun{flat}(\cons{x,s}{t})$\label{fig_lift2}]%
+\subfloat[$\protect\fun{flat}(\cons{x,s}{t})$\label{fig:lift2}]%
 {\includegraphics[bb=57 661 120 721]{flat_lift}}
 \caption{Coût maximum et rotation à droite}
 \end{figure}
 se présente pour le symétrique de l'arbre à la
-\fig~\ref{fig_cat_min1}. Nous
+\fig~\ref{fig:cat_min1}. Nous
 avons\index{flat0@$\W{\fun{flat}_0}{n,\Omega,\Gamma}$}
 \(\W{\fun{flat}_0}{n,\Omega,\Gamma} = \Omega + (n+3)(\Gamma+1) - 2\).
 
@@ -266,8 +268,9 @@ avons\index{flat0@$\W{\fun{flat}_0}{n,\Omega,\Gamma}$}
 % {r} mandatory right placement
 \centering
 \includegraphics[bb=71 658 220 709]{flat}% ... 721
-\caption{Aplatissement\label{fig_flat}
-\index{pile!aplatissement!définition}}
+\caption{Aplatissement}
+\label{fig:flat}
+\index{pile!aplatissement!définition}
 \end{wrapfigure}
 
 \paragraph{Conception à petits pas}
@@ -278,10 +281,10 @@ règle~\(\gamma\), à hisser~\(x\) d'un niveau parmi les piles
 imbriquées. En termes d'arbres de syntaxe abstraite, cette opération
 est une \emph{rotation à droite}\index{arbre binaire!rotation} de
 l'arbre associé à l'argument, comme cela est montré aux
-\figs~\vrefrange{fig_lift1}{fig_lift2}, où la nouvelle fonction est
+\figs~\vrefrange{fig:lift1}{fig:lift2}, où la nouvelle fonction est
 nommée \fun{flat/1}\index{flat@\fun{flat/1}|(} et est définie à la
-\fig~\vref{fig_flat}. Déroulons à nouveau l'exemple de la
-\fig~\vref{fig_flat0_ex} à la \fig~\vref{fig_flat_ex} avec
+\fig~\vref{fig:flat}. Déroulons à nouveau l'exemple de la
+\fig~\vref{fig:flat0_ex} à la \fig~\vref{fig:flat_ex} avec
 \fun{flat/1}. La différence de coût avec
 \fun{flat\(_0\)/1}\index{flat0@\fun{flat$_0$/1}} réside dans le nombre
 de fois que la règle~\(\gamma\) est utilisée: une fois pour chaque
@@ -324,17 +327,17 @@ Examinons les coût suivants:
 & \xrightarrow{\smash{\psi}}   & [1,2,3].
 \end{array}}
 \end{equation*}
-\caption{\(\fun{flat}([\el,[[1],2],3]) \twoheadrightarrow [1,2,3]\)
-\label{fig_flat_ex}
-\index{pile!aplatissement!exemple}}
+\caption{\(\fun{flat}([\el,[[1],2],3]) \twoheadrightarrow [1,2,3]\)}
+\label{fig:flat_ex}
+\index{pile!aplatissement!exemple}
 \end{figure}
 Un peu d'algèbre révèle que\index{flat@$\C{\fun{flat}}{n,\Omega,\Gamma}$}
 \index{flat0@$\B{\fun{flat}_0}{n,\Omega,\Gamma}$}
 \begin{equation*}
 \C{\fun{flat}}{n,\Omega,\Gamma}
-\leqslant 
-\B{\fun{flat}_0}{n,\Omega,\Gamma} 
-\Leftrightarrow 
+\leqslant
+\B{\fun{flat}_0}{n,\Omega,\Gamma}
+\Leftrightarrow
 \begin{cases}
   L \leqslant 3\Gamma - \Omega,
                          & \text{si \(\Omega \geqslant \Gamma\)};\\
@@ -367,7 +370,7 @@ vides, \fun{flat/1}\index{flat@\fun{flat/1}} est plus rapide.
 \index{pile!aplatissement!terminaison|(}
 
 Comme nous l'avons vu à propos de la version simplifiée de la fonction
-de Ackermann (section~\ref{par_ackermann}, \vpageref{par_ackermann}),
+de Ackermann (section~\ref{par:ackermann}, \vpageref{par:ackermann}),
 la terminaison est la conséquence de l'existence d'un ordre bien fondé
 \((\succ)\) sur les appels récursifs, qui est induit par la relation
 de réécriture \((\rightarrow)\), c'est-à-dire \(x \rightarrow y
@@ -375,11 +378,11 @@ de réécriture \((\rightarrow)\), c'est-à-dire \(x \rightarrow y
 l'\emph{ordre des sous-termes immédiats}, satisfaisant \(\cons{x}{s}
 \succ s\) et \(\cons{x}{s} \succ x\). Puisqu'une conception à grand
 pas effectue des appels récursifs sur les sous-termes
-(section~\ref{par_well-founded}, \vpageref{par_well-founded}), elle
+(section~\ref{par:well-founded}, \vpageref{par:well-founded}), elle
 facilite les preuves de terminaison fondées sur un tel
 ordre. Souvenons-nous ainsi de la définition de
 \fun{flat\(_0\)/1}\index{flat0@\fun{flat$_0$/1}|(} à la
-\fig~\ref{fig_flat0}, page~\pageref{fig_flat0}. Étant donné que
+\fig~\ref{fig:flat0}, page~\pageref{fig:flat0}. Étant donné que
 \fun{cat/2}\index{cat@\fun{cat/2}} est indépendant de
 \fun{flat\(_0\)/1}, nous établissons sa terminaison séparément en
 employant l'ordre des sous-termes immédiats sur son premier
@@ -396,7 +399,7 @@ terminaison s'ensuit.\hfill\(\Box\)
 \par\vspace\baselineskip
 
 Rappelons-nous ensuite de la définition de
-\fun{flat/1}\index{flat@\fun{flat/1}} à la \fig~\vref{fig_flat} et
+\fun{flat/1}\index{flat@\fun{flat/1}} à la \fig~\vref{fig:flat} et
 prouvons sa terminaison. Ici, l'ordre que nous avons employé pour
 \fun{flat\(_0\)/1} échoue: \(\cons{\cons{x}{s}}{t} \nsucc
 \cons{x,s}{t} = \cons{x}{\cons{s}{t}}\). Nous pourrions alors viser
@@ -460,8 +463,9 @@ de systèmes de réécriture de termes, ont été étudiés par
 % {r} mandatory right placement
 \centering
 \includegraphics[bb=71 644 227 721]{flat1}
-\caption{Aplatissement alternatif\label{fig_flat1}
-\index{pile!aplatissement!définition}}
+\caption{Aplatissement alternatif}
+\label{fig:flat1}
+\index{pile!aplatissement!définition}
 \end{wrapfigure}
 \paragraph{Exercices}
 
@@ -473,7 +477,7 @@ de systèmes de réécriture de termes, ont été étudiés par
 
   \item Comparez les coûts de \fun{flat/1}\index{flat@\fun{flat/1}} et
     \fun{flat\(_1\)/1} \index{flat1@\fun{flat$_1$/1}} définies à la
-    \fig~\ref{fig_flat1} (voir~(\(\leadsto\))).
+    \fig~\ref{fig:flat1} (voir~(\(\leadsto\))).
 
 \end{enumerate}
 \index{pile!aplatissement|)}
