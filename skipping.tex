@@ -1,9 +1,6 @@
 \section{Filtrage de pile}
 \label{sec:skipping}
 
-Nous étudions ici comment recopier une pile donnée tout en ignorant un
-élément donné. [\emph{La progression est volontairement très lente.}]
-
 \paragraph{Première occurrence}
 \label{def:linear_search}
 \index{pile!filtrage!première occurrence}
@@ -43,16 +40,20 @@ coût? À des fins didactiques, poursuivons sur cette piste pour voir où
 elle nous mène. Une pile peut être vide ou non, donc nous commençons
 avec deux règles:
 \begin{equation*}
-\fun{mem}(\el,x) \rightarrow \fbcode{CCCCC}\,;\quad
-\fun{mem}(\cons{y}{s},x) \rightarrow \fbcode{CCCCC}\,.
+\begin{array}{r@{\;}c@{\;}l}
+\fun{mem}(\el,x) & \rightarrow & \fbcode{CCCCC}\,;\\
+\fun{mem}(\cons{y}{s},x) & \rightarrow & \fbcode{CCCCC}\,.
+\end{array}
 \end{equation*}
 Nous avons introduit une variable~\(y\), distincte de la
 variable~\(x\). Deux variables différentes peuvent (ou non) dénoter la
 même valeur, mais deux occurrences de la même variable dénotent
 toujours la même valeur. Si nous avions écrit
 \begin{equation*}
-\fun{mem}(\el,x) \rightarrow \fbcode{CCCCC}\,;\quad
-\fun{mem}(\cons{\underline{x}}{s},x) \rightarrow \fbcode{CCCCC}\,.
+\begin{array}{r@{\;}c@{\;}l}
+\fun{mem}(\el,x) & \rightarrow & \fbcode{CCCCC}\,;\\
+\fun{mem}(\cons{\underline{x}}{s},x) & \rightarrow & \fbcode{CCCCC}\,.
+\end{array}
 \end{equation*}
 un cas aurait manqué, à savoir quand le sommet de la pile n'est pas
 l'élément recherché, par exemple, \(\fun{mem}(3,[4])\) échouerait
@@ -66,8 +67,10 @@ sous silence, il est dit
 peut-être penser que zéro serait un moyen de dénoter l'absence d'un
 élément:
 \begin{equation*}
-\fun{mem}(\el,x) \rightarrow 0;\quad
-\fun{mem}(\cons{y}{s},x) \rightarrow \fbcode{CCCCC}\,.
+\begin{array}{r@{\;}c@{\;}l}
+\fun{mem}(\el,x) & \rightarrow & 0;\\
+\fun{mem}(\cons{y}{s},x) & \rightarrow & \fbcode{CCCCC}\,.
+\end{array}
 \end{equation*}
 Mais ceci serait une erreur parce qu'il n'y a pas de relation
 naturelle et nécessaire entre le concept de vacuité et le nombre
@@ -75,8 +78,10 @@ zéro. Zéro est compris algébriquement comme le nombre noté~\(0\) tel
 que \(0 + n = n + 0 = n\), pour tout nombre~\(n\). Essayons alors la
 pile vide:
 \begin{equation*}
-\fun{mem}(\el,x) \rightarrow \el;\quad
-\fun{mem}(\cons{y}{s},x) \rightarrow \fbcode{CCCCC}\,.
+\begin{array}{r@{\;}c@{\;}l}
+\fun{mem}(\el,x) & \rightarrow & \el;\\
+\fun{mem}(\cons{y}{s},x) & \rightarrow & \fbcode{CCCCC}\,.
+\end{array}
 \end{equation*}
 L'étape suivante est de trouver un moyen de comparer concrètement la
 valeur de~\(x\) à la valeur de~\(y\). Nous pouvons pour cela faire
@@ -84,16 +89,20 @@ usage de la règle ci-dessus à propos des variables: deux occurrences
 de la même variable signifient qu'elles ont la même valeur. Par
 conséquent,
 \begin{equation*}
-\fun{mem}(\el,x) \rightarrow \el;\quad
-\fun{mem}(\cons{x}{s},x) \rightarrow \fbcode{CCCCC}\,.
+\begin{array}{r@{\;}c@{\;}l}
+\fun{mem}(\el,x) & \rightarrow & \el;\\
+\fun{mem}(\cons{x}{s},x) & \rightarrow & \fbcode{CCCCC}\,.
+\end{array}
 \end{equation*}
 n'était pas si mauvais, après tout?  Certes, mais nous savons à
 présent qu'un cas est manquant, donc ajoutons-le à la fin, où \(x \neq
 y\):
 \begin{equation*}
-\fun{mem}(\el,x) \rightarrow \el;\;\;
-\fun{mem}(\cons{x}{s},x) \rightarrow \fbcode{CCCCC};\;\:
-\underline{\fun{mem}(\cons{y}{s},x)} \rightarrow \fbcode{CCCCC}\,.
+\begin{array}{r@{\;}c@{\;}l}
+\fun{mem}(\el,x) & \rightarrow & \el;\\
+\fun{mem}(\cons{x}{s},x) & \rightarrow & \fbcode{CCCCC};\\
+\underline{\fun{mem}(\cons{y}{s},x)} & \rightarrow & \fbcode{CCCCC}.
+\end{array}
 \end{equation*}
 À présent, quel est le second membre droit? Il est évalué lorsque
 l'élément recherché se trouve au sommet de la pile courante. Comment
@@ -102,17 +111,21 @@ justification étant que si le résultat est la pile vide, alors
 l'élément n'est pas dans la pile originelle, sinon le résultat est
 l'élément lui-même:
 \begin{equation*}
-\fun{mem}(\el,x) \rightarrow \el;\quad
-\fun{mem}(\cons{x}{s},x) \rightarrow x;\quad
-\fun{mem}(\cons{y}{s},x) \rightarrow \fbcode{CCCCC}\,.
+\begin{array}{r@{\;}c@{\;}l}
+\fun{mem}(\el,x) & \rightarrow & \el;\\
+\fun{mem}(\cons{x}{s},x) & \rightarrow & x;\\
+\fun{mem}(\cons{y}{s},x) & \rightarrow & \fbcode{CCCCC}\,.
+\end{array}
 \end{equation*}
 Le dernier membre droit est facile à deviner car il concerne le cas où
 le sommet de la pile (\(y\)) n'est pas l'élément recherché (\(x\)),
 donc un appel récursif qui laisse de côté~\(y\) s'impose:
 \begin{equation*}
-\fun{mem}(\el,x) \rightarrow \el;\quad
-\fun{mem}(\cons{x}{s},x) \rightarrow x;\quad
-\fun{mem}(\cons{y}{s},x) \rightarrow \fun{mem}(s,x).
+\begin{array}{r@{\;}c@{\;}l}
+\fun{mem}(\el,x) & \rightarrow & \el;\\
+\fun{mem}(\cons{x}{s},x) & \rightarrow & x;\\
+\fun{mem}(\cons{y}{s},x) & \rightarrow & \fun{mem}(s,x).
+\end{array}
 \end{equation*}
 
 Quelques tests devraient accroître la confiance en la
@@ -120,9 +133,12 @@ correction\index{correction} et la complétude\index{complétude} de
 cette définition par rapport à sa spécification. Étiquetons les règles
 au préalable:
 \begin{equation*}
-\fun{mem}(\el,x)         \smashedrightarrow{\zeta} \el;\quad
-\fun{mem}(\cons{x}{s},x) \smashedrightarrow{\eta}   x;\quad
-\fun{mem}(\cons{y}{s},x) \smashedrightarrow{\theta} \fun{mem}(s,x).
+\begin{array}{r@{\;}c@{\;}l}
+\fun{mem}(\el,x)         & \smashedrightarrow{\zeta}  & \el;\\
+\fun{mem}(\cons{x}{s},x) & \smashedrightarrow{\eta}   & x;\\
+\fun{mem}(\cons{y}{s},x) & \smashedrightarrow{\theta} &
+\fun{mem}(s,x).
+\end{array}
 \end{equation*}
 Nous pourrions alors éprouver les cas suivants:
 \begin{equation*}
@@ -252,18 +268,22 @@ donnée (jusqu'à \(\el\)) sans trouver~\(x\). Ainsi le résultat est
 simplement la pile vide car la pile vide sans~\(x\) est toujours la
 pile vide:
 \begin{equation*}
-\fun{sfst}(\el,x)         \rightarrow \el;\quad
-\fun{sfst}(\cons{x}{s},x) \rightarrow s;\quad
-\fun{sfst}(\cons{y}{s},x) \rightarrow \cons{y}{\fun{sfst}(s,x)}.
+\begin{array}{r@{\;}l@{\;}l}
+\fun{sfst}(\el,x)         & \rightarrow & \el;\\
+\fun{sfst}(\cons{x}{s},x) & \rightarrow & s;\\
+\fun{sfst}(\cons{y}{s},x) & \rightarrow & \cons{y}{\fun{sfst}(s,x)}.
+\end{array}
 \end{equation*}
 
 Effectuons quelques tests maintenant et, pour éviter des erreurs, il
 est commode d'étiqueter les règles avec des lettres grecques:
 \begin{equation*}
-\fun{sfst}(\el,x)          \xrightarrow{\smash{\theta}} \el;\quad
-\fun{sfst}(\cons{x}{s},x)  \xrightarrow{\smash{\iota}}  s;\quad
-\fun{sfst}(\cons{y}{s},x)  \xrightarrow{\smash{\kappa}}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{sfst}(\el,x)          & \smashedrightarrow{\theta} & \el;\\
+\fun{sfst}(\cons{x}{s},x)  & \smashedrightarrow{\iota}  & s;\\
+\fun{sfst}(\cons{y}{s},x)  & \smashedrightarrow{\kappa} &
 \cons{y}{\fun{sfst}(s,x)}.
+\end{array}
 \end{equation*}
 Remarquons l'égalité implicite dans les règles non-linéaires
 comme~\(\iota\); en d'autre termes, le coût d'une telle comparaison
@@ -366,7 +386,7 @@ les erreurs:
 \end{equation*}
 Ainsi, une fonction appelant \fun{sfst/2} peut faire la différence
 entre une réécriture normale et une erreur en inscrivant un
-constructeur de données dans un motif:
+constructeur de données dans le filtrage par motif:
 \begin{equation*}
 \begin{array}{r@{\;}l@{\;}l}
 \fun{caller}(s,x) & \rightarrow & \fun{check}(\fun{sfst}(s,x)).\\
@@ -407,13 +427,13 @@ suppose que \(j\)~peut prendre toutes les positions dans la pile:
   \frac{1}{n}\sum_{j=0}^{n-1}(j+1) = \frac{1}{n}\sum_{j=0}^{n}j
   = \frac{n+1}{2} \sim \frac{n}{2},
 \end{equation*}
-par l'équation~\eqref{eq_sum_k} \vpageref{eq_sum_k}.
+par l'équation~\eqref{eq:sum_k} \vpageref{eq:sum_k}.
 
 Notons que la règle~\(\kappa\) implique la création d'un
 n{\oe}ud~(\texttt{|}), que nous appelons \emph{n{\oe}ud
   d'empilage}\index{n{\oe}ud d'empilage}, comme on peut le voir à la
 \fig~\vref{fig:sfst_dag}.
-\begin{figure}
+\begin{figure}[b]
 \centering
 \includegraphics[bb=71 664 345 721]{sfst_dag}
 \caption{Graphe orienté sans circuit pour \fun{sfst/2}}
@@ -441,7 +461,7 @@ règle~\(\nu\) déduite de~\(\iota\). La nouvelle version de
 \fun{sfst/2} est appelée
 \fun{sfst\(_0\)/2}\index{sfst0@\fun{sfst\(_0\)/2}} et est montrée dans
 la \fig~\ref{fig:sfst0}.\index{sfst@\fun{sfst/4}}
-\begin{figure}[b]
+\begin{figure}
 \begin{equation*}
 \boxed{%
 \begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
@@ -472,15 +492,17 @@ un appel de fonction dont les arguments sont des valeurs. En d'autres
 termes, aucun appel n'a de contexte. Une définition satisfaisant une
 telle propriété syntaxique est dite \emph{en forme
   terminale}\index{langage fonctionnel!forme
-  terminale}. Intuitivement, la conséquence pratique d'une telle forme
-est que les appels qui terminent se déroulent jusqu'à ce que la valeur
-soit atteinte et c'est tout: \emph{la valeur du dernier appel est la
-  valeur du premier appel}. Cette sorte de définition permet le
-partage dans la règle~\(\mu\), où \(u\) (la référence vers la pile
-originelle) devient la valeur, à la place de \(\fun{rev}(t)\). Les
-compilateurs et interprètes de langages fonctionnels exploitent
-souvent cette propriété pour accélérer les calculs, comme nous le
-verrons dans la dernière partie de ce livre.
+  terminale}.
+
+Intuitivement, la conséquence pratique d'une telle forme est que les
+appels qui terminent se déroulent jusqu'à ce que la valeur soit
+atteinte et c'est tout: \emph{la valeur du dernier appel est la valeur
+du premier appel}. Cette sorte de définition permet le partage dans la
+règle~\(\mu\), où \(u\) (la référence vers la pile originelle) devient
+la valeur, à la place de \(\fun{rev}(t)\). Les compilateurs et
+interprètes de langages fonctionnels exploitent souvent cette
+propriété pour accélérer les calculs, comme nous le verrons dans la
+dernière partie de ce livre.
 
 L'inconvénient de \fun{sfst\(_0\)/2} par rapport à \fun{sfst/2} est le
 coût additionnel dû au retournement de~\(t\) dans la règle~\(\nu\),
@@ -493,14 +515,16 @@ est \(\lambda\xi^n\mu\), d'où \(\C{\fun{sfst}_0}{n} =
 2\). Supposons maintenant que \(x\)~se trouve à la position \(k\)
 dans~\(s\), où le sommet est à la position~\(0\). La trace
 d'évaluation est alors \(\lambda \xi^{k}\nu\eta^k\zeta\), donc
-\(\C{\fun{sfst}_0}{n,k} = \len{\lambda \xi^{k}\nu\eta^k\zeta} = 2k +
-3\). Il apparaît maintenant avec clarté que
-\begin{gather*}
-  \B{\fun{sfst}_0}{0} = 2,\quad \B{\fun{sfst}_0}{n} = \min_{0
-    \leqslant k < n}\{\C{\fun{sfst}_0}{n}, \C{\fun{sfst}_0}{n,k}\}
+\begin{equation*}
+  \C{\fun{sfst}_0}{n,k} = \len{\lambda \xi^{k}\nu\eta^k\zeta} = 2k + 3.
+\end{equation*}
+Il apparaît maintenant avec clarté que
+\begin{align*}
+\B{\fun{sfst}_0}{0} & = 2,\\
+\B{\fun{sfst}_0}{n} & = \min_{0 \leqslant k < n}\{\C{\fun{sfst}_0}{n}, \C{\fun{sfst}_0}{n,k}\}
                     = \min_{0 \leqslant k < n}\{n+2,2k+3\} = 3,\\
-  \W{\fun{sfst}_0}{n} = \max_{0 \leqslant k < n}\{n+2,2k+3\} = 2n+1,
-\end{gather*}
+\W{\fun{sfst}_0}{n} & = \max_{0 \leqslant k < n}\{n+2,2k+3\} = 2n+1,
+\end{align*}
 où le coût minimum se produit quand l'élément est au sommet de la
 pile; le coût maximum lorsque l'élément est tout au fond de la pile.
 
@@ -529,10 +553,12 @@ problème est que la dernière règle de
 \index{cat@\fun{cat/2}} produit
 \(\fun{cat}(\dots\fun{cat}((\fun{cat}(\el,[x_1]),[x_2])\dots)\), dont
 le coût est quadratique\index{coût!$\sim$ quadratique} comme dans la
-réécriture~\eqref{eq_rev0}
-\vpageref{eq_rev0}\index{rev0@\fun{rev\(_0\)/1}}, et à partir de
-laquelle nous concluons promptement que \(\W{\fun{sfst}_1}{n} \sim
-\tfrac{1}{2}n^2\).
+réécriture~\eqref{eq:rev0}
+\vpageref{eq:rev0}\index{rev0@\fun{rev\(_0\)/1}}, et à partir de
+laquelle nous concluons promptement que
+\begin{equation*}
+  \W{\fun{sfst}_1}{n} \sim \frac{1}{2}n^2.
+\end{equation*}
 
 \paragraph{Dernière occurrence}
 \index{pile!filtrage!dernière occurrence}
@@ -546,7 +572,7 @@ pile pour ôter la première occurrence:
 \begin{equation}
   \fun{slst}_0(s,x) \xrightarrow{\smash{\pi}}
                   \fun{rev}(\fun{sfst}(\fun{rev}(s),x)).
-\label{eq_slst0}
+\label{eq:slst0}
 \end{equation}
 Si~\(x\) est absent de~\(s\), nous avons
 \index{slst0@$\C{\fun{slst}_0}{n}$}\index{rev@$\C{\fun{rev}}{n}$}
@@ -593,7 +619,7 @@ observations suggèrent qu'une meilleure conception vaut la peine
 d'être envisagée.
 
 Considérons la \fig~\ref{fig:slst},
-\begin{figure}[b]
+\begin{figure}
 \begin{equation*}
 \boxed{%
 \begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
@@ -674,8 +700,11 @@ d'évaluation\index{langage fonctionnel!évaluation!trace} est
 \cdot
 (\sigma\chi^{n-x_p-1}\upsilon),
 \end{equation*}
-dont la longueur est \(x_1 + 2\sum_{k=2}^{p}(x_k-x_{k-1}) + (n - x_p +
-1) = n + x_p - x_1 + 1\). En d'autres termes, si la position de la
+dont la longueur est
+\begin{equation*}
+  x_1 + 2\sum_{k=2}^{p}(x_k-x_{k-1}) + (n - x_p + 1) = n + x_p - x_1 + 1.
+\end{equation*}
+En d'autres termes, si la position de la
 première occurrence est notée~\(f\) et la position de la dernière
 est~\(l\), nous avons obtenu la formule\index{slst@$\C{\fun{slst}}{n}$}
 \begin{equation*}
@@ -702,17 +731,20 @@ possibles, donc avec \(0 \leqslant f \leqslant l < n\):
      + \!\!\sum_{l=0}^{n-f-1}\!\!(l+f)\!\!\bigg)\\
   &= \frac{1}{n(n+1)}\sum_{f=0}^{n-1}(3n + 1 - f)(n-f)\\
   &= \frac{n(3n+1)}{n+1} - \frac{4n+1}{n(n+1)}\sum_{f=0}^{n-1}f
-     + \frac{1}{n(n+1)}\sum_{f=0}^{n-1}f^2\\
-  &= \frac{4}{3}{n} + \frac{2}{3} \sim \frac{4}{3}n,
+     + \frac{1}{n(n+1)}\sum_{f=0}^{n-1}f^2
+  = \frac{4}{3}{n} + \frac{2}{3} \sim \frac{4}{3}n,
 \end{align*}
-où \(\sum_{f=0}^{n-1}{f} = n(n-1)/2\) est l'équation~\eqref{eq_sum_k},
-\vpageref{eq_sum_k}, et la somme des carrés successifs est calculée de
+où \(\sum_{f=0}^{n-1}{f} = n(n-1)/2\) est l'équation~\eqref{eq:sum_k},
+\vpageref{eq:sum_k}, et la somme des carrés successifs est calculée de
 la façon suivante.
 
 Nous appliquons la méthode dite du \emph{télescopage} ou des
-\emph{différences} à la suite \((k^3)_{k>0}\). Nous débutons avec
-l'égalité \((k+1)^3 = k^3 + 3k^2 + 3k + 1\), donc \((k+1)^3 - k^3 =
-3k^2 + 3k + 1\). Alors nous pouvons varier~\(k\) et sommer les
+\emph{différences} à la suite \((k^3)_{k>0}\). Débutons avec
+\((k+1)^3 = k^3 + 3k^2 + 3k + 1\), donc
+\begin{equation*}
+  (k+1)^3 - k^3 = 3k^2 + 3k + 1.
+\end{equation*}
+Alors nous pouvons varier~\(k\) et sommer les
 différences que sont les membres gauches, résultant en de nombreuses
 annulations deux à deux, sauf le premier et le dernier terme:
 \begin{align}
@@ -727,7 +759,7 @@ annulations deux à deux, sauf le premier et le dernier terme:
   && n^3 + 3n^2 + 3n
   &= 3 \sum_{k=1}^{n}{k^2} + 3 \cdot \frac{n(n+1)}{2} + n\notag\\
 \Leftrightarrow && \sum_{k=1}^{n}{k^2} &= \frac{n(n+1)(2n+1)}{6}.
-\label{eq_sum_of_squares}
+\label{eq:sum_of_squares}
 \end{align}
 
 \paragraph{Exercices}

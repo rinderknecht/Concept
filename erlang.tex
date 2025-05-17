@@ -80,7 +80,8 @@ le langage de programmation \Prolog
 \begin{figure}[t]
 \centering
 \includegraphics[bb=214 602 397 646]{clause}
-\caption{Structure d'une clause en \Erlang\label{fig:clause}}
+\caption{Structure d'une clause en \Erlang}
+\label{fig:clause}
 \end{figure}
 
 Enfin, un commentaire débute par \erlcode{\%} et porte jusqu'à la fin
@@ -513,7 +514,8 @@ nouveau la précédente évaluation dans sa totalité, de gauche à droite
 \begin{figure}
 \centering
 \includegraphics[bb=72 620 412 721]{sum1234}
-\caption{Évaluation de \(\fun{sum}([1,2,3,4])\)\label{fig:sum1234}}
+\caption{Évaluation de \(\fun{sum}([1,2,3,4])\)}
+\label{fig:sum1234}
 \end{figure}
 Il est clair maintenant que les instances du contexte s'accumulent et
 croissent en proportion inverse de la taille de l'argument: les
@@ -529,8 +531,8 @@ chaque réécriture, à la \fig~\vref{fig:sum1234_stack}.
 \begin{figure}
 \centering
 \includegraphics{sum1234_stack}
-\caption{Contextes pour l'évaluation de \(\fun{sum}([1,2,3,4])\)
-\label{fig:sum1234_stack}}
+\caption{Contextes pour l'évaluation de \(\fun{sum}([1,2,3,4])\)}
+\label{fig:sum1234_stack}
 \end{figure}
 Cet exemple montre que les instances du contexte croissent, cependant
 que la taille de l'argument décroît de telle manière que la mémoire
@@ -552,7 +554,7 @@ sum([N|S]) -> N + sum(S).
 \end{verbatim}
 et cherchons une définition équivalente en forme terminale,
 \erlcode{sum0/1}. Tout comme avec la factorielle à
-l'équation~\eqref{eq_fact_tf} \vpageref{eq_fact_tf}, l'idée est
+l'équation~\eqref{eq:fact_tf} \vpageref{eq:fact_tf}, l'idée est
 d'utiliser un argument supplémentaire pour accumuler les résultats
 partiels. Ce type d'argument est appelé un \emph{accumulateur}. La
 nouvelle version devrait alors ressembler à
@@ -786,8 +788,8 @@ Renommons \erlcode{sum0/1} en \fun{sum\(_0\)/1} à la
                            & \fun{sum}_0(n+m,s).
 \end{array}}
 \end{equation*}
-\caption{Somme d'entiers dans une pile avec \fun{sum\(_0\)/1}
-\label{fig:sum0}}
+\caption{Somme d'entiers dans une pile avec \fun{sum\(_0\)/1}}
+\label{fig:sum0}
 \end{figure}
 Considérons l'arbre de syntaxe abstraite des expressions réécrites à
 la \fig~\ref{fig:sum0_1234}.
@@ -795,7 +797,8 @@ la \fig~\ref{fig:sum0_1234}.
 \centering
 \includegraphics{sum0_1234}
 \caption{Arbres de syntaxe abstraite de \(\fun{sum}_0([1,2,3,4])
-  \twoheadrightarrow 10\)\label{fig:sum0_1234}}
+  \twoheadrightarrow 10\)}
+\label{fig:sum0_1234}
 \end{figure}
 Les arbres intermédiaires de~\(m+n\) ont été ignorés pour mettre en
 valeur la décroissance stricte de la taille des arbres et la constance
@@ -975,8 +978,8 @@ Parfois, la synonymie est cruciale. Par exemple, toute la discussion à
 propos de la persistance, à la section~\ref{sec:persistence}, repose
 sur l'existence d'un partage maximum dans chaque règle de réécriture,
 mais, ici, \Erlang a besoin de synonymes pour mettre en {\oe}uvre
-cette condition, donc les définitions~\eqref{eq_push_pop_persistence}
-\vpageref{eq_push_pop_persistence} \emph{doivent} être traduites comme
+cette condition, donc les définitions~\eqref{eq:push_pop_persistence}
+\vpageref{eq:push_pop_persistence} \emph{doivent} être traduites comme
 suit:
 \begin{verbatim}
 push(X,H=[S|_]) -> [[X|S]|H].
@@ -1011,16 +1014,16 @@ de \fun{sum/1} à la \fig~\vref{fig:sum_dag}.
 \begin{figure}
 \centering
 \includegraphics{sum_dag}%[bb=71 666 237 721]
-\caption{Définition de \fun{sum/1} avec partage maximum
-\label{fig:sum_dag}}
+\caption{Définition de \fun{sum/1} avec partage maximum}
+\label{fig:sum_dag}
 \end{figure}
 Évaluons \(\fun{sum}([3,7,5])\) et montrons les premières réécritures
 à la \fig~\vref{fig:sum375_push},
 \begin{figure}[b]
 \centering
 \includegraphics{sum375_push}
-\caption{Évaluation de \(\fun{sum}([3,7,5])\) avec un graphe (phase 1/2)
-\label{fig:sum375_push}}
+\caption{Évaluation de \(\fun{sum}([3,7,5])\) avec un graphe (phase 1/2)}
+\label{fig:sum375_push}
 \end{figure}
 où l'état complet de la mémoire est figuré comme une succession
 d'instantanés entre des flèches hachurées. \index{graphe orienté sans
@@ -1074,8 +1077,8 @@ La phase de dépilage est montrée en action à la \fig~\vref{fig:sum375_pop},
 \begin{figure}[b]
 \centering
 \includegraphics{sum375_pop}
-\caption{Évaluation de \(\fun{sum}([3,7,5])\) (phase 2/2)
-\label{fig:sum375_pop}}
+\caption{Évaluation de \(\fun{sum}([3,7,5])\) (phase 2/2)}
+\label{fig:sum375_pop}
 \end{figure}
 qui doit être lue de droite à gauche. L'état de la mémoire le plus à
 droite est le résultat de la phase d'empilage précédente, à partir du
@@ -1127,8 +1130,8 @@ automatique fondé sur une pile.
 \begin{figure}[b]
 \centering
 \includegraphics{sum375_pop1}
-\caption{Évaluation de \(\fun{sum}([3,7,5])\) (phase 2/2, pile et tas)
-\label{fig:sum375_pop1}}
+\caption{Évaluation de \(\fun{sum}([3,7,5])\) (phase 2/2, pile et tas)}
+\label{fig:sum375_pop1}
 \end{figure}
 Gardons en tête que la valeur \([3,7,5]\) est rangée dans le tas, pas
 dans la pile de contrôle, et qu'elle peut être partagée. De plus, à
@@ -1139,18 +1142,16 @@ pouvons saisir la croissance de la pile de contrôle à la
 \begin{figure}
 \centering
 \includegraphics{sum375_stack_push}
-\caption{Pile de contrôle pour évaluer \(\fun{sum}([3,7,5])\) (phase
-  1/2)
-  \label{fig:sum375_stack_push}}
+\caption{Pile de contrôle pour évaluer \(\fun{sum}([3,7,5])\) (phase 1/2)}
+\label{fig:sum375_stack_push}
 \end{figure}
 Les dépilages, de droite à gauche, sont présentés à la
 \fig~\ref{fig:sum375_stack_pop}.
 \begin{figure}
 \centering
 \includegraphics{sum375_stack_pop}
-\caption{Pile de contrôle pour évaluer \(\fun{sum}([3,7,5])\)
-(phase 2/2)
-\label{fig:sum375_stack_pop}}
+\caption{Pile de contrôle pour évaluer \(\fun{sum}([3,7,5])\) (phase 2/2)}
+\label{fig:sum375_stack_pop}
 \end{figure}
 
 L'algorithme correspondant consiste en les étapes suivantes. Supposons
@@ -1208,7 +1209,8 @@ chaque étape jusqu'à ce qu'une valeur est atteinte.
 
 \includegraphics[bb=71 636 394 721]{sum0_375_2}
 \caption{\(\fun{sum}_0([3,7,5]) \twoheadrightarrow 15\)
-sans optimisation des appels terminaux\label{fig:sum0_375}}
+  sans optimisation des appels terminaux}
+\label{fig:sum0_375}
 \end{figure}
 montre seulement la première phase, qui consiste à empiler sur la pile
 de contrôle l'arbre nouvellement produit par une règle et à partager
@@ -1236,8 +1238,8 @@ montrée à la \fig~\vref{fig:sum0_375tco}
 \includegraphics[bb=71 628 350 721]{sum0_375tco1}
 \includegraphics[bb=71 636 375 721]{sum0_375tco2}
 \caption{\(\fun{sum}_0([3,7,5])
-  \twoheadrightarrow 15\) avec optimisation des appels terminaux
-  \label{fig:sum0_375tco}}
+  \twoheadrightarrow 15\) avec optimisation des appels terminaux}
+\label{fig:sum0_375tco}
 \end{figure}
 et devrait être contrastée avec la série à la \fig~\vref{fig:sum0_375}.
 
@@ -2437,8 +2439,8 @@ deux arbres de syntaxe abstraite sont facilement comparés à la
 \subfloat[Avec des \(n\)-uplets imbriqués\label{fig:acc_tup}]{
   \includegraphics[bb=71 659 195 721]{acc_tup}
 }
-\caption{Deux mises en {\oe}uvre du même accumulateur linéaire
-\label{fig:tuple_vs_stack}}
+\caption{Deux mises en {\oe}uvre du même accumulateur linéaire}
+\label{fig:tuple_vs_stack}
 \end{figure}
 Le codage d'une pile d'accumulation par le biais de \(n\)-uplets
 uniquement suppose d'ajouter une composante à chaque \(n\)-uplet, qui
@@ -2529,7 +2531,7 @@ les mêmes valeurs que~\erlcode{fib/1}, c'est-à-dire que nous avons
 associée à la séquence \((F_n)_{n \geqslant 0}\) est
 \begin{equation}
 f(x) := \sum_{k \geqslant 0}{F_kx^k}.
-\label{eq_Fib}
+\label{eq:Fib}
 \end{equation}
 Laissons de côté pour un instant la convergence et recherchons une
 forme close de \(f(x)\). On a \(xf(x) = \sum_{k > 0}{F_{k-1}x^k}\) et
@@ -2560,7 +2562,7 @@ Utilisons la série entière géométrique \(\frac{1}{1-\alpha x} =
 f(x) = \sum_{k \geqslant 0}{\frac{\phi^k-\hat\phi^k}{\sqrt{5}}}x^k,
 \end{equation*}
 donc, par identification avec les coefficients de
-l'équation~\eqref{eq_Fib},
+l'équation~\eqref{eq:Fib},
 \begin{equation*}
 \abovedisplayskip=4pt
 \abovedisplayshortskip=4pt
@@ -2623,7 +2625,8 @@ coût, en général. En regardant l'arbre des appels de \erlcode{fib(5)}
 \begin{figure}[b]
 \centering
 \includegraphics{fib5tree}
-\caption{Arbre des appels de \texttt{fib(5)}\label{fig:fib5tree}}
+\caption{Arbre des appels de \texttt{fib(5)}}
+\label{fig:fib5tree}
 \end{figure}
 nous réalisons que quelques petits sous-arbres sont dupliqués, comme
 ceux dont la racine est \erlcode{fib(2)}, et des plus grands comme
@@ -2648,8 +2651,8 @@ recalculant, donc l'arbre ressemble maintenant à la
 \begin{figure}
 \centering
 \includegraphics[bb=71 671 349 718]{fib5shared}
-\caption{Arbre des appels de \erlcode{fib(5)} avec partage maximum
-\label{fig:fib5shared}}
+\caption{Arbre des appels de \erlcode{fib(5)} avec partage maximum}
+\label{fig:fib5shared}
 \end{figure}
 où les arcs fléchés dénotent le partage de sous-arbres. À proprement
 parler, il s'agit d'un graphe orienté sans circuits, et cette
@@ -2699,8 +2702,8 @@ transforme toutes les définitions des fonctions utilisées par une
 définition donnée. En supposant que la taille limitée de la pile de
 contrôle est un véritable problème, est-il possible de ne pas
 transformer toutes les fonctions impliquées? Considérons à nouveau
-\erlcode{slst0/2}, définie par l'équation~\eqref{eq_slst0}
-\vpageref{eq_slst0}:
+\erlcode{slst0/2}, définie par l'équation~\eqref{eq:slst0}
+\vpageref{eq:slst0}:
 \begin{verbatim}
 slst0(S,X) -> rev(sfst(rev(S),X)).
 \end{verbatim}
@@ -3033,8 +3036,8 @@ où \erlcode{len0/1} est définie à la \fig~\vref{fig:len0}.
 \fun{len}_0(\cons{x}{s},n) & \rightarrow & \fun{len}_0(s,n+1).
 \end{array}}
 \end{equation*}
-\caption{Calcul de la longueur d'une pile (forme terminale)
-\label{fig:len0}}
+\caption{Calcul de la longueur d'une pile (forme terminale)}
+\label{fig:len0}
 \end{figure}
 Le résultat est
 \begin{center}
@@ -3281,8 +3284,8 @@ correspondants.
 \subfloat[\erlcode{foldl(F,A,S)}]{%
   \includegraphics[bb=62 660 135 721]{foldl}%[bb=69 651 164 721]
 }
-\caption{Résultat de \erlcode{foldl/3} sur une pile non-vide
-\label{fig:foldl}}
+\caption{Résultat de \erlcode{foldl/3} sur une pile non-vide}
+\label{fig:foldl}
 \end{figure}
 La définition suivante réalise l'effet désiré:
 \begin{verbatim}
@@ -3345,8 +3348,8 @@ correspondants.
 \subfloat[\erlcode{foldr(F,A,S)}]{%
   \includegraphics[bb=62 660 132 721]{foldr}
 }
-\caption{Résultat de \erlcode{foldr/3} sur une pile non-vide
-\label{fig:foldr}}
+\caption{Résultat de \erlcode{foldr/3} sur une pile non-vide}
+\label{fig:foldr}
 \end{figure}
 Nous parvenons à ce comportement avec la définition suivante:
 \begin{verbatim}
@@ -3417,7 +3420,7 @@ appels suivants:
 \erlcode{foldr(fun cat/2,[],S)}.
 \end{center}
 Le premier sera plus lent que le second, comme
-l'inégalité~\eqref{ineq_cat_assoc} \vpageref{ineq_cat_assoc} le
+l'inégalité~\eqref{ineq:cat_assoc} \vpageref{ineq:cat_assoc} le
 démontre.
 
 Qu'est-ce qui ne peut être programmé par compositions itérées? Com\-me
@@ -3477,7 +3480,7 @@ droit a pour coût \(n+2\), donc il est supérieur à l'autre. Une autre
 \begin{equation}
 \erlcode{foldl(\(F\),\(A\),\(S\))}
 \equiv
-\erlcode{foldr(\(F\),\(A\),\(S\))}\label{eq_foldlr}
+\erlcode{foldr(\(F\),\(A\),\(S\))}\label{eq:foldlr}
 \end{equation}
 \emph{si \(F\)~est associative est symétrique.} Prouvons cela. Les
 premières clauses des définitions de \erlcode{foldl/3} et
@@ -3582,7 +3585,7 @@ Commençons par le membre gauche de
 Ce raisonnement prouve \(\pred{Fold}{\erlcode{[\(Y\)|\(S\)]}}\). Le
 principe d'induction structurelle implique alors que
 \(\pred{Fold}{S}\) est vraie pour toutes les piles~\(S\), donc
-l'équation~\eqref{eq_foldlr} \vpageref{eq_foldlr}. La dérivation
+l'équation~\eqref{eq:foldlr} \vpageref{eq:foldlr}. La dérivation
 précédente suggère une variation de la définition de
 \erlcode{foldl/3}:
 \begin{alltt}
@@ -3655,7 +3658,7 @@ puisque la bibliothèque standard de \Erlang offre la définition
 standard de \OCaml, toutefois, propose la fonction
 \erlcode{fold\_left}, qui correspond à \erlcode{foldl\_alt/3}.
 
-De toute façon, le théorème~\eqref{eq_foldlr} nous permet de
+De toute façon, le théorème~\eqref{eq:foldlr} nous permet de
 transformer immédiatement certains appels à \erlcode{foldr/3}, qui
 exige une quantité de pile de contrôle au moins proportionnelle à la
 taille de la pile d'entrée, en appels à \erlcode{foldl/3}, dont le

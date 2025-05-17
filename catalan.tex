@@ -33,7 +33,8 @@ le coût de le traverser de différentes façons.
 % [0pt] of margin overhang
 \centering
 \includegraphics[bb=71 646 160 716]{catalan_tree}
-\caption{Arbre de Catalan de hauteur~5\label{fig:catalan_tree}}
+\caption{Arbre de Catalan de hauteur~5}
+\label{fig:catalan_tree}
 \end{wrapfigure}
 Les arbres de Catalan sont un type spécial de graphe, soit un objet
 constitué de \emph{n{\oe}uds} (appelés aussi \emph{sommets}) reliés
@@ -101,7 +102,8 @@ objets doivent être aisément dénombrables.
 \subfloat[Arbre de Catalan\label{fig:ctree}]{%
 \includegraphics[bb=65 663 127 721]{ctree}
 }
-\caption{Bijection\label{fig:bijection}}
+\caption{Bijection}
+\label{fig:bijection}
 \end{wrapfigure}
 Les objets qui conviennent le mieux à notre objectif sont ici les
 \emph{chemins monotones dans un trellis}, \index{chemin monotone dans
@@ -119,7 +121,8 @@ montrer qu'\emph{il existe une bijection entre les chemins de Dyck de
 \begin{wrapfigure}[7]{r}[0pt]{0pt}
 \centering
 \includegraphics[bb=71 661 128 720]{ctree_pre}
-\caption{\label{fig:ctree_pre}}
+\caption{}
+\label{fig:ctree_pre}
 \end{wrapfigure}
 Pour comprendre cette bijection, nous devons d'abord présenter un type
 particulier de \emph{parcours}\index{arbre!parcours}, ou
@@ -161,8 +164,8 @@ d'arbres de Catalan avec \(n\)~arcs.
 % [0pt] of margin overhang
 \centering
 \includegraphics[bb=71 591 186 721]{reflection}
-\caption{Réflexion d'un préfixe par rapport à \(y = x - 1\)
-\label{fig:reflection}}
+\caption{Réflexion d'un préfixe par rapport à \(y = x - 1\)}
+\label{fig:reflection}
 \end{wrapfigure}
 Le nombre total de chemins monotones de longueur~\(2n\) est le nombre
 de choix de \(n\)~montées parmi \(2n\)~pas, soit
@@ -184,7 +187,7 @@ est bijective. (Une autre approche visuelle et intuitive de ce même
 fait a été publiée par \cite{Callan_1995}.) Par conséquent, il y a
 autant de chemins monotones de \((0,0)\) à \((n,n)\) qui coupent la
 diagonale qu'il y a de chemins monotones de \((1,-1)\) à \((n,n)\). Ces derniers sont aisément énumérés: \(\binom{2n}{n-1}\). En conclusion, le nombre de chemins de Dyck de longueur~\(2n\)
-est\label{eq_Ann}
+est\label{eq:Ann}
 \begin{align*}
 C_n &= \binom{2n}{n} - \binom{2n}{n-1}
 = \binom{2n}{n} - \frac{(2n)!}{(n-1)!(n+1)!}\\
@@ -194,10 +197,10 @@ C_n &= \binom{2n}{n} - \binom{2n}{n-1}
 Les nombres \(C_n\) sont les \emph{nombres de Catalan}\index{nombres
   de Catalan@$C_n$|see{nombres de Catalan}}\index{nombres de Catalan}.
 En employant la formule de Stirling \index{formule de Stirling}, vue à
-l'équation~\eqref{eq_Stirling} à la page~\pageref{eq_Stirling}, nous trouvons que le nombre d'arbres de Catalan avec \(n\)~arcs est
+l'équation~\eqref{eq:Stirling} à la page~\pageref{eq:Stirling}, nous trouvons que le nombre d'arbres de Catalan avec \(n\)~arcs est
 \begin{equation}
   C_n = \frac{1}{n+1}\binom{2n}{n} \sim \frac{4^n}{n\sqrt{\pi n}}.
-\label{eq_Cn}
+\label{eq:Cn}
 \end{equation}
 
 \section{Hauteur moyenne}
@@ -230,7 +233,7 @@ d'arbres avec \(n\)~arcs et de hauteur supérieure à~\(h\):
 \begin{equation}
 S_n = \sum_{h \geqslant 1}h(A_{n,h}-A_{n,h-1})
     = \sum_{h \geqslant 1}h(B_{n,h-1}-B_{n,h}) = \sum_{h\geqslant 0} B_{n,h}.
-\label{eq_Sn}
+\label{eq:Sn}
 \end{equation}
 
 Avec la détermination de~\(A_{n,h}\) en tête, considérons à la
@@ -245,7 +248,8 @@ de hauteur \(h-1\) \label{fig:height}]{
 \subfloat[Chemin de \(A\) à \(\Omega\) évitant \(y=x+s\) et
 \(y=x-t\)\label{fig:mohanty}]{
 \includegraphics[scale=0.9,bb=71 621 219 721]{mohanty}}
-\caption{Chemins évitant des frontières diagonales\label{fig:boundaries}}
+\caption{Chemins évitant des frontières diagonales}
+\label{fig:boundaries}
 \end{figure}
 Les lignes doubles sont des frontières qui ne peuvent être atteintes
 par le chemin. Ceci est en fait un cas particulier d'un chemin
@@ -256,7 +260,7 @@ est bien connu que le nombre de chemins monotones s'étendant
 de~\(A(0,0)\) à~\(\Omega(a,b)\) et évitant les frontières est
 \begin{equation}
 \left\lvert\mathcal{L}(a,b;t,s)\right\rvert = \sum_{k \in \mathbb{Z}}\left[\binom{a+b}{b+k(t+s)} - \binom{a+b}{b+k(t+s)+t}\right].
-\label{eq_mohanty}
+\label{eq:mohanty}
 \end{equation}
 
 La preuve par \citet[p.~6]{Mohanty_1979} de cette formule est fondée
@@ -264,7 +268,7 @@ sur le principe de réflexion et le principe d'inclusion et
 d'exclusion, par lequel un sur-ensemble est pris et un sous-ensemble
 est soustrait parce que ces deux ensembles sont plus aisément
 énumérables que le tout (nous avons employé ce principe implicitement
-pour parvenir à la formule~\eqref{eq_Cn}). Nous reproduisons verbatim
+pour parvenir à la formule~\eqref{eq:Cn}). Nous reproduisons verbatim
 sa preuve ici parce qu'elle n'est pas facile à trouver de nos jours.
 \begin{proof}
   (\textbf{Mohanty}) Pour faire bref, nommons les frontières \(x=y+t\)
@@ -282,7 +286,7 @@ sa preuve ici parce qu'elle n'est pas facile à trouver de nos jours.
   \begin{equation}
     \left\lvert\mathcal{L}(a,b;t,s)\right\rvert = \binom{a+b}{b} +
     \sum_{i \leqslant 1}(-1)^{i}(\lvert{A_i}\rvert +
-    \lvert{B_i}\rvert),\label{eq_L}
+    \lvert{B_i}\rvert),\label{eq:L}
   \end{equation}
   où~\(\lvert{A_i}\rvert\) et~\(\lvert{B_i}\rvert\) sont évalués
   répétitivement au moyen du principe de réflexion. Par exemple,
@@ -312,7 +316,7 @@ sa preuve ici parce qu'elle n'est pas facile à trouver de nos jours.
   \(\lvert{A_0}\rvert\), \(\lvert{B_0}\rvert\) étant
   \(\binom{a+b}{b}\), sont obtenues en interchangeant \(a\)~et~\(b\)
   et \(s\)~avec~\(t\). La substitution de ces valeurs
-  dans~\eqref{eq_L} donne~\eqref{eq_mohanty} après quelques
+  dans~\eqref{eq:L} donne~\eqref{eq:mohanty} après quelques
   simplifications.
 \end{proof}
 
@@ -320,7 +324,7 @@ En reprenant le fil de notre argumentation, si nous faisons se
 correspondre les figures dans la \fig~\ref{fig:boundaries}, nous
 déduisons que \(s=h\), \(t=1\), \(a=b=n\), d'où \(a+b=2n\) et
 \(b+k(s+t)=n+k(h+1)\), que nous remplaçons dans la
-formule~\eqref{eq_mohanty} où nous changeons \(h\)~en \(h-1\):
+formule~\eqref{eq:mohanty} où nous changeons \(h\)~en \(h-1\):
 \begin{equation*}
 A_{n,h-1} = \sum_{k \in \mathbb{Z}}\left[\binom{2n}{n+kh} -
            \binom{2n}{n+1+kh}\right].
@@ -336,7 +340,7 @@ A_{n,h-1}
     2\binom{2n}{n-kh} + \binom{2n}{n-1-kh}\right]\\
   &\phantom{=}\; + \binom{2n}{n} - \binom{2n}{n-1}.
 \end{align*}
-Nous reconnaissons \(C_n\) de la page~\pageref{eq_Ann}, et nous
+Nous reconnaissons \(C_n\) de la page~\pageref{eq:Ann}, et nous
 réécrivons
 \begin{equation*}
 C_n - A_{n,h-1}
@@ -349,7 +353,7 @@ A_{n,n+1}\), nous parvenons à la formule
 B_{n,h-1} = \sum_{k \geqslant 1}
             \left[\binom{2n}{n+1-kh} - 2\binom{2n}{n-kh}
             + \binom{2n}{n-1-kh}\right].
-\label{eq_Bn}
+\label{eq:Bn}
 \end{equation}
 
 \citet*{KnuthdeBruijnRice_1972} ont publié un article majeur où ils
@@ -359,14 +363,14 @@ fonction génératrice \citep{Wilf_1990} qui satisfait une équation de
 récurrence dont la solution exprime la fonction génératrice en termes
 de fractions continuées de polynômes de Fibonacci. Ils utilisent alors
 l'intégration sur le plan complexe pour trouver la
-formule~\eqref{eq_Bn}. Alternativement, les fonctions génératrices
+formule~\eqref{eq:Bn}. Alternativement, les fonctions génératrices
 peuvent être employées sur les chemins monotones dans des treillis, au
 lieu des arbres de Catalan \citep[page~64]{Kemp_1984}
 \citep{FlajoletNebelProdinger_2006}.
 
 \citet*{SedgewickFlajolet_1996} \citep{FlajoletSedgewick_2009} utilisent l'analyse combinatoire et l'analyse réelle pour obtenir l'approximation asymptotique de~\(B_{n,h}\). Ils écrivent~\cite[p.~260]{SedgewickFlajolet_1996}: «~Cette analyse est la plus difficile de celles que nous menons dans ce livre. Elle combine des techniques pour résoudre des récurrences linéaires et des fractions continuées, des développements limités de fonctions génératrices, en particulier au moyen du théorème d'inversion de Lagrange, les approximations binomiales et les sommes d'Euler\--Maclaurin.~» Il n'est pas possible d'entrer dans les détails ici, mais nous pouvons esquisser comment une approximation asymptotique peut être menée à bien.
 
-L'équation~\eqref{eq_Sn} implique \(S_{n} = \sum_{h \geqslant 1}
+L'équation~\eqref{eq:Sn} implique \(S_{n} = \sum_{h \geqslant 1}
 B_{n,h-1}\), d'où
 \begin{equation*}
 S_{n} = \sum_{k' \geqslant 1}d(k') \cdot
@@ -396,7 +400,7 @@ Posons \(F_n(m) = (2m^2-n)/(n^2-m^2)\). Nous avons
 S_{n} = 2 \cdot \sum_{h \geqslant 1}\sum_{k \geqslant 1} F_{n+1}(kh)
 \cdot \binom{2n}{n-kh},
 \end{equation*}
-De l'équation~\eqref{eq_Cn} et de \(h_n = S_n/C_n\), nous tirons
+De l'équation~\eqref{eq:Cn} et de \(h_n = S_n/C_n\), nous tirons
 \(h_{n} = (n+1)S_{n}{\binom{2n}{n}}^{-1}\), donc nous devons approcher
 \((n+1)F_{n+1}(m)\) et \(\binom{2n}{n-m}\binom{2n}{n}^{-1}\). D'une
 part, nous avons
@@ -471,7 +475,8 @@ arbre. La \fig~\ref{fig:ctree_deg}
 \subfloat[Arbre de Catalan\label{fig:ctree_deg}]{%
 \includegraphics[bb=58 660 140 721]{ctree_deg}
 }
-\caption{Bijection fondée sur les degrés\label{fig:bijection_deg}}
+\caption{Bijection fondée sur les degrés}
+\label{fig:bijection_deg}
 \end{figure}
 montre le même arbre, où le contenu des n{\oe}uds est leur degré. Le
 parcours en préordre (des degrés) est \([3,0,0,2,1,0,0]\). Puisque le
@@ -543,7 +548,7 @@ peut le voir en faisant se réfléchir les chemins jusqu'à leur première
 traversée de la diagonale, soit \(\binom{2n-r-1}{n}\); en d'autres
 termes, c'est le nombre d'interclassements de \(n\)~montées avec
 \(n-r-1\) descentes. Finalement, en imitant la dérivation de
-l'équation~\eqref{eq_Cn}, le nombre \(\mathcal{R}_n(r)\) d'arbres avec
+l'équation~\eqref{eq:Cn}, le nombre \(\mathcal{R}_n(r)\) d'arbres avec
 \(n\)~arcs et racine de degré~\(r\) est
 \begin{equation*}
 \mathcal{R}_n(r) = \binom{2n-r-1}{n-1} - \binom{2n-r-1}{n}
@@ -568,7 +573,8 @@ le met en relation avec \(\mathcal{R}_n(r)\) dans l'équation suivante:
 \label{fig:lifted_node}]{%
 \includegraphics[bb=71 663 295 721]{lifted_node}
 }
-\caption{Bijection\label{fig:bij_root_level}}
+\caption{Bijection}
+\label{fig:bij_root_level}
 \end{figure}
 se trouve le motif général d'un arbre de Catalan avec un n{\oe}ud
 (\(\bullet\)) au niveau~\(d\) et de degré~\(d\). Les arcs doubles
@@ -601,8 +607,8 @@ Tournons notre attention vers la première somme:
   = \sum_{i=n-1}^{2n-1}\binom{i}{n+l-1}
   = \sum_{i=n+l-1}^{2n-1}\binom{i}{n+l-1}.
 \end{equation*}
-Nous pouvons maintenant employer l'identité \eqref{eq_binom_sum}
-\vpageref{eq_binom_sum}, qui équivaut à \(\sum_{i=j}^{k}\binom{i}{j} =
+Nous pouvons maintenant employer l'identité \eqref{eq:binom_sum}
+\vpageref{eq:binom_sum}, qui équivaut à \(\sum_{i=j}^{k}\binom{i}{j} =
 \binom{k+1}{j+1}\), donc \(j=n+l-1\) et \(k=2n-1\) entraînent
 \begin{equation*}
 \sum_{d=0}^{n}\binom{2n-d-1}{n+l-1} = \binom{2n}{n+l}.
@@ -615,7 +621,7 @@ Catalan avec \(n\)~arcs est
 \sum_{d=0}^{n}\mathcal{N}_n(l,d)
  = \binom{2n}{n+l} - \binom{2n}{n+l+1}
  = \frac{2l+1}{2n+1}\binom{2n+1}{n-l}.
-\label{eq_N_n_l_d}
+\label{eq:N_n_l_d}
 \end{equation}
 
 Soit \(\Expected{P_n}\) la \emph{longueur moyenne des chemins} d'un
@@ -632,8 +638,8 @@ définition de la longueur moyenne. Alternativement, si nous
 choisissons au hasard des arbres de Catalan distincts avec \(n\)~arcs,
 puis choisissons des n{\oe}uds distincts dans ceux-ci,
 \(\Expected{P_n}/(n+1)\) est la limite du coût moyen pour les
-atteindre depuis la racine. En usant des équations \eqref{eq_N_n_l_d}
-et~\eqref{eq_Cn} \vpageref{eq_Cn}, alors
+atteindre depuis la racine. En usant des équations \eqref{eq:N_n_l_d}
+et~\eqref{eq:Cn} \vpageref{eq:Cn}, alors
 \begin{align*}
 \Expected{P_n} \cdot C_n
  &= \sum_{l=0}^{n}l\left[\binom{2n}{n+l} - \binom{2n}{n+l+1}\right]\\
@@ -681,9 +687,9 @@ Poser \(x=y=1\) entraîne l'identité \(2^n =
 étape:
 \begin{equation}
 \Expected{P_n} = \frac{n+1}{2}\left[4^{n}\binom{2n}{n}^{-1} - 1\right].
-\label{eq_EPn}
+\label{eq:EPn}
 \end{equation}
-En nous souvenant de~\eqref{eq_Cn} \vpageref{eq_Cn}, nous obtenons le
+En nous souvenant de~\eqref{eq:Cn} \vpageref{eq:Cn}, nous obtenons le
 développement asymptotique suivant:
 \begin{equation*}
 \Expected{P_n} \sim \frac{1}{2}n\sqrt{\pi n}.
@@ -718,7 +724,7 @@ moitiés ont des sommes égales. Nous concluons:
 \begin{equation}
 \Expected{E_n} = (n+1) 4^{n-1}\binom{2n}{n}^{-1} \sim
 \frac{1}{4}n\sqrt{\pi n}.
-\label{eq_EEn}
+\label{eq:EEn}
 \end{equation}
 La dérivation de \(\Expected{I_n}\) est:
 \begin{align}
@@ -734,9 +740,9 @@ La dérivation de \(\Expected{I_n}\) est:
 \Expected{I_n}
   &= (n+1)4^{n-1}\binom{2n}{n}^{-1} - \frac{n+1}{2} \sim
   \frac{1}{4}n\sqrt{\pi n}.
-\label{eq_EIn}
+\label{eq:EIn}
 \end{align}
-Des formules \eqref{eq_EEn} et~\eqref{eq_EIn}, nous tirons
+Des formules \eqref{eq:EEn} et~\eqref{eq:EIn}, nous tirons
 \begin{equation*}
 \Expected{E_n} = \Expected{I_n} + \frac{n+1}{2}.
 \end{equation*}
@@ -744,8 +750,8 @@ On peut montrer que \((n+1)/2\) est le nombre moyen de feuilles dans
 un arbre Catalan avec \(n\)~arcs, c'est-à-dire que la moitié des
 n{\oe}uds sont des feuilles en moyenne.
 
-À l'asymptote, les formules \eqref{eq_EPn}, \eqref{eq_EEn}
-et~\eqref{eq_EIn} entraînent
+À l'asymptote, les formules \eqref{eq:EPn}, \eqref{eq:EEn}
+et~\eqref{eq:EIn} entraînent
 \begin{equation*}
 \Expected{I_n} \sim \Expected{E_n} \sim \frac{1}{2}\Expected{P_n}.
 \end{equation*}

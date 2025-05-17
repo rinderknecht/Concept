@@ -350,7 +350,7 @@ l'alphabet~\(\breve{a}\). Le nombre moyen \(\OM{\fun{loc}}{m,n}\) de
 comparaisons pour la recherche na\"{\i}ve est
 \begin{equation}
 \OM{\fun{loc}}{m,n} = (n-m+1)\OM{\breve{a}}{m} + \OM{\breve{a}}{m-1},
-\label{eq_loc}
+\label{eq:loc}
 \end{equation}
 car il y a \(n-m+1\) suffixes de longueur au moins~\(m\) et
 \(1\)~suffixe de longueur~\(m-1\), avec lesquels le motif est comparé.
@@ -373,7 +373,7 @@ possibles, donc la moyenne est
  \leqslant 2.
 \end{equation*}
 Puisque \(\OM{\breve{a}}{1} = 1\), il vient l'encadrement suivant
-grâce à l'équation~\eqref{eq_loc}:
+grâce à l'équation~\eqref{eq:loc}:
 \begin{equation*}
 n - m + 2 \leqslant \OM{\fun{loc}}{m,n} < 2(n-m+2) \leqslant 2n + 4.
 \end{equation*}
@@ -472,7 +472,7 @@ Mathématiquement, pour tout mot \({y \neq \varepsilon}\) et toute lettre~\(a\),
       && \text{sinon.}
     \end{aligned}
   \right.
-\label{eq_Border}
+\label{eq:Border}
 \end{equation}
 Considérons les exemples suivants où \(y\)~et~\(\Border{}{y}\) sont donnés:
 \begin{align*}
@@ -505,7 +505,7 @@ préfixes:
   \MPfailure{x}{}{\wlen{y}}
 := \wlen{\Border{}{y}},\,\; \text{pour tout
     \(x\) et \(y \neq \varepsilon\) tels
-    que \(y \prefeq x\)}.\label{eq_MP_failure}
+    que \(y \prefeq x\)}.\label{eq:MP_failure}
 \end{equation}
 Pour des raisons qui deviendront claires bientôt, cette fonction est
 appelée la \emph{fonction de suppléance} de~\(x\). Une définition
@@ -528,8 +528,8 @@ bords maximums des préfixes du mot \word{abacabac}.
 \(k=\MPfailure{p}{}{i}\) et \(\smash{\Ind{p}{\MPfailure{p}{}{i}}}\)
 est la première lettre à être comparée avec~\(\ind{t}{j}\) après le
 décalage. Par ailleurs, la figure présuppose que \({i>0}\), donc le
-bord en question est défini. Les équations \eqref{eq_Border}
-\vpageref{eq_Border} qui définissent le bord maximum peuvent être
+bord en question est défini. Les équations \eqref{eq:Border}
+\vpageref{eq:Border} qui définissent le bord maximum peuvent être
 déroulées de la manière suivante:
 \begin{align*}
    \Border{}{ya}
@@ -601,12 +601,12 @@ Si \({ya \prefeq x}\), alors \(\wlen{\Border{}{ya}} =
 \end{equation*}
 Nous avons à présent besoin de travailler
 sur~\(\wlen{\Border{q}{y}}\). De la définition de~\(\MPfailureName\)
-par l'équation~\eqref{eq_MP_failure} \vpageref{eq_MP_failure}, nous
+par l'équation~\eqref{eq:MP_failure} \vpageref{eq:MP_failure}, nous
 déduisons
 \begin{equation}
 \MPfailure{x}{q}{\wlen{y}} = \wlen{\Border{q}{y}},
 \,\; \text{avec \(y \prefeq x\)},
-\label{eq_MP_failure_p}
+\label{eq:MP_failure_p}
 \end{equation}
 que nous prouvons par induction sur~\(q\). Appelons cette propriété
 \(\pred{P}{q}\). Trivialement, \(\pred{P}{0}\) est vraie. Supposons
@@ -624,7 +624,7 @@ où \((\smash{\doteq})\)~est une application valide de l'hypothèse
 d'induction parce que \(\Border{}{y} \pref y \prefeq x\). Ceci prouve
 \(\pred{P}{q+1}\) et le principe d'induction entraîne la validité de
 \(\pred{P}{n}\) pour tout \(n \geqslant 0\). Par conséquent,
-l'équation \eqref{eq_MP_failure_p} nous permet de raffiner notre
+l'équation \eqref{eq:MP_failure_p} nous permet de raffiner notre
 définition de \(\MPfailure{x}{}{i+1}\) de la manière suivante, avec
 \(i>0\):
 \begin{equation*}
@@ -639,7 +639,7 @@ définition de \(\MPfailure{x}{}{i+1}\) de la manière suivante, avec
 \right.
 \end{equation*}
 Nous n'avons pas mis à profit une partie de la
-définition~\eqref{eq_Border} \vpageref{eq_Border}: \({\Border{}{a} :=
+définition~\eqref{eq:Border} \vpageref{eq:Border}: \({\Border{}{a} :=
   \varepsilon}\). Elle entraîne \(\MPfailure{x}{}{1} =
 \MPfailure{x}{}{\wlen{a}} = \wlen{\Border{}{a}} = \wlen{\varepsilon} =
 0\) et, puisque la définition de~\(\MPfailureName\) implique
@@ -824,8 +824,8 @@ où \(x=\word{abacabac}\). Si \(x=\word{ababaca}\), alors
 \paragraph{Coût minimum}
 \index{recherche de motifs!prétraitement de Morris et Pratt!coût minimum|(}
 
-Il est clair que, d'après la définition~\eqref{eq_Border}
-\vpageref{eq_Border}, la détermination du bord maximum d'un mot
+Il est clair que, d'après la définition~\eqref{eq:Border}
+\vpageref{eq:Border}, la détermination du bord maximum d'un mot
 non-vide requiert le bord maximum de tout ou partie de ses préfixes
 propres, donc, si le mot contient \(n\)~lettres, au moins \(n-1\)
 comparaisons sont nécessaires, car le bord de la première lettre seule

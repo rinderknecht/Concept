@@ -16,7 +16,8 @@ t_2)\),\index{bst@\fun{bst/3}}
 \begin{wrapfigure}[7]{r}[0pt]{0pt}
 \centering
 \includegraphics[bb=68 661 123 721]{bst_ex}
-\caption{\label{fig:bst_ex}}
+\caption{}
+\label{fig:bst_ex}
 \end{wrapfigure}
 est un arbre binaire tel que la clé~\(x\) est supérieure aux clés
 de~\(t_1\) et inférieure aux clés de~\(t_2\). (Le n{\oe}ud externe
@@ -51,8 +52,8 @@ vérifier l'ordre de la pile résultante. La fonction correspondante,
 \fun{ord}(s) & \rightarrow & \fun{true}().
 \end{array}}
 \end{equation*}
-\caption{Vérification na\"{\i}ve d'un arbre binaire de recherche
-\label{fig:bst0}}
+\caption{Vérification na\"{\i}ve d'un arbre binaire de recherche}
+\label{fig:bst0}
 \end{figure}
 où \fun{in\(_2\)/2}\index{in2@\fun{in\(_2\)/2}} est simplement une
 redéfinition de \fun{in/2}\index{in@\fun{in/2}} à la
@@ -108,7 +109,8 @@ Le programme est montré à la
 \fun{norm}(m) & \rightarrow & \fun{true}().
 \end{array}}
 \end{equation*}
-\caption{Vérification d'un arbre binaire de recherche\label{fig:bst}}
+\caption{Vérification d'un arbre binaire de recherche}
+\label{fig:bst}
 \end{figure}
 Le paramètre~\(m\) représente la clé \emph{minimum} jusqu'à
 présent. Le seul but de \fun{norm/1}\index{norm@\fun{norm/1}} est de
@@ -178,7 +180,8 @@ racine de l'arbre donné. La définition de \fun{mem/2} (anglais,
   \fun{mem}(y,t_2).
 \end{array}}
 \end{equation*}
-\caption{Appartenance à un arbre binaire de recherche\label{fig:mem}}
+\caption{Appartenance à un arbre binaire de recherche}
+\label{fig:mem}
 \end{figure}
 Le point crucial est que nous ne sommes pas forcément amenés à visiter
 tous les n{\oe}uds. Plus précisément, si tous les n{\oe}uds sont
@@ -271,20 +274,20 @@ aléatoire (chacun des \(n+1\) intervalles dont les extrémités sont les
 \quad\text{et}\quad
 \M{\fun{mem}}{n{\scriptscriptstyle (-)}}
   = 1 + \frac{1}{n+1}\Expected{E_n},
-\label{eq_Mmems}
+\label{eq:Mmems}
 \end{equation}
 où \(\Expected{I_n}\) et \(\Expected{E_n}\) sont, respectivement, la
 longueur interne moyenne\index{arbre binaire!longueur interne moyenne}
 et la longueur externe moyenne.\index{arbre binaire!longueur externe
-  moyenne} En réutilisant l'équation~\eqref{eq_EI},
-page~\pageref{eq_EI} (\(E_n = I_n + 2n\)), nous déduisons
+  moyenne} En réutilisant l'équation~\eqref{eq:EI},
+page~\pageref{eq:EI} (\(E_n = I_n + 2n\)), nous déduisons
 \(\Expected{E_n} = \Expected{I_n} + 2n\) et nous pouvons maintenant
 mettre en relation les coûts moyens de la recherche en éliminant les
 longueurs moyennes:
 \begin{equation}
 \M{\fun{mem}}{n{\scriptscriptstyle (+)}} = \left(1 + \frac{1}{n}\right)
 \M{\fun{mem}}{n{\scriptscriptstyle (-)}} - \frac{1}{n} - 2.
-\label{eq_Mmem}
+\label{eq:Mmem}
 \end{equation}
 Il est remarquable que cette équation est valable pour tous les arbres
 binaires de recherche, \emph{indépendamment de la manière dont ils ont
@@ -294,7 +297,7 @@ déterminer \(\M{\fun{mem}}{n{\scriptscriptstyle (+)}}\)
 \index{mem@$\M{\fun{mem}}{n{\scriptscriptstyle (+)}}$} et
 \(\M{\fun{mem}}{n{\scriptscriptstyle (-)}}\)
 \index{mem@$\M{\fun{mem}}{n{\scriptscriptstyle (-)}}$} avec l'aide de
-l'équation~\eqref{eq_Mmem}.
+l'équation~\eqref{eq:Mmem}.
 
 Mais avant, nous pourrions peut-être remarquer qu'à la
 \fig~\vref{fig:mem} nous n'avons pas suivi l'ordre des comparaisons
@@ -320,7 +323,8 @@ cette règle \emph{après} les autres tests d'inégalité, comme à la
 \fun{mem}_0(y,t) & \rightarrow & \fun{true}().
 \end{array}}
 \end{equation*}
-\caption{Chercher avec moins de comparaisons bivaluées\label{fig:mem0}}
+\caption{Chercher avec moins de comparaisons bivaluées}
+\label{fig:mem0}
 \end{figure}
 (Nous supposons qu'une égalité est vérifiée aussi vite qu'une
 inégalité.) Avec \fun{mem\(_0\)/2}\index{mem0@\fun{mem\(_0\)/2}}, le
@@ -375,7 +379,8 @@ programme est montré à la \fig~\vref{fig:mem1}.
 \fun{mem}_2(y,\fun{ext}(),c) & \rightarrow & \fun{false}().
 \end{array}}
 \end{equation*}
-\caption{Recherche à la Andersson (clé candidate)\label{fig:mem1}}
+\caption{Recherche à la Andersson (clé candidate)}
+\label{fig:mem1}
 \end{figure}
 La candidate est le troisième argument de
 \fun{mem\(_2\)/2}\index{mem2@\fun{mem\(_2\)/2}} et sa première valeur
@@ -418,7 +423,7 @@ et négative, donc, si \(n > 0\), nous avons
 \begin{equation}
 \M{\fun{mem}_3}{n} = 1 + \M{\fun{mem}_2}{n}\quad\text{et}\quad
 \M{\fun{mem}_2}{n} = \M{\fun{mem}}{n{\scriptscriptstyle (-)}}.
-\label{eq_Andersson_average}
+\label{eq:Andersson_average}
 \index{mem3@$\M{\fun{mem}_3}{n}$}\index{mem2@$\M{\fun{mem}_2}{n}$}
 \end{equation}
 Le choix entre \fun{mem\(_0\)/2} et \fun{mem\(_1\)/2} dépend du
@@ -448,7 +453,8 @@ candidate dans le programme originel. Voir \fig~\vref{fig:mem3}
 \fun{mem}_4(y,\fun{ext}(),t) & \rightarrow & \fun{false}().
 \end{array}}
 \end{equation*}
-\caption{Recherche à la Andersson (arbre candidat)\label{fig:mem3}}
+\caption{Recherche à la Andersson (arbre candidat)}
+\label{fig:mem3}
 \end{figure}
 où nous avons \(\OW{\fun{mem}_3}{n} = \OW{\fun{mem}_1}{n} = n + 1\).
 Cette version ne devrait être privilégiée que si le langage de
@@ -484,7 +490,8 @@ par une feuille contenant la clé à ajouter. La \fig~\vref{fig:insl}
 \fun{insl}(y,\fun{ext}()) & \xrightarrow{\smash{\phi}} & \fun{bst}(y,\fun{ext}(),\fun{ext}()).
 \end{array}}
 \end{equation*}
-\caption{Insertion de feuilles avec doublons possibles\label{fig:insl}}
+\caption{Insertion de feuilles avec doublons possibles}
+\label{fig:insl}
 \end{figure}
 montre le programme pour \fun{insl/2}\index{insl@\fun{insl/2}}
 (anglais, \emph{insert a leaf}). Remarquons qu'il permet la présence
@@ -504,7 +511,8 @@ coût \citep{Burge_1976,ArchibaldClement_2006,Pasanen_2010}.  La
 \fun{insl}_0(y,t) & \rightarrow & t.
 \end{array}}
 \end{equation*}
-\caption{Insertion de feuilles sans doublons\label{fig:insl0}}
+\caption{Insertion de feuilles sans doublons}
+\label{fig:insl0}
 \end{figure}
 montre une variante qui maintient l'unicité des clés, basée sur la
 définition de \fun{mem\(_0\)/2}\index{mem0@\fun{mem\(_0\)/2}} à la
@@ -528,7 +536,8 @@ Andersson pour inspirer une autre solution à la
 \fun{insl}_2(y,\fun{ext}(),t) & \rightarrow & \fun{bst}(y,\fun{ext}(),\fun{ext}()).
 \end{array}}
 \end{equation*}
-\caption{Insertion à la Andersson\label{fig:insl1}}
+\caption{Insertion à la Andersson}
+\label{fig:insl1}
 \end{figure}
 
 \mypar{Coût moyen}
@@ -539,8 +548,8 @@ deux à deux; cela équivaut à considérer tous les arbres de recherche
 résultant de l'insertion dans un arbre vide au début de toutes les
 clés de chaque permutation de \((1,2,\dots,n)\). Étant donné que le
 nombre de permutations est supérieur au nombre d'arbres de même
-taille, car \(n! > b_n\) si \(n > 2\) (équation~\eqref{eq_Cn}
-\vpageref{eq_Cn}), nous nous attendons à ce que certaines formes
+taille, car \(n! > b_n\) si \(n > 2\) (équation~\eqref{eq:Cn}
+\vpageref{eq:Cn}), nous nous attendons à ce que certaines formes
 d'arbre correspondent à plusieurs permutations. Comme nous le verrons
 à la section à propos de la taille moyenne, les arbres dégénérés et
 extrêmement déséquilibrés sont rares en moyenne \citep{Fill_1996}, ce
@@ -564,7 +573,8 @@ identifiées, laissant l'arbre de recherche invariant.)
 & & & \fun{mkl}(\cons{x}{s},t) & \xrightarrow{\smash{\omega}} & \fun{mkl}(s,\fun{insl}(x,t)).
 \end{array}}
 \end{equation*}
-\caption{Créer un arbre avec des insertions de feuilles\label{fig:mkl}}
+\caption{Créer un arbre avec des insertions de feuilles}
+\label{fig:mkl}
 \end{figure}
 qui construit un arbre binaire de recherche en insérant des feuilles
 dont le contenu est donné dans une pile. Remarquons que nous pourrions
@@ -578,7 +588,7 @@ compacte:
   \fun{mklR}(\el) \rightarrow \fun{ext}();
   \quad
   \fun{mklR}(\cons{x}{s}) \rightarrow \fun{insl}(x,\fun{mklR}(s)).
-\label{eq_mklR}
+\label{eq:mklR}
 \end{equation}
 Le coût de \(\fun{insl}(x,t)\) dépend de~\(x\) et de la forme
 de~\(t\), mais le coût moyen
@@ -593,7 +603,7 @@ par une feuille contenant~\(x\). Précisément:
 \abovedisplayshortskip=2pt
 \belowdisplayskip=4pt
 \M{\fun{mkl}}{n} = 2 + \sum_{k=0}^{n-1}\M{\fun{insl}}{k}.
-\label{eq_Mmkl0}
+\label{eq:Mmkl0}
 \end{equation}
 Une caractéristique remarquable de l'insertion de feuilles est que les
 n{\oe}uds internes ne bougent pas, donc la longueur
@@ -603,12 +613,12 @@ arbre de taille~\(n\) est le coût de les avoir insérées
 auparavant. Nous avons déjà remarqué que le coût moyen de la recherche
 est \(n + \Expected{I_n}\); le coût moyen des \(n\)~insertions est
 \(\sum_{k=0}^{n-1}\M{\fun{insl}}{k}\). Donc d'après
-l'équation~\eqref{eq_Mmkl0}:
+l'équation~\eqref{eq:Mmkl0}:
 \begin{equation}
 %\abovedisplayskip=2pt
 %\belowdisplayskip=4pt
 n + \Expected{I_n} = \M{\fun{mkl}}{n} - 2
-\label{eq_n_EIn}
+\label{eq:n_EIn}
 \end{equation}
 (La soustraction de~\(2\) tient compte des règles~\(\smash{\xi}\)
 et~\(\smash{\psi}\), qui n'effectuent aucune insertion.) Le coût de
@@ -617,11 +627,11 @@ l'insertion d'une feuille est celui d'une recherche négative:
 %\abovedisplayskip=4pt
 %\belowdisplayskip=4pt
 \M{\fun{insl}}{k} = \M{\fun{mem}}{k{\scriptscriptstyle (-)}}.
-\label{eq_n_plus_EIn}
+\label{eq:n_plus_EIn}
 \end{equation}
-Nous souvenant de l'équation~\eqref{eq_Mmems} \vpageref{eq_Mmems},
-et aussi des équations~\eqref{eq_Mmkl0}, \eqref{eq_n_EIn}
-et~\eqref{eq_n_plus_EIn}, il vient:
+Nous souvenant de l'équation~\eqref{eq:Mmems} \vpageref{eq:Mmems},
+et aussi des équations~\eqref{eq:Mmkl0}, \eqref{eq:n_EIn}
+et~\eqref{eq:n_plus_EIn}, il vient:
 \begin{equation*}
 \abovedisplayskip=2pt
 \belowdisplayskip=4pt
@@ -631,8 +641,8 @@ et~\eqref{eq_n_plus_EIn}, il vient:
 = \frac{1}{n}\sum_{k=0}^{n-1}\M{\fun{insl}}{k}
 = \frac{1}{n}\sum_{k=0}^{n-1}\M{\fun{mem}}{k{\scriptscriptstyle (-)}}.
 \end{equation*}
-Finalement, en utilisant l'équation~\eqref{eq_Mmem}
-\vpageref{eq_Mmem}, nous déduisons
+Finalement, en utilisant l'équation~\eqref{eq:Mmem}
+\vpageref{eq:Mmem}, nous déduisons
 \begin{equation*}
 \abovedisplayskip=0pt
 \belowdisplayskip=0pt
@@ -672,21 +682,21 @@ donc
 \M{\fun{mem}}{n{\scriptscriptstyle (-)}} =
 1 + 2 \sum_{k=2}^{n+1}\frac{1}{k} = 2H_{n+1} - 1,
 \index{mem@$\M{\fun{mem}}{n{\scriptscriptstyle (-)}}$}
-\label{eq_Mmem_fail}
+\label{eq:Mmem_fail}
 \end{equation}
 où \(H_n := \sum_{k=1}^{n}1/k\)~est le \(n^\text{e}\) nombre
 harmonique\index{nombre harmonique}. En remplaçant
 \(\M{\fun{mem}}{n{\scriptscriptstyle (-)}}\) dans
-l'équation~\eqref{eq_Mmem} et en utilisant \(H_{n+1} = H_n +
+l'équation~\eqref{eq:Mmem} et en utilisant \(H_{n+1} = H_n +
 1/(n+1)\), on obtient
 \begin{equation}
 \M{\fun{mem}}{n{\scriptscriptstyle (+)}} =
 2\left(1+\frac{1}{n}\right)H_n - 3.
 \index{mem@$\M{\fun{mem}}{n{\scriptscriptstyle (+)}}$}
-\label{eq_Mmem_ok}
+\label{eq:Mmem_ok}
 \end{equation}
-D'après les inéquations~\eqref{ineq_Hn} \vpageref{ineq_Hn} et
-les équations~\eqref{eq_Mmem_fail} et~\eqref{eq_Mmem_ok}:
+D'après les inéquations~\eqref{ineq:Hn} \vpageref{ineq:Hn} et
+les équations~\eqref{eq:Mmem_fail} et~\eqref{eq:Mmem_ok}:
 \begin{equation*}
 \M{\fun{insl}}{n}
 \sim \M{\fun{mem}}{n{\scriptscriptstyle (-)}}
@@ -709,8 +719,8 @@ tend lentement vers~\(2\) pour des valeurs croissantes de~\(n\), ce
 qui peut ne pas être évident. Nous pouvons faire usage de ce résultat
 pour comparer les différences moyennes des coûts d'une recherche
 positive avec \fun{mem/2} et \fun{mem\(_3\)/2} (Andersson). Nous
-souvenant de l'équation~\eqref{eq_Andersson_average}
-\vpageref{eq_Andersson_average}, nous tirons \(1 +
+souvenant de l'équation~\eqref{eq:Andersson_average}
+\vpageref{eq:Andersson_average}, nous tirons \(1 +
 \M{\fun{mem}}{n{\scriptscriptstyle (-)}} =
 \M{\fun{mem}_3}{n{\scriptscriptstyle (+)}}\). Le résultat précédent
 maintenant entraîne
@@ -724,12 +734,12 @@ cas d'une recherche positive est asymptotiquement~\(3\), en moyenne.
 
 Par ailleurs, remplacer \(\M{\fun{mem}}{n{\scriptscriptstyle
     (-)}}\) et \(\M{\fun{mem}}{n{\scriptscriptstyle (+)}}\) dans
-les équations~\eqref{eq_Mmems} donne
+les équations~\eqref{eq:Mmems} donne
 \begin{equation}
 \Expected{I_n} = 2(n+1)H_n - 4n
 \quad\text{et}\quad
 \Expected{E_n} = 2(n+1)H_n - 2n.
-\label{eq_IEn}
+\label{eq:IEn}
 \end{equation}
 Donc \(\Expected{I_n} \sim \Expected{E_n} \sim 2n\ln n\). Remarquons
 combien il est facile de trouver~\(\Expected{I_n}\) pour des arbres
@@ -748,9 +758,9 @@ faite si la clé est atteinte, sinon aucune:
 \quad\text{et}\quad
 \OM{\fun{mem}}{n{\scriptscriptstyle(-)}}
   = \frac{2}{n+1}\Expected{E_n}.
-\label{eq_Mmem_cmp1}
+\label{eq:Mmem_cmp1}
 \end{equation}
-En réutilisant les équations~\eqref{eq_IEn}, nous concluons que
+En réutilisant les équations~\eqref{eq:IEn}, nous concluons que
 \begin{equation}
 \OM{\fun{mem}}{n{\scriptscriptstyle(+)}}
   = 4\left(1+\frac{1}{n}\right)H_n - 7
@@ -759,7 +769,7 @@ En réutilisant les équations~\eqref{eq_IEn}, nous concluons que
   = 4H_n + \frac{4}{n+1} - 4.
 \index{mem@$\OM{\fun{mem}}{n{\scriptscriptstyle(-)}}$}
 \index{mem@$\OM{\fun{mem}}{n{\scriptscriptstyle(+)}}$}
-\label{eq_Mmem_cmp2}
+\label{eq:Mmem_cmp2}
 \end{equation}
 Clairement, nous avons \(\OM{\fun{mem}}{n{\scriptscriptstyle(+)}} \sim
 \OM{\fun{mem}}{n{\scriptscriptstyle(-)}} \sim 4\ln n\). De plus,
@@ -774,8 +784,8 @@ Clairement, nous avons \(\OM{\fun{mem}}{n{\scriptscriptstyle(+)}} \sim
 
 Les coûts moyens pour la recherche à la Andersson et les insertions
 sont faciles à déduire aussi, grâce aux
-équations~\eqref{eq_Andersson_average} \vpageref{eq_Andersson_average}
-et~\eqref{eq_Mmem_fail} à la page~\pageref{eq_Mmem_fail}:
+équations~\eqref{eq:Andersson_average} \vpageref{eq:Andersson_average}
+et~\eqref{eq:Mmem_fail} à la page~\pageref{eq:Mmem_fail}:
 \(\M{\fun{mem}_3}{n} = 2H_{n+1} \sim 2 \ln
 n\).\index{mem3@$\M{\fun{mem}_3}{n}$} Un retour sur la
 \fig~\vref{fig:mem3} met en exergue qu'une comparaison bivaluée (\(x
@@ -799,7 +809,7 @@ En ce qui concerne l'insertion de feuilles,
 \fun{mem\(_3\)/2}\index{mem3@\fun{mem\(_3\)/2}}, sauf qu'aucune
 comparaison n'est faite aux n{\oe}uds externes. De plus, nous
 finissons l'analyse du coût moyen de \(\fun{insl/2}\) avec les
-équations~\eqref{eq_n_plus_EIn} et~\eqref{eq_Mmem_fail}:
+équations~\eqref{eq:n_plus_EIn} et~\eqref{eq:Mmem_fail}:
 \begin{equation*}
   \OM{\fun{insl}}{n} =
   \OM{\fun{mem}_3}{n} - 1 = 2H_n + \frac{2}{n+1} -
@@ -807,13 +817,13 @@ finissons l'analyse du coût moyen de \(\fun{insl/2}\) avec les
 \index{insl@$\OM{\fun{insl}}{n}$}
 \index{mem3@$\OM{\fun{mem}_3}{n}$}
 \end{equation*}
-Finalement, grâce aux équations~\eqref{eq_n_EIn} et~\eqref{eq_IEn},
+Finalement, grâce aux équations~\eqref{eq:n_EIn} et~\eqref{eq:IEn},
 nous déduisons
 \begin{equation}
 \M{\fun{mkl}}{n} = n + \Expected{I_n} + 2 = 2(n+1)H_n - n + 2
 \sim 2n\ln n.
 \index{mkl@$\M{\fun{mkl}}{n}$}
-\label{eq_Mmkl}
+\label{eq:Mmkl}
 \end{equation}
 
 \mypar{Coût amorti}
@@ -878,24 +888,24 @@ constitué uniquement de n{\oe}uds internes est~\(k2^k\). Par
 conséquent, en additionnant tous les niveaux, il vient
 \begin{equation}
 \OB{\fun{mkl}}{n} = \sum_{k=1}^{h-1}k2^k = (h-2)2^h + 2,
-\label{eq_OBmkl_tmp1}
+\label{eq:OBmkl_tmp1}
 \end{equation}
-grâce à l'équation~\eqref{eq_Sj} \vpageref{eq_Sj}. De plus, en
+grâce à l'équation~\eqref{eq:Sj} \vpageref{eq:Sj}. De plus, en
 additionnant le nombre de n{\oe}uds internes par niveaux: \(n =
 \sum_{k=0}^{h-1}2^k = 2^{h} - 1\), donc \(h = \lg(n+1)\), que nous
-pouvons remplacer dans l'équation~\eqref{eq_OBmkl_tmp1} pour obtenir
+pouvons remplacer dans l'équation~\eqref{eq:OBmkl_tmp1} pour obtenir
 enfin
 \begin{equation*}
 \OB{\fun{mkl}}{n} = (n+1)\lg(n+1) - 2n.
 \end{equation*}
 Nous avons prouvé \(1 + \floor{\lg n} = \ceiling{\lg(n+1)}\) en
 déterminant le nombre maximum de comparaisons du tri par
-interclassement descendant, à l'équation~\eqref{eq_top}
-\vpageref{eq_top}, donc nous pouvons conclure:
+interclassement descendant, à l'équation~\eqref{eq:top}
+\vpageref{eq:top}, donc nous pouvons conclure:
 \begin{equation}
 \OB{\fun{mkl}}{n} = (n+1)\floor{\lg n} - n + 1.
 \index{mkl@$\OB{\fun{mkl}}{n}$}
-\label{eq_OBmkl_perfect}
+\label{eq:OBmkl_perfect}
 \end{equation}
 
 Supposons maintenant que l'arbre est presque parfait, avec
@@ -904,7 +914,7 @@ internes; alors
 \begin{equation}
 \OB{\fun{mkl}}{n} = \sum_{k=1}^{h-2}k2^k + (h-1)q
 = (h-3)2^{h-1} + 2 + (h-1)q.
-\label{eq_OBmkl_tmp2}
+\label{eq:OBmkl_tmp2}
 \end{equation}
 De plus, le nombre total~\(n\) de n{\oe}uds internes, lorsqu'il est le
 résultat d'une somme par niveaux, satisfait \(n = \sum_{k=0}^{h-2}2^k
@@ -914,13 +924,13 @@ nous avons \(0 < q \leqslant 2^{h-1}\), donc \(0 < n - 2^{h-1} + 1
 h\), alors \(h = \ceiling{\lg(n+1)} = \floor{\lg n} + 1\), d'où \(q =
 n - 2^{\floor{\lg n}} + 1\). Nous pouvons maintenant substituer à
 \(h\)~et~\(q\) leur valeur, que nous venons de déterminer, en termes
-de~\(n\) dans l'équation~\eqref{eq_OBmkl_tmp2}:
+de~\(n\) dans l'équation~\eqref{eq:OBmkl_tmp2}:
 \begin{equation}
 \OB{\fun{mkl}}{n} = (n+1)\floor{\lg n} - 2^{\floor{\lg n}} + 2.
-\label{eq_OBmkl_almost_perfect}
+\label{eq:OBmkl_almost_perfect}
 \end{equation}
-En comparant les équations~\eqref{eq_OBmkl_perfect}
-et~\eqref{eq_OBmkl_almost_perfect}, nous voyons que le nombre de
+En comparant les équations~\eqref{eq:OBmkl_perfect}
+et~\eqref{eq:OBmkl_almost_perfect}, nous voyons que le nombre de
 comparaisons est minimisé si l'arbre est parfait, donc \(n = 2^p -
 1\). L'approximation asymptotique de \(\OB{\fun{mkl}}{n}\) n'est pas
 dure à trouver, du moment que nous évitons l'écueil \(2^{\floor{\lg
@@ -934,12 +944,12 @@ p \Rightarrow \floor{\lg(2^p-1)} = p-1.
 Par conséquent, \(2^{\floor{\lg(x(p))}} = 2^{p-1} = (x(p)+1)/2 \sim
 x(p)/2 \nsim x(p)\), ce qui prouve que \(2^{\floor{\lg(n)}} \nsim n\)
 lorsque \(n=2^p-1 \rightarrow \infty\). Au lieu de cela, dans le cas
-de l'équation~\eqref{eq_OBmkl_perfect}, utilisons les inégalités
+de l'équation~\eqref{eq:OBmkl_perfect}, utilisons les inégalités
 classiques \(x - 1 < \floor{x} \leqslant x\):
 \begin{equation*}
 (n+1)\lg n - 2n < \OB{\fun{mkl}}{n} \leqslant (n+1)\lg n - n + 1.
 \end{equation*}
-Dans le cas de l'équation~\eqref{eq_OBmkl_almost_perfect}, utilisons
+Dans le cas de l'équation~\eqref{eq:OBmkl_almost_perfect}, utilisons
 la définition de la partie fractionnaire\index{partie fractionnaire}
 \(\{x\} := x - \floor{x}\). Évidemment, \(0 \leqslant \{x\} <
 1\). Alors
@@ -1000,7 +1010,9 @@ définies à la \fig~\vref{fig:rotations}.
 & \xrightarrow{\smash{\zeta}} & \fun{bst}(y,\fun{bst}(x,t_1,t_2),t_3).
 \end{array}}
 \end{equation*}
-\caption{Rotation à droite (\(\smash{\epsilon}\)) et à gauche (\(\smash{\zeta}\))\label{fig:rotations}}
+\caption{Rotation à droite (\(\smash{\epsilon}\)) et à gauche
+  (\(\smash{\zeta}\))}
+\label{fig:rotations}
 \end{figure}
 Clairement, elles commutent et sont inverses l'une de l'autre:
 \begin{equation*}
@@ -1055,7 +1067,8 @@ a la forme \(t=\fun{bst}(x,t_1,\fun{bst}(y,t_2,t_3))\).
 }
 \end{equation*}
 \caption{Preuve de \(\fun{in}_3(\fun{rotl}(t)) \equiv
-  \fun{in}_3(t)\)\label{fig:in_rotr}}
+  \fun{in}_3(t)\)}
+\label{fig:in_rotr}
 \end{figure}
 Si nous appliquons une rotation à des sous-arbres, comme nous l'avons
 fait, par exemple, à la \fig~\vref{fig:rot}, le même théorème implique
@@ -1090,8 +1103,8 @@ augmenté avec~\(7\).
 \begin{figure}
 \centering
 \includegraphics[bb=71 641 406 724]{insr_ex}%[bb=71 645 406 718]
-\caption{Insertion de la racine \(7\) dans la \fig~\vref{fig:bst_ex}
-\label{fig:insr_ex}}
+\caption{Insertion de la racine \(7\) dans la \fig~\vref{fig:bst_ex}}
+\label{fig:insr_ex}
 \end{figure}
 Remarquons que la clôture transitive \((\twoheadrightarrow)\) capture
 l'insertion de feuille préliminaire, que
@@ -1112,7 +1125,8 @@ de \fun{insr/2}, à la \fig~\vref{fig:insr}.
 \fun{insr}(y,\fun{ext}()) & \xrightarrow{\smash{\iota}} & \fun{bst}(y,\fun{ext}(),\fun{ext}()).
 \end{array}}
 \end{equation*}
-\caption{Insertion de racine avec doublons possibles\label{fig:insr}}
+\caption{Insertion de racine avec doublons possibles}
+\label{fig:insr}
 \end{figure}
 Notons que nous pouvons éviter de créer les n{\oe}uds internes
 temporaires \(\fun{bst}(x,\dots,t_2)\) et \(\fun{bst}(x,t_1,\dots)\)
@@ -1138,7 +1152,8 @@ comme on le voit avec la nouvelle version \fun{insr\(_0\)/2} à la
 & \rightarrow & \fun{bst}(y,\fun{bst}(x,t_1,t_2),t_3).
 \end{array}}
 \end{equation*}
-\caption{Insertion de racine avec doublons possibles (bis)\label{fig:insr0}}
+\caption{Insertion de racine avec doublons possibles (bis)}
+\label{fig:insr0}
 \end{figure}
 
 Une comparaison entre les insertions de feuille et de racine révèle
@@ -1169,12 +1184,12 @@ où \fun{mkr/1}\index{mkr@\fun{mkr/1}} \index{mkr@\fun{mkr/2}}
 &&&\fun{mkr}(\cons{x}{s},t) & \xrightarrow{\smash{\mu}} & \fun{mkr}(s,\fun{insr}(x,t)).
 \end{array}}
 \end{equation*}
-\caption{Créer des arbres avec des insertions de racines
-\label{fig:mkr}}
+\caption{Créer des arbres avec des insertions de racines}
+\label{fig:mkr}
 \end{figure}
 Remarquons que cela équivaut à affirmer \(\fun{mkr}(s) \equiv
 \fun{mklR}(s)\), où \fun{mklR/1} est définie par
-l'équation~\eqref{eq_mklR} \vpageref{eq_mklR}. Il est utile de
+l'équation~\eqref{eq:mklR} \vpageref{eq:mklR}. Il est utile de
 démontrer ici \(\pred{RootLeaf}{s}\) parce que, contrairement à
 \cite{GeldenhuysVanderMerwe_2009}, nous voulons employer une induction
 structurelle pour être guidé exactement par la syntaxe des définitions
@@ -1674,8 +1689,8 @@ n'impliquent aucune comparaison:
 \index{insr0@$\OM{\fun{insr}_0}{n}$}
 \end{equation*}
 Ceci dit, les rotations doublent le coût de chaque pas vers le bas
-dans l'arbre, et, via les équations~\eqref{eq_Mmem_cmp1}
-et~\eqref{eq_Mmem_cmp2} \vpageref{eq_Mmem_cmp2}, nous avons alors
+dans l'arbre, et, via les équations~\eqref{eq:Mmem_cmp1}
+et~\eqref{eq:Mmem_cmp2} \vpageref{eq:Mmem_cmp2}, nous avons alors
 \begin{equation*}
 \M{\fun{insr}}{n} = 1 + \frac{2}{n+1}\Expected{E_n} = 1 +
 \OM{\fun{mem}}{n{\scriptscriptstyle(-)}} = 4H_n + \frac{4}{n+1} - 3
@@ -1698,8 +1713,8 @@ taille, nous concluons que le nombre moyen de comparaisons pour
 \end{equation*}
 Puisque la seule différence entre \fun{insl/1} et \fun{insr/1} est le
 coût supplémentaire d'une rotation par arc descendant, nous réalisons
-rapidement, en nous souvenant des équations~\eqref{eq_Mmkl}
-et~\eqref{eq_IEn}, que
+rapidement, en nous souvenant des équations~\eqref{eq:Mmkl}
+et~\eqref{eq:IEn}, que
 \begin{equation*}
 \M{\fun{mkr}}{n} = \M{\fun{mkl}}{n} + \Expected{I_n}
 = n + 2 \cdot \Expected{I_n} + 2 = 4(n+1)H_n - 7n + 2.
@@ -1822,7 +1837,8 @@ Les définitions pour ces deux phases se trouvent à la
 \fun{aux}_0(x,t_1,\pair{m}{t'_2}) & \rightarrow & \fun{bst}(m,t_1,t'_2).
 \end{array}}
 \end{equation*}
-\caption{Suppression dans un arbre binaire de recherche\label{fig:del}}
+\caption{Suppression dans un arbre binaire de recherche}
+\label{fig:del}
 \end{figure}
 Nous avons \(\fun{min}(t_2) \twoheadrightarrow
 \pair{m}{t'_2}\),\index{min@\fun{min/1}} où \(m\)~est la clé minimum
@@ -1880,7 +1896,8 @@ autre conception est montrée à la \fig~\vref{fig:del0}.
 \fun{del}_0(y,t) & \rightarrow & t.\\
 \end{array}}
 \end{equation*}
-\caption{Suppression paresseuse dans un arbre de recherche\label{fig:del0}}
+\caption{Suppression paresseuse dans un arbre de recherche}
+\label{fig:del0}
 \end{figure}
 Remarquons que l'insertion d'une clé qui a été supprimée
 paresseusement n'a pas besoin d'être réalisée à un n{\oe}ud externe:
