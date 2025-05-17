@@ -242,12 +242,16 @@ structurelle\index{pile!retournement!équivalence}\index{équivalence!preuve
     \forall x \in T.\pred{EqRev}{\cons{x}{s}}\).
 
 \end{itemize}
-La base est aisée: \(\fun{rev}_0(\el) \xrightarrow{\smash{\gamma}} \el
-\xleftarrow{\smash{\zeta}} \fun{rcat}(\el,\el)
-\xleftarrow{\smash{\epsilon}}
-\fun{rev}(\el)\)\index{rev0@\fun{rev\(_0\)/1}}. Pour le pas inductif,
-réécrivons \(\fun{rev}_0(\cons{x}{s})\) et \(\fun{rev}(\cons{x}{s})\)
-de telle sorte qu'ils convergent:
+La base est aisée:
+\begin{equation*}
+  \fun{rev}_0(\el) \xrightarrow{\smash{\gamma}} \el
+  \xleftarrow{\smash{\zeta}} \fun{rcat}(\el,\el)
+  \xleftarrow{\smash{\epsilon}}
+  \fun{rev}(\el).
+  \index{rev0@\fun{rev\(_0\)/1}}
+\end{equation*}
+Pour le pas inductif, réécrivons \(\fun{rev}_0(\cons{x}{s})\) et
+\(\fun{rev}(\cons{x}{s})\) de telle sorte qu'ils convergent:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}lr@{}}
   \fun{rev}_0(\cons{x}{s})
@@ -282,10 +286,16 @@ L'induction sur la structure de~\(s\) demande alors les preuves
     \Rightarrow \forall x \in T.\pred{RevCat}{\cons{x}{s},t}\).
 
 \end{itemize}
-D'abord, \(\fun{rcat}(\el,t) \xrightarrow{\smash{\zeta}} t
-\xleftarrow{\smash{\alpha}} \fun{cat}(\el,t)
-\xleftarrow{\smash{\zeta}} \fun{cat}(\fun{rcat}(\el,\el),t)
-\xleftarrow{\smash{\epsilon}} \fun{cat}(\fun{rev}(\el),t)\).
+D'abord, pour établir la base, nous avons:
+\begin{equation*}
+\begin{array}{@{}r@{\;}l@{\;}l}
+  \fun{rcat}(\el,t)
+  & \smashedrightarrow{\zeta} t\\
+  & \smashedleftarrow{\alpha} \fun{cat}(\el,t)\\
+  & \smashedleftarrow{\zeta} \fun{cat}(\ufun{rcat}(\el,\el),t)\\
+  & \smashedleftarrow{\epsilon} \fun{cat}(\ufun{rev}(\el),t).
+\end{array}
+\end{equation*}
 Supposons \(\forall s,t \in S.\pred{RevCat}{s,t}\) et prouvons
 \(\forall x \in T.\pred{RevCat}{\cons{x}{s},t}\):
 \begin{equation*}
@@ -295,11 +305,11 @@ Supposons \(\forall s,t \in S.\pred{RevCat}{s,t}\) et prouvons
 & \fun{rcat}(s,\cons{x}{t})\\
 & \equiv
 & \fun{cat}(\fun{rev}(s),\cons{x}{t})
-& (\pred{RevCat}{s,\cons{x}{t}})\\
+& (\pred{RevCat}{s,\cons{x}{t}}) \\
 & \xleftarrow{\smash{\alpha}}
-& \fun{cat}(\fun{rev}(s),\cons{x}{\fun{cat}(\el,t)})\\
+& \fun{cat}(\fun{rev}(s),\cons{x}{\ufun{cat}(\el,t)})\\
 & \xleftarrow{\smash{\beta}}
-& \fun{cat}(\fun{rev}(s),\fun{cat}([x],t))\\
+& \fun{cat}(\fun{rev}(s),\ufun{cat}([x],t))\\
 & \equiv
 & \fun{cat}(\fun{cat}(\fun{rev}(s),[x]),t)
 & (\pred{CatAssoc}{\fun{rev}(s),[x],t})\\
@@ -307,10 +317,9 @@ Supposons \(\forall s,t \in S.\pred{RevCat}{s,t}\) et prouvons
 & \fun{cat}(\fun{rcat}(s,[x]),t)
 & (\pred{RevCat}{s,[x]})\\
 & \xleftarrow{\smash{\eta}}
-& \fun{cat}(\fun{rcat}(\cons{x}{s},\el),t)\\
+& \fun{cat}(\ufun{rcat}(\cons{x}{s},\el),t)\\
 & \xleftarrow{\smash{\epsilon}}
-& \fun{cat}(\fun{rev}(\cons{x}{s}),t).
-& \multicolumn{1}{r@{}}{\Box}
+& \fun{cat}(\ufun{rev}(\cons{x}{s}),t).
 \end{array}
 \end{equation*}
 Finalement, nous avons prouvé \(\forall s.\pred{EqRev}{s}\),
@@ -344,7 +353,7 @@ La somme restante est un classique de l'algèbre:
 \end{equation*}
 Par conséquent,
 \begin{equation}
-\sum_{k=0}^{n-1}{k} = \frac{n(n-1)}{2},\label{eq_sum_k}
+\sum_{k=0}^{n-1}{k} = \frac{n(n-1)}{2},\label{eq:sum_k}
 \end{equation}
 et nous pouvons finalement conclure
 \begin{equation*}
@@ -388,21 +397,24 @@ suivant:
 \begin{equation}
 \fun{rev}_0(s) \twoheadrightarrow \fun{cat}(\fun{cat}(\dots
 \fun{cat}(\el, [x_n]), \dots, [x_2]), [x_1]),
-\label{eq_rev0}
+\label{eq:rev0}
 \end{equation}
 où \(s = [x_1, x_2, \dots, x_n]\). Le coût de tous ces appels à
 \fun{cat/2}\index{cat@\fun{cat/2}} est donc
 \begin{equation*}
-1 + 2 + \dots + (n-1) = \tfrac{1}{2}n(n-1) \sim
-\tfrac{1}{2}n^2,
+1 + 2 + \dots + (n-1) = \frac{1}{2}n(n-1) \sim
+\frac{1}{2}n^2,
 \end{equation*}
 parce que le coût de \(\fun{cat}(s,t)\)\index{cat@\fun{cat/2}} est \(1
 + \fun{len}(s)\), où
 \begin{equation}
-\fun{len}(\el) \xrightarrow{\smash{a}} 0;
-\qquad
-\fun{len}(\cons{x}{s}) \xrightarrow{\smash{b}} 1 + \fun{len}(s).
-\label{eq_len}
+%\abovedisplayskip=4pt
+%\belowdisplayskip=4pt
+\begin{array}{r@{\;}c@{\;}l}
+\fun{len}(\el) & \xrightarrow{\smash{a}} & 0;\\
+\fun{len}(\cons{x}{s}) & \xrightarrow{\smash{b}} & 1 + \fun{len}(s).
+\label{eq:len}
+\end{array}
 \end{equation}
 Le problème n'est pas le recours à \fun{cat/2}, mais le fait que les
 appels sont imbriqués de la façon la plus défavorable. En effet, si
@@ -410,18 +422,30 @@ l'associativité\index{pile!concaténation!associativité} de
 \fun{cat/2}\index{cat@\fun{cat/2}}, prouvée à la
 \vpageref{proof_assoc_cat}, dit bien \(\fun{cat}(\fun{cat}(s,t),u)
 \equiv \fun{cat}(s,\fun{cat}(t,u))\), les coûts des deux membres
-diffèrent. Soit \(\Call{f(x)}\) le coût de l'appel \(f(x)\). Suit
-alors \(\Call{\fun{cat}(\fun{cat}(s,t),u)} = (\fun{len}(s) + 1) +
-(\fun{len}(\fun{cat}(s,t)) + 1) = (\fun{len}(s) + 1) + (\fun{len}(s) +
-\fun{len}(t) + 1) = 2 \cdot \fun{len}(s) + \fun{len}(t) + 2\), en
-usant de \(\pred{LenCat}{s,t} \colon \fun{len}(\fun{cat}(s,t)) =
+diffèrent.
+
+\par\vskip\baselineskip
+
+Soit \(\Call{f(x)}\) le coût de l'appel \(f(x)\). Suit
+alors
+\begin{align*}
+\Call{\fun{cat}(\fun{cat}(s,t),u)}
+  &= (\fun{len}(s) + 1) + (\fun{len}(\fun{cat}(s,t)) + 1)\\
+  &= (\fun{len}(s) + 1) + (\fun{len}(s) + \fun{len}(t) + 1) & (\pred{LenCat}{s,t})\\
+  &= 2 \cdot \fun{len}(s) + \fun{len}(t) + 2,
+\end{align*}
+en usant de \(\pred{LenCat}{s,t} \colon \fun{len}(\fun{cat}(s,t)) =
 \fun{len}(s) + \fun{len}(t)\); mais
-\(\Call{\fun{cat}(s,\fun{cat}(t,u))} = (\fun{len}(t) + 1) +
-(\fun{len}(s) + 1) = \fun{len}(s) + \fun{len}(t) + 2\), c'est-à-dire
+\begin{align*}
+  \Call{\fun{cat}(s,\fun{cat}(t,u))}
+  &= (\fun{len}(t) + 1) + (\fun{len}(s) + 1)\\
+  &= \fun{len}(s) + \fun{len}(t) + 2.
+\end{align*}
+c'est-à-dire
 \begin{equation}
 \Call{\fun{cat}(\fun{cat}(s,t),u)} = \fun{len}(s) +
 \Call{\fun{cat}(s,\fun{cat}(t,u))}.
-\label{ineq_cat_assoc}
+\label{ineq:cat_assoc}
 \end{equation}
 Les éléments de~\(s\) sont donc traversés deux fois, alors qu'une
 seule visite suffirait.
@@ -451,10 +475,12 @@ exemple \(\C{\fun{rev}_0}{4} = (4+1)(4+2)/2 = 15\), et ensuite
 comparer le résultat avec le coût de
 \(\fun{rev}_0([1,2,3,4])\)\index{rev0@$\C{\fun{rev}_0}{n}$}, par
 exemple.  Dans ce cas, le contenu de la pile n'est pas significatif,
-seule sa longueur importe. Après avoir trouvé la formule pour le coût
-en utilisant la méthode empirique ci-dessus, il est nécessaire de
-l'établir pour toutes les valeurs de~\(n\). Puisque les équations
-originelles sont récurrentes, la méthode de choix est l'induction. Soit
+seule sa longueur importe.
+
+Après avoir trouvé la formule pour le coût en utilisant la méthode
+empirique ci-dessus, il est nécessaire de l'établir pour toutes les
+valeurs de~\(n\). Puisque les équations originelles sont récurrentes,
+la méthode de choix est l'induction. Soit
 \(\pred{Quad}{n}\)\index{Quad@\predName{Quad}} la propriété
 \(\C{\fun{rev}_0}{n} = (n^2 + 3n + 2)/2\). Nous l'avons déjà vérifiée
 pour de petites valeurs \(n = 0, 1, 2\). Supposons alors qu'elle est

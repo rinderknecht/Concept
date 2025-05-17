@@ -80,12 +80,12 @@ Défiler requiert que le résultat soit une \emph{paire}\index{langage
   fonctionnel!paire} faite de l'élément défilé et de la nouvelle file
 sans lui. En fait, la nouvelle file est la première composante de la
 paire, pour mieux correspondre à la façon dont l'opération est
-représentée graphiquement, avec une flèche pointant à droite. Nous
-pourrions dénoter la paire mathématique \((x,y)\) par
-\(\fun{pair}(x,y)\), mais une notation symbolique est plus commode:
-\(\pair{x}{y}\). Les chevrons nous permettent d'éviter l'écriture de
-\(f((x,y))\) quand nous voulons dire \(f(\pair{x}{y})\). Nommons par
-ailleurs \fun{deq/1}\index{deq@\fun{deq/1}} (anglais, \emph{dequeue})
+représentée graphiquement, avec une flèche pointant à droite.
+%% Nous pourrions dénoter la paire mathématique \((x,y)\) par
+%% \(\fun{pair}(x,y)\), mais une notation symbolique est plus commode:
+%% \(\pair{x}{y}\). Les chevrons nous permettent d'éviter l'écriture de
+%% \(f((x,y))\) quand nous voulons dire \(f(\pair{x}{y})\).
+Nommons \fun{deq/1}\index{deq@\fun{deq/1}} (anglais, \emph{dequeue})
 la fonction de défilage:
 \begin{equation}
 \begin{array}{@{}r@{\;}l@{\;}l@{}}
@@ -141,8 +141,8 @@ par~\(e\) le nombre d'enfilages et par~\(d\) le nombre de défilages,
 nous avons la relation triviale \(n = e + d\) et les deux prérequis
 pour le pire des cas deviennent \(e=d\) (\(n\)~pair) ou \(e=d+1\)
 (\(n\)~impair). Le premier correspond graphiquement à un \emph{chemin
-  de Dyck}\index{chemin de Dyck} et le dernier à un \emph{méandre de
-  Dyck}\index{méandre de Dyck}.
+de Dyck}\index{chemin de Dyck} et le dernier à un \emph{méandre de
+Dyck}\index{méandre de Dyck}.
 
 \paragraph{Chemin de Dyck}
 \index{chemin de Dyck}

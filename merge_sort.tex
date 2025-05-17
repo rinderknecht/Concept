@@ -98,8 +98,9 @@ La fonction \fun{mrg/2}\index{mrg@\fun{mrg/2}} (anglais, \emph{merge})
                          & \cons{x}{\fun{mrg}(s,t)}.
 \end{array}}
 \end{equation*}
-\caption{Interclasser deux piles triées\label{fig:mrg}
-\index{tri par interclassement!interclassement!programme}}
+\caption{Interclasser deux piles triées}
+\label{fig:mrg}
+\index{tri par interclassement!interclassement!programme}
 \end{figure}
 met en {\oe}uvre cette technique. La règle~\(\iota\) n'est pas
 nécessaire mais nous la conservons tout de même car elle rend le coût
@@ -138,9 +139,10 @@ que \(\C{\fun{cat}}{m,n}\). La \fig~\vref{fig:mrg_247}
 \end{array}}
 \end{equation*}
 \caption{\(\fun{mrg}([3,4,7],[1,2,5,6]) \twoheadrightarrow
-  [1,2,3,4,5,6,7]\)\label{fig:mrg_247}\index{tri par
-    interclassement!interclassement!exemple}\index{langage
-    fonctionnel!évaluation!trace}}
+  [1,2,3,4,5,6,7]\)}
+\label{fig:mrg_247}
+\index{tri par interclassement!interclassement!exemple}
+\index{langage fonctionnel!évaluation!trace}
 \end{figure}
 montre une trace d'évaluation de \fun{mrg/2}. Les règles
 \(\kappa\)~et~\(\lambda\) impliquent une comparaison, contrairement à
@@ -193,7 +195,7 @@ Le nombre minimum de comparaisons
 \(\OB{\fun{mrg}}{m,n}\)\index{mrg@$\OB{\fun{mrg}}{m,n}$} pour
 l'interclassement de piles de taille \(m\)~et~\(n\) est donc
 \begin{equation}
-\OB{\fun{mrg}}{m,n} = \min\{m,n\}.\label{eq_best_merge}
+\OB{\fun{mrg}}{m,n} = \min\{m,n\}.\label{eq:best_merge}
 \end{equation}
 \index{tri par interclassement!interclassement!coût minimum|)}
 
@@ -211,7 +213,7 @@ dernier (le plus à droite), sont pointés par un arc. Le nombre maximum
 de comparaisons
 \(\OW{\fun{mrg}}{m,n}\)\index{mrg@$\OW{\fun{mrg}}{m,n}$} est donc
 \begin{equation}
-\OW{\fun{mrg}}{m,n} = m + n - 1.\label{eq_worst_merge}
+\OW{\fun{mrg}}{m,n} = m + n - 1.\label{eq:worst_merge}
 \end{equation}
 Échanger les deux n{\oe}uds les plus à droite dans l'exemple précédent
 laisse \(m+n-1\) invariant:
@@ -233,8 +235,8 @@ interclassements de deux piles de longueurs
 \centering
 \includegraphics[bb=66 648 350 725]{mean_mrg1}
 \caption{Tous les interclassements avec \(m=3\) (\(\circ\)) et \(n=2\)
-  (\(\bullet\))
-\label{fig:mean_mrg1}}
+  (\(\bullet\))}
+\label{fig:mean_mrg1}
 \end{figure}
 avec \(m=3\) n{\oe}uds blancs et \(n=2\) n{\oe}uds noirs qui sont
 interclassés de toutes les manières possibles. Examinons la structure
@@ -289,7 +291,7 @@ nous devons bien avoir \(10\)~cas car \(\binom{5}{2} = 5!/(2!3!) =
 qu'interclasser une pile de \(n\)~clés avec une pile de \(m\)~clés:
 \begin{equation*}
 \binom{m+n}{n} = \binom{m+n}{m}.
-%\label{eq_comb_m_n}
+%\label{eq:comb_m_n}
 \end{equation*}
 Ceci peut aussi être facilement prouvé via la définition:
 \begin{equation*}
@@ -305,7 +307,8 @@ total de n{\oe}uds \emph{sans} arc entrant, entourés à la
 \begin{figure}
 \centering
 \includegraphics[bb=66 625 252 730]{mean_mrg2}
-\caption{Dénombrement vertical\label{fig:mean_mrg2}}
+\caption{Dénombrement vertical}
+\label{fig:mean_mrg2}
 \end{figure}
 Cette figure a été obtenue en déplaçant la troisième colonne de la
 \fig~\vref{fig:mean_mrg1} sous la deuxième colonne et en ôtant les
@@ -315,7 +318,7 @@ n{\oe}uds et qu'il y a \(\binom{m+n}{n}\) interclassements, ce même
 nombre est \((m + n) \binom{m+n}{n}\), donc
 \begin{equation}
 K(m,n) + \overline{K}(m,n) = (m + n) \binom{m+n}{n}.
-\label{eq_KoverK}
+\label{eq:KoverK}
 \end{equation}
 Nous pouvons facilement caractériser les n{\oe}uds cerclés: ils
 constituent la plus longue série monochromatique et continue à droite
@@ -329,12 +332,12 @@ B(m,n) = W(n,m).
 Par conséquent,
 \begin{equation}
 \overline{K}(m,n) = W(m,n) + B(m,n) = W(m,n) + W(n,m).
-\label{eq_K}
+\label{eq:K}
 \end{equation}
-D'après les équations~\eqref{eq_KoverK} et~\eqref{eq_K}, nous tirons
+D'après les équations~\eqref{eq:KoverK} et~\eqref{eq:K}, nous tirons
 \begin{equation}
 K(m,n) = (m + n) \binom{m+n}{n} - W(m,n) - W(n,m).
-\label{eq_K_temp}
+\label{eq:K_temp}
 \end{equation}
 Nous pouvons décomposer \(W(m,n)\) en dénombrant \emph{verticalement}
 les n{\oe}uds blancs cerclés. À la \fig~\ref{fig:mean_mrg2},
@@ -361,8 +364,8 @@ nommée traditionnellement \emph{le triangle de Pascal}\index{triangle
 \begin{figure}
 \centering
 \includegraphics{pascal}
-\caption{Le coin du triangle de Pascal (en gras)
-\label{fig:pascal_triangle}}
+\caption{Le coin du triangle de Pascal (en gras)}
+\label{fig:pascal_triangle}
 \end{figure}
 Remarquons comment nous avons posé, par convention, \(\binom{r}{k} =
 0\) si \(k > r\). Le triangle de Pascal vérifie de nombreuses
@@ -465,10 +468,10 @@ le nombre correspondant à~\(35\) soit, en général,
      \left[\binom{n}{n} + \binom{n}{n+1}\right],\notag\\
 \binom{n+m}{n+1}
   &= \sum_{j=0}^{m-1}{\binom{n+j}{n}} = W(m,n).
-\label{eq_binom_sum}
+\label{eq:binom_sum}
 \end{align}
 Maintenant, nous pouvons remplacer cette forme close dans
-l'équation~\eqref{eq_K_temp} \vpageref{eq_K_temp}\index{K@$K(m,n)$}:
+l'équation~\eqref{eq:K_temp} \vpageref{eq:K_temp}\index{K@$K(m,n)$}:
 \begin{equation*}
 K(m,n) = (m + n)
 \binom{m+n}{n} - \binom{m+n}{n+1} - \binom{m+n}{m+1}.
@@ -479,7 +482,7 @@ de \(K(m,n)\) par \(\binom{m+n}{n}\), donc
 \begin{equation}
 \OM{\fun{mrg}}{m,n} = m + n - \frac{m}{n+1} - \frac{n}{m+1}
   = \frac{mn}{m+1} + \frac{mn}{n+1}.
-\label{eq_Amrg}
+\label{eq:Amrg}
 \end{equation}
 Nous avons nécessairement \(\OB{\fun{mrg}}{m,n} \leqslant
 \OM{\fun{mrg}}{m,n} \leqslant \OW{\fun{mrg}}{m,n}\) et nous pourrions
@@ -498,7 +501,7 @@ avec l'insertion simple à la section~\ref{sec:straight_ins}
 le théorème
 \begin{equation}
 \fun{ins}(x,s) \equiv \fun{mrg}([x],s).
-\label{eq_ins_mrg}
+\label{eq:ins_mrg}
 \index{ins@\fun{ins/2}}\index{mrg@\fun{mrg/2}}
 \end{equation}
 Par conséquent, \emph{l'insertion simple est un cas spécial
@@ -507,7 +510,7 @@ exactement les mêmes. D'abord, nous avons \(\M{\fun{mrg}}{m,n} =
 \OM{\fun{mrg}}{m,n} + 1\), car nous devons tenir compte de l'emploi de
 la règle~\(\theta\) ou~\(\iota\) à la \fig~\ref{fig:mrg}, comme nous
 l'avons reconnu à l'équation~\eqref{def:cost_mrg}. Alors, les
-équations~\eqref{eq_ins} \vpageref{eq_ins} et~\eqref{eq_Amrg} donnent
+équations~\eqref{eq:ins} \vpageref{eq:ins} et~\eqref{eq:Amrg} donnent
 \begin{equation*}
 \M{\fun{mrg}}{1,n} = \frac{1}{2}{n} + 2 - \frac{1}{n+1}\quad\text{et}\quad
 \M{\fun{ins}}{n} = \frac{1}{2}{n} + 1.
@@ -530,7 +533,7 @@ longueur:
 \begin{equation}
   \M{\fun{mrg}}{n,n} = 2n - 1 + \frac{2}{n+1} = \W{\fun{mrg}}{n,n} - 1 +
   \frac{2}{n+1} \sim 2n.\index{mrg@$\M{\fun{mrg}}{n,n}$}
-\label{eq_Amrg_n_n}
+\label{eq:Amrg_n_n}
 \end{equation}
 En d'autres termes, le coût moyen de l'interclassement de deux piles
 de même taille est asymptotiquement le nombre total de clés, ce qui
@@ -579,8 +582,8 @@ Pour l'instant, considérons à la \fig~\vref{fig:bot_up1}
 \begin{figure}
 \centering
 \includegraphics{bot_up1}
-\caption{Tri de \([7,3,5,1,6,8,4,2]\)
-\label{fig:bot_up1}}
+\caption{Tri de \([7,3,5,1,6,8,4,2]\)}
+\label{fig:bot_up1}
 \end{figure}
 tous les interclassements et leur ordre relatif dans le tri de la pile
 \([7, 3, 5, 1, 6, 8, 4, 2]\). Nous nommons cette structure un
@@ -611,7 +614,7 @@ En déroulant la récurrence, nous aboutissons à
 \C{\Join}{p+1}
   = 2^p\sum_{k=0}^p{\frac{1}{2^k}\OC{\fun{mrg}}{2^k,2^k}}.
 \index{mrg@$\C{\Join}{n}$}
-\label{eq_cost_power_2}
+\label{eq:cost_power_2}
 \end{equation}
 
 %\addcontentsline{toc}{subsection}{Cost}
@@ -627,14 +630,14 @@ le nombre de comparaisons invariant. La raison en est que l'arbre
 d'interclassement est construit de façon ascendante et le nombre de
 comparaisons est une fonction symétrique.  Notons \(\B{\Join}{p}\) le
 nombre minimum de comparaisons pour trier \(2^p\)~clés. D'après les
-équations \eqref{eq_cost_power_2} et~\eqref{eq_best_merge}, nous avons
+équations \eqref{eq:cost_power_2} et~\eqref{eq:best_merge}, nous avons
 alors
 \begin{equation}
 %\abovedisplayskip=0pt
 %\belowdisplayskip=0pt
 \B{\Join}{p}
   = 2^{p-1}\!\sum_{k=0}^{p-1}{\frac{1}{2^k}\OB{\fun{mrg}}{2^k,2^k}}
-  = p2^{p-1}.\label{eq_best_power}\index{mrg@$\B{\Join}{n}$}
+  = p2^{p-1}.\label{eq:best_power}\index{mrg@$\B{\Join}{n}$}
 \end{equation}
 \index{tri par interclassement!puissance@$2^n$ clés!coût minimum|)}
 
@@ -646,14 +649,14 @@ d'interclassement avec un nombre maximum de comparaisons exige que
 tous les sous-arbres soient aussi dans le pire des cas, par exemple,
 \([7,3,5,1,4,8,6,2]\). Soit~\(\W{\Join}{p}\) le nombre maximum de
 comparaisons pour trier \(2^p\)~clés. D'après les équations
-\eqref{eq_cost_power_2}~et~\eqref{eq_worst_merge},
+\eqref{eq:cost_power_2}~et~\eqref{eq:worst_merge},
 \begin{equation}
 %\abovedisplayskip=2pt
 %\belowdisplayskip=0pt
 \W{\Join}{p}
   = 2^{p-1}\!\sum_{k=0}^{p-1}{\frac{1}{2^k}\OW{\fun{mrg}}{2^k,2^k}}
   = (p-1)2^p + 1.
-\label{eq_worst_power}\index{mrg@$\W{\Join}{n}$}
+\label{eq:worst_power}\index{mrg@$\W{\Join}{n}$}
 \end{equation}
 \index{tri par interclassement!puissance@$2^n$ clés!coût maximum|)}
 
@@ -665,18 +668,18 @@ Pour une pile donnée, dont toutes les permutations sont équiprobables,
 le coût moyen de son tri par interclassement est obtenu en considérant
 les coûts moyens de tous les sous-arbres de l'arbre d'interclassement:
 toutes les permutations des clés sont considérées pour une longueur
-donnée. Donc l'équation~\eqref{eq_cost_power_2} est satisfaite par
+donnée. Donc l'équation~\eqref{eq:cost_power_2} est satisfaite par
 \(\OM{\fun{mrg}}{2^k,2^k}\) et le coût moyen
 \(\M{\Join}{p}\)\index{mrg@$\M{\Join}{n}$}, soit le nombre moyen de
 comparaisons pour trier \(2^p\)~clés. Les
-équations~\eqref{eq_Amrg_n_n} et~\eqref{def:cost_mrg} donnent
+équations~\eqref{eq:Amrg_n_n} et~\eqref{def:cost_mrg} donnent
 \begin{equation*}
 %\abovedisplayskip=2pt
 %\belowdisplayskip=2pt
 \OM{\fun{mrg}}{n,n} = 2n - 2 + \frac{2}{n+1}.
 \index{mrg@$\OM{\fun{mrg}}{n,n}$}
 \end{equation*}
-Avec l'équation \eqref{eq_cost_power_2}, nous obtenons de plus, pour
+Avec l'équation \eqref{eq:cost_power_2}, nous obtenons de plus, pour
 \(p > 0\),
 \begin{align}
 %\abovedisplayskip=0pt
@@ -694,14 +697,14 @@ Avec l'équation \eqref{eq_cost_power_2}, nous obtenons de plus, pour
   &= p2^p - 2^p \sum_{k \geqslant 0}\frac{1}{2^k+1}
      + 2^p \sum_{k \geqslant p}\frac{1}{2^k+1}
 = p2^p - \alpha 2^p + \sum_{k \geqslant 0}\frac{1}{2^{k}+2^{-p}},
-\label{eq_Mjoin}
+\label{eq:Mjoin}
 \end{align}
 où \(\alpha := \sum_{k \geqslant 0}\frac{1}{2^k+1} \simeq 1.264499\)
 est irrationnel \citep{Borwein_1992}. Puisque \(0 < 2^{-p} < 1\), nous
 avons \(1/(2^k + 1) < 1/(2^k+2^{-p}) < 1/2^k\) et
 \begin{equation}
 (p - \alpha)2^p + \alpha < \M{\Join}{p} < (p-\alpha)2^p + 2.
-\label{ineq_M_join}
+\label{ineq:M_join}
 \end{equation}
 La convergence uniforme de la série \(\sum_{k \geqslant
   0}\frac{1}{2^{k}+2^{-p}}\) nous permet d'échanger les limites
@@ -742,7 +745,8 @@ réalisant ce tri est montré à la \fig~\vref{fig:tms}\index{tri par
 \fun{mrg}(\cons{x}{s},t) & \rightarrow & \cons{x}{\fun{mrg}(s,t)}.
 \end{array}}
 \end{equation*}
-\caption{Tri par interclassement descendant avec \fun{tms/1}\label{fig:tms}}
+\caption{Tri par interclassement descendant avec \fun{tms/1}}
+\label{fig:tms}
 \end{figure}
 
 Remarquons que l'appel \(\fun{cutr}(s,t,u)\)\index{cutr@\fun{cutr/3}}
@@ -779,7 +783,7 @@ comparaisons satisfait
 + \OC{\fun{tms}}{\ceiling{n/2}}
 + \OC{\fun{mrg}}{\floor{n/2},\ceiling{n/2}}.
 \index{tms@$\OC{\fun{tms}}{n}$}
-\label{eq_cost_tms}
+\label{eq:cost_tms}
 \end{equation}
 
 %\addcontentsline{toc}{subsection}{Cost}
@@ -806,13 +810,14 @@ Le nombre minimum de comparaisons vérifie
 % 0pt of margin overhang
 \centering
 \includegraphics[bb=71 435 149 714]{bits}
-\caption{\label{fig:bits}}
+\caption{}
+\label{fig:bits}
 %\caption{Binary numbers from \(1\) to \(n\)\label{fig:bits}}
 \end{wrapfigure}
 Nous avons \(\OB{\fun{tms}}{n} = \OB{\fun{tms}}{\floor{n/2}} +
 \OB{\fun{tms}}{\ceiling{n/2}} +
 \floor{n/2}\),\index{tms@$\OB{\fun{tms}}{n}$} via
-l'équation~\eqref{eq_best_merge} \vpageref{eq_best_merge}.
+l'équation~\eqref{eq:best_merge} \vpageref{eq:best_merge}.
 En particulier,
 \begin{equation*}
 \OB{\fun{tms}}{2p} = 2 \cdot \OB{\fun{tms}}{p} + p,\quad
@@ -833,7 +838,7 @@ la parité de~\(n\):
 
 \end{itemize}
 Nous avons déjà rencontré \(\Delta_n\) sous le nom~\(\nu_n\) à
-l'équation~\eqref{eq_ruler_nu} \vpageref{eq_ruler_nu}. Définissons-là
+l'équation~\eqref{eq:ruler_nu} \vpageref{eq:ruler_nu}. Définissons-là
 récursivement:
 \begin{equation}
 \nu_{0} := 0,\quad \nu_{2n} := \nu_{n},\quad
@@ -850,7 +855,7 @@ membre à membre, nous obtenons
 \abovedisplayskip=6pt
 \abovedisplayshortskip=6pt
 \belowdisplayskip=2pt
-\OB{\fun{tms}}{n} = \sum_{k=0}^{n-1}{\nu_k}.\label{eq_OB_tms}
+\OB{\fun{tms}}{n} = \sum_{k=0}^{n-1}{\nu_k}.\label{eq:OB_tms}
 \index{tms@$\OB{\fun{tms}}{n}$}
 \end{equation}}
 
@@ -859,7 +864,7 @@ close pour \(\sum_{k=0}^{n-1}\nu_k\), avec une démonstration qui a été
 ensuite simplifiée par \cite{Delange_1975}, qui en a étendu l'analyse
 avec des séries de Fourier. \cite{Stolarsky_1977} a collecté de
 nombreuses références sur ce sujet. À
-l'équation~\eqref{eq_best_power}, nous avons \(\OB{\fun{tms}}{2^p} =
+l'équation~\eqref{eq:best_power}, nous avons \(\OB{\fun{tms}}{2^p} =
 \frac{1}{2}p2^p\), soit \(\OB{\fun{tms}}{n} = \frac{1}{2}n\lg n\) si
 \(n=2^p\). Ceci devrait nous inciter à rechercher, avec
 \cite{McIlroy_1974}, un terme linéaire supplémentaire dans le cas
@@ -867,7 +872,7 @@ général, soit les plus grandes constantes réelles \(a\)~et~\(b\)
 telles que, si \(n \geqslant 2\),
 \begin{equation}
 \pred{Low}{n} \colon \tfrac{1}{2}n\lg n + an + b \leqslant \OB{\fun{tms}}{n}.
-\label{ineq_McIlroy}
+\label{ineq:McIlroy}
 \end{equation}
 Le cas de base est \(\pred{Low}{2} \colon 2a + b \leqslant 0\). Le
 moyen le plus simple de structurer l'argument inductif est de suivre
@@ -886,15 +891,16 @@ la \fig~\vref{fig:Btms_table},
 \centering
 \includegraphics[bb=71 595 210 721]{Btms_table}
 \caption{$\protect\OB{\fun{tms}}{2^p+i} = \protect\OB{\fun{tms}}{2^p}
-  + \protect\OB{\fun{tms}}{i} + i$\label{fig:Btms_table}}
+  + \protect\OB{\fun{tms}}{i} + i$}
+\label{fig:Btms_table}
 \end{figure}
 qui est la même table qu'à la \fig~\ref{fig:bits}, où
 \(n=2^p+i\). (Gardons en tête que \(\OB{\fun{tms}}{n}\) est la somme
 des bits jusqu'à \(n-1\), comme nous pouvons le constater à
-l'équation~\eqref{eq_OB_tms}.) Nous constatons que
+l'équation~\eqref{eq:OB_tms}.) Nous constatons que
 \begin{equation}
 \OB{\fun{tms}}{2^p+i} = \OB{\fun{tms}}{2^p} + \OB{\fun{tms}}{i} + i.
-\label{eq_OBtms_2m_i}
+\label{eq:OBtms_2m_i}
 \end{equation}
 (Le terme~\(i\) est la somme des bits les plus à gauche.) Donc,
 supposons \(\pred{Low}{n}\), pour tout \(1 \leqslant n \leqslant
@@ -909,11 +915,11 @@ l'hypothèse d'induction \(\pred{Low}{i}\), nous avons:
 \tfrac{1}{2}m\lg m + (\tfrac{1}{2}i\lg i + ai + b) + i
 \leqslant
 \OB{\fun{tms}}{m} + \OB{\fun{tms}}{i} + i = \OB{\fun{tms}}{m+i}.
-\label{ineq_Btms_n_i}
+\label{ineq:Btms_n_i}
 \end{equation}
 Pour le pas inductif, il nous faut \(\tfrac{1}{2}(m+i)\lg(m+i) +
 a(m+i) + b \leqslant
-\OB{\fun{tms}}{m+i}\). Avec~\eqref{ineq_Btms_n_i}, cela est impliqué
+\OB{\fun{tms}}{m+i}\). Avec~\eqref{ineq:Btms_n_i}, cela est impliqué
 par
 \begin{equation*}
 \tfrac{1}{2}(m+i)\lg(m+i) + a(m+i) + b
@@ -931,7 +937,7 @@ La fonction~\(\Phi\) est continûment prolongée en~\(0\) car \(\lim_{x
 \([0,1]\):
 \begin{equation}
 \frac{d\Phi}{dx} = \frac{1}{2}\lg\frac{4x}{x+1}.
-\label{eq_der_Phi}
+\label{eq:der_Phi}
 \end{equation}
 La racine de \(d\Phi/dx = 0\) est \myfrac{1}/{3}, et la dérivée est
 négative avant et positive après. Par conséquent, \(a_{\max} :=
@@ -941,7 +947,7 @@ négative avant et positive après. Par conséquent, \(a_{\max} :=
 \begin{equation}
   \tfrac{1}{2}n\lg n - \left(\tfrac{1}{2}\lg\tfrac{4}{3}\right)n + \lg\tfrac{4}{3}
   \leqslant \OB{\fun{tms}}{n},
-\label{ineq_lower_Btms}
+\label{ineq:lower_Btms}
 \end{equation}
 où \(\tfrac{1}{2}\lg\tfrac{4}{3} \simeq 0.2075\). Le plus important
 est que le minorant est atteint quand \(x=\myfrac{1}/{3}\),
@@ -1009,7 +1015,7 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
 
   \item Si \(k=2m+2\), alors \(\phi_{2m+2} = 2^{2m} + \phi_{2m}\)
   (théorème~\ref{thm_OB_lambda}). D'après
-  l'équation~\eqref{eq_OBtms_2m_i}, \(\OB{\fun{tms}}{\phi_{2m+2}} =
+  l'équation~\eqref{eq:OBtms_2m_i}, \(\OB{\fun{tms}}{\phi_{2m+2}} =
   \OB{\fun{tms}}{2^{2m}} + \smash[t]{\OB{\fun{tms}}{\phi_{2m}}} +
   \phi_{2m} = \smash[t]{\OB{\fun{tms}}{\phi_{2m}}} - m4^m +
   \phi_{2m}\). En ajoutant membre à membre pour des valeurs
@@ -1024,12 +1030,12 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
   \(\OB{\fun{tms}}{0} = 0\), nous obtenons
   \begin{equation}
       \OB{\fun{tms}}{\phi_{2n}} = (n-1)\phi_{2n}.
-    \label{eq_OBtms_phi_2n}
+    \label{eq:OBtms_phi_2n}
   \end{equation}
   Cherchons maintenant \(Q(\phi_{2n}) = \tfrac{1}{2}\phi_{2n}(2(n-1) +
   \lg(1-1/4^n)) = \OB{\fun{tms}}{\phi_{2n}} +
   \tfrac{1}{2}\phi_{2n}\lg(1-1/4^n)\), en usant
-  de~\eqref{eq_OBtms_phi_2n}. Si nous définissons \(f(x) := (1-x)
+  de~\eqref{eq:OBtms_phi_2n}. Si nous définissons \(f(x) := (1-x)
   \ln(1-1/x)\), alors \(\OB{\fun{tms}}{\phi_{2n}} - Q(\phi_{2n}) =
   f(4^n)/(6\ln 2)\). Un peu d'analyse réelle élémentaire révèle que
   \(3\ln\tfrac{3}{4} \leqslant f(x) < 1\), avec \(x \geqslant 4\),
@@ -1039,15 +1045,15 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
   \OB{\fun{tms}}{\phi_{2n}} - Q(\phi_{2n}) < 0.2405.}\)
 
   D'après le théorème~\ref{thm_OB_lambda} et
-  l'équation~\eqref{eq_OBtms_phi_2n}, nous avons
+  l'équation~\eqref{eq:OBtms_phi_2n}, nous avons
   \begin{equation}
     \OB{\fun{tms}}{1+\phi_{2n}} = (n-1)(1+\phi_{2n}) + 1.
-      \label{eq_OBtms_succ_phi_2n}
+      \label{eq:OBtms_succ_phi_2n}
   \end{equation}
   De plus, \(Q(1+\phi_{2n}) = \tfrac{1}{2}(1+\phi_{2n}) (2(n-1) +
   \lg(1+1/2^{2n-1})) = \OB{\fun{tms}}{1+\phi_{2n}} - 1 +
   \tfrac{1}{6}(4^n + 2)\lg(1+2/4^n)\), la dernière égalité reposant
-  sur l'égalité~\eqref{eq_OBtms_succ_phi_2n}. Si \(g(x) := 1 -
+  sur l'égalité~\eqref{eq:OBtms_succ_phi_2n}. Si \(g(x) := 1 -
   \tfrac{1}{6}(x+2)\lg(1+2/4^n)\), alors \(\OB{\fun{tms}}{1+\phi_{2n}}
   - Q(1+\phi_{2n}) = g(4^n)\). Une analyse élémentaire montre que \(2
   - \lg 3 \leqslant g(x) < 1 - 1/(3\ln 2)\), quand \(x \geqslant 4\),
@@ -1062,7 +1068,7 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
 
 \item Si \(k=2m+1\), alors \(\phi_{2m+1} = 2^{2m-1} + \phi_{2m-1}\)
   (théorème~\ref{thm_OB_lambda}). D'après
-  l'équation~\eqref{eq_OBtms_2m_i}, nous tirons
+  l'équation~\eqref{eq:OBtms_2m_i}, nous tirons
   \(\OB{\fun{tms}}{\phi_{2m+1}} = \OB{\fun{tms}}{2^{2m-1}} +
   \smash[t]{\OB{\fun{tms}}{\phi_{2m-1}}} + \phi_{2m-1} =
   \smash[t]{\OB{\fun{tms}}{\phi_{2m-1}}} - (2m-1)4^{m-1} +
@@ -1072,12 +1078,12 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
   3(4^n-1) + \sum_{m=0}^{n-1}\phi_{2m+1}\), qui se simplifie en
   \begin{equation}
       \OB{\fun{tms}}{\phi_{2n+1}} = (n - \tfrac{1}{2})\phi_{2n+1}.
-      \label{eq_OBtms_phi_2n_1}
+      \label{eq:OBtms_phi_2n_1}
   \end{equation}
   Nous avons alors \(Q(\phi_{2n+1}) = \tfrac{1}{2}\phi_{2n+1}(2n-1 +
   \lg(1-1/4^n)) = \OB{\fun{tms}}{\phi_{2n+1}} +
   \tfrac{1}{2}\phi_{2n+1}\lg(1-1/4^n)\), où la dernière égalité
-  résulte de~\eqref{eq_OBtms_phi_2n_1}. Si nous posons \(f(x) :=
+  résulte de~\eqref{eq:OBtms_phi_2n_1}. Si nous posons \(f(x) :=
   (1-x)\ln(1-1/x)\), comme nous l'avons fait pour \(Q(\phi_{2n})\),
   nous avons \(\OB{\fun{tms}}{\phi_{2n+1}} - Q(\phi_{2n+1}) =
   f(4^n)/(3\ln 2)\). Nous savons déjà que \(3\ln\tfrac{3}{4} \leqslant
@@ -1087,16 +1093,16 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
   \OB{\fun{tms}}{\phi_{2n+1}} - Q(\phi_{2n+1}) < 0.4809.}\)
 
   D'après le théorème~\ref{thm_OB_lambda} et
-  l'équation~\eqref{eq_OBtms_phi_2n_1}, nous déduisons
+  l'équation~\eqref{eq:OBtms_phi_2n_1}, nous déduisons
   \begin{equation}
     \OB{\fun{tms}}{1+\phi_{2n+1}} = (n-\tfrac{1}{2})(1+\phi_{2n+1})
     + \tfrac{1}{2}.
-      \label{eq_OBtms_succ_phi_2n_1}
+      \label{eq:OBtms_succ_phi_2n_1}
   \end{equation}
   De plus, \(Q(1+\phi_{2n+1}) = \tfrac{1}{2}(1+\phi_{2n+1})(2n-1 +
   \lg(1+1/2^{2n+1})) = \OB{\fun{tms}}{1+\phi_{2n+1}} - \tfrac{1}{2} +
   \tfrac{1}{6}(1+2^{2n+1})\lg(1+1/2^{2n+1})\), la dernière égalité
-  résultant de~\eqref{eq_OBtms_succ_phi_2n_1}. Si nous posons \(h(x)
+  résultant de~\eqref{eq:OBtms_succ_phi_2n_1}. Si nous posons \(h(x)
   := \tfrac{1}{2} - \tfrac{1}{6}(1+x)\lg(1+1/x)\), alors
   \(\OB{\fun{tms}}{1+\phi_{2n+1}} - Q(1+\phi_{2n+1}) =
   h(2^{2n+1})\). Une analyse élémentaire montre que \(5 - 3\lg 3
@@ -1115,7 +1121,7 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
 \bigskip
 
 Finalement, nous déduisons de l'analyse précédente que le minorant
-de~\eqref{ineq_lower_Btms} est atteint si \(n=2\) (le cas de base) et
+de~\eqref{ineq:lower_Btms} est atteint si \(n=2\) (le cas de base) et
 est sinon approché au plus près quand \(n=(1010\dots01)_2\) ou
 \(n=(1010\dots1011)_2\). Prises comme un tout, ces valeurs constituent
 la \emph{suite de Jacobsthal},\index{Jacobsthal!nombre de $\sim$}
@@ -1123,7 +1129,7 @@ définie par
 \begin{equation}
 J_0 = 0; \; J_1=1; \; J_{n+2} = J_{n+1} + 2J_{n},\; \text{for \(n
   \geqslant 0\).}
-\label{eq_Jacobsthal}
+\label{eq:Jacobsthal}
 \end{equation}
 
 Employons maintenant la même approche inductive pour trouver un bon
@@ -1141,7 +1147,7 @@ inégalités sont inversées, donc nous voulons
 Ici, il nous faut trouver le maximum de~\(\Phi\) sur l'intervalle
 fermé \([0,1]\). Les deux racines positives de~\(\Phi\) sont
 \(0\)~et~\(1\), et \(\Phi\)~est négative entre elles
-(voir~\eqref{eq_der_Phi}). D'où: \(a'_{\min} := \max_{0 \leqslant x
+(voir~\eqref{eq:der_Phi}). D'où: \(a'_{\min} := \max_{0 \leqslant x
   \leqslant 1}\Phi(x) = \Phi(0) = \Phi(1) = 0\). Par ailleurs, d'après
 le cas de base: \(b'_{\min} = -2a_{\min} = 0\). Finalement, nous
 avons dérivé l'encadrement suivant:
@@ -1149,11 +1155,11 @@ avons dérivé l'encadrement suivant:
 \tfrac{1}{2}n\lg n - \left(\tfrac{1}{2}\lg\tfrac{4}{3}\right)n + \lg\tfrac{4}{3}
 \leqslant \OB{\fun{tms}}{n} \leqslant
 \tfrac{1}{2}n\lg n.
-\label{ineq_bounds_Btms}
+\label{ineq:bounds_Btms}
 \index{tms@$\OB{\fun{tms}}{n}$}
 \end{equation}
 Le majorant est clairement atteint si \(n=2^p\) à cause de
-l'équation~\eqref{eq_best_power}. Il est aussi évident maintenant que
+l'équation~\eqref{eq:best_power}. Il est aussi évident maintenant que
 \(\OB{\fun{tms}}{n} \sim \frac{1}{2}n\lg n\), mais si nous n'étions
 seulement intéressés que par ce faible résultat asymptotique,
 \cite{Bush_1940} en donne une dérivation très simple grâce à un
@@ -1179,7 +1185,7 @@ Le nombre maximum de comparaisons satisfait
 \index{tms@$\OW{\fun{tms}}{n}$|(}
 \index{mrg@\fun{mrg/2}}
 \end{equation*}
-L'équation~\eqref{eq_worst_merge} \vpageref{eq_worst_merge} done
+L'équation~\eqref{eq:worst_merge} \vpageref{eq:worst_merge} done
 \(\OW{\fun{tms}}{n} = \OW{\fun{tms}}{\floor{n/2}} +
 \OW{\fun{tms}}{\ceiling{n/2}} + n - 1\) et
 \begin{equation*}
@@ -1227,12 +1233,12 @@ En usant du théorème~\vref{thm_floors}, nous déduisons \(\Delta_n =
 m\), où \(m\)~est le plus grand entier naturel tel que \(\floor{n/2^m}
 = 0\). En d'autres termes, \(m\)~est le nombre de bits dans la
 notation binaire de~\(n\), que nous retrouvons à
-l'équation~\eqref{eq_e_r}, donc \(\Delta_n = \floor{\lg n} +
+l'équation~\eqref{eq:e_r}, donc \(\Delta_n = \floor{\lg n} +
 1\). En revenant à la définition de~\(\Delta_n\), formons
 \(\sum_{k=1}^{n-1}\Delta_k\) et donc
 \begin{equation}
 \OW{\fun{tms}}{n} = \sum_{k=1}^{n-1}(\floor{\lg k}+1).
-\label{eq_tms_n_tmp}
+\label{eq:tms_n_tmp}
 \end{equation}
 Alors que le coût minimum est le nombre de bits à~\(1\) jusqu'à
 \(n-1\), nous voyons maintenant que le coût maximum est le nombre
@@ -1259,15 +1265,15 @@ est donc
 Soit \(n := (b_{m-1}\dots b_0)_2\), alors \(2^{m-1} \leqslant n
 \leqslant 2^m - 1\) et \(2^{m-1} < 2^{m-1} + 1 \leqslant n + 1
 \leqslant 2^m\), donc \(m-1 < \lg(n+1) \leqslant m\), d'où \(m =
-\ceiling{\lg(n+1)}\), ce qui, avec l'aide de l'équation~\eqref{eq_e_r}
-\vpageref{eq_e_r}, prouve \(1 + \floor{\lg n} =
-\ceiling{\lg(n+1)}\). En conséquence, l'équation~\eqref{eq_tms_n_tmp}
+\ceiling{\lg(n+1)}\), ce qui, avec l'aide de l'équation~\eqref{eq:e_r}
+\vpageref{eq:e_r}, prouve \(1 + \floor{\lg n} =
+\ceiling{\lg(n+1)}\). En conséquence, l'équation~\eqref{eq:tms_n_tmp}
 peut être réécrite comme
 \begin{equation}
 \OW{\fun{tms}}{0} = \OW{\fun{tms}}{1} = 0,
 \qquad
 \OW{\fun{tms}}{n} = n\ceiling{\lg n} - 2^{\ceiling{\lg n}} + 1.
-\label{eq_top}
+\label{eq:top}
 \end{equation}
 Cette équation est plus subtile qu'elle ne paraît, à cause de la
 périodicité cachée dans \(2^{\ceiling{\lg n}}\). Nous analysons selon
@@ -1301,7 +1307,7 @@ sujet sont \cite{FlajoletGolin_1994}, et aussi
 \cite{PannyProdinger_1995}. Nous pouvons maintenant conclure:
 \begin{equation}
 n\lg n - n + 1 \leqslant \OW{\fun{tms}}{n} <
-n\lg n - 0.91 n + 1.\label{ineq_OWtms}
+n\lg n - 0.91 n + 1.\label{ineq:OWtms}
 \end{equation}
 Le minorant est atteint si \(n=2^p\). Le majorant est approché au
 mieux quand \(\{\lg n\} = 1 + \lg\ln 2\), soit quand \(n\)~est
@@ -1317,14 +1323,14 @@ n\).\index{tms@$\OW{\fun{tms}}{n}$|)} \index{tri par
 Soit \(\OM{\fun{tms}}{n}\)\index{tms@$\OM{\fun{tms}}{n}$|(} le nombre
 moyen de comparaisons pour trier \(n\)~clés de façon
 descendante. Toutes les permutations de la pile donnée étant également
-probables, l'équation~\eqref{eq_cost_tms} devient
+probables, l'équation~\eqref{eq:cost_tms} devient
 \begin{equation*}
 \OM{\fun{tms}}{0} = \OM{\fun{tms}}{1} = 0,\qquad
 \OM{\fun{tms}}{n} = \OM{\fun{tms}}{\floor{n/2}} +
 \OM{\fun{tms}}{\ceiling{n/2}} +
 \OM{\fun{mrg}}{\floor{n/2},\ceiling{n/2}}.\index{mrg@\fun{mrg/2}}
 \end{equation*}
-L'équation~\eqref{eq_Amrg} implique, à son tour,
+L'équation~\eqref{eq:Amrg} implique, à son tour,
 \begin{equation*}
 \OM{\fun{tms}}{n} = \OM{\fun{tms}}{\floor{n/2}} +
 \OM{\fun{tms}}{\ceiling{n/2}} + n -
@@ -1348,8 +1354,8 @@ Contrairement aux équations aux différences que nous avons dérivées
 pour les extremums du coût, celles-ci ne sont pas d'une grande aide,
 par conséquent nous devrions opter pour une approche inductive, comme
 nous l'avons fait pour trouver l'encadrement serré de
-\(\OB{\fun{tms}}{n}\). Les inéquations~\eqref{ineq_M_join}
-\vpageref{ineq_M_join} sont équivalentes à \(n\lg n - \alpha n +
+\(\OB{\fun{tms}}{n}\). Les inéquations~\eqref{ineq:M_join}
+\vpageref{ineq:M_join} sont équivalentes à \(n\lg n - \alpha n +
 \alpha < \OM{\fun{tms}}{n} < n\lg n - \alpha n + 2\) si \(n = 2^p\), et
   cela nous suggère de rechercher des bornes de la forme \(n\lg n + an
   + b\) aussi quand \(n \neq 2^p\).
@@ -1374,7 +1380,7 @@ nous itérons des divisions par~\(2\). Si nous écrivons \(\pred{H}{n}
 \pred{H}{4} \leadsto \pred{H}{2}\). \(\pred{H}{2}\) équivaut à
 \begin{equation}
 2a + b + 1 \leqslant 0.
-\label{ineq_base_lower_Atms}
+\label{ineq:base_lower_Atms}
 \end{equation}
 Parce que la définition de \(\OM{\fun{tms}}{n}\) dépend de la parité
 de~\(n\), le pas inductif sera double. Supposons
@@ -1465,23 +1471,23 @@ et \(\Phi(2) < \Psi(2)\), mais \(\Psi(p) < \Phi(p)\) si \(p \geqslant
 3\). Par conséquent, pour que la constante~\(b\) ne dépende pas
 de~\(p\), elle doit être supérieure à~\(2\), qui est le plus petit
 majorant de~\(f\) et~\(g\).  Mais
-l'inéquation~\eqref{ineq_base_lower_Atms} nous dit que nous devons
+l'inéquation~\eqref{ineq:base_lower_Atms} nous dit que nous devons
 minimiser~\(b\) pour maximiser~\(a\) (ce qui constitue la priorité),
 donc devons choisir la limite: \(b_{\min} = 2\). La même inégalité
 entraîne \(a \leqslant -3/2\), donc \(a_{\max} = -3/2\) et le principe
 d'induction complète établit, pour \(n \geqslant 2\),
 \begin{equation}
 n\lg n - \frac{3}{2} n + 2 < \OM{\fun{tms}}{n}.
-\label{ineq_lower_Atms}
+\label{ineq:lower_Atms}
 \end{equation}
 Ce minorant n'est pas très bon, mais il a été obtenu sans grande
 peine. Nous pouvons nous souvenir du minorant au cas où \(n=2^p\),
-dans~\eqref{ineq_M_join} \vpageref{ineq_M_join}: \(n\lg n - \alpha n +
+dans~\eqref{ineq:M_join} \vpageref{ineq:M_join}: \(n\lg n - \alpha n +
 \alpha < \OM{\fun{tms}}{n}\), où \(\alpha \simeq 1.264499\). En fait,
 \cite{FlajoletGolin_1994} ont prouvé
 \begin{equation}
 n\lg n - \alpha n < \OM{\fun{tms}}{n}.
-\label{ineq_best_lower_Atms}
+\label{ineq:best_lower_Atms}
 \end{equation}
 À l'asymptote, ce minorant est identique à celui pour le cas
 \(n=2^p\). Notre méthode inductive ne peut mener à ce beau résultat
@@ -1493,7 +1499,7 @@ particulier, nous n'avons pas trouvé de décomposition
 Cherchons maintenant les plus petites constantes réelles
 \(a'\)~et~\(b'\) telles que pour \(n \geqslant 2\),
 \(\OM{\fun{tms}}{n} \leqslant n\lg n + a'n + b'\). Le cas de base de
-\(\pred{H}{n}\) dans~\eqref{ineq_base_lower_Atms} est ici inversé:
+\(\pred{H}{n}\) dans~\eqref{ineq:base_lower_Atms} est ici inversé:
 \(2a' + b' + 1 \geqslant 0\). Par conséquent, pour minimiser~\(a'\),
 nous devons maximiser~\(b'\). Par ailleurs, les conditions sur~\(b'\)
 déduites des pas inductifs sont aussi inversées par rapport à~\(b\):
@@ -1553,7 +1559,7 @@ où \fun{bms/1}\index{bms@\fun{bms/1}} réalise le \emph{tri par
 + \OC{\fun{bms}}{n - 2^{\ceiling{\lg n}-1}}
 + \OC{\fun{mrg}}{2^{\ceiling{\lg n}-1},n - 2^{\ceiling{\lg n}-1}}.
 \index{bms@$\OC{\fun{bms}}{n}$}
-\label{eq_cost_bms}
+\label{eq:cost_bms}
 \end{equation}
 
 La \fig~\vref{fig:bot_up2}
@@ -1581,20 +1587,20 @@ comme on peut en voir un exemple à la \fig~\vref{fig:msort_abs}.
 
 Soit \(\OB{\fun{bms}}{n}\)\index{bms@$\OB{\fun{bms}}{n}$|(} le coût
 minimum pour trier \(n\)~clés de manière ascendante. Soit \(n=2^p+i\),
-avec \(0 < i < 2^p\). Alors, de l'équation~\eqref{eq_cost_bms}
-\vpageref{eq_cost_bms}, et~\eqref{eq_best_merge}
-\vpageref{eq_best_merge}, nous déduisons:
+avec \(0 < i < 2^p\). Alors, de l'équation~\eqref{eq:cost_bms}
+\vpageref{eq:cost_bms}, et~\eqref{eq:best_merge}
+\vpageref{eq:best_merge}, nous déduisons:
 \begin{equation*}
 \OB{\fun{bms}}{2^p+i} = \OB{\fun{bms}}{2^p} + \OB{\fun{bms}}{i} + i,
 \end{equation*}
 que nous identifions comme une instance des équations fonctionnelles
 suivantes: \(f(0)=f(1)=0\), \(f(2)=1\) et \(f(2^p+i) = f(2^p) + f(i) +
 i\), avec \(f=\OB{\fun{tms}}{}\), comme on le voit à
-l'équation~\eqref{eq_OBtms_2m_i} \vpageref{eq_OBtms_2m_i}. Par
+l'équation~\eqref{eq:OBtms_2m_i} \vpageref{eq:OBtms_2m_i}. Par
 conséquent,
 \begin{equation}
 \OB{\fun{bms}}{n} = \OB{\fun{tms}}{n} = \sum_{k=0}^{n-1}{\nu_k}.
-\label{eq_OBbms}
+\label{eq:OBbms}
 \end{equation}
 Nous pouvons donc réutiliser l'encadrement de \(\OB{\fun{tms}}{n}\):
 \begin{equation}
@@ -1605,8 +1611,8 @@ Nous pouvons donc réutiliser l'encadrement de \(\OB{\fun{tms}}{n}\):
 \end{equation}
 Le minorant est atteint si \(n=2\) et est approché au plus près
 lorsque \(n\)~est un nombre de Jacobsthal\index{Jacobsthal!nombre de
-  $\sim$} (voir équations~\eqref{eq_Jacobsthal}
-\vpageref{eq_Jacobsthal}). Le majorant est atteint quand \(n=2^p\).
+  $\sim$} (voir équations~\eqref{eq:Jacobsthal}
+\vpageref{eq:Jacobsthal}). Le majorant est atteint quand \(n=2^p\).
 \index{bms@$\OB{\fun{bms}}{n}$|)}
 \index{tri par interclassement!$\sim$ ascendant!coût minimum|)}
 
@@ -1616,13 +1622,13 @@ lorsque \(n\)~est un nombre de Jacobsthal\index{Jacobsthal!nombre de
 
 Soit \(\OW{\fun{bms}}{n}\)\index{bms@$\OW{\fun{bms}}{n}$|(} le coût
 maximum pour trier \(n\)~clés de manière ascendante. Soit \(n=2^p+i\),
-avec \(0 < i < 2^p\). Alors, de l'équation~\eqref{eq_cost_bms}
-\vpageref{eq_cost_bms}, et~\eqref{eq_worst_merge}
-\vpageref{eq_worst_merge}, nous déduisons
+avec \(0 < i < 2^p\). Alors, de l'équation~\eqref{eq:cost_bms}
+\vpageref{eq:cost_bms}, et~\eqref{eq:worst_merge}
+\vpageref{eq:worst_merge}, nous déduisons
 \begin{equation}
 \OW{\fun{bms}}{2^p+i} = \OW{\fun{bms}}{2^p} + \OW{\fun{bms}}{i} + 2^p
 + i - 1.
-\label{eq_Wbms_2p_i}
+\label{eq:Wbms_2p_i}
 \end{equation}
 Cherchons un minorant de \(\OW{\fun{bms}}{n}\) en fondant une
 induction sur cette équation. Précisément, trouvons les plus grandes
@@ -1632,9 +1638,9 @@ n\lg n + an + b \leqslant \OW{\fun{bms}}{n}.
 \end{equation*}
 Le cas de base est \(n=2\), soit, \(b \leqslant -2a - 1\). Supposons
 que le minorant tienne pour \(n=i\) et souvenons-nous de
-l'équation~\eqref{eq_worst_power} \vpageref{eq_worst_power}, qui prend
+l'équation~\eqref{eq:worst_power} \vpageref{eq:worst_power}, qui prend
 ici la forme \(\OW{\fun{bms}}{2^p} = p2^p - 2^p +
-1\). Alors~\eqref{eq_Wbms_2p_i} entraîne:
+1\). Alors~\eqref{eq:Wbms_2p_i} entraîne:
 \begin{equation*}
 (p2^p - 2^p + 1) + (i\lg i + ai + b) + 2^p + i - 1 \leqslant
 \OW{\fun{bms}}{2^p+i},
@@ -1686,7 +1692,7 @@ connaissons le comportement de~\(\Phi\), donc \(a'_{\min} := \max_{0
 -2a'_{\min} - 1 = -1\). En conclusion,
 \begin{equation}
 n\lg n - n + 1 \leqslant \OW{\fun{bms}}{n} < n\lg n - 1.
-\label{ineq_OWbms}
+\label{ineq:OWbms}
 \end{equation}
 Puisque \(\Phi(x)\) a été étendue en~\(x=0\), le majorant est approché
 au plus près lorsque \(i=1\), la plus petite valeur possible, soit
@@ -1706,14 +1712,14 @@ d'une façon différente de celle de sa définition, d'une manière plus
 adaptée à des calculs élémentaires aussi. En toute généralité, soient
 \(r \geqslant 0\) et \(e_r > \dots > e_1 > e_0 \geqslant 0\) tels que
 \(n := 2^{e_r} + \dots + 2^{e_1} + 2^{e_0} > 0\). Nous avons employé
-cette décomposition à l'équation~\eqref{eq_e_r} à la
-page~\pageref{eq_e_r}.
+cette décomposition à l'équation~\eqref{eq:e_r} à la
+page~\pageref{eq:e_r}.
 
 \begin{wrapfigure}[9]{r}[0pt]{0pt}
 \centering
 \includegraphics[bb=63 631 202 707]{msort_gen}% [... 721]
-\caption{\(\sum_{j=0}^{r}2^{e_j}\) clés
-\label{fig:msort_gen}}
+\caption{\(\sum_{j=0}^{r}2^{e_j}\) clés}
+\label{fig:msort_gen}
 \end{wrapfigure}
 Considérons alors à la \fig~\ref{fig:msort_gen} l'arbre de tous les
 interclassements\index{arbre!$\sim$ d'interclassement|(} possibles
@@ -1735,8 +1741,8 @@ la racine, \(2^{e_r}+ \dots + 2^{e_0}\), jusqu'à \(2^{e_1} +
 \subfloat[La somme est \(\protect\OW{\protect\fun{bms}}{n+1}\)
 \label{fig:w2p_succ}]%
 {\includegraphics[bb=71 604 214 721]{w2p_succ}}
-\caption{Arbres de coût maximum pour \(n\)~pair et \(n+1\)
-\label{fig:Wn_even}}
+\caption{Arbres de coût maximum pour \(n\)~pair et \(n+1\)}
+\label{fig:Wn_even}
 \end{figure}
 sont montrés les arbres de coût maximum pour \(n\)~pair et
 \(n+1\). Les expressions encadrées ne se trouvent pas dans l'arbre en
@@ -1751,33 +1757,33 @@ est identique.
   \begin{equation}
     \OW{\fun{bms}}{n} - r = \OW{\fun{bms}}{n+1} - 2^{e_0} -
     \OW{\fun{bms}}{2^0}.
-      \label{eq_OW1}
+      \label{eq:OW1}
   \end{equation}
   Explicitons que \(e_0\)~est une fonction de~\(n\) (il s'agit de la
   plus grande puissance de~\(2\) qui divise~\(n\)): \(e_0 :=
   \rho_n\). De plus, nous savons déjà que \(\nu_n = r+1\) et
   \(\OW{\fun{bms}}{1} = 0\). Prendre \(n=2k\) dans
-  l'équation~\eqref{eq_OW1} implique alors la récurrence
+  l'équation~\eqref{eq:OW1} implique alors la récurrence
     \begin{equation}
       \OW{\fun{bms}}{2k+1} = \OW{\fun{bms}}{2k} + 2^{\rho_{2k}} +
       \nu_{2k} - 1.
-      \label{eq_OWbms_2k_1_tmp}
+      \label{eq:OWbms_2k_1_tmp}
     \end{equation}
     La fonction \(\rho_n\) (anglais, \emph{ruler function}) est
     étudiée par \cite{GrahamKnuthPatashnik_1994,Knuth_2011}
     \index{rho@$\rho_n$} et satisfait les récurrences suivantes
     \begin{equation}
       \rho_{1} = 0,\qquad \rho_{2n} = \rho_{n} + 1,\qquad
-      \rho_{2n+1} = 0,\label{eq_ruler}
+      \rho_{2n+1} = 0,\label{eq:ruler}
     \end{equation}
     pour \(n>0\). On les devine facilement à partir de la notation
     binaire de~\(n\) car \(\rho_n\)~compte le nombre de zéros à
     droite. Ceci nous permet de simplifier un petit peu
-    l'équation~\eqref{eq_OWbms_2k_1_tmp} en
+    l'équation~\eqref{eq:OWbms_2k_1_tmp} en
     \begin{equation}
      \OW{\fun{bms}}{2k+1} = \OW{\fun{bms}}{2k} + 2 \cdot 2^{\rho_{k}}
      + \nu_{k} - 1.
-     \label{eq_OWbms_2k_1}
+     \label{eq:OWbms_2k_1}
     \end{equation}
 
   \item \emph{Si \(n\)~est impair}, nous construisons les arbres à la
@@ -1791,15 +1797,15 @@ est identique.
 \subfloat[La somme est \(\protect\OW{\protect\fun{bms}}{n+1}\)
 \label{fig:w2p1_succ}]{%
 \includegraphics[bb=56 602 194 721]{w2p1_succ}}
-\caption{Arbres de coût maximum pour \(n\)~impair et \(n+1\)
-\label{fig:Wn_odd}}
+\caption{Arbres de coût maximum pour \(n\)~impair et \(n+1\)}
+\label{fig:Wn_odd}
 \end{figure}
 La somme des expressions non-encadrées à la \fig~\ref{fig:w2p1} est
 \(\OW{\fun{bms}}{n} - \sum_{k=0}^{q-1}\OW{\fun{bms}}{2^k} -
 \sum_{k=2}^{q}2^k + 2((q-1)+(r-q+1)) = \OW{\fun{bms}}{n} -
 \sum_{k=0}^{q-1}((k-1)2^{k}+1) - \sum_{k=2}^{q}2^k + 2r =
 \OW{\fun{bms}}{n} - (q-1)2^q - q + 2r + 1\), en utilisant
-l'équation~\eqref{eq_worst_power} et \(\sum_{k=0}^{q-1}k2^k =
+l'équation~\eqref{eq:worst_power} et \(\sum_{k=0}^{q-1}k2^k =
 (q-2)2^{q}+2\). En effet, soit \(S_{q} :=
 \sum_{k=0}^{q-1}{k2^{k-1}}\). Alors \(S_{q} + q2^{q-1} =
 \smash[t]{\sum_{k=1}^{q}{k2^{k-1}}} =
@@ -1810,7 +1816,7 @@ d'où
      \begin{equation}
        \abovedisplayskip=4pt
        \belowdisplayskip=4pt
-       S_{q} = \smash[t]{\textstyle\sum_{k=1}^{q-1}{k2^{k-1}}} = (q-2)2^{q-1} + 1.\label{eq_Sj}
+       S_{q} = \smash[t]{\textstyle\sum_{k=1}^{q-1}{k2^{k-1}}} = (q-2)2^{q-1} + 1.\label{eq:Sj}
      \end{equation}
      La même somme à la \fig~\ref{fig:w2p1_succ}
      vaut \(\OW{\fun{bms}}{n+1} - \OW{\fun{bms}}{2^q} + (r-q+1) =
@@ -1824,11 +1830,11 @@ d'où
      en posant \(n=2k-1\), cette équation est simplifiée en
      \begin{equation}
        \OW{\fun{bms}}{2k} = \OW{\fun{bms}}{2k-1} + \nu_{k-1} + 1.
-       \label{eq_OWbms_2k}
+       \label{eq:OWbms_2k}
      \end{equation}
 
 \end{itemize}
-D'après les équations~\eqref{eq_OWbms_2k} et~\eqref{eq_OWbms_2k_1},
+D'après les équations~\eqref{eq:OWbms_2k} et~\eqref{eq:OWbms_2k_1},
 nous déduisons
 \begin{equation*}
 \OW{\fun{bms}}{2k+1} = \OW{\fun{bms}}{2k-1} + 2 \cdot 2^{\rho_k} +
@@ -1843,18 +1849,18 @@ croissantes de la variable~\(k\) donne
  &= \OW{\fun{bms}}{1} + 2\!\sum_{k=1}^{p} 2^{\rho_k} +
     \!\sum_{k=1}^{p}\nu_{k-1} + \!\sum_{k=1}^p\nu_k
   = 2 \!\sum_{k=1}^{p} 2^{\rho_k}\! + 2\!\sum_{k=1}^{p-1}\nu_k +
-    \!\nu_p.\label{eq_OWbms_2p_1}\\
+    \!\nu_p.\label{eq:OWbms_2p_1}\\
 \OW{\fun{bms}}{2p}
   &= \OW{\fun{bms}}{2} + 2\sum_{k=1}^{p-1}2^{\rho_k} +
 2\sum_{k=1}^{p-1}\nu_k
   = 1 +  2\sum_{k=1}^{p-1}2^{\rho_k} + 2\sum_{k=1}^{p-1}\nu_k.
-\label{eq_OWbms_2p}
+\label{eq:OWbms_2p}
 \end{align}
 Ces expressions contiennent deux fonctions intéressantes, qui jouent
 un rôle en théorie élémentaire des nombres:
 \(\sum_{k=1}^{p-1}2^{\rho_k}\) et \(\sum_{k=1}^{p-1}\nu_k\), cette
 dernière étant \(\OB{\fun{bms}}{p}\), comme nous l'avons vu à
-l'équation~\eqref{eq_OBbms}.  \index{bms@$\OW{\fun{bms}}{n}$|)}
+l'équation~\eqref{eq:OBbms}.  \index{bms@$\OW{\fun{bms}}{n}$|)}
 \index{tri par interclassement!$\sim$ ascendant!coût maximum|)}
 
 
@@ -1863,15 +1869,15 @@ l'équation~\eqref{eq_OBbms}.  \index{bms@$\OW{\fun{bms}}{n}$|)}
 
 Soit \(\OM{\fun{bms}}{n}\) le nombre moyen de comparaisons pour trier
 \(n\)~clés de manière ascendante. Toutes les permutations de la pile
-étant également probables, l'équation~\eqref{eq_cost_bms}
-\vpageref{eq_cost_bms} donne \(\OM{\fun{bms}}{0} = \OM{\fun{bms}}{1}
+étant également probables, l'équation~\eqref{eq:cost_bms}
+\vpageref{eq:cost_bms} donne \(\OM{\fun{bms}}{0} = \OM{\fun{bms}}{1}
 = 0\),\index{bms@$\OM{\fun{bms}}{n}$}
 \begin{equation*}
 \OM{\fun{bms}}{n} = \OM{\fun{bms}}{2^{\ceiling{\lg n}-1}}
 + \OM{\fun{bms}}{n - 2^{\ceiling{\lg n}-1}}
 + \OM{\fun{mrg}}{2^{\ceiling{\lg n}-1},n - 2^{\ceiling{\lg n}-1}},
 \end{equation*}
-qui, avec l'équation~\eqref{eq_Amrg}, à son tour implique
+qui, avec l'équation~\eqref{eq:Amrg}, à son tour implique
 \(\OM{\fun{bms}}{0} = \OM{\fun{bms}}{1} = 0\) et
 \begin{equation*}
 \OM{\fun{bms}}{n} = \OM{\fun{bms}}{2^{\ceiling{\lg n}-1}}
@@ -1881,8 +1887,8 @@ qui, avec l'équation~\eqref{eq_Amrg}, à son tour implique
 \end{equation*}
 Cette définition est plutôt intimidante, donc tournons-nous vers
 l'induction pour trouver un encadrement, comme nous l'avons fait pour
-\(\OB{\fun{tms}}{n}\) dans l'inégalité~\eqref{ineq_McIlroy}
-\vpageref{ineq_McIlroy}. Commençons avec le minorant et cherchons à
+\(\OB{\fun{tms}}{n}\) dans l'inégalité~\eqref{ineq:McIlroy}
+\vpageref{ineq:McIlroy}. Commençons avec le minorant et cherchons à
 maximiser les constantes réelles \(a\)~et~\(b\) telles que, si \(n \geqslant 2\),
 \begin{equation*}
 \pred{H}{n} \colon n\lg n + an + b \leqslant \OM{\fun{bms}}{n}.
@@ -1890,7 +1896,7 @@ maximiser les constantes réelles \(a\)~et~\(b\) telles que, si \(n \geqslant 2\
 Le cas de base de l'induction est \(\pred{H}{2}\):
 \begin{equation}
 2a + b + 1 \leqslant 0.
-\label{ineq_base_lower_Btms}
+\label{ineq:base_lower_Btms}
 \end{equation}
 Supposons alors \(\pred{H}{n}\) pour tout \(2 \leqslant n \leqslant
 2^p\), et montrons \(\pred{H}{2^p+i}\), pour tout \(0 < i \leqslant
@@ -1900,13 +1906,13 @@ est vrai pour tout \(n \geqslant 2\). Si \(n=2^p+i\), alors
 \begin{equation}
 \OM{\fun{bms}}{2^p+i} = \OM{\fun{bms}}{2^p} + \OM{\fun{bms}}{i}
 + 2^p + i - \frac{2^p}{i+1} - \frac{i}{2^p+1}.
-\label{eq_Abms_2p_i}
+\label{eq:Abms_2p_i}
 \end{equation}
 Par hypothèse, \(\pred{H}{i}\) tient, soit \(i\lg i + ai + b \leqslant
 \OM{\fun{bms}}{i}\), mais, au lieu d'user de \(\pred{H}{2^p}\), nous
-emploierons la valeur exacte à l'équation~\eqref{eq_Mjoin}
-\vpageref{eq_Mjoin}, où \(\alpha := \sum_{k \geqslant
-  0}1/(2^k+1)\). D'après l'équation~\eqref{eq_Abms_2p_i}, nous
+emploierons la valeur exacte à l'équation~\eqref{eq:Mjoin}
+\vpageref{eq:Mjoin}, où \(\alpha := \sum_{k \geqslant
+  0}1/(2^k+1)\). D'après l'équation~\eqref{eq:Abms_2p_i}, nous
 dérivons
 \begin{equation*}
 (p-\alpha)2^p + \sum_{k \geqslant
@@ -2034,19 +2040,19 @@ Dans tous les cas, nous devons minimiser \(\Psi(p,2^p)\). Nous avons:
 Nous vérifions que \(\Psi(p,2^p) > \Psi(p+1,2^{p+1})\), donc la
 fonction décroît aux points entiers et \(a_{\max} = \min_{p >
   0}\Psi(p,2^p) = \lim_{p \to \infty}\Psi(p,2^p) = -\alpha^{+}\). De
-l'inéquation~\eqref{ineq_base_lower_Btms}, nous tirons \(b_{\max} =
+l'inéquation~\eqref{ineq:base_lower_Btms}, nous tirons \(b_{\max} =
 -2a_{\max} - 1 = 2\alpha - 1 \simeq 1.52899\). Au total, par le
 principe d'induction, nous avons établi, pour \(n \geqslant 2\),
 \begin{equation*}
 n\lg n - \alpha n + 2\alpha -1 < \OM{\fun{bms}}{n}.
 \end{equation*}
 Ce minorant est meilleur que celui pour le coût moyen du tri par
-interclassement descendant, à l'inégalité~\eqref{ineq_lower_Atms}
-\vpageref{ineq_lower_Atms}, parce que là-bas, nous avions
+interclassement descendant, à l'inégalité~\eqref{ineq:lower_Atms}
+\vpageref{ineq:lower_Atms}, parce que là-bas, nous avions
 décomposé~\(n\) en valeurs paires et impaires, pas \(n=2^p+i\) qui
 nous permet ici d'utiliser la valeur exacte de
 \(\OM{\fun{bms}}{2^p}\). Il est même un peu meilleur
-que~\eqref{ineq_M_join} \vpageref{ineq_M_join}, ce qui est une bonne
+que~\eqref{ineq:M_join} \vpageref{ineq:M_join}, ce qui est une bonne
 surprise.
 
 Nous devons tâcher à présent d'obtenir un majorant à l'aide de la même
@@ -2075,8 +2081,8 @@ privilégiant~\(p\) par rapport à~\(i\), nous découpons la surface par
 des plans perpendiculaires à l'axe des~\(i\). Parfois, découper dans
 une direction plutôt qu'une autre facilite l'analyse. Le problème ici
 est de dériver~\(c_p\). Nous pouvons contourner la difficulté avec le
-majorant \(c_p < 2\) des inégalités~\eqref{ineq_M_join}
-\vpageref{ineq_M_join} et en définissant
+majorant \(c_p < 2\) des inégalités~\eqref{ineq:M_join}
+\vpageref{ineq:M_join} et en définissant
 \begin{equation*}
   \Phi(p,i) := p - \alpha + 1 - \frac{1}{i+1} + \frac{i}{2^p+1} -
   \frac{1}{2^p}((2^p+i)\lg(2^p+i) - i\lg i - 2).
@@ -2087,7 +2093,8 @@ Nous avons ainsi \(\Psi(p,i) < \Phi(p,i)\) et, au lieu de \(\Psi(p,i)
 \begin{figure}
 \centering
 \includegraphics[bb=71 565 400 725]{phi}
-\caption{\(\Phi(p,1)\), \(\Phi(p,2)\) et \(\Phi(p,3)\)\label{fig:phi}}
+\caption{\(\Phi(p,1)\), \(\Phi(p,2)\) et \(\Phi(p,3)\)}
+\label{fig:phi}
 \end{figure}
 sont esquissées \(\Phi(p,1)\), \(\Phi(p,2)\) et \(\Phi(p,3)\). (Le
 point de départ pour chaque courbe est marqué d'un disque blanc.)
@@ -2154,7 +2161,7 @@ la constante est \(b'_{\min} = -2a'_{\min} - 1 = 2\alpha - 3 \simeq
 \begin{equation}
 n\lg n - \alpha n + (2\alpha - 1) < \OM{\fun{bms}}{n}
 < n\lg n - (\alpha - 1)n - (3 - 2\alpha).
-\label{ineq_bounds_Mbms}
+\label{ineq:bounds_Mbms}
 \end{equation}
 Le minorant est approché au plus près lorsque \(n=2^p\). Pour
 interpréter les valeurs de~\(n\) pour lesquelles le majorant est
@@ -2207,7 +2214,8 @@ moyenne est environ \(-0.965\). Trivialement, nous avons
                          & \cons{x}{\fun{mrg}(s,t)}.
 \end{array}}
 \end{equation*}
-\caption{Tri par interclassement ascendant avec \fun{bms/1}\label{fig:bms}}
+\caption{Tri par interclassement ascendant avec \fun{bms/1}}
+\label{fig:bms}
 \end{figure}
 
 \mypar{Programme}
@@ -2257,7 +2265,7 @@ règles \(\kappa\)~et~\(\lambda\).
     \begin{equation}
       \OC{\ltimes}{n} :=
       \sum_{i=1}^{r}{\OC{\fun{mrg}}{2^{e_i},2^{e_{i-1}}+\dots+2^{e_0}}}.
-      \label{eq_C_unbal}
+      \label{eq:C_unbal}
     \end{equation}
     Le nombre total de comparaisons est la somme des nombres de
     comparaisons des interclassements équilibrés et déséquilibrés:
@@ -2269,15 +2277,15 @@ règles \(\kappa\)~et~\(\lambda\).
       = \sum_{i=0}^{r}{\OC{\fun{bms}}{2^{e_i}}}
       +
       \sum_{i=1}^{r}{\OC{\fun{mrg}}{2^{e_i},2^{e_{i-1}}+\dots+2^{e_0}}}.
-      \label{eq_msort_gen}
+      \label{eq:msort_gen}
     \end{equation}
     Pour trouver le nombre d'interclassements, posons
-    \(\OC{\fun{mrg}}{m,n} = 1\) à l'équation~\eqref{eq_cost_power_2}
-    \vpageref{eq_cost_power_2}, donnant \(\OC{\fun{bms}}{2^p} = 2^p -
+    \(\OC{\fun{mrg}}{m,n} = 1\) à l'équation~\eqref{eq:cost_power_2}
+    \vpageref{eq:cost_power_2}, donnant \(\OC{\fun{bms}}{2^p} = 2^p -
     1\). En substituant ce résultat dans
-    l'équation~\eqref{eq_msort_gen}, nous tirons \(\OC{\fun{bms}}{n} =
+    l'équation~\eqref{eq:msort_gen}, nous tirons \(\OC{\fun{bms}}{n} =
     n - 1\). En d'autres termes, les règles \(\theta\)~et~\(\iota\)
-    sont employées \(n-1\)\label{eq_bms_merges} fois au
+    sont employées \(n-1\)\label{eq:bms_merges} fois au
     total.\index{bms@$\OC{\fun{bms}}{n}$}
 
   \item À la règle~\(\tau\), un appel
@@ -2330,7 +2338,7 @@ règles \(\kappa\)~et~\(\lambda\).
       \frac{n}{2^{i+1}}
       = \frac{1}{2^{i+1}}\sum_{k=0}^{m-1}{b_k2^{k}}
       = \frac{1}{2^{i+1}}\sum_{k=0}^{i}{b_k2^k} + (b_{m-1}\dots b_{i+1})_2.
-      \label{eq_n_on_power_2}
+      \label{eq:n_on_power_2}
     \end{equation}
     Nous prouvons alors \(\floor{n/2^{i+1}} = (b_{m-1}\dots
     b_{i+1})_2\) comme suit:
@@ -2341,7 +2349,7 @@ règles \(\kappa\)~et~\(\lambda\).
       \Leftrightarrow
       0 \leqslant \frac{1}{2^{i+1}}\sum_{k=0}^{i}{b_k2^k} < 1.
     \end{equation*}
-    Ceci et l'équation~\eqref{eq_n_on_power_2} impliquent que
+    Ceci et l'équation~\eqref{eq:n_on_power_2} impliquent que
     \begin{equation*}
       \left\lceil\frac{n}{2^i}\right\rceil =
       (b_{m-1}\dots b_i)_2
@@ -2351,8 +2359,8 @@ règles \(\kappa\)~et~\(\lambda\).
         \end{cases}
     \end{equation*}
     Donc, \(\ceiling{n/2^z} = 1\) équivaut à \(z=m-1\) si
-    \(n=2^{m-1}\), et \(z=m\) sinon. L'équation~\eqref{eq_e_r}
-    \vpageref{eq_e_r} stipule \(m = \floor{\lg n} + 1\), donc
+    \(n=2^{m-1}\), et \(z=m\) sinon. L'équation~\eqref{eq:e_r}
+    \vpageref{eq:e_r} stipule \(m = \floor{\lg n} + 1\), donc
     \(z=\floor{\lg n}\) si \(n\)~est une puissance de~\(2\), et
     \(z=\floor{\lg n} + 1\) sinon. Plus simplement, ceci signifie que
     \(z=\ceiling{\lg n}\).
@@ -2406,7 +2414,8 @@ deuxième niveau de l'arbre d'interclassement\index{arbre!$\sim$
 \fun{mrg}(\cons{x}{s},t) & \rightarrow & \cons{x}{\fun{mrg}(s,t)}.
 \end{array}}
 \end{equation*}
-\caption{Tri ascendant accéléré avec \fun{bms\(_0\)/1}\label{fig:bms0}}
+\caption{Tri ascendant accéléré avec \fun{bms\(_0\)/1}}
+\label{fig:bms0}
 \end{figure}
 Le nombre de comparaisons est inchangé, mais le coût, quantifié par le
 nombre de réécritures, est légèrement inférieur. Le coût additionnel
@@ -2448,7 +2457,7 @@ même: \(\OB{\fun{tms}}{n} = \OB{\fun{bms}}{n}\) et
 \end{equation*}
 Le minorant est atteint si \(n=2\) et est approché au plus près quand
 \(n\)~est un nombre de Jacobsthal\index{Jacobsthal!nombre de $\sim$}
-(voir~\eqref{eq_Jacobsthal} \vpageref{eq_Jacobsthal}). Le majorant est
+(voir~\eqref{eq:Jacobsthal} \vpageref{eq:Jacobsthal}). Le majorant est
 atteint quand \(n=2^p\). Ces résultats ne sont peut-être pas
 intuitifs \emph{a priori}.
 
@@ -2493,13 +2502,13 @@ le coût du tri ascendant la récurrence pour le coût maximum:
 \OW{\fun{bms}}{0} = \OW{\fun{bms}}{1} = 0;\quad \OW{\fun{bms}}{n} =
 \OW{\fun{bms}}{2^{\ceiling{\lg n}-1}} +
 \OW{\fun{bms}}{n-2^{\ceiling{\lg n}-1}} + n - 1.
-\label{eq_bot}
+\label{eq:bot}
 \end{equation}
 Par ailleurs, nous pouvons vérifier aisément, pour tout \(p \geqslant
 0\), que nous avons l'égalité intéressante
 \begin{equation}
 \OW{\fun{tms}}{2^p} = \OW{\fun{bms}}{2^p}.
-\label{eq_2p}
+\label{eq:2p}
 \end{equation}
 
 \paragraph{Minorant}
@@ -2511,14 +2520,14 @@ Prouvons, pour tout \(n \geqslant 0\),
   \pred{W\(_L\)}{n} \colon \OW{\fun{tms}}{n} \leqslant
   \OW{\fun{bms}}{n}.
   \index{WL@$\predName{W}_L$}
-\label{ineq_topbot}
+\label{ineq:topbot}
 \end{equation}
-Par~\eqref{eq_2p}, il est clair que \(\pred{W\(_L\)}{2^0}\) est
+Par~\eqref{eq:2p}, il est clair que \(\pred{W\(_L\)}{2^0}\) est
 vraie. Soit l'hypothèse d'induction \(\forall m \leqslant
 2^p.\pred{W\(_L\)}{m}\). Le principe d'induction exige que nous
 prouvions alors \(\pred{W\(_L\)}{2^p+i}\), pour tout \(0 < i < 2^p\).
 
-\noindent Des équations \eqref{eq_bot} \& \eqref{eq_2p}
+\noindent Des équations \eqref{eq:bot} \& \eqref{eq:2p}
 vient\index{bms@$\OW{\fun{bms}}{n}$} \(\OW{\fun{bms}}{2^p+i} =
 \OW{\fun{bms}}{2^p} + \OW{\fun{bms}}{i} + 2^p + i - 1 =
 \OW{\fun{tms}}{2^p} + \OW{\fun{bms}}{i} + 2^p + i - 1 \geqslant
@@ -2530,12 +2539,12 @@ vraie, alors le résultat \(\pred{W\(_L\)}{2^p+i}\) s'ensuit. Essayons
 donc de prouver cette condition suffisante.
 
 Soit \(n = 2^p + i\). Alors \(p = \floor{\lg n}\) et \(\ceiling{\lg n}
-= \floor{\lg n} + 1\). L'équation~\eqref{eq_top} \vpageref{eq_top}
+= \floor{\lg n} + 1\). L'équation~\eqref{eq:top} \vpageref{eq:top}
 implique \(\OW{\fun{tms}}{2^p+i} =
 (2^p+i)(p+1)-2^{p+1}+1=((p-1)2^p+1)+(p+1)i = \OW{\fun{tms}}{2^p} +
 (p+1)i\). Par conséquent, nous avons seulement besoin de prouver que
 \(pi \leqslant \OW{\fun{tms}}{i} + 2^p - 1\). En employant
-l'équation~\eqref{eq_top}, cette inégalité équivaut à
+l'équation~\eqref{eq:top}, cette inégalité équivaut à
 \begin{equation}
   \abovedisplayskip=2pt
   \belowdisplayskip=2pt
@@ -2581,7 +2590,7 @@ En passant, nous avons prouvé que si \(q=p-1\), soit
 \index{tms@$\OW{\fun{tms}}{n}$}
 \begin{itemize}
 
-  \item Si \(i=2^q\), alors l'équation~\eqref{eq_2p} implique
+  \item Si \(i=2^q\), alors l'équation~\eqref{eq:2p} implique
     \(\OW{\fun{bms}}{i} = \OW{\fun{tms}}{i}\);
 
   \item sinon, \(i = 2^q + j\) et la contrainte devient
@@ -2600,9 +2609,9 @@ que \(\OW{\fun{bms}}{2^p} = \OW{\fun{tms}}{2^p}\), nous avons donc
 \paragraph{Majorant}
 
 Si \(n=2^p+1\), alors \(p=\floor{\lg n}=\ceiling{\lg
-  n}-1\). Par ailleurs, la définition~\eqref{eq_bot} implique
-\(\OW{\fun{bms}}{2^p+1} = p2^p+1\) et la définition~\eqref{eq_top}
-\vpageref{eq_top} \(\OW{\fun{tms}}{2^p+1} = (p-1)2^p+p+2\), donc
+  n}-1\). Par ailleurs, la définition~\eqref{eq:bot} implique
+\(\OW{\fun{bms}}{2^p+1} = p2^p+1\) et la définition~\eqref{eq:top}
+\vpageref{eq:top} \(\OW{\fun{tms}}{2^p+1} = (p-1)2^p+p+2\), donc
 \(\OW{\fun{bms}}{2^p+i} - \OW{\fun{tms}}{2^p+i} = 2^p - p - 1\). En
 termes de~\(n\), ceci veut dire: \(\OW{\fun{bms}}{n} -
 \OW{\fun{tms}}{n} = n - \ceiling{\lg n} - 1\), si \(n=2^p+1\). Nous
@@ -2610,15 +2619,15 @@ souhaitons montrer que cette différence est maximale:
 \begin{equation}
 \pred{W\(_U\)}{n} \colon \OW{\fun{bms}}{n} \leqslant \OW{\fun{tms}}{n} + n -
 \ceiling{\lg n} - 1.
-\label{ineq_upper_Wbms}
+\label{ineq:upper_Wbms}
 \index{WU@$\predName{W}_U$}
 \end{equation}
-Notons comment l'équation~\eqref{eq_2p} implique
+Notons comment l'équation~\eqref{eq:2p} implique
 \(\pred{W\(_U\)}{2^p}\). Par conséquent, soit l'hypothèse d'induction
 \(\forall m \leqslant 2^p.\pred{W\(_U\)}{m}\) et montrons que
 \(\pred{W\(_U\)}{2^p+i}\), pour tout \(0 < i < 2^p\).
 
-Soit \(n=2^p+i\). De \eqref{eq_bot} \& \eqref{eq_2p} vient
+Soit \(n=2^p+i\). De \eqref{eq:bot} \& \eqref{eq:2p} vient
 \(\OW{\fun{bms}}{2^p+i} = \OW{\fun{bms}}{2^p} + \OW{\fun{bms}}{i} +
 2^p + i - 1 = \OW{\fun{tms}}{2^p} + \OW{\fun{bms}}{i} + 2^p + i - 1
 \leqslant \OW{\fun{tms}}{2^p} + \OW{\fun{tms}}{i} + 2^p + 2i -
@@ -2628,7 +2637,7 @@ Soit \(n=2^p+i\). De \eqref{eq_bot} \& \eqref{eq_2p} vient
 avions l'inégalité \(\OW{\fun{tms}}{2^p} + \OW{\fun{tms}}{i} + 2^p +
 2i - \ceiling{\lg i} - 2 \leqslant \OW{\fun{tms}}{2^p+i} + 2^p + i - p
 - 2\), alors \(\pred{W\(_U\)}{2^p+i}\) s'ensuivrait. En employant
-l'équation~\eqref{eq_top}, nous
+l'équation~\eqref{eq:top}, nous
 déduisons\index{bms@$\OW{\fun{bms}}{n}$}\index{tms@$\OW{\fun{tms}}{n}$}
 \begin{equation*}
 \OW{\fun{tms}}{i} = i\ceiling{\lg i} - 2^{\ceiling{\lg i}} + 1,\;\;
@@ -2639,28 +2648,28 @@ L'inégalité à prouver devient \(\OW{\fun{tms}}{i} + i - \ceiling{\lg
   i} \leqslant (p+1)i - p\), ou bien
 \begin{equation}
 1 \leqslant (i-1)(p-\ceiling{\lg i}) + 2^{\ceiling{\lg i}}.
-\label{eq_conj2}
+\label{eq:conj2}
 \end{equation}
 Nous avons deux cas complémentaires à considérer:
 \begin{itemize}
 
 \item \(i = 2^q\), avec \(0 \leqslant q < p\). Alors \(\lg i = q\) et
-  l'inéquation~\eqref{eq_conj2} équivaut à \((p-q+1)(2^q-1) \geqslant
+  l'inéquation~\eqref{eq:conj2} équivaut à \((p-q+1)(2^q-1) \geqslant
   0\). Puisque \(0 \leqslant q < p\) implique \(p-q+1>1\) et \(2^q
   \geqslant 1\), l'inégalité est prouvée et devient une égalité si, et
   seulement si, \(q=0\).
 
   \item \(i = 2^q + j\), avec \(0 \leqslant q < p\) et \(0 < j <
     2^q\). Nous avons alors \(\floor{\lg i} = q = \ceiling{\lg i} -
-    1\) et l'inéquation~\eqref{eq_conj2} est donc équivalente à \(1
+    1\) et l'inéquation~\eqref{eq:conj2} est donc équivalente à \(1
     \leqslant (2^q + j - 1) (p-q) + 2^q\), ou
     \begin{equation}
-     1 \leqslant (p-q+1)2^q + (p-q-1)(j-1).\label{ineq_2q_j}
+     1 \leqslant (p-q+1)2^q + (p-q-1)(j-1).\label{ineq:2q_j}
     \end{equation}
     De \(q < p\) nous déduisons \(p-q+1 \geqslant 2\) et \(p-q-1
     \geqslant 0\); nous avons aussi \(2^q \geqslant 1\) et \(j
     \geqslant 1\). Par conséquent, \((p-q+1)2^q \geqslant 2\) et
-    \((p-q-1)(j-1) \geqslant 0\), donc l'inéquation~\eqref{ineq_2q_j}
+    \((p-q-1)(j-1) \geqslant 0\), donc l'inéquation~\eqref{ineq:2q_j}
     est vraie au sens strict (pas d'égalité).\hfill\(\Box\)
 
 \end{itemize}
@@ -2713,9 +2722,9 @@ les coûts moyens des deux variantes du tri par interclassement que
 nous avons étudiées. Nous allons donc prouver que le tri descendant
 requiert moins de comparaisons, en moyenne, que le tri
 ascendant. Puisque nous avons déjà établi que ceci est vrai aussi pour
-le cas le plus défavorable (voir~\eqref{ineq_topbot}
-\vpageref{ineq_topbot}), et que leur coût minimum sont égaux
-(voir~\eqref{eq_OBbms} \vpageref{eq_OBbms}), ceci scelle le sort de la
+le cas le plus défavorable (voir~\eqref{ineq:topbot}
+\vpageref{ineq:topbot}), et que leur coût minimum sont égaux
+(voir~\eqref{eq:OBbms} \vpageref{eq:OBbms}), ceci scelle le sort de la
 variante ascendante, qui renaîtra sous une forme plus utile à la
 section~\vref{sec:online}. Nous voulons prouver par induction:
 \begin{equation*}
@@ -2725,7 +2734,7 @@ Nous savons déjà que l'inégalité est une égalité quand \(n=2^p\), donc
 vérifions-la pour \(n=2\), puis supposons qu'elle soit valable
 jusqu'à~\(2^p\) et tâchons ensuite de la prouver pour \(2^p+i\), où
 \(0 < i \leqslant 2^p\), dont notre objectif découlera. Souvenons-nous
-de l'équation~\eqref{eq_Abms_2p_i} \vpageref{eq_Abms_2p_i}:
+de l'équation~\eqref{eq:Abms_2p_i} \vpageref{eq:Abms_2p_i}:
 \begin{equation*}
 \OM{\fun{bms}}{2^p+i} = \OM{\fun{bms}}{2^p} + \OM{\fun{bms}}{i}
 + 2^p + i - \frac{2^p}{i+1} - \frac{i}{2^p+1}.
@@ -2736,7 +2745,7 @@ avons
 \begin{equation}
 \OM{\fun{bms}}{2^p+i} \geqslant \OM{\fun{tms}}{2^p} + \OM{\fun{tms}}{i}
 + 2^p + i - \frac{2^p}{i+1} - \frac{i}{2^p+1}.
-\label{ineq_Atms_Abms}
+\label{ineq:Atms_Abms}
 \end{equation}
 Si nous pouvions montrer que le membre droit est supérieur ou égal à
 \(\OM{\fun{tms}}{2^p+i}\), nous aurions gagné. Généralisons cette
@@ -2897,11 +2906,11 @@ n'avons besoin que de trois cas: \((2p,2q)\), \((2p,2q+1)\) et
 \end{enumerate}
 Au total, \(\pred{T}{m,n}\) est vrai dans chaque cas, donc le lemme
 est vrai pour tout \(m\)~et~\(n\). En appliquant le lemme
-à~\eqref{ineq_Atms_Abms}, nous prouvons le théorème
+à~\eqref{ineq:Atms_Abms}, nous prouvons le théorème
 \(\OM{\fun{tms}}{n} \leqslant \OM{\fun{bms}}{n}\), pour tout~\(n\). En
 regroupant tous les cas où l'inégalité est une égalité, nous vérifions
 ce que nous attendions: \(m=n\), \(m=n+1\) ou
-\(n=m+1\). Pour~\eqref{ineq_Atms_Abms}, ceci signifie \(i=2^p\) ou
+\(n=m+1\). Pour~\eqref{ineq:Atms_Abms}, ceci signifie \(i=2^p\) ou
 \(i=2^p-1\), soit
 \begin{equation*}
   \boxed{\OM{\fun{tms}}{n} = \OM{\fun{bms}}{n} \Leftrightarrow n=2^p
@@ -2919,7 +2928,7 @@ interclassement descendant et ascendant:
 
 Comparons les tris par insertion et interclassement dans leurs
 variantes les plus rapides. Nous avons trouvé à
-l'équation~\eqref{eq_ave_i2wb} \vpageref{eq_ave_i2wb} le coût moyen du
+l'équation~\eqref{eq:ave_i2wb} \vpageref{eq:ave_i2wb} le coût moyen du
 tri par insertion bidirectionnelle équilibrée:
 \begin{equation*}
 \M{\fun{i2wb}}{n}\index{12wb@$\M{\fun{i2wb}}{n}$}
@@ -2930,8 +2939,8 @@ Par ailleurs, nous venons tout juste de trouver que le coût en plus
 des comparaisons est \(\ceiling{3n/2} + 2\ceiling{\lg n} - 1\) pour
 \fun{bms\(_0\)/1}\index{bms0@\fun{bms\(_0\)/1}}, et
 \(\OC{\fun{bms\(_0\)}}{n} = \OC{\fun{bms}}{n}\). En outre, nous avons
-obtenu l'encadrement~\eqref{ineq_bounds_Mbms}
-\vpageref{ineq_bounds_Mbms} de \(\OM{\fun{bms}}{n}\), le majorant
+obtenu l'encadrement~\eqref{ineq:bounds_Mbms}
+\vpageref{ineq:bounds_Mbms} de \(\OM{\fun{bms}}{n}\), le majorant
 étant excellent. Par conséquent,
 \begin{align*}
 \M{\fun{bms\(_0\)}}{n} &< (n\lg n - (\alpha - 1)n - (3-2\alpha))
@@ -3055,7 +3064,8 @@ Notre programme est montré à la \fig~\ref{fig:oms}\index{tri par
                          & \cons{x}{\fun{mrg}(s,t)}.
 \end{array}}
 \end{equation*}
-\caption{Tri par interclassement en ligne avec \fun{oms/1}\label{fig:oms}}
+\caption{Tri par interclassement en ligne avec \fun{oms/1}}
+\label{fig:oms}
 \end{figure}
 Nous usons de \(\fun{zero}()\)\index{zero@\fun{zero/0}} pour
 représenter un bit à~\(0\) dans la notation binaire du nombre de clés
@@ -3115,26 +3125,26 @@ comparaisons pour ajouter \(n\)~clés à \(\el\). Nous avons
 = \sum_{k=1}^{2p-1}{\OC{\fun{add}}{k}}
 = \sum_{j=1}^{p}{\OC{\fun{add}}{2j-1}}
 = \sum_{j=1}^{p}\sum_{i=0}^{1+\rho_{j}}{\OC{\fun{mrg}}{2^i,2^i}}.
-\label{eq_sum_2p}
+\label{eq:sum_2p}
 \end{gather}
 Soit \(\OC{\fun{unb}}{n}\)\index{unb@$\OC{\fun{unb}}{n}$} le nombre de
 comparaisons de tous les interclassements déséquilibrés pour trier
 \(n\)~clés. Un coup d'{\oe}il en arrière, à la
-définition~\eqref{eq_C_unbal} page~\pageref{eq_C_unbal} nous rappelle
+définition~\eqref{eq:C_unbal} page~\pageref{eq:C_unbal} nous rappelle
 que
 \begin{equation}
 \OC{\fun{unb}}{n}
 = \OC{\ltimes}{n}
 = \sum_{i=1}^{r}{\OC{\fun{mrg}}{2^{e_i},2^{e_{i-1}}+\dots+2^{e_0}}}.
 \index{unb@$\OC{\fun{unb}}{n}$}
-\label{eq_cost_unb}
+\label{eq:cost_unb}
 \end{equation}
 Soit \(\OC{\fun{oms}}{n}\)\index{oms@$\OC{\fun{oms}}{n}$} le nombre de
 comparaisons pour trier \(n\)~clés en ligne. On a
 \begin{equation}
 \OC{\fun{oms}}{n} = \OC{\fun{sum}}{n} + \OC{\fun{unb}}{n}.
 \index{sum@$\OC{\fun{sum}}{n}$}
-\label{eq_ocost_online}
+\label{eq:ocost_online}
 \end{equation}
 
 %\addcontentsline{toc}{subsection}{Cost}
@@ -3142,20 +3152,20 @@ comparaisons pour trier \(n\)~clés en ligne. On a
 \index{tri par interclassement!$\sim$ en ligne!coût minimum|(}
 
 En remplaçant~\(\Cost\) par~\(\Best\) dans
-l'équation~\eqref{eq_sum_2p}, nous obtenons les équations pour le
+l'équation~\eqref{eq:sum_2p}, nous obtenons les équations pour le
 nombre minimum de comparaisons, ce qui nous permet de simplifier
 \(\OB{\fun{sum}}{n}\)\index{sum@$\OB{\fun{sum}}{n}$} avec l'aide de
-l'équation~\eqref{eq_best_merge} \vpageref{eq_best_merge}:
+l'équation~\eqref{eq:best_merge} \vpageref{eq:best_merge}:
 \begin{equation}
 \OB{\fun{sum}}{2p}
   = \OB{\fun{sum}}{2p+1}
   = \sum_{j=1}^{p}\sum_{i=0}^{1+\rho_{j}}{\OB{\fun{mrg}}{2^i,2^i}}
   = \sum_{j=1}^{p}\sum_{i=0}^{1+\rho_{j}}{2^{i}}
   = 4\sum_{j=1}^{p}{2^{\rho_{j}}} - p.
-\label{eq_B_oplus}
+\label{eq:B_oplus}
 \end{equation}
 Soit \(T_p := \sum_{j=1}^{p}{2^{\rho_{j}}}\). Les
-récurrences~\eqref{eq_ruler} \vpageref{eq_ruler} sur la
+récurrences~\eqref{eq:ruler} \vpageref{eq:ruler} sur la
 fonction~\(\rho\) nous aident à trouver une récurrence pour~\(T_p\)
 comme suit:
 \begin{align*}
@@ -3197,11 +3207,11 @@ où \(\theta_L(x) := x + 2^{1 - x}\). Puisque \(\max_{0 \leqslant x <
 p\lg p + 2 < 2 \cdot T_p \leqslant p\lg p + 2p.
 \end{equation*}
 Le majorant est atteint si \(p=2^q\). L'application de cet encadrement
-à la définition de~\(\OB{\fun{sum}}{2p}\) dans~\eqref{eq_B_oplus}
+à la définition de~\(\OB{\fun{sum}}{2p}\) dans~\eqref{eq:B_oplus}
 produit
 \begin{equation}
 2p\lg p - p + 4 < \OB{\fun{sum}}{2p} \leqslant 2p\lg p + 3p.
-\label{ineq_B_oplus_2p}
+\label{ineq:B_oplus_2p}
 \end{equation}
 Par conséquent, \(\OB{\fun{sum}}{2p} = \OB{\fun{sum}}{2p+1} \sim 2p\lg
 p\), donc \(\OB{\fun{sum}}{n} \sim n\lg
@@ -3209,7 +3219,7 @@ n\).\index{sum@$\OB{\fun{sum}}{n}$}
 
 \bigskip
 
-\noindent Grâce à~\eqref{eq_best_merge} \&~\eqref{eq_cost_unb} on a
+\noindent Grâce à~\eqref{eq:best_merge} \&~\eqref{eq:cost_unb} on a
 \(\OB{\fun{unb}}{n} = \sum_{i=1}^{r}{\min\{2^{e_i},2^{e_{i-1}} + \dots
   + 2^{e_0}\}}\)\index{unb@$\OB{\fun{unb}}{n}$|(}. Commençons par
 noter que \(\sum_{j=0}^{i}{2^{e_j}} \leqslant \sum_{j=0}^{e_i}{2^j} =
@@ -3223,9 +3233,9 @@ bits tous à~\(1\), par exemple, \((10110111)_2 \leqslant
 + 2^{e_0}\). Nous avons alors
 \begin{equation}
 \OB{\fun{unb}}{n} = \sum_{i=1}^{r}\sum_{j=0}^{i-1}{2^{e_j}} < n.
-\label{ineq_OBunb}
+\label{ineq:OBunb}
 \end{equation}
-Trivialement, \(0 < \OB{\fun{unb}}{n}\), donc~\eqref{eq_ocost_online}
+Trivialement, \(0 < \OB{\fun{unb}}{n}\), donc~\eqref{eq:ocost_online}
 implique \(\OB{\fun{oms}}{n} \sim n\lg n \sim 2
 \cdot \OB{\fun{bms}}{n}\).  \index{tri par interclassement!$\sim$ en
   ligne!coût minimum|)} \index{unb@$\OB{\fun{unb}}{n}$|)}
@@ -3234,9 +3244,9 @@ implique \(\OB{\fun{oms}}{n} \sim n\lg n \sim 2
 \index{tri par interclassement!$\sim$ en ligne!coût maximum|(}
 
 En remplaçant~\(\Cost\) par~\(\Worst\) dans
-l'équation~\eqref{eq_sum_2p}, nous obtenons des équations pour le
+l'équation~\eqref{eq:sum_2p}, nous obtenons des équations pour le
 nombre maximum de comparaisons, que nous pouvons simplifier avec
-l'aide de l'équation~\eqref{eq_worst_merge} \vpageref{eq_worst_merge}
+l'aide de l'équation~\eqref{eq:worst_merge} \vpageref{eq:worst_merge}
 en
 \begin{equation}
 \OW{\fun{sum}}{2p}
@@ -3244,7 +3254,7 @@ en
   = \sum_{j=1}^{p}\sum_{i=0}^{1+\rho_{j}}{\OW{\fun{mrg}}{2^i,2^i}}
 %  = \sum_{j=1}^{p}\sum_{i=0}^{1+\rho_{j}}{(2^{i+1}-1)}\\
   = 8\sum_{j=1}^{p}{2^{\rho_j}} - \sum_{j=1}^{p}\rho_j - 4p.
-\label{eq_OW_sum_2p}
+\label{eq:OW_sum_2p}
 \index{sum@$\OW{\fun{sum}}{n}$}
 \end{equation}
 \index{somme des bits|(}Nous pouvons obtenir une forme close de
@@ -3276,9 +3286,9 @@ Ceci termine la preuve, pour tout entier \(n>0\), que \(\rho_n = 1 +
 \sum_{j=1}^{p}{\rho_j} = p - \nu_p.
 \end{equation*}
 Il est intéressant de noter que nous avons déjà rencontré \(p -
-\nu_p\) \index{somme des bits|)} à l'équation~\eqref{eq_ruler_nu},
-\vpageref{eq_ruler_nu}. Nous pouvons maintenant
-simplifier~\eqref{eq_OW_sum_2p} ainsi:
+\nu_p\) \index{somme des bits|)} à l'équation~\eqref{eq:ruler_nu},
+\vpageref{eq:ruler_nu}. Nous pouvons maintenant
+simplifier~\eqref{eq:OW_sum_2p} ainsi:
 \begin{equation*}
 \OW{\fun{sum}}{2p}
  = \OW{\fun{sum}}{2p+1}
@@ -3287,11 +3297,11 @@ simplifier~\eqref{eq_OW_sum_2p} ainsi:
 \index{sum@$\OW{\fun{sum}}{n}$}
 \end{equation*}
 En réutilisant l'encadrement de~\(\OB{\fun{sum}}{2p}\) dans
-l'inégalité~\eqref{ineq_B_oplus_2p} nous amène à \(\OW{\fun{sum}}{2p}
+l'inégalité~\eqref{ineq:B_oplus_2p} nous amène à \(\OW{\fun{sum}}{2p}
 = \OW{\fun{sum}}{2p+1} \sim 4p\lg p\).
 
-Les équations~\eqref{eq_worst_merge} et~\eqref{eq_cost_unb}, ainsi que
-l'inéquation~\eqref{ineq_OBunb} impliquent
+Les équations~\eqref{eq:worst_merge} et~\eqref{eq:cost_unb}, ainsi que
+l'inéquation~\eqref{ineq:OBunb} impliquent
 \begin{equation*}
 \OW{\fun{unb}}{n} = \sum_{i=1}^{r}\sum_{j=0}^{i}{2^{e_j}} - \nu_n + 1
                   = \OB{\fun{unb}}{n} + n - \rho_n - \nu_n + 1
@@ -3319,7 +3329,7 @@ règle~\(\kappa\) ou~\(\lambda\), donc cherchons \(\C{\fun{oms}}{n} -
 
   \item Les règles \(\omega\), \(\gamma\) et~\(\delta\) sont employées
     \(F(n) = 2n - \nu_n\) fois, comme on peut le constater à
-    l'équation~\eqref{eq_ruler_nu}. Nous devons aussi tenir compte des
+    l'équation~\eqref{eq:ruler_nu}. Nous devons aussi tenir compte des
     règles \(\theta\)~et~\(\iota\) requises pour les appels
     \(\fun{mrg}(s,u)\) dans la règle~\(\delta\). Chaque bit à~\(1\)
     dans la notation binaire des nombres de~\(1\) à~\(n-1\) déclenche
@@ -3337,10 +3347,10 @@ règle~\(\kappa\) ou~\(\lambda\), donc cherchons \(\C{\fun{oms}}{n} -
 \end{itemize}
 Au total, nous avons \(\C{\fun{oms}}{n} - \OC{\fun{oms}}{n} = 3n +
 \floor{\lg n} + \sum_{k=1}^{n-1}\nu_k +
-2\). L'équation~\eqref{eq_OBbms} \vpageref{eq_OBbms} implique
+2\). L'équation~\eqref{eq:OBbms} \vpageref{eq:OBbms} implique
 \(\C{\fun{oms}}{n} = \OC{\fun{oms}}{n} + 3n + \floor{\lg n} +
-\OB{\fun{bms}}{n} + 2\). L'encadrement~\eqref{ineq_bounds_Btms}
-\vpageref{ineq_bounds_Btms} implique \(\OB{\fun{bms}}{n} \sim
+\OB{\fun{bms}}{n} + 2\). L'encadrement~\eqref{ineq:bounds_Btms}
+\vpageref{ineq:bounds_Btms} implique \(\OB{\fun{bms}}{n} \sim
 \tfrac{1}{2}n\lg n\), d'où \(\C{\fun{oms}}{n} \sim
 \OC{\fun{oms}}{n}\).  \index{tri par interclassement|)} \index{tri par
   interclassement!$\sim$ en ligne|)}
@@ -3364,14 +3374,14 @@ Au total, nous avons \(\C{\fun{oms}}{n} - \OC{\fun{oms}}{n} = 3n +
   \item Est-ce que \fun{bms/1} est stable? Qu'en est-il de \fun{tms/1}?
 
   \item Trouvez \(\C{\fun{tms}}{n} - \OC{\fun{tms}}{n}\). \emph{Aide:}
-    pensez à l'équation~\eqref{eq_ruler_nu} \vpageref{eq_ruler_nu}.
+    pensez à l'équation~\eqref{eq:ruler_nu} \vpageref{eq:ruler_nu}.
 
-  \item À la page~\pageref{eq_bms_merges}, nous avons trouvé que le
+  \item À la page~\pageref{eq:bms_merges}, nous avons trouvé que le
     nombre d'interclassements effectués par \(\fun{bms}(s)\)
     est~\(n-1\) si~\(n\) est le nombre de clés dans~\(s\). Montrez que
     \(\fun{tms}(s)\) effectue le même nombre
     d'interclassements. (\emph{Aide}: Considérez
-    l'équation~\eqref{eq_cost_tms} \vpageref{eq_cost_tms}.)
+    l'équation~\eqref{eq:cost_tms} \vpageref{eq:cost_tms}.)
 
   \item Trouvez un dénombrement d'éléments de la table à la
     \fig~\vref{fig:bits} montrant que

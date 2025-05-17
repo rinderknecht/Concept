@@ -49,8 +49,11 @@ regardons de nouveau les définitions de~\fun{rev\(_0\)/1}
 directement une valeur qui est alors décomposée en fonction des
 variables du membre gauche correspondant:
 \begin{equation*}
-\fun{rev}_0(\el) \rightarrow \el;\qquad
-\fun{rev}_0(\cons{x}{s}) \rightarrow \fun{cat}(\fun{rev}_0(s),[x]).
+\begin{array}{r@{\;}l@{\;}l}
+\fun{rev}_0(\el) & \rightarrow & \el;\\
+\fun{rev}_0(\cons{x}{s}) & \rightarrow &
+\fun{cat}(\fun{rev}_0(s),[x]).
+\end{array}
 \end{equation*}
 \index{rev0@\fun{rev\(_0\)/1}|)}Par contraste,
 \fun{rev/1}\index{rev@\fun{rev/1}} compte sur une autre fonction,
@@ -59,10 +62,12 @@ partiels, comme si les flèches ne parcourraient qu'une courte
 distance, ne contribuant que très peu et indirectement à la valeur
 finale, typiquement via un accumulateur:
 \begin{equation*}
-\fun{rev}(s) \xrightarrow{\smash{\epsilon}} \fun{rcat}(s,\el).\quad\;\;
-\fun{rcat}(\el,t) \xrightarrow{\smash{\zeta}} t;\quad\;\;
-\fun{rcat}(\cons{x}{s},t) \xrightarrow{\smash{\eta}}
+\begin{array}{r@{\;}l@{\;}l}
+\fun{rev}(s) & \smashedrightarrow{\epsilon} & \fun{rcat}(s,\el).\\
+\fun{rcat}(\el,t) & \smashedrightarrow{\zeta} & t;\\
+\fun{rcat}(\cons{x}{s},t) & \smashedrightarrow{\eta} &
 \fun{rcat}(s,\cons{x}{t}).
+\end{array}
 \end{equation*}
 La première approche pourrait être appelée \emph{conception à grands
   pas}\index{conception!grands pas}, et l'autre \emph{conception à
@@ -111,7 +116,7 @@ exemple, dans le cas de la règle~\(\gamma\), les sous-structures de
 \end{figure}
 
 Considérons un exemple à la \fig~\vref{fig:flat0_ex},
-\begin{figure}
+\begin{figure}[!b]
 \begin{equation*}
 \boxed{%
 \begin{array}{r@{\;}l@{\;}l}
@@ -152,8 +157,9 @@ jusqu'à ce que celle de
 \fun{flat\(_0\)/1}\index{flat0@\fun{flat$_0$/1}} soit terminée. Quand
 nous déduisons une récurrence ou une trace compliquée, nous pourrions
 à la place tenter de compter le nombre de fois que chaque règle est
-utilisée, pour toute évaluation. Un appel à
-\fun{flat\(_0\)/1}\index{flat0@\fun{flat$_0$/1}} implique
+utilisée, pour toute évaluation.
+
+Un appel à \fun{flat\(_0\)/1}\index{flat0@\fun{flat$_0$/1}} implique
 \begin{itemize}
 
   \item utiliser la règle~\(\omega\) une seule fois pour chaque pile
@@ -198,7 +204,7 @@ n + \Omega + 2\Gamma\). Par exemple, dans le cas de
 
 En ce qui concerne le coût des appels à \fun{cat/2}, son associativité
 \index{cat@\fun{cat/2}} établie à la page~\pageref{proof_assoc_cat} et
-l'équation~\eqref{ineq_cat_assoc} \vpageref{ineq_cat_assoc} suggèrent
+l'équation~\eqref{ineq:cat_assoc} \vpageref{ineq:cat_assoc} suggèrent
 qu'il existe des configurations des données de
 \fun{flat\(_0\)/1}\index{flat0@\fun{flat$_0$/1}} qui mènent à des
 coûts supérieurs, quand les paramètres \(n\), \(\Omega\) et~\(\Gamma\)
@@ -356,14 +362,26 @@ n'y a pas de piles vides, la longueur de chaque pile est inférieure ou
 égale au nombre de ses éléments qui ne sont pas des piles, en comptant
 aussi leur occurrence dans des piles imbriquées (il y a égalité
 lorsqu'il n'y a pas de piles imbriquées). Par conséquent, en ajoutant
-toutes ces inégalités, le résultat \(\Omega = 0 \Rightarrow L
-\leqslant C\) s'ensuit, où \(C\)~est le coût de la réécriture des
-appels à~\fun{cat/2}\index{cat@\fun{cat/2}}
-dans~\fun{flat\(_0\)/1}\index{flat0@\fun{flat$_0$/1}}. Puisque nous
-avons \(\C{\fun{flat}}{n,\Omega,\Gamma} = (1 + n + \Omega + \Gamma) +
-L\) et \(\C{\smash{\fun{flat}_0}}{n,\Omega,\Gamma} = (1 + n + \Omega +
-\Gamma) + (C + \Gamma)\), nous concluons qu'en l'absence de piles
-vides, \fun{flat/1}\index{flat@\fun{flat/1}} est plus rapide.
+toutes ces inégalités, l'implication
+\begin{equation}
+  \Omega = 0 \Rightarrow C - L \geqslant 0, \label{eq:CL}
+\end{equation}
+s'ensuit, où \(C\)~est le coût de la réécriture des appels
+à~\fun{cat/2}\index{cat@\fun{cat/2}}
+dans~\fun{flat\(_0\)/1}\index{flat0@\fun{flat$_0$/1}}. Puisque
+\(\C{\smash{\fun{flat}_0}}{n,\Omega,\Gamma} = (1 + n + \Omega +
+\Gamma) + (C + \Gamma)\) et \(\C{\fun{flat}}{n,\Omega,\Gamma} = (1 +
+n + \Omega + \Gamma) + L\),
+\begin{equation*}
+  \C{\smash{\fun{flat}_0}}{n,\Omega,\Gamma} -
+  \C{\fun{flat}}{n,\Omega,\Gamma} =
+  (C - L) + \Gamma.
+\end{equation*}
+D'après l'équation~\eqref{eq:CL}, nous concluons qu'en l'absence de
+piles vides, nous avons l'inégalité
+\(\C{\smash{\fun{flat}_0}}{n,\Omega,\Gamma} -
+\C{\fun{flat}}{n,\Omega,\Gamma} \geqslant L\), d'où
+\fun{flat/1}\index{flat@\fun{flat/1}} est plus rapide.
 
 \mypar{Terminaison}
 \label{flattening_termination}
@@ -380,7 +398,9 @@ l'\emph{ordre des sous-termes immédiats}, satisfaisant \(\cons{x}{s}
 pas effectue des appels récursifs sur les sous-termes
 (section~\ref{par:well-founded}, \vpageref{par:well-founded}), elle
 facilite les preuves de terminaison fondées sur un tel
-ordre. Souvenons-nous ainsi de la définition de
+ordre.
+
+Souvenons-nous ainsi de la définition de
 \fun{flat\(_0\)/1}\index{flat0@\fun{flat$_0$/1}|(} à la
 \fig~\ref{fig:flat0}, page~\pageref{fig:flat0}. Étant donné que
 \fun{cat/2}\index{cat@\fun{cat/2}} est indépendant de
@@ -391,65 +411,103 @@ terminaison de \fun{flat\(_0\)/1}. Parce que les appels récursifs de
 \fun{flat\(_0\)/1} ne contiennent que des constructeurs (de piles),
 nous pouvons essayer d'ordonner leurs arguments
 \citep{ArtsGiesl_1996}. Ici encore, le même ordre fonctionne:
-\(\cons{y}{t} \succ t\) (règle~\(\delta\) et la règle~\(\omega\) quand
-\(y=\el\)), \(\cons{\cons{x}{s}}{t} \succ t\) et
-\(\cons{\cons{x}{s}}{t} \succ \cons{x}{s}\) (règle~\(\gamma\)). La
-terminaison s'ensuit.\hfill\(\Box\)
+\begin{itemize}
+
+  \item \(\cons{y}{t} \succ t\) de par les règles~\(\delta\) et~\(\omega\)
+    si \(y=\el\),
+
+  \item \(\cons{\cons{x}{s}}{t} \succ t\) et
+
+  \item \(\cons{\cons{x}{s}}{t} \succ \cons{x}{s}\) de par la
+    règle~\(\gamma\).
+
+\end{itemize}
+La terminaison s'ensuit.\hfill\(\Box\)
 
 \par\vspace\baselineskip
 
 Rappelons-nous ensuite de la définition de
 \fun{flat/1}\index{flat@\fun{flat/1}} à la \fig~\vref{fig:flat} et
 prouvons sa terminaison. Ici, l'ordre que nous avons employé pour
-\fun{flat\(_0\)/1} échoue: \(\cons{\cons{x}{s}}{t} \nsucc
-\cons{x,s}{t} = \cons{x}{\cons{s}{t}}\). Nous pourrions alors viser
-une plus grande généralité avec l'\emph{ordre des sous-termes
-  propres}\index{induction!ordre des sous-termes propres},
-c'est-à-dire la stricte inclusion d'un terme dans un autre, mais,
-malgré l'encourageante inégalité \(\cons{x}{s} \succ x\), nous
-échouons avec \(t \nsucc \cons{s}{t}\). Nous avons besoin de plus
-d'abstraction, ce que nous permet la définition d'une
+\fun{flat\(_0\)/1} échoue:
+\begin{equation*}
+  \cons{\cons{x}{s}}{t} \nsucc \cons{x,s}{t} =
+  \cons{x}{\cons{s}{t}}.
+\end{equation*}
+Nous pourrions alors viser une plus grande généralité avec
+l'\emph{ordre des sous-termes propres}\index{induction!ordre des
+  sous-termes propres}, c'est-à-dire la stricte inclusion d'un terme
+dans un autre, mais, malgré l'encourageante inégalité \(\cons{x}{s}
+\succ x\), nous échouons avec \(t \nsucc \cons{s}{t}\). Nous avons
+besoin de plus d'abstraction, ce que nous permet la définition d'une
 \emph{mesure}\index{terminaison!mesure} sur les piles
-\citep{Giesl_1995a}.\index{flat0@\fun{flat$_0$/1}|)} Une mesure \(\measure{\cdot}\) est une injection de l'ensemble des
+\citep{Giesl_1995a}.\index{flat0@\fun{flat$_0$/1}|)}
+
+Une mesure \(\measure{\cdot}\) est une injection de l'ensemble des
 termes considérés vers un ensemble bien ordonné (\(A,\succ\)), qui est
 \emph{monotone} par rapport à une relation de réécriture donnée
-\((\rightarrow)\), c'est-à-dire, \(x \rightarrow y \Rightarrow
-\measure{x} \succ \measure{y}\). En fait, nous n'allons considérer que
-des \emph{paires de dépendance}
+\((\rightarrow)\), c'est-à-dire
+\begin{equation*}
+  x \rightarrow y \Rightarrow \measure{x} \succ \measure{y}.
+\end{equation*}
+En fait, nous n'allons considérer que des \emph{paires de dépendance}
 \citep{ArtsGiesl_2000}\index{terminaison!paire de dépendance},
 c'est-à-dire, des paires d'appels dont les premières composantes sont
 les membres gauches d'une règle et les secondes composantes sont les
 appels dans les membres droits de la même règle. Ceci est plus facile
 que de travailler directement avec \(x\)~et~\(y\) dans \(x \rightarrow
 y\), car seuls les sous-termes de~\(y\) sont pris en compte. Les
-paires sont\index{flat@\fun{flat/1}} \((\fun{flat}(\cons{\el}{t}),
-\fun{flat}(t))_\omega\), \((\fun{flat}(\cons{\cons{x}{s}}{t}),
-\fun{flat}(\cons{x,s}{t}))_\gamma\) et \((\fun{flat}(\cons{y}{t}),
-\fun{flat}(t))_\delta\), avec \(y \not\in S\). Nous pouvons en fait
-laisser tomber les noms de fonction, car toutes les paires portent sur
-\fun{flat/1}\index{flat@\fun{flat/1}}. Une classe de mesures
-fréquemment utilisée pour sa simplicité est celle des injections
-monotones dans (\(\mathbb{N},>\)), donc cherchons une mesure
-satisfaisant
-\begin{equation*}
-\measure{\cons{\cons{x}{s}}{t}} > \measure{\cons{x,s}{t}};\quad
-\measure{\cons{y}{t}} > \measure{t},
-\;\text{si \(y \not\in S\) ou \(y=\el\)}.
-\end{equation*}
+paires sont\index{flat@\fun{flat/1}}:
+\begin{itemize}
+
+  \item \((\fun{flat}(\cons{\el}{t}), \fun{flat}(t))_\omega\),
+
+  \item \((\fun{flat}(\cons{\cons{x}{s}}{t}),
+    \fun{flat}(\cons{x,s}{t}))_\gamma\) et
+
+  \item \((\fun{flat}(\cons{y}{t}), \fun{flat}(t))_\delta\), où \(y
+    \not\in S\).
+\end{itemize}
+Nous pouvons en fait laisser tomber les noms de fonction, car toutes
+les paires portent sur \fun{flat/1}\index{flat@\fun{flat/1}}. Une
+classe de mesures fréquemment utilisée pour sa simplicité est celle
+des injections monotones dans (\(\mathbb{N},>\)), donc cherchons une
+mesure satisfaisant
+\begin{itemize}
+
+  \item \(\measure{\cons{\cons{x}{s}}{t}} > \measure{\cons{x,s}{t}}\);
+
+  \item \(\measure{\cons{y}{t}} > \measure{t}\), si \(y \not\in S\) ou
+    \(y=\el\).
+
+\end{itemize}
 Par exemple, prenons la \emph{mesure polynomiale}\index{terminaison!mesure polynomiale} suivante:
-\begin{equation*}
-\measure{\cons{x}{s}} := 1 + 2\cdot\measure{x} + \measure{s};\quad
-\measure{y} := 0,\;\text{si \(y \not\in S\) ou \(y=\el\)}.
-\end{equation*}
-Nous avons \(\measure{\cons{\cons{x}{s}}{t}} = 3 + 4\cdot\measure{x} +
-2\cdot\measure{s} + \measure{t}\) et, pour l'autre pile,
-\(\measure{\cons{x,s}{t}} = 2 + 2\cdot\measure{x} + 2\cdot\measure{s}
-+ \measure{t}\). Parce que \(\measure{x} \in \mathbb{N}\), pour
-tout~\(x\), nous avons \(\measure{\cons{\cons{x}{s}}{t}} >
-\measure{\cons{x,s}{t}}\). La seconde inégalité est obtenue plus vite:
-\(\measure{\cons{y}{t}} = 1 + \measure{t} > \measure{t}\). Ceci
-implique la terminaison de
-\fun{flat/1}\index{flat@\fun{flat/1}}.\index{pile!aplatissement!terminaison|)}\hfill\(\Box\)
+\begin{itemize}
+
+  \item \(\measure{\cons{x}{s}} := 1 + 2\cdot\measure{x} +
+    \measure{s}\);
+
+  \item \(\measure{y} := 0\), si \(y \not\in S\) ou \(y=\el\).
+
+\end{itemize}
+Nous avons, pour chaque pile,
+\begin{itemize}
+
+  \item \(\measure{\cons{\cons{x}{s}}{t}} = 3 + 4\cdot\measure{x} +
+    2\cdot\measure{s} + \measure{t}\),
+
+  \item \(\measure{\cons{x,s}{t}} = 2 + 2\cdot\measure{x} +
+    2\cdot\measure{s} + \measure{t}\).
+
+\end{itemize}
+Par conséquent: \(\measure{\cons{\cons{x}{s}}{t}} =
+\measure{\cons{x,s}{t}} + 1 + 2\cdot\measure{x}\). Parce que
+\(\measure{x} \in \mathbb{N}\), pour tout~\(x\), nous avons
+\(\measure{\cons{\cons{x}{s}}{t}} > \measure{\cons{x,s}{t}}\). La
+seconde inégalité est obtenue plus vite: \(\measure{\cons{y}{t}} = 1 +
+\measure{t} > \measure{t}\). Ceci implique la terminaison de
+\fun{flat/1}\index{flat@\fun{flat/1}}.
+\index{pile!aplatissement!terminaison|)}\hfill\(\Box\)
 
 \cite{Giesl_1997} aborde la terminaison de fonctions mutuellement
 récursives. Les programmes fonctionnels, en tant que cas particuliers
@@ -458,11 +516,11 @@ de systèmes de réécriture de termes, ont été étudiés par
 
 % Wrapping figure better declared before a paragraph
 %
-\begin{wrapfigure}[6]{r}[0pt]{0pt}
-% [6] vertical lines
+\begin{wrapfigure}[7]{r}[0pt]{0pt}
+% [7] vertical lines
 % {r} mandatory right placement
 \centering
-\includegraphics[bb=71 644 227 721]{flat1}
+\includegraphics[bb=71 644 227 708]{flat1}
 \caption{Aplatissement alternatif}
 \label{fig:flat1}
 \index{pile!aplatissement!définition}
@@ -477,7 +535,7 @@ de systèmes de réécriture de termes, ont été étudiés par
 
   \item Comparez les coûts de \fun{flat/1}\index{flat@\fun{flat/1}} et
     \fun{flat\(_1\)/1} \index{flat1@\fun{flat$_1$/1}} définies à la
-    \fig~\ref{fig:flat1} (voir~(\(\leadsto\))).
+    \fig~\ref{fig:flat1} (voir la règle~(\(\leadsto\))).
 
 \end{enumerate}
 \index{pile!aplatissement|)}

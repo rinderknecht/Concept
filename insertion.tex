@@ -111,7 +111,7 @@ L'équation \((\eqn{\smash{\nu}})\) suppose que la longueur de
 déduisons
 \begin{equation}
 \C{\fun{isrt}}{n} = 1 + n + \sum_{i=0}^{n-1}\C{\fun{ins}}{i}.
-\label{eq_cost_isrt}
+\label{eq:cost_isrt}
 \end{equation}
 Un coup d'{\oe}il à la définition de~\fun{ins/2} révèle que
 \(\C{\fun{ins}}{i}\) ne peut être exprimé en termes de~\(i\)
@@ -137,7 +137,7 @@ Par conséquent, \emph{le coût minimum est atteint pour une pile donnée
   qui est déjà triée en ordre croissant,} c'est-à-dire que les clés
 dans le résultat sont croissantes, mais peuvent être répétées. Alors
 \(\B{\fun{ins}}{n} = \len{\lambda} = 1\)\index{ins@$\B{\fun{ins}}{n}$}
-et l'équation~\eqref{eq_cost_isrt} implique que le tri par insertion
+et l'équation~\eqref{eq:cost_isrt} implique que le tri par insertion
 simple a un coût linéaire dans le meilleur des cas:
 \begin{equation*}
 \B{\fun{isrt}}{n} = 2n+1 \sim 2n.
@@ -154,7 +154,7 @@ alors\index{ins@$\W{\fun{ins}}{n}$|(}
 \W{\fun{ins}}{n} = \len{\kappa^n\lambda} = n + 1.
 \end{equation*}
 Après substitution des coûts maximums dans
-l'équation~\eqref{eq_cost_isrt} \vpageref{eq_cost_isrt}, nous voyons
+l'équation~\eqref{eq:cost_isrt} \vpageref{eq:cost_isrt}, nous voyons
 que le tri par insertion simple a un coût quadratique dans le pire des
 cas:
 \begin{equation*}
@@ -173,7 +173,7 @@ Ce coût ne devrait pas nous surprendre parce que
 \fun{rev\(_0\)/1}\index{rev0@\fun{rev\(_0\)/1}}, à la
 section~\ref{sec:reversal}, produisent la même sorte de réécritures
 partielles, comme on peut le constater en comparant~\eqref{inv_isrt}
-\vpageref{inv_isrt} et~\eqref{eq_rev0} \vpageref{eq_rev0}, et aussi
+\vpageref{inv_isrt} et~\eqref{eq:rev0} \vpageref{eq:rev0}, et aussi
 \(\C{\fun{cat}}{n} =
 \W{\fun{ins}}{n}\),\index{cat@$\C{\fun{cat}}{n}$}\index{ins@$\W{\fun{ins}}{n}$}
 où \(n\)~est la taille de leur premier argument. Par conséquent,
@@ -185,11 +185,11 @@ où \(n\)~est la taille de leur premier argument. Par conséquent,
 \label{par:ave_isrt}
 \index{tri par insertion!insertion simple!coût moyen}
 
-Le coût moyen satisfait l'équation~\eqref{eq_cost_isrt} parce que
+Le coût moyen satisfait l'équation~\eqref{eq:cost_isrt} parce que
 toutes les permutations \((x_1,\dots,x_n)\) sont également probables, donc
 \begin{equation}
 \M{\fun{isrt}}{n} = 1 + n + \sum_{i=0}^{n-1}\M{\fun{ins}}{i}.
-\label{eq_mean_isrt}
+\label{eq:mean_isrt}
 \end{equation}
 Sans perte de généralité, on dira que
 \(\M{\fun{ins}}{i}\)\index{ins@$\M{\fun{ins}}{n}$|(} est le coût pour
@@ -208,12 +208,12 @@ est, pour \(i \geqslant 0\),
 \begin{equation}
 \M{\fun{ins}}{i} = \frac{1}{i+1}\sum_{j=0}^{i}\len{\kappa^j\lambda}
                  = \frac{i}{2}+1.
-\label{eq_ins}
+\label{eq:ins}
 \end{equation}
 Le coût moyen pour insérer \(n\)~clés dans une pile vide est, par
 conséquent, \(\sum_{i=0}^{n-1}\M{\fun{ins}}{i} = \frac{1}{4}n^2 +
-\frac{3}{4}n\). Enfin, d'après l'équation~\eqref{eq_mean_isrt}
-\vpageref{eq_mean_isrt}, le coût moyen du tri de \(n\)~clés par
+\frac{3}{4}n\). Enfin, d'après l'équation~\eqref{eq:mean_isrt}
+\vpageref{eq:mean_isrt}, le coût moyen du tri de \(n\)~clés par
 insertion simple est
 \begin{equation*}
 \M{\fun{isrt}}{n} = \frac{1}{4}n^2 + \frac{7}{4}n + 1.
@@ -494,7 +494,7 @@ la structure de~\(s\).
   avons
   \begin{equation}
     \fun{isrt}(\cons{x}{s}) \xrightarrow{\smash{\nu}}
-    \fun{ins}(\fun{isrt}(s),x).\label{eq_B}
+    \fun{ins}(\fun{isrt}(s),x).\label{eq:B}
   \end{equation}
   Puisque nous voulons \(\pred{Ord}{\fun{isrt}(\cons{x}{s})}\) en
   supposant \(\pred{Ord}{\fun{isrt}(s)}\), nous avons besoin du lemme
@@ -513,7 +513,7 @@ la structure de~\(s\).
 
   \item Grâce à la transitivité de~\((\approx)\), nous avons
     \(\fun{ins}(\fun{isrt}(s),x) \approx \cons{x}{s}\), ce qui, avec
-    la réécriture~\eqref{eq_B} donne \(\fun{isrt}(\cons{x}{s}) \approx
+    la réécriture~\eqref{eq:B} donne \(\fun{isrt}(\cons{x}{s}) \approx
     \cons{x}{s}\) et donc \(\pred{Isrt}{\cons{x}{s}}\).
 
   \end{itemize}
@@ -607,7 +607,7 @@ l'insertion préserve l'ordre des clés dans la pile.
       \item Sinon, \(x \succ y\) et nous déduisons
       \begin{equation}
         \fun{ins}(\cons{y}{s},x) \xrightarrow{\smash{\kappa}}
-        \cons{y}{\fun{ins}(s,x)}.\label{eq_A}
+        \cons{y}{\fun{ins}(s,x)}.\label{eq:A}
       \end{equation}
       C'est ici que les choses se compliquent parce que nous devons
       analyser la structure de~\(s\) comme suit.
@@ -628,7 +628,7 @@ l'insertion préserve l'ordre des clés dans la pile.
               \cons{y}{\fun{ins}(s,x)} =
               \cons{y}{\fun{ins}(\cons{z}{t},x)}
               \xrightarrow{\smash{\lambda}} \cons{y,x,z}{t} =\!
-              \cons{y,x}{s}.\!\!\!\label{eq_C}
+              \cons{y,x}{s}.\!\!\!\label{eq:C}
             \end{equation}
             \(H_0\)~est \(\pred{Ord}{\cons{z}{t}}\), qui, avec \(z
             \succ x\) et la règle \(\TirName{Ord}_2\), implique
@@ -636,9 +636,9 @@ l'insertion préserve l'ordre des clés dans la pile.
             autre application de~\(\TirName{Ord}_2\) produit
             \(\pred{Ord}{\cons{y,x,z}{t}}\), c'est-à-dire
             \(\pred{Ord}{\cons{y,x}{s}}\). Ceci et la
-            réécriture~\eqref{eq_C} ont pour conséquence
+            réécriture~\eqref{eq:C} ont pour conséquence
             \(\pred{Ord}{\cons{y}{\fun{ins}(s,x)}}\).
-            Enfin, par la réécriture~\eqref{eq_A},
+            Enfin, par la réécriture~\eqref{eq:A},
             \(\pred{Ord}{\fun{ins}(\cons{y}{s},x)}\) s'ensuit.
 
           \item Le dernier cas à examiner est si \(x \succ z\):
@@ -646,7 +646,7 @@ l'insertion préserve l'ordre des clés dans la pile.
               \cons{y}{\fun{ins}(s,x)} \!=\!
               \cons{y}{\fun{ins}(\cons{z}{t},x)}
               \!\xrightarrow{\smash{\kappa}}\!
-              \cons{y,z}{\fun{ins}(t,x)}.\label{eq_D}
+              \cons{y,z}{\fun{ins}(t,x)}.\label{eq:D}
             \end{equation}
             L'hypothèse~\(H_2\) est \(\pred{Ord}{\cons{y,z}{t}}\),
             qui, par le lemme d'inversion de la
@@ -656,9 +656,9 @@ l'insertion préserve l'ordre des clés dans la pile.
             \succ z\), permet l'usage de la règle~\(\TirName{Ord}_2\)
             à nouveau, aboutissant à
             \(\pred{Ord}{\cons{y,z}{\fun{ins}(t,x)}}\).
-            La réécriture~\eqref{eq_D} alors implique
+            La réécriture~\eqref{eq:D} alors implique
             \(\pred{Ord}{\cons{y}{\fun{ins}(s,x)}}\), qui, avec
-            la réécriture~\eqref{eq_A} conduit à
+            la réécriture~\eqref{eq:A} conduit à
  \(\pred{Ord}{\fun{ins}(\cons{y}{s},x)}\).\index{induction!exemple|)}\hfill\(\Box\)
       \end{itemize}
     \end{itemize}
@@ -1216,7 +1216,7 @@ insertion dans la configuration \((p,q)\) est
 \begin{equation}
 \M{}{p,q} := \frac{C_{p,q}}{p+q+1}
            = 1 + \frac{p^2 + q^2 + p + q}{2p + 2q + 2}.
-\label{eq_Mpq}
+\label{eq:Mpq}
 \end{equation}
 En posant \(k := p + q\), nous pouvons exprimer ce coût comme suit:
 \begin{equation*}
@@ -1240,8 +1240,8 @@ coût moyen d'une insertion dans une pile simulée avec \(k\)~clés est
          = \frac{1}{3}k + \frac{7}{6},
 \end{equation*}
 en gardant à l'esprit que \(\sum_{q=1}^{k}{q^2} = k(k+1)(2k+1)/6\)
-(voir l'équation~\eqref{eq_sum_of_squares}
-\vpageref{eq_sum_of_squares}). Le coût du retournement final est aussi
+(voir l'équation~\eqref{eq:sum_of_squares}
+\vpageref{eq:sum_of_squares}). Le coût du retournement final est aussi
 moyenné sur toutes les configurations possibles, ici de \(n>0\) clés:
 \begin{equation*}
 \M{\curvearrowright}{n} = \frac{1}{n}\sum_{k=0}^{n-1}\len{\rho^k\pi}
@@ -1521,7 +1521,7 @@ Considérons le cout moyen quand \(n=2p\). Alors\index{i2wb@$\M{\fun{i2wb}}{n}$}
 \begin{equation}
 \M{\fun{i2wb}}{2p} =
   1 + \sum_{k=0}^{2p-1}{\M{}{k}} + \M{\curvearrowright}{p},
-\label{eq_i2wb_2p_orig}
+\label{eq:i2wb_2p_orig}
 \end{equation}
 où \(\M{}{k}\)~est le coût moyen de l'insertion d'une clé dans une
 pile simulée de \(k\)~clés et
@@ -1545,21 +1545,21 @@ presque. Si \(k\)~est pair, alors il existe un entier~\(j\) tel que
 où \(\M{}{j,j}\)~est le nombre moyen de réécritures pour insérer un
 nombre aléatoire dans une configuration de deux piles de
 longueur~\(j\). Nous avons déjà évalué~\(\M{}{p,q}\) à
-l'équation~\eqref{eq_Mpq} \vpageref{eq_Mpq}. Par conséquent,
+l'équation~\eqref{eq:Mpq} \vpageref{eq:Mpq}. Par conséquent,
 \begin{equation*}
 \M{}{2j} = \frac{j^2 + 3j + 1}{2j+1}
          = \frac{1}{2}{j} - \frac{1}{4} \cdot \frac{1}{2j+1} +
          \frac{5}{4}.
 \end{equation*}
 Le cas \(k=2j+1\) est dérivé de manière similaire: \(\M{}{2j+1} =
-(j+3)/2\). L'équation~\eqref{eq_i2wb_2p_orig} devient alors
+(j+3)/2\). L'équation~\eqref{eq:i2wb_2p_orig} devient alors
 \begin{align}
 \M{\fun{i2wb}}{2p}
   &= 1 + \sum_{k=0}^{2p-1}{\M{}{k}} + (p+1)
    = 2 + p + \sum_{j=0}^{p-1}{(\M{}{2j} + \M{}{2j+1})}\notag\\
   &= \frac{1}{2}{p^2} + \frac{13}{4}{p} + 2 -
              \frac{1}{4}\sum_{j=0}^{p-1}{\frac{1}{2j+1}}.
-\label{eq_i2wb_2p}
+\label{eq:i2wb_2p}
 \end{align}
 Nous devons trouver la valeur de cette somme. Soit \(H_n :=
 \sum_{k=1}^n{1/k}\) le \(n^\text{e}\) \emph{nombre
@@ -1569,7 +1569,7 @@ H_{2p} = \sum_{j=0}^{p-1}{\frac{1}{2j+1}} + \sum_{j=1}^{p}{\frac{1}{2j}}
       = \sum_{j=0}^{p-1}{\frac{1}{2j+1}} + \frac{1}{2}{H_{p}}.
 \end{equation*}
 Nous pouvons maintenant remplacer notre somme par des nombres
-harmoniques dans l'équation~\eqref{eq_i2wb_2p}:
+harmoniques dans l'équation~\eqref{eq:i2wb_2p}:
 \begin{equation*}
 \M{\fun{i2wb}}{2p}
   = \frac{1}{2}{p^2} + \frac{13}{4}{p} - \frac{1}{4}{H_{2p}}
@@ -1595,7 +1595,7 @@ e^{1/i}\). Les deux membres étant positifs, nous déduisons
 n+1 < \exp(H_n)\). Enfin, \(\ln(n+1) < H_n\). Un majorant de~\(H_n\)
 peut être trouvé en remplaçant~\(x\) par~\(-1/i\):
 \begin{equation}
-\ln(n+1) < H_n < 1 + \ln n.\label{ineq_Hn}
+\ln(n+1) < H_n < 1 + \ln n.\label{ineq:Hn}
 \end{equation}
 Nous pouvons maintenant exprimer l'encadrement de
 \(\M{\fun{i2wb}}{n}\)\index{i2wb@$\M{\fun{i2wb}}{n}$} sans~\(H_n\):
@@ -1629,7 +1629,7 @@ Par conséquent, pour tout \(n > 0\), il existe~\(\epsilon_n\) tel que
 \begin{equation}
 \M{\fun{i2wb}}{n}
   = \frac{1}{8}(n^2 + 13n - \ln 2n + 10) + \epsilon_n.
-\label{eq_ave_i2wb}
+\label{eq:ave_i2wb}
 \end{equation}
 \index{tri par insertion!insertion bidirectionnelle!$\sim$ équilibrée|)}
 \index{tri!$\sim$ par insertion|)}

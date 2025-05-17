@@ -156,7 +156,7 @@ variables. Considérons le système totalement ordonné suivant:
 (0,m) \rightarrow m;\qquad\qquad
 (n,m) \rightarrow (n-1,n \cdot m);\qquad\qquad
 n     \rightarrow (n,1).
-\label{eq_fact_tf}
+\label{eq:fact_tf}
 \end{equation}
 où les règles sont séparées par un point-virgule et la dernière
 se termine par un point. Les opérateurs arithmétiques
@@ -634,7 +634,7 @@ les bornes, nous arrivons à:
 \begin{equation}
 2^{m-1} \leqslant n < 2^m \Rightarrow m - 1 \leqslant \lg n
 < m \Rightarrow m = \floor{\lg n} + 1,
-\label{eq_num_of_bits}
+\label{eq:num_of_bits}
 \end{equation}
 où \(\floor{x}\) (\textsl{partie entière de~\(x\)})\index{partie
   entière@$\floor{x}$|see{partie entière}}\index{partie entière} est
@@ -668,7 +668,7 @@ nombre total de basculements~\(F(n)\) dans une série de
 \(n\)~incréments est
 \begin{equation}
 F(n) := \sum_{k \geqslant 0}{\left\lfloor\frac{n}{2^k}\right\rfloor}.
-\label{eq_F}
+\label{eq:F}
 \end{equation}
 Cette somme est en fait toujours finie, comme on le voit à la
 \fig~\vref{fig:ruler}, où, \emph{en diagonale} les bits à~\(1\) à la
@@ -681,14 +681,14 @@ des bits à~\(1\) dans la notation binaire de~\(n\). L'exponentielle
 \(2^{e_r}\) correspond au bit le plus significatif (le plus à gauche)
 dans la notation binaire de~\(n\), donc \(e_r+1\)~est égal au nombre
 de bits de~\(n\), qui est connu d'après
-l'équation~\eqref{eq_num_of_bits}:
+l'équation~\eqref{eq:num_of_bits}:
 \begin{equation}
-e_r = \floor{\lg n}.\label{eq_e_r}
+e_r = \floor{\lg n}.\label{eq:e_r}
 \end{equation}
 Nous pouvons maintenant donner une forme close pour \(F(n)\):
 \begin{equation}
 F(n) = \sum_{i=0}^{r}(2^{e_i+1} - 1) = 2n - \nu_n,
-\label{eq_ruler_nu}
+\label{eq:ruler_nu}
 \end{equation}
 où \(\nu_n := r + 1\)\index{somme des bits@$\nu_n$|see{somme des
     bits}} est la somme des bits de~\(n\), ou, de façon équivalente,
@@ -705,7 +705,7 @@ suivante:
 \begin{equation*}
 1 \leqslant \nu_{n} \leqslant \floor{\lg n} + 1,
 \end{equation*}
-parce que l'égalité~\eqref{eq_e_r} établit que \(\floor{\lg n} + 1\)
+parce que l'égalité~\eqref{eq:e_r} établit que \(\floor{\lg n} + 1\)
 est le nombre de bits de~\(n\). Par conséquent, \(2n - \floor{\lg n} -
 1 \leqslant F(n) \leqslant 2n\), et \(2n - \lg n - 1 \leqslant F(n)
 \leqslant 2n\). Par la règle de l'Hôpital, \(\lim_{n \rightarrow
