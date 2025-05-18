@@ -114,14 +114,19 @@ aucune prémisse, comme dans le cas de \TirName{Nil}, alors \(C\)~est
 un \emph{axiome} et aucune ligne horizontale n'est tirée. La
 composition de règles d'inférence est une \emph{dérivation}. Dans le
 cas de \fun{cut/2}, toutes les dérivations sont isomorphes à une pile
-dont le sommet est la conclusion. La lecture logique de la règle
-\TirName{Pref} est: «~Si \(\fun{cut}(s,k-1) \twoheadrightarrow
-\pair{t}{u}\), alors \(\fun{cut}(\cons{x}{s},k) \twoheadrightarrow
-\pair{\cons{x}{t}}{u}\).~» Une telle lecture descendante est dite
-\emph{déductive}\index{système d'inférence!lecture déductive}. On peut
-alors comprendre la dérivation précédente comme étant la preuve du
-théorème \(\fun{cut}([5,3,6,0,2],3) \twoheadrightarrow
-\pair{[5,3,6]}{[0,2]}\).
+dont le sommet est la conclusion.
+
+La lecture logique de la règle \TirName{Pref} est:
+\begin{center}
+  «~Si
+\(\fun{cut}(s,k-1) \twoheadrightarrow \pair{t}{u}\), alors
+\(\fun{cut}(\cons{x}{s},k) \twoheadrightarrow
+\pair{\cons{x}{t}}{u}\).~»
+\end{center}
+Une telle lecture descendante est dite \emph{déductive}\index{système
+  d'inférence!lecture déductive}. On peut alors comprendre la
+dérivation précédente comme étant la preuve du théorème
+\(\fun{cut}([5,3,6,0,2],3) \twoheadrightarrow \pair{[5,3,6]}{[0,2]}\).
 
 \paragraph{Induction sur les dérivations}
 \index{induction!preuve par $\sim$}
@@ -150,7 +155,9 @@ l'exécution d'un programme, étant données des propriétés de son
 entrée. Dans le cas de \(\fun{cut}(s,k)\), nous avons déjà mentionné
 ce que nous attendions: la valeur doit être une paire \(\pair{t}{u}\)
 telle que la concaténation de \(t\)~et~\(u\) est~\(s\) et la longueur
-de~\(t\) est~\(k\). Formellement, soit
+de~\(t\) est~\(k\).
+
+Formellement, soit
 \(\pred{CorCut}{s,k}\)\index{CorCut@\predName{CorCut}|(} la
 proposition
 \begin{quote}
@@ -191,7 +198,7 @@ etc. qui sont alors différentes \(s\)~et~\(t\) dans \predName{CorCut}.
   résulte en \(\overline{s} = s\), \(0=k\), \(\el=t\) et
   \(\overline{s}=u\). D'où, \index{cat@\fun{cat/2}} \(\fun{cat}(t,u) =
   \fun{cat}(\el,s) \xrightarrow{\smash{\alpha}} s\), ce qui prouve la
-  moitié de la conjonction. De plus, \(\fun{len}(t) = \fun{len}(\el)
+  moitié de la conjonction. Aussi, \(\fun{len}(t) = \fun{len}(\el)
   \xrightarrow{\smash{a}} 0\). Ceci est cohérent avec \(k=0\), donc
   \(\pred{CorCut}{s,0}\) est établie.\index{CorCut@\predName{CorCut}|)}
 
