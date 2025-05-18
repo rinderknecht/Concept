@@ -46,7 +46,7 @@ orienté sans circuit représentant la deuxième règle est montré à la
 \subfloat[Partage maximum\label{fig:red_dag2}]{%
   \includegraphics[bb=60 645 163 723]{red_dag2}
 }
-\caption{Graphe orienté sans circuits de \((\xrightarrow{\smash{\beta}})\)}
+\caption{Graphe orienté sans circuits de la seconde règle de \fun{red/1}}
 \end{figure}
 Dans cette figure, le partage est fondé sur des occurrences communes
 de variables, mais nous pouvons constater que \(\cons{x}{s}\) n'est
@@ -111,9 +111,9 @@ piles. Soient les définitions suivantes:
 \end{equation}
 Les graphes orientés sans circuits (GOSC) associés sont montrés à la
 \fig~\vref{fig:push_pop_dag}.
-\begin{figure}[b]
+\begin{figure}[t]
 \centering
-\includegraphics[bb=70 639 294 726]{push_pop_dag}
+\includegraphics[bb=70 639 294 723]{push_pop_dag}
 \caption{GOSC de \fun{push/2} et \fun{pop/1} avec partage maximum}
 \label{fig:push_pop_dag}
 \end{figure}
@@ -139,8 +139,8 @@ sorte que \(\fun{ver}(0,h)\) soit la dernière version. Comme on s'y
 attendrait, \fun{ver/2} n'est rien d'autre qu'une recherche linéaire
 avec un compte à rebours:
 \begin{equation*}
-\abovedisplayskip=3pt
-\belowdisplayskip=3pt
+%\abovedisplayskip=3pt
+%\belowdisplayskip=3pt
 \fun{ver}(0,\cons{s}{h}) \rightarrow s;\qquad
 \fun{ver}(k,\cons{s}{h}) \rightarrow \fun{ver}(k-1,h).
 \end{equation*}
@@ -174,7 +174,7 @@ pas valides, comme, par exemple, \([\ufun{pop}(), \ufun{pop}(),
   \ufun{push}(x)]\) et \([\ufun{pop}()]\). Pour caractériser les
 histoires valides, examinons une représentation graphique des mises à
 jour à la \fig~\vref{fig:push_pop1}.
-\begin{figure}[!b]
+\begin{figure}
 \centering
 \subfloat[$\protect\fun{push}(x)$]{%
   \includegraphics[bb=71 662 130 715,scale=0.8]{push}}
@@ -191,7 +191,7 @@ que nous choisissons ici une orientation vers la gauche de manière à
 refléter la notation des piles, dont les sommets sont écrits à
 gauche. Considérons par exemple l'histoire à la
 \fig~\vref{fig:history1}.
-\begin{figure}[t]
+\begin{figure}[b]
 \centering
 \includegraphics[bb=69 577 300 726,scale=0.92]{history1}
 \caption{$[\ufun{pop}(), \ufun{pop}(), \ufun{push}(4),\ufun{push}(3),
@@ -199,19 +199,22 @@ gauche. Considérons par exemple l'histoire à la
 \label{fig:history1}
 \end{figure}
 Il est clair qu'\emph{une histoire valide est une ligne qui ne coupe
-  jamais l'axe des abscisses.} Programmer
-\fun{top/1}\index{top@\fun{top/1}} avec une histoire de mises à jour
-est plus difficile parce que nous devons identifier l'élément au
-sommet de la dernière version sans la construire. L'idée consiste à
-revisiter la ligne historique et déterminer le dernier empilage qui a
-conduit à une version dont la longueur égale celle de la dernière
-version. À la \fig~\ref{fig:history1}, la dernière version
+jamais l'axe des abscisses.}
+
+Programmer \fun{top/1}\index{top@\fun{top/1}} avec une histoire de
+mises à jour est plus difficile parce que nous devons identifier
+l'élément au sommet de la dernière version sans la construire. L'idée
+consiste à revisiter la ligne historique et déterminer le dernier
+empilage qui a conduit à une version dont la longueur égale celle de
+la dernière version. À la \fig~\ref{fig:history1}, la dernière version
 est~(\(\bullet\)). Si nous tirons une ligne horizontale à partir de ce
 point vers la droite, le premier empilement aboutissant sur la ligne
 est \(\ufun{push}(1)\), donc le sommet de la dernière version
-est~\(1\). Cette expérience de pensée est illustrée à la
+est~\(1\).
+
+Cette expérience de pensée est illustrée à la
 \fig~\vref{fig:topmost}.
-\begin{figure}[b]
+\begin{figure}
 \centering
 \includegraphics[bb=69 577 300 726,scale=0.92]{topmost}
 \caption{Trouver le sommet de la dernière version}
@@ -222,7 +225,14 @@ dernière version: la \emph{différence} de longueur avec la version courante, a
 \fun{top\(_0\)/1}\index{top0@\fun{top\(_0\)/1}} et
 \fun{pop\(_0\)/1}\index{pop0@\fun{pop\(_0\)/1}} les équivalents de
 \fun{top/1} et \fun{pop/1}, opérant sur des mises à jour au lieu de versions. Leur définition se trouve à la \fig~\vref{fig:pop_top}.
-\begin{figure}[t]
+Une fonction auxiliaire
+\fun{top\(_0\)/2}\index{top0@\fun{top\(_0\)/2}} conserve la différence
+entre les longueurs de la dernière version et la version
+courante. Nous avons trouvé l'élément quand la différence est nulle et
+la mise à jour courante est un empilement.
+
+\begin{center}
+\begin{figure}[h]
 \begin{equation*}
 \boxed{%
 \begin{array}{@{}r@{\;}l@{\;}lr@{\;}l@{\;}l@{}}
@@ -237,11 +247,7 @@ dernière version: la \emph{différence} de longueur avec la version courante, a
 \caption{Le sommet et le reste d'une histoire de mises à jour}
 \label{fig:pop_top}
 \end{figure}
-Une fonction auxiliaire
-\fun{top\(_0\)/2}\index{top0@\fun{top\(_0\)/2}} conserve la différence
-entre les longueurs de la dernière version et la version
-courante. Nous avons trouvé l'élément quand la différence est nulle et
-la mise à jour courante est un empilement.
+\end{center}
 
 Comme précédemment, nous voulons que l'appel
 \(\fun{ver}_0(k,h)\)\index{ver0@\fun{ver\(_0\)/2}} construise la
@@ -265,8 +271,11 @@ et construire la dernière version à partir du reste de l'histoire avec
 \end{mathpar}
 Soit \(\C{\fun{ver}_0}{k,n}\) le coût de l'appel \(\fun{ver}_0(k,h)\)
 et soit \(\C{\fun{lst}_0}{n}\) le coût de~\(\fun{lst}_0(h)\), où
-\(n\)~est la longueur de~\(h\): \(\C{\fun{lst}_0}{i} = i + 1\) et
-\(\C{\fun{ver}_0}{k,n} = (k+1) + \C{\fun{lst}_0}{n-k} = n + 2\).
+\(n\)~est la longueur de~\(h\):
+\begin{equation*}
+\C{\fun{lst}_0}{i} = i + 1,\qquad
+\C{\fun{ver}_0}{k,n} = (k+1) + \C{\fun{lst}_0}{n-k} = n + 2.
+\end{equation*}
 
 Quelle est la quantité totale de mémoire
 allouée?\index{partage}\index{mémoire|see{partage}} Plus précisément,
@@ -304,7 +313,7 @@ Une amélioration est encore possible si la ligne historique atteint
 l'axe des abscisses, parce qu'il n'y a alors aucune raison de visiter
 les mises à jour \emph{antérieures} à un dépilage résultant en une
 version vide; comme par exemple à la \fig~\vref{fig:back2zero},
-\begin{figure}
+\begin{figure}[b]
 \centering
 \includegraphics[bb=69 606 300 726,scale=0.9]{back2zero}
 \caption{Dernière version $[3]$ trouvée en quatre pas}
@@ -408,9 +417,12 @@ longueur~\(n\). Voir la \fig~\ref{fig:ver}.
 \label{fig:ver}
 \end{figure}
 \begin{equation*}
-\fun{push}_4(x,\pair{n}{h}) \rightarrow
-\pair{n\!+\!1}{\ufun{push}(x,h)}.\quad
-\fun{pop}_4(\pair{n}{h}) \rightarrow \pair{n\!-\!1}{\ufun{pop}(h)}.
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{push}_4(x,\pair{n}{h}) & \rightarrow &
+\pair{n\!+\!1}{\ufun{push}(x,h)}.\\
+\fun{pop}_4(\pair{n}{h}) & \rightarrow &
+\pair{n\!-\!1}{\ufun{pop}(h)}.
+\end{array}
 \end{equation*}
 
 Maintenant, il existe un coût minimum et maximum. Le pire des cas est
@@ -433,24 +445,26 @@ complètement persistante parce qu'elle permet de modifier une version
 passée comme suit: traversons l'histoire jusqu'au moment adéquat,
 dépilons la mise à jour, empilons-en une autre et remettons à leur
 place les mises à jours précédemment traversées, qui ont été stockées
-dans un accumulateur. Mais changer le passé ne doit pas créer une
-histoire contenant une version qui n'est pas constructible,
-c'est-à-dire que la ligne historique ne doit pas croiser l'axe des
-abscisses après la modification. Si le changement consiste à replacer
-un dépilage par un empilage, il n'y aucune raison de s'inquiéter, car
-cela hissera de~\(2\) ordonnées le point terminal de la ligne. C'est
-le changement inverse qui demande un peu d'attention, car il abaisse
-de~\(2\) le point terminal. Cette différence verticale de~\(\pm 2\)
-niveaux provient de la différence entre les points terminaux d'un
-empilement et d'un dépilement de même origine et peut facilement être
-visualisée à la \fig~\vref{fig:push_pop1} en posant l'une sur l'autre
-les sous-figures. Par conséquent, à la \fig~\ref{fig:history1}, la
+dans un accumulateur.
+
+Mais changer le passé ne doit pas créer une histoire contenant une
+version qui n'est pas constructible, c'est-à-dire que la ligne
+historique ne doit pas croiser l'axe des abscisses après la
+modification. Si le changement consiste à replacer un dépilage par un
+empilage, il n'y aucune raison de s'inquiéter, car cela hissera
+de~\(2\) ordonnées le point terminal de la ligne. C'est le changement
+inverse qui demande un peu d'attention, car il abaisse de~\(2\) le
+point terminal. Cette différence verticale de~\(\pm 2\) niveaux
+provient de la différence entre les points terminaux d'un empilement
+et d'un dépilement de même origine et peut facilement être visualisée
+à la \fig~\vref{fig:push_pop1} en posant l'une sur l'autre les
+sous-figures. Par conséquent, à la \fig~\ref{fig:history1}, la
 dernière version a pour longueur~\(1\), ce qui implique qu'il est
 impossible de remplacer un empilage par un dépilage, à n'importe quel
 moment du passé.
 
 Considérons l'histoire à la \fig~\ref{fig:history2}.
-\begin{figure}[b]
+\begin{figure}
 \centering
 \includegraphics[bb=69 578 272 726,scale=0.9]{history2}%[]
 \caption{$\ufun{pop}(\ufun{push}(4,\ufun{push}(3,
