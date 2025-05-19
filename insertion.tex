@@ -27,9 +27,11 @@ la pile ordonnée de façon croissante et résultant de l'\emph{insertion
 \fun{min/2}\index{min@\fun{min/2}} et
 \fun{max/2}\index{max@\fun{max/2}}:
 \begin{equation*}
-\fun{ins}(x,\el)         \rightarrow [x];\qquad
-\fun{ins}(x,\cons{y}{s}) \rightarrow
-   \cons{\fun{min}(x,y)}{\fun{ins}(\fun{max}(x,y),s)}.
+\begin{array}{@{}r@{\;}l@{\;}l@{}}
+\fun{ins}(x,\el) & \rightarrow & [x];\\
+\fun{ins}(x,\cons{y}{s}) & \rightarrow &
+\cons{\fun{min}(x,y)}{\fun{ins}(\fun{max}(x,y),s)}.
+\end{array}
 \end{equation*}
 Restreignons-nous temporairement au tri des entiers naturels par ordre
 croissant. Nous devons fournir des définitions qui calculent le
@@ -91,8 +93,9 @@ Considérons un court exemple à la \fig~\vref{fig:isrt_312}.
 & [1,2,3].
 \end{array}}
 \end{equation*}
-\caption{\(\fun{isrt}([3,1,2]) \twoheadrightarrow [1,2,3]\)
-\label{fig:isrt_312}\index{tri par insertion!insertion simple!exemple}}
+\caption{\(\fun{isrt}([3,1,2]) \twoheadrightarrow [1,2,3]\)}
+\label{fig:isrt_312}
+\index{tri par insertion!insertion simple!exemple}
 \end{figure}
 \index{isrt@\fun{isrt/1}|)} \index{ins@\fun{ins/2}|)}
 
@@ -243,6 +246,8 @@ est que le nombre moyen d'inversions dans une permutation aléatoire de
 %\abovedisplayskip=0pt
 \belowdisplayskip=-5pt
 \sum_{j=0}^{n-1}\frac{1}{j+1}\sum_{i=0}^{j}\len{\kappa^i} =
+\sum_{j=0}^{n-1}\frac{1}{j+1}\cdot\frac{j(j+1)}{2} =
+\frac{1}{2}\sum_{j=0}^{n-1}j =
 \frac{n(n-1)}{4}.
 \end{equation*}
 \index{permutation!inversion|)}
@@ -298,7 +303,7 @@ ordonnée de façon croissante et contient toutes les clés présentes
 dans~\(s\), sans plus.~» Cela capture tout ce que l'on attend d'un
 algorithme de tri.
 
-Soit \(\pred{Ord}{s}\)\index{Ord@\predName{Ord}|(} la proposition «~ La
+Soit \(\pred{Ord}{s}\)\index{Ord@\predName{Ord}|(} la proposition «~La
 pile~\(s\) est triée en ordre croissant.~» Pour définir formellement ce
 concept, utilisons des \emph{définitions logiques inductives}.
 \index{induction!définition par $\sim$} Nous avons employé cette
@@ -355,7 +360,7 @@ clés de~\(s\), sans plus.~» Ici encore, nous avons affaire à une
 conjonction de deux propositions. La première correspond à: «~La
 pile~\(s\) contient toutes les clés de la pile~\(t\), sans plus.~» Les
 permutations nous permettent de préciser le propos: «~Les piles
-\(s\)~et~\(t\) sont des permutations l'une de l'autre,~» ce que nous
+\(s\)~et~\(t\) sont des permutations l'une de l'autre.~», ce que nous
 notons \(s \approx t\) et \(t \approx s\). Le rôle de~\(s\) ne
 différant en rien de celui de~\(t\), la relation \((\approx)\) doit
 être symétrique: \(s \approx t \Rightarrow t \approx s\). De plus, la
@@ -396,15 +401,15 @@ dérivation où elle apparaît est un \emph{arbre
   binaire}\index{arbre!$\sim$ binaire|see{arbre binaire}}\index{arbre
   binaire}, comme on peut le constater à la
 \fig~\vref{fig:arbres_de_preuves}.
-\begin{figure}[b]
+\begin{figure}
 \centering
 \subfloat[Arbre étendu\label{fig:perm_proof}]{
   \includegraphics[bb=135 672 369 723]{proof}}
 \qquad
 \subfloat[Arbre taillé\label{fig:312eq231}]{
   \includegraphics[bb=70 670 131 723]{312eq231}}
-\caption{Arbre de preuve de \({[}3,1,2{]} \protect\approx
-  {[}2,3,1{]}\)\label{fig:arbres_de_preuves}}
+\caption{Arbre de preuve de \({[}3,1,2{]} \protect\approx {[}2,3,1{]}\)}
+\label{fig:arbres_de_preuves}
 \end{figure}
 Les arbres de preuves\index{arbre!$\sim$ de preuve}, à la différence
 des autres arbres, sont dessinés avec leur racine vers le bas de la
@@ -424,8 +429,8 @@ qui démontre que la réflexivité est préservée lorsque l'on se déplace
 vers la racine.
 \begin{itemize}
 
-  \item L'axiome \TirName{Pnil} prouve \(\pred{Refl}{\el}\); l'axiome
-  \TirName{Swap} prouve \(\pred{Refl}{\cons{x,x}{s}}\).
+  \item Les axiomes \TirName{Pnil} et \TirName{Swap} prouvent
+    \(\pred{Refl}{\el}\) et \(\pred{Refl}{\cons{x,x}{s}}\).
 
   \item Supposons alors que \predName{Refl} soit vrai pour la prémisse
     de \TirName{Push}, c'est-à-dire, \(s = t\). Clairement, la
@@ -689,10 +694,9 @@ peut facilement être paramétré par la fonction de tri:
 \approx s\)\index{Isrt@\predName{Isrt}}\index{Ord@\predName{Ord}}, et
 donc il peut s'appliquer à plusieurs algorithmes de tri, en prenant
 garde néanmoins que la relation~\((\approx)\) n'est probablement pas
-toujours adéquatement définie en termes de transpositions.
-
-Le second doute peut être complètement éliminé par l'usage d'un
-\emph{assistant de preuve}, comme\index{Coq@\textsf{Coq}}
+toujours adéquatement définie en termes de transpositions. Le second
+doute peut être complètement éliminé par l'usage d'un \emph{assistant
+de preuve}, comme\index{Coq@\textsf{Coq}}
 \textsf{Coq}~\citep{BertotCasteran_2004}. Par exemple, la
 spécification formelle de~\((\approx)\) et les preuves entièrement
 automatiques (grâce à la tactique~\texttt{eauto}) de sa réflexivité et
@@ -880,8 +884,8 @@ fonction \fun{i2w/1}\index{i2w@\fun{i2w/1}} est définie à la
                      & \fun{i2w}(s,t,\cons{x}{u}).
 \end{array}}
 \end{equation*}
-\caption{Tri par insertion bidirectionnelle avec \fun{i2w/1}
-\label{fig:i2w_def}}
+\caption{Tri par insertion bidirectionnelle avec \fun{i2w/1}}
+\label{fig:i2w_def}
 \end{figure}
 La règle~\(\xi\) introduit les deux piles employées pour
 l'insertion. Les règles \(\pi\)~et~\(\rho\) pourraient être remplacées
@@ -894,8 +898,8 @@ dite, au sommet de la pile de droite. La \fig~\vref{fig:i2w2314}
 \begin{figure}
 \centering
 \includegraphics[bb=71 523 257 721]{i2w2314}
-\caption{\(\fun{i2w}([2,3,1,4]) \twoheadrightarrow [1,2,3,4]\)
-\label{fig:i2w2314}}
+\caption{\(\fun{i2w}([2,3,1,4]) \twoheadrightarrow [1,2,3,4]\)}
+\label{fig:i2w2314}
 \end{figure}
 montre l'évaluation \index{langage fonctionnel!évaluation!trace} de
 \(\fun{i2w}([2,3,1,4])\), dont la trace est donc
@@ -984,18 +988,18 @@ rôle \(x_1 \prec x_2\) et \(x_2 \prec x_0\).
   (\tau^3\upsilon)(\rho\pi)\), dont la longueur est~\(16\).
 
 \item Si \(x_1 \prec x_2\), nous voulons insérer~\(x_4\) au fond de la
-  pile de droite, obtenant \([x_2, x_1, x_0, x_3]\) et \([x_4]\),
-  ainsi que \(x_3 \prec x_0 \prec x_1 \prec x_2 \prec x_4\) et la
-  trace \((\xi)(\upsilon)
+  pile de droite, obtenant \([x_2, x_1, x_0, x_3]\) et \([x_4]\), et
+  \(x_3 \prec x_0 \prec x_1 \prec x_2 \prec x_4\) et la trace
+  \((\xi)(\upsilon)
   (\sigma\upsilon)(\sigma\upsilon)(\tau^2\upsilon)(\sigma^4\upsilon)
   (\rho^4\pi)\), dont la longueur est~\(19\). Elle est peut-être mieux
   visualisée à l'aide d'arcs orientés, révélant une spirale à la
   \fig~\vref{fig:spiral}.
-  \begin{figure}[b]
+  \begin{figure}
     \centering
     \includegraphics[bb=71 671 185 716]{a3a0a1a2a4}
-    \caption{Pire des cas pour \fun{i2w/1} si \(n=5\) (\(x_1 \prec x_2\))
-             \label{fig:spiral}}
+    \caption{Pire des cas pour \fun{i2w/1} si \(n=5\) (\(x_1 \prec x_2\))}
+    \label{fig:spiral}
   \end{figure}
 
 \end{itemize}
@@ -1010,14 +1014,14 @@ coût et \(\W{x_2 \prec x_0}{2p}\) le second.
 \item Si \(n = 2p+1\) et \(x_1 \prec x_2\), alors la trace
   d'évaluation est
     \begin{equation*}
-    (\xi)(\upsilon)(\sigma\upsilon)(\sigma\upsilon)
+    \hspace*{-2pt}(\xi)(\upsilon)(\sigma\upsilon)(\sigma\upsilon)
     (\tau^2\upsilon)(\sigma^4\upsilon)(\tau^4\upsilon) \ldots
     (\sigma^{2p-2}\upsilon)(\tau^{2p-2}\upsilon)(\sigma^{2p}\upsilon)
     (\rho^{2p}\pi),
     \end{equation*}
-    comme cela est suggéré par le tri de \([x_0,x_1,x_2,x_3,x_4,x_5,x_6]\):
+    \!comme cela est suggéré par le tri de \([x_0,x_1,x_2,x_3,x_4,x_5,x_6]\):
     \begin{equation*}
-      \!\begin{array}{@{}r@{\;}c@{\;}l@{}}
+      \!\begin{array}{@{\!}r@{\;}c@{\;}l@{\!\!}}
         \fun{i2w}([x_0,x_1,x_2,x_3,x_4,x_5,x_6])
         & \xrightarrow{\smash{\xi}}
         & \fun{i2w}(\el,\el,\![x_0,x_1,x_2,x_3,x_4,x_5,x_6])\\
@@ -1168,8 +1172,8 @@ illustrées par l'\emph{arbre d'évaluation}\index{arbre!$\sim$
 \begin{figure}
 \centering
 \includegraphics{2way_unbal}
-\caption{Tri de \([a,b,c]\) (premier argument de \fun{i2w/3} omis)
-\label{fig:2way_unbal}}
+\caption{Tri de \([a,b,c]\) (premier argument de \fun{i2w/3} omis)}
+\label{fig:2way_unbal}
 \end{figure}
 où les clés \(a\), \(b\) et~\(c\) sont insérées dans une pile
 originellement vide, avec tous les ordres possibles. Notons comment
@@ -1299,8 +1303,8 @@ asymptotique reste néanmoins quadratique.\index{tri par
                      & \fun{i2w}_1(s,t,\cons{x}{u}).
       \end{array}}
     \end{equation*}
-    \caption{Variation \fun{i2w\(_1\)/1} sur \fun{i2w/1} (voir
-      (\(\leadsto\)))\label{fig:i2w1}}
+    \caption{Variation \fun{i2w\(_1\)/1} sur \fun{i2w/1} (voir (\(\leadsto\)))}
+    \label{fig:i2w1}
     \end{figure}
     Prouvez que le coût moyen satisfait alors l'équation
     \index{i2w1@\fun{i2w\(_1\)/1}} \index{i2w1@\fun{i2w\(_1\)/3}}
@@ -1350,8 +1354,8 @@ asymptotique reste néanmoins quadratique.\index{tri par
                                & \fun{i2w}_2(s,\cons{x}{t},u).
       \end{array}}
     \end{equation*}
-    \caption{Variation \fun{i2w\(_2\)/1} sur \fun{i2w/1} (voir
-      (\(\leadsto\)))\label{fig:i2w2}}
+    \caption{Variation \fun{i2w\(_2\)/1} sur \fun{i2w/1} (voir (\(\leadsto\)))}
+    \label{fig:i2w2}
     \end{figure}
 
 \end{enumerate}
@@ -1447,14 +1451,15 @@ définissons-la à la \fig~\vref{fig:i2wb}.
 \fun{i2wb}(s,\cons{x}{t},u,0).
 \end{array}}
 \end{equation*}
-\caption{Insertions bidirectionnelles équilibrées \label{fig:i2wb}}
+\caption{Insertions bidirectionnelles équilibrées}
+\label{fig:i2wb}
 \end{figure}
 À la \fig~\vref{fig:2way_bal}
 \begin{figure}
 \centering
 \includegraphics{2way_bal}
-\caption{Tri de \([a,b,c]\) par insertions bidirectionnelles
-  équilibrées\label{fig:2way_bal}}
+\caption{Tri de \([a,b,c]\) par insertions bidirectionnelles équilibrées}
+\label{fig:2way_bal}
 \end{figure}
 on peut voir toutes les traces possibles\index{arbre!$\sim$
   d'évaluation} et les résultats du tri de \([a,b,c]\). Remarquons que
@@ -1483,8 +1488,8 @@ arcs orientés qui révèlent un tourbillon, à la
 \begin{figure}[b]
 \centering
 \includegraphics[bb=71 671 185 716]{a1a3a4a2a0}
-\caption{Meilleur des cas de \fun{i2wb/1} si \(n=5\)
-\label{fig:whirlpool}}
+\caption{Meilleur des cas de \fun{i2wb/1} si \(n=5\)}
+\label{fig:whirlpool}
 \end{figure}
 à contraster avec la spirale de la \fig~\vref{fig:spiral} pour
 \fun{i2w/1}.
