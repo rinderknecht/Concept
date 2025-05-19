@@ -116,8 +116,9 @@ de cette procédure est résumée à la \fig~\vref{fig:naive},
 \begin{figure}[t]
 \centering
 \includegraphics[bb=75 621 352 715]{naive}
-\caption{Recherche na\"{\i}ve du motif~\(p\) dans le texte~\(t\)
-(échec grisé)\label{fig:naive}}
+\caption{Recherche na\"{\i}ve du motif~\(p\) dans le texte~\(t\)}
+(échec grisé)
+\label{fig:naive}
 \end{figure}
 où \(\ind{p}{i} \neq \ind{t}{j}\) (les lettres \word{a}~et~\word{b} ne
 sont pas significatives en elles-mêmes).
@@ -126,8 +127,8 @@ La \fig~\vref{fig:loc0}
 \begin{figure}[t]
 \centering
 \includegraphics[bb=71 548 253 721]{loc0}
-\caption{Recherche na\"{\i}ve avec \fun{loc\(_0\)/2}
-\label{fig:loc0}}
+\caption{Recherche na\"{\i}ve avec \fun{loc\(_0\)/2}}
+\label{fig:loc0}
 \end{figure}
 montre un programme fonctionnel réalisant ce plan. L'appel
 \(\fun{loc}_0(p,t)\)\index{loc0@\fun{loc\(_0\)/2}} est évalué en
@@ -174,8 +175,8 @@ comme on s'y attend. Le programme correspondant est montré à la
 \fun{pre}_1(p,t,p',\cons{a}{t'},j) & \rightarrow & \fun{loc}_1(p',t',j+1).
 \end{array}}
 \end{equation*}
-\caption{Raffinement de la \fig~\vref{fig:loc0}
-\label{fig:loc1}}
+\caption{Raffinement de la \fig~\vref{fig:loc0}}
+\label{fig:loc1}
 \end{figure}
 
 Un examen plus approfondi révèle que nous pouvons mêler
@@ -204,8 +205,8 @@ l'original, donc chaque étape doit être vérifiée attentivement.
                          & \fun{pre}(p',t',p',t',j+1).
 \end{array}}
 \end{equation*}
-\caption{Raffinement de la \fig~\vref{fig:loc1}
-\label{fig:loc}}
+\caption{Raffinement de la \fig~\vref{fig:loc1}}
+\label{fig:loc}
 \end{figure}
 
 \paragraph{Terminaison}
@@ -423,8 +424,8 @@ est illustrée à la \fig~\vref{fig:mp}.
 \begin{figure}[b]
 \centering
 \includegraphics[bb=74 621 367 717]{mp}
-\caption{L'algorithme de Morris et Pratt (échec grisé)
-\label{fig:mp}}
+\caption{L'algorithme de Morris et Pratt (échec grisé)}
+\label{fig:mp}
 \end{figure}
 Notons que, contrairement à la recherche na\"{\i}ve, les lettres du
 texte sont comparées en ordre strictement croissant (on ne rebrousse
@@ -433,8 +434,8 @@ jamais chemin). Considérons l'exemple de la \fig~\vref{fig:mp_ex} où,
 \begin{figure}[t]
 \centering
 \includegraphics{mp_ex}
-\caption{L'algorithme de Morris et Pratt au travail
-\label{fig:mp_ex}}
+\caption{L'algorithme de Morris et Pratt au travail}
+\label{fig:mp_ex}
 \end{figure}
 \(p\)~est n'est pas trouvé dans~\(t\). Comme d'habitude, les lettres
 sur fond gris correspondent à des échecs de comparaisons. Il est clair
@@ -457,8 +458,8 @@ préfixe de~\(y\) ou \(\Border{q}{y} = \varepsilon\). Par exemple,
 \caption{\(\Border{}{y \cdot \word{a}}
    = \Border{}{\Border{}{y} \cdot \word{a}}
    = \Border{}{\Border{2}{y} \cdot \word{a}}
-   = \Border{3}{y} \cdot \word{a}\).
-\label{fig:max_B}}
+   = \Border{3}{y} \cdot \word{a}\).}
+\label{fig:max_B}
 \end{figure}
 
 Mathématiquement, pour tout mot \({y \neq \varepsilon}\) et toute lettre~\(a\),
@@ -521,8 +522,8 @@ bords maximums des préfixes du mot \word{abacabac}.
 \begin{figure}
 \centering
 \includegraphics{mp_fail}
-\caption{Fonction de suppléance de \word{abacabac}
-\label{fig:mp_fail}}
+\caption{Fonction de suppléance de \word{abacabac}}
+\label{fig:mp_fail}
 \end{figure}
 À la \fig~\vref{fig:mp}, la longueur du bord maximum est~\(k\), donc
 \(k=\MPfailure{p}{}{i}\) et \(\smash{\Ind{p}{\MPfailure{p}{}{i}}}\)
@@ -700,8 +701,8 @@ L'appel de fonction
 \fun{fp}(x,a,k) \rightarrow \fun{fp}(x,a,\fun{fail}_0(x,k)).
 \end{gather*}
 }}
-\caption{La fonction de suppléance \(\MPfailureName\) par \fun{fail\(_0\)/2}
-\label{fig:fail0}}
+\caption{La fonction de suppléance \(\MPfailureName\) par \fun{fail\(_0\)/2}}
+\label{fig:fail0}
 \end{figure}
 La fonction \fun{fp/3}\index{fp@\fun{fp/3}} (anglais, \emph{fixed
   point}) calcule \(\MPfailure{x}{q}{i-1}\), en commençant avec
@@ -753,7 +754,8 @@ La version avec mémoïsation de \fun{fail\(_0\)/2} est appelée
 \fun{suf}(\cons{a}{p},i) \rightarrow \fun{suf}(p,i-1).
 \end{gather*}
 }}
-\caption{Fonction de suppléance avec mémoïsation\label{fig:fail}}
+\caption{Fonction de suppléance avec mémoïsation}
+\label{fig:fail}
 \end{figure}
 Ici, nous travaillons avec le mémo~\(p\), qui est un préfixe retourné,
 au lieu de~\(x\), donc nous devons connaître sa longueur~\(i\) pour
@@ -788,8 +790,8 @@ pour un motif~\(x\) de taille~\(m\). Sa définition est montrée à la
   & \fun{pp}(x,\cons{\pair{a}{\fun{fail}(p,i)}}{p},i+1).
 \end{array}}
 \end{equation*}
-\caption{Prétraitement d'un motif~\(y\) par \fun{pp/1}
-\label{fig:pp}}
+\caption{Prétraitement d'un motif~\(y\) par \fun{pp/1}}
+\label{fig:pp}
 \end{figure}
 où \fun{rev/1}\index{rev@\fun{rev/1}} est la fonction de retournement
 (définition~\eqref{def:rev} \vpageref{def:rev}), et
@@ -988,7 +990,8 @@ la \fig~\vref{fig:mp}. Le résultat est montré à la
                          & \fun{mp}(\fun{suf}(p',k),t,p',k,j).
 \end{array}
 \end{gather*}}}
-\caption{L'algorithme de Morris et Pratt (recherche)\label{fig:mp_def}}
+\caption{L'algorithme de Morris et Pratt (recherche)}
+\label{fig:mp_def}
 \end{figure}
 Notons comment le premier argument de \fun{mp/5}\index{mp@\fun{mp/5}},
 \(p\), est la copie de travail et le troisième, \(p'\), est l'original
@@ -1090,8 +1093,8 @@ reste du même texte, après qu'une occurrence du motif a été trouvée).
 % [0pt] of margin overhang
 \centering
 \includegraphics[bb=71 360 238 723]{metaprog}
-\caption{Recherche de \word{abacabac} dans~\(t\)% with a metaprogram
-\label{fig:metaprog}}
+\caption{Recherche de \word{abacabac} dans~\(t\)}% with a metaprogram
+\label{fig:metaprog}
 \end{wrapfigure}
 Il existe une convention graphique commode pour le contenu de la table
 de suppléance à la \fig~\vref{fig:mp_fail}, appelée \emph{automate
@@ -1101,8 +1104,8 @@ de suppléance à la \fig~\vref{fig:mp_fail}, appelée \emph{automate
 \begin{figure}[b]
 \centering
 \includegraphics[bb=80 651 390 710]{abacabac}
-\caption{Automate de Morris et Pratt du motif \word{abacabac}
-\label{fig:abacabac}}
+\caption{Automate de Morris et Pratt du motif \word{abacabac}}
+\label{fig:abacabac}
 \end{figure}
 Nous ne décrirons ici que de manière sommaire les automates; pour un
 traitement mathématique et très approfondi, voir
@@ -1183,8 +1186,8 @@ cette façon à la \fig~\vref{fig:kmp_abac}.
 \begin{figure}
 \centering
 \includegraphics[bb=80 645 390 735]{kmp_abac}
-\caption{Automate de Knuth, Morris et Pratt pour \word{abacabac}
-\label{fig:kmp_abac}}
+\caption{Automate de Knuth, Morris et Pratt pour \word{abacabac}}
+\label{fig:kmp_abac}
 \end{figure}
 \index{recherche de motifs!algorithme de Knuth, Morris et Pratt|)}
 \index{recherche de motifs|)}

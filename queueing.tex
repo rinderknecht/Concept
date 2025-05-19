@@ -311,15 +311,18 @@ Une autre possibilité est montrée à la \fig~\ref{fig:meander2},
 où la dernière opération est inchangée. La différence entre les deux
 exemples repose sur le fait que, à l'origine, le dernier défilage a,
 dans le premier cas, un coût unitaire (donc est changé) et, dans le
-dernier cas, un coût strictement supérieur à~\(1\) (donc inchangé). La
-troisième sorte de méandre de Dyck est celle qui termine avec un
+dernier cas, un coût strictement supérieur à~\(1\) (donc inchangé).
+
+La troisième sorte de méandre de Dyck est celle qui termine avec un
 enfilage, mais parce que cet enfilage doit partir de l'axe des
 abscisses, nous nous trouvons dans la même situation qu'avec le
 résultat du réordonnancement d'un méandre conclu avec un défilage de
 coût unitaire (voir à nouveau la ligne en pointillés à la
-\fig~\ref{fig:meander1}). Par conséquent, nous n'avons qu'à comparer
-l'effet du réordonnancement des méandres se terminant avec un
-défilage, c'est-à-dire que nous envisageons les deux cas suivants.
+\fig~\ref{fig:meander1}).
+
+Par conséquent, nous n'avons qu'à comparer l'effet du réordonnancement
+des méandres se terminant avec un défilage, c'est-à-dire que nous
+envisageons les deux cas suivants.
 \begin{itemize}
 
 \item Si nous avons une chaîne de \(n-1\)~opérations suivies par un
@@ -349,9 +352,9 @@ où la borne inférieure est atteinte si toutes les mises à jour sont
 des enfilages, et la borne supérieure est atteinte quand une chaîne en
 dents de scie est suivie par un enfilage ou alors deux enfilages et un
 défilage. Par définition, le coût amorti d'une opération
-est~\(\A{n}/n\) et se trouve donc entre \(1\)~et~\(2\), ce qui est
-plus bas que ne l'avait laissé présager notre analyse du pire des cas
-de l'inégalité~\eqref{ineq:Sn_upper_bound}. Voir~\citep{Rinderknecht_2011}
+est~\(\A{n}/n\), qui se situe donc entre \(1\)~et~\(2\), ce qui est
+inférieur à ce qu'aurait pu nous faire craindre la borne supérieure de
+l'inégalité~\eqref{ineq:Sn_upper_bound}. Voir~\citep{Rinderknecht_2011}
 pour une analyse légèrement différente de la précédente, avec les
 mêmes exemples.
 

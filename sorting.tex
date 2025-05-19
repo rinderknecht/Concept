@@ -187,8 +187,8 @@ En éliminant les termes identiques dans
 déduisons\index{ins@$\C{\fun{ins}}{n}$}
 \begin{equation*}
 \C{\fun{ins}}{n}
-  = 3n + \tfrac{1}{2}n(n-1) + \C{\fun{ins}}{0}
-  = \tfrac{1}{2}{n^2} + \tfrac{5}{2}{n} + 1.
+  = 3n + \frac{1}{2}n(n-1) + \C{\fun{ins}}{0}
+  = \frac{1}{2}{n^2} + \frac{5}{2}{n} + 1.
 \end{equation*}
 Cette dernière équation est en fait valide même si \({n = 0}\).
 Soit~\(\C{\fun{dist}}{n!}\) le coût de la distribution d'un élément
@@ -204,7 +204,7 @@ pour~\(k \geqslant 0\), les récurrences suivantes:
 \C{\fun{dist}}{k+1}
   \eqn{\epsilon} 1 + \C{\fun{cat}}{n+1} + \C{\fun{ins}}{n}
                     + \C{\fun{dist}}{k}
-  = \tfrac{1}{2}{n^2} + \tfrac{7}{2}{n} + 4 + \C{\fun{dist}}{k},
+  = \frac{1}{2}{n^2} + \frac{7}{2}{n} + 4 + \C{\fun{dist}}{k},
 \end{equation*}
 puisque nous savons déjà que \(\C{\fun{cat}}{n} = n +
 1\)\index{cat@$\C{\fun{cat}}{n}$} et nous connaissons la valeur
@@ -232,7 +232,7 @@ où \(k > 0\):
 \C{\fun{perm}}{1}   \eqn{\beta} 1;\\
 \C{\fun{perm}}{k+1}
   &\eqn{\gamma} 1 + \C{\fun{perm}}{k} + \C{\fun{dist}}{k!}
-   = \tfrac{1}{2}(k^2 + 7k + 8)k! + 2 + \C{\fun{perm}}{k}.
+   = \frac{1}{2}(k^2 + 7k + 8)k! + 2 + \C{\fun{perm}}{k}.
 \intertext{Sommant membre à membre, la plupart des termes s'annulent:}
 \sum_{k=1}^{n-1}{\C{\fun{perm}}{k+1}}
   &= \frac{1}{2}\sum_{k=1}^{n-1}{(k^2+7k+8)k!} + \sum_{k=1}^{n-1}{2}
@@ -522,10 +522,10 @@ redondante. Le n{\oe}ud externe spécial~\(\bot\) ne correspond à
 aucune permutation parce qu'une comparaison \({a_1 < a_3}\) ne peut
 échouer car elle est impliquée par transitivité par les comparaisons
 précédentes sur le chemin depuis la racine.
-\begin{quote}
+\begin{center}
   \emph{Un arbre de comparaisons non-redondantes pour \(n\)~clés
-    a \(n!\)~n{\oe}uds externes.}
-\end{quote}
+    possède \(n!\)~n{\oe}uds externes.}
+\end{center}
 Étant donné que nous étudions ici comment trier \(n\)~clés avec un
 nombre minimum de comparaisons, nous considérerons par la suite les
 arbres de comparaisons optimaux avec \(n!\)~n{\oe}uds externes. De
@@ -575,7 +575,7 @@ contiennent nécessairement moins de n{\oe}uds externes qu'un arbre
 binaire parfait de même hauteur, c'est-à-dire que \(n! \leqslant
 2^{S(n)}\), donc
 \begin{equation*}
-S(n) \geqslant \ceiling{\lg n!},
+\ceiling{\lg n!} \leqslant S(n),
 \end{equation*}
 où \(\ceiling{x}\) (\textsl{partie entière par excès de~\(x\)})
 \index{partie entière par excès@$\ceiling{x}$|see{partie entière par
@@ -591,7 +591,8 @@ monotone et intégrable au sens de Riemann. Alors
 \abovedisplayskip=0pt
 \sum_{k=a}^{b-1}f(k) \leqslant \int_{a}^{b}{\!\!f(x)} \,dx
                    \leqslant \sum_{k=a+1}^{b}{\!\!\!f(k)}.
-\tag*{\(\blacksquare\)}
+%\tag*{\(\blacksquare\)}
+\tag*{\(\Box\)}
 \end{equation}
 \end{thm}
 \noindent Prenons \(a := 1\), \(b := n\) et \(f(x) := \lg x\). Le
@@ -637,9 +638,9 @@ l - 1 \geqslant 1\). En répétant ces échanges, on abouti à la forme
 annoncée.
 
 Les chemins externes sont faits de \(p\)~chemins se terminant au
-pénultième niveau~\(h-1\) et de \(q\)~chemins finissant au niveau le
-plus bas~\(h\). (La racine a pour niveau~\(0\).) Cherchons deux
-équations dont les solutions sont \(p\)~et~\(q\).
+pénultième niveau~\(h-1\) et de \(q\)~chemins finissant au
+niveau~\(h\), le plus bas. (La racine a pour niveau~\(0\).) Cherchons
+deux équations dont les solutions sont \(p\)~et~\(q\).
 \begin{itemize}
 
   \item D'après le problème ci-dessus de la minimisation du coût
