@@ -1125,7 +1125,7 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
     \(9\OB{\fun{tms}}{\phi_{2n+1}} = \tfrac{1}{2}S_{n+1} - 3(4^n-1) +
     \sum_{m=0}^{n-1}\phi_{2m+1}\), qui se simplifie en
     \begin{equation}
-      \OB{\fun{tms}}{\phi_{2n+1}} = \left(n - \frac{1}{2}\right)\phi_{2n+1}.
+      \OB{\fun{tms}}{\phi_{2n+1}} = \frac{1}{2}\phi_{2n+1}(2n - 1).
       \label{eq:OBtms_phi_2n_1}
     \end{equation}
     Nous avons alors
@@ -1138,9 +1138,12 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
     := (1-x)\ln(1-1/x)\), nous avons \(\OB{\fun{tms}}{\phi_{2n+1}} -
     Q(\phi_{2n+1}) = f(4^n)/(3\ln 2)\). Nous savons déjà que
     \(3\ln\tfrac{3}{4} \leqslant f(x) < 1\), si \(x \geqslant 4\),
-    soit \(\lg 3 - 2 \leqslant \OB{\fun{tms}}{\phi_{2n+1}} -
-    Q(\phi_{2n+1}) < 1/(3\ln 2)\), si \(n \geqslant 1\). Nous avons
-    donc établi l'encadrement suivant: \(\boxed{0.4150 <
+    soit
+    \begin{equation*}
+      \lg 3 - 2 \leqslant \OB{\fun{tms}}{\phi_{2n+1}} -
+      Q(\phi_{2n+1}) < \frac{1}{3\ln 2},\; \text{si \(n \geqslant 1\)}.
+    \end{equation*}
+    Nous avons donc établi: \(\boxed{0.4150 <
       \OB{\fun{tms}}{\phi_{2n+1}} - Q(\phi_{2n+1}) < 0.4809.}\)
 
     D'après le théorème~\ref{thm_OB_lambda} et
@@ -1156,13 +1159,12 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
                       &= \OB{\fun{tms}}{1+\phi_{2n+1}} - \frac{1}{2}
                          + \frac{1}{6}(1+2^{2n+1})\lg(1+1/2^{2n+1}),
     \end{align*}
-    la dernière égalité résultant
-    de~\eqref{eq:OBtms_succ_phi_2n_1}. Si nous posons \(h(x) :=
-    \tfrac{1}{2} - \tfrac{1}{6}(1+x)\lg(1+1/x)\), alors
+    d'après~\eqref{eq:OBtms_succ_phi_2n_1}. Alors
     \(\OB{\fun{tms}}{1+\phi_{2n+1}} - Q(1+\phi_{2n+1}) =
-    h(2^{2n+1})\). Une analyse élémentaire montre que \(5 - 3\lg 3
-    \leqslant h(x) < 1/2 - 1/(6\ln 2)\), si \(x \geqslant 8\),
-    c'est-à-dire que \(5 - 3\lg 3 \leqslant
+    h(2^{2n+1})\), où \(h(x) := \tfrac{1}{2} -
+    \tfrac{1}{6}(1+x)\lg(1+1/x)\). Une analyse élémentaire montre que
+    \(5 - 3\lg 3 \leqslant h(x) < 1/2 - 1/(6\ln 2)\), si \(x \geqslant
+    8\), c'est-à-dire que \(5 - 3\lg 3 \leqslant
     \OB{\fun{tms}}{1+\phi_{2n+1}} - Q(1+\phi_{2n+1}) < 1/2 - 1/(6\ln
     2)\), si \(n \geqslant 1\). D'où \(\boxed{0.2450 <
       \OB{\fun{tms}}{1+\phi_{2n+1}} - Q(1+\phi_{2n+1}) < 0.2596.}\)
@@ -1192,12 +1194,12 @@ majorant à \(\OB{\fun{tms}}{n}\). En d'autres termes, nous voulons
 minimiser les constantes réelles \(a'\)~et~\(b'\) telles que, si \(n
 \geqslant 2\),
 \begin{equation*}
-\OB{\fun{tms}}{n} \leqslant \tfrac{1}{2}n\lg n + a'n + b'.
+\OB{\fun{tms}}{n} \leqslant \frac{1}{2}n\lg n + a'n + b'.
 \end{equation*}
 La seule différence avec la recherche du minorant est que les
 inégalités sont inversées, donc nous voulons
 \begin{equation*}
-\Phi(x) \leqslant a', \;\text{où \(\Phi(x) := \tfrac{1}{2}x\lg x - \tfrac{1}{2}(1+x)\lg(1+x) + x\)}.
+\Phi(x) \leqslant a', \;\text{où \(\Phi(x) := \frac{1}{2}x\lg x - \frac{1}{2}(1+x)\lg(1+x) + x\)}.
 \end{equation*}
 Ici, il nous faut trouver le maximum de~\(\Phi\) sur l'intervalle
 fermé \([0,1]\). Les deux racines positives de~\(\Phi\) sont
@@ -1207,25 +1209,25 @@ fermé \([0,1]\). Les deux racines positives de~\(\Phi\) sont
 le cas de base: \(b'_{\min} = -2a_{\min} = 0\). Finalement, nous
 avons dérivé l'encadrement suivant:
 \begin{equation}
-\tfrac{1}{2}n\lg n - \left(\tfrac{1}{2}\lg\tfrac{4}{3}\right)n + \lg\tfrac{4}{3}
-\leqslant \OB{\fun{tms}}{n} \leqslant
-\tfrac{1}{2}n\lg n.
+  \tfrac{1}{2}n\lg n - \left(\frac{1}{2}\lg\frac{4}{3}\right)n +
+  \lg\frac{4}{3} \leqslant \OB{\fun{tms}}{n} \leqslant
+  \frac{1}{2}n\lg n.
 \label{ineq:bounds_Btms}
 \index{tms@$\OB{\fun{tms}}{n}$}
 \end{equation}
 Le majorant est clairement atteint si \(n=2^p\) à cause de
 l'équation~\eqref{eq:best_power}. Il est aussi évident maintenant que
 \(\OB{\fun{tms}}{n} \sim \frac{1}{2}n\lg n\), mais si nous n'étions
-seulement intéressés que par ce faible résultat asymptotique,
+seulement intéressés que par ce résultat asymptotique,
 \cite{Bush_1940} en donne une dérivation très simple grâce à un
 dénombrement de bits de la \fig~\vref{fig:bits}. Rappelons que
 \cite{Delange_1975} a étudié \(\OB{\fun{tms}}{n}\) dans le cadre de
 l'analyse réelle et a montré que \(\OB{\fun{tms}}{n} =
 \tfrac{1}{2}n\lg n + F_0(\lg n) \cdot n\), où \(F_0\)~est une fonction
 périodique de période~\(1\), continue et nulle part dérivable, et dont
-la série de Fourier montre que sa valeur moyenne est environ \(-0.145599\).
-\index{tms@$\OB{\fun{tms}}{n}$|)}
-\index{tri par interclassement!$\sim$ descendant!coût minimum|)}
+la série de Fourier montre que sa valeur moyenne est environ
+\(-0.145599\).  \index{tms@$\OB{\fun{tms}}{n}$|)} \index{tri par
+  interclassement!$\sim$ descendant!coût minimum|)}
 
 \mypar{Coût maximum}
 \index{tri par interclassement!$\sim$ descendant!coût maximum|(}
@@ -1317,13 +1319,13 @@ est donc
    = \sum_{k=0}^{\floor{\lg n}}{\!(n-2^k+1)}
    = (n + 1)(\floor{\lg n} + 1) - 2^{\floor{\lg n}+1} + 1.
 \end{equation*}
-Soit \(n := (b_{m-1}\dots b_0)_2\), alors \(2^{m-1} \leqslant n
-\leqslant 2^m - 1\) et \(2^{m-1} < 2^{m-1} + 1 \leqslant n + 1
-\leqslant 2^m\), donc \(m-1 < \lg(n+1) \leqslant m\), d'où \(m =
-\ceiling{\lg(n+1)}\), ce qui, avec l'aide de l'équation~\eqref{eq:e_r}
-\vpageref{eq:e_r}, prouve \(1 + \floor{\lg n} =
-\ceiling{\lg(n+1)}\). En conséquence, l'équation~\eqref{eq:tms_n_tmp}
-peut être réécrite comme
+Exprimons la représentation binaire de~\(n\): \(n := (b_{m-1}\dots
+b_0)_2\), alors \(2^{m-1} \leqslant n \leqslant 2^m - 1\) et \(2^{m-1}
+< 2^{m-1} + 1 \leqslant n + 1 \leqslant 2^m\), et donc \(m-1 < \lg(n+1)
+\leqslant m\), d'où \(m = \ceiling{\lg(n+1)}\), ce qui, avec l'aide de
+l'équation~\eqref{eq:e_r} \vpageref{eq:e_r}, prouve \(1 + \floor{\lg
+  n} = \ceiling{\lg(n+1)}\). En conséquence,
+l'équation~\eqref{eq:tms_n_tmp} peut être réécrite comme
 \begin{equation}
 \OW{\fun{tms}}{0} = \OW{\fun{tms}}{1} = 0,
 \qquad
@@ -1337,20 +1339,24 @@ que \(n = 2^p\) ou non:
 
   \item si~\(n=2^p\), alors \(\OW{\fun{tms}}{n} = n\lg n - n + 1\);
 
-  \item sinon, \(\ceiling{\lg n} = \floor{\lg n} + 1 = \lg n - \{\lg
-    n\} + 1\) et \(\OW{\fun{tms}}{n} = n\lg n + \theta(1 - \{\lg n\})
-    \cdot n + 1\), où \(\theta(x) := x - 2^x\) et \(\{x\} := x -
-    \floor{x}\) est la \emph{partie fractionnaire}\index{partie
+  \item sinon, nous avons \(\ceiling{\lg n} = \floor{\lg n} + 1 = \lg
+    n - \{\lg n\} + 1\) et puis \(\OW{\fun{tms}}{n} = n\lg n +
+    \theta(1 - \{\lg n\}) \cdot n + 1\), où \(\theta(x) := x - 2^x\)
+    et la \emph{partie fractionnaire}\index{partie
       fractionnaire@$\{x\}$|see{partie fractionnaire}}\index{partie
-      fractionnaire} du réel~\(x\). En particulier, \(0 \leqslant
-    \{x\} < 1\). La dérivée est \(\theta'(x) = 1 - 2^x\ln 2\); elle a
-    une racine \(\theta'(x_0) = 0 \Leftrightarrow x_0 = -\lg\ln 2\) et
-    elle positive avant~\(x_0\), et négative après.  Donc
-    \(\theta(x)\) atteint son maximum en~\(x_0\): \(\max_{0<x\leqslant
-      1}\theta(x) = \theta(x_0) = -(1+\ln\ln{2})/\!\ln{2} \simeq
-    -0.9139\), et \(\min_{0<x\leqslant 1}\theta(x) = \theta(1) =
-    -1\). Par injectivité, \(\theta(1) = \theta(1-\{\lg n\})\)
-    implique \(\{\lg n\} = 0\), soit \(n=2^p\) (premier cas).
+      fractionnaire} du réel~\(x\) est \(\{x\} := x - \floor{x}\). En
+    particulier, \(0 \leqslant \{x\} < 1\). La dérivée est
+    \(\theta'(x) = 1 - 2^x\ln 2\); elle a une racine \(\theta'(x_0) =
+    0 \Leftrightarrow x_0 = -\lg\ln 2\); elle est positive
+    avant~\(x_0\), et négative après.  Donc \(\theta(x)\) atteint son
+    maximum en~\(x_0\):
+    \begin{equation*}
+      \max_{0<x\leqslant 1}\theta(x) = \theta(x_0)
+      = -(1+\ln\ln{2})/\!\ln{2} \simeq -0.9139,
+    \end{equation*}
+    et \(\min_{0<x\leqslant 1}\theta(x) = \theta(1) = -1\). Par
+    injectivité, \(\theta(1) = \theta(1-\{\lg n\})\) implique \(\{\lg
+    n\} = 0\), soit \(n=2^p\) (premier cas).
 \end{itemize}
 En conclusion: \(\OW{\fun{tms}}{n} = n\lg n + A(\lg n) \cdot n + 1\),
 où \(A(x) := 1 - \{x\} - 2^{1 - \{x\}}\) est une fonction périodique,
@@ -1485,30 +1491,30 @@ p\lg p + (p+1)\lg(p+1) + a(2p+1) + 2b + 2p - 1 + \frac{2}{p+2}
 Nous désirons établir \(\pred{H}{2p+1} \colon (2p+1)\lg(2p+1) +
 a(2p+1) + b \leqslant \OM{\fun{tms}}{2p+1}\), qui est donc impliquée
 par
-\begin{equation*}
+\begin{equation}
 %\abovedisplayskip=0pt
 %\belowdisplayskip=2pt
   (2p+1)\lg(2p+1) \leqslant
   p\lg p + (p+1)\lg(p+1) + b + 2p - 1 + \frac{2}{p+2}.
-\end{equation*}
+  \label{ineq:Psi_temp}
+\end{equation}
 Soit \(\Psi(p) := (2p+1)\lg(2p+1) - (p+1)\lg(p+1) - p\lg p - 2p + 1 -
-\frac{2}{p+2}\). Nous avons alors la condition \(\Psi(p) \leqslant
-b\) et
-\begin{align*}
-\frac{d\Psi}{dp}(p) &= \frac{2}{(p+2)^2}
-+ \lg\frac{4p^2 + 4p + 1}{p^2 + p} - 2;\\
-& \lim_{p \to 0^{+}} \frac{d\Psi}{dp}(p) = +\infty,\qquad
-\lim_{p \to \infty}  \frac{d\Psi}{dp}(p) = 0^{+};\\
-\frac{d^2\Psi}{dp^2}(p) &= -\frac{4}{(p+2)^3} - \frac{1}{p(p+1)(2p+1)\ln
-  2} < 0.
-\end{align*}
-Donc, \(\Psi(p)\)~croît strictement sur \(p > 0\). Cherchons \(\lim_{p
-  \to +\infty}\Psi(p)\) en réécrivant \(\Psi(p)\) comme suit:
+2/(p+2)\). Alors~\eqref{ineq:Psi_temp} équivaut à \(\Psi(p) \leqslant
+b\). De plus,
+\begin{equation*}
+\frac{d\Psi}{dp}(p) = \frac{2}{(p+2)^2} + \lg\left(1+\frac{1}{4p(p+1)}\right).
+\end{equation*}
+Clairement, \(d\Psi/dp > 0\), si \(p > 0\), donc \(\Psi(p)\)~croît
+strictement sur \(p > 0\). Cherchons \(\lim_{p \to +\infty}\Psi(p)\)
+en réécrivant \(\Psi(p)\) comme suit:
 \begin{align*}
 \Psi(p)
-  &= 2 + \frac{2}{p+2} + (2p+1)\lg(p+\myfrac{1}/{2}) - (p+1)\lg(p+1)
+  &= 2 - \frac{2}{p+2} + (2p+1)\lg(p+\tfrac{1}{2}) - (p+1)\lg(p+1)
      - p\lg p\\
-  &= 2 + \frac{2}{p+2} + p\lg\left(1 + \frac{1}{4p(p+1)}\right) +
+  &= 2 - \frac{2}{p+2} + p\left(\lg(p+\tfrac{1}{2})^2 - \lg(p+1)
+   - \lg p\right) + \lg(p+\tfrac{1}{2})\\
+  &\phantom{=} \quad - \lg(p+1)\\
+  &= 2 - \frac{2}{p+2} + p\lg\left(1 + \frac{1}{4p(p+1)}\right) +
   \lg\frac{p + \myfrac{1}/{2}}{p+1}.
 \end{align*}
 La limite de \(x\ln(1+1/x^2)\) quand \(x \to +\infty\) est obtenue en
