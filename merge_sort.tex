@@ -1077,16 +1077,18 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
     en usant de~\eqref{eq:OBtms_phi_2n}. Si nous définissons \(f(x) :=
     (1-x) \ln(1-1/x)\), alors \(\OB{\fun{tms}}{\phi_{2n}} -
     Q(\phi_{2n}) = f(4^n)/(6\ln 2)\). Un peu d'analyse réelle
-    élémentaire révèle que \(3\ln\tfrac{3}{4} \leqslant f(x) < 1\),
-    avec \(x \geqslant 4\), c'est-à-dire
+    élémentaire révèle que \(3\ln(3/4) \leqslant f(x) < 1\),
+    si \(x \geqslant 4\), c'est-à-dire
     \begin{equation*}
       1 - \frac{1}{2}\lg 3 \leqslant
     \OB{\fun{tms}}{\phi_{2n}} - Q(\phi_{2n}) < \frac{1}{6\ln 2},\; \text{si \(n
       \geqslant 1\)}.
     \end{equation*}
-    Cela donne l'encadrement \(\boxed{0.2075 <
-      \OB{\fun{tms}}{\phi_{2n}} - Q(\phi_{2n}) < 0.2405.}\)
-
+    Cela donne l'encadrement
+    \begin{equation}
+      0.2075 < \OB{\fun{tms}}{\phi_{2n}} - Q(\phi_{2n}) < 0.2405.
+      \label{ineq:OBtms_phi_2n}
+    \end{equation}
     D'après le théorème~\ref{thm_OB_lambda} et
     l'équation~\eqref{eq:OBtms_phi_2n}, nous avons
     \begin{equation}
@@ -1105,12 +1107,18 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
     analyse élémentaire montre que \(2 - \lg 3 \leqslant g(x) < 1 -
     1/(3\ln 2)\), quand \(x \geqslant 4\), c'est-à-dire \(2 - \lg 3
     \leqslant g(4^n) < 1 - 1/(3\ln 2)\), où \(n \geqslant 1\). D'où
-    l'encadrement \(\boxed{0.4150 < \OB{\fun{tms}}{1+\phi_{2n}} -
-      Q(1+\phi_{2n}) < 0.5192.}\)
+    l'encadrement
+    \begin{equation}
+      0.4150 < \smash{\OB{\fun{tms}}{1+\phi_{2n}}} - Q(1+\phi_{2n}) <
+      0.5192.
+      \label{ineq:OBtms_1_phi_2n}
+    \end{equation}
 
-  \bigskip
-  \textsl{Donc \(p=\phi_{2n} = (1010\dots01)_2\) minimise
-      \(\OB{\fun{tms}}{p} - \tfrac{1}{2}p\lg(\tfrac{3}{4}p)\).}
+    \bigskip
+    \noindent \textsl{En comparant~\eqref{ineq:OBtms_phi_2n}
+      et~\eqref{ineq:OBtms_1_phi_2n}, on a \(p=\phi_{2n} =
+      (1010\dots01)_2\) qui minimise \(\OB{\fun{tms}}{p} -
+      \tfrac{1}{2}p\lg(\tfrac{3}{4}p)\).}
   \bigskip
 
   \item Si \(k=2m+1\), alors \(\phi_{2m+1} = 2^{2m-1} + \phi_{2m-1}\)
@@ -1122,7 +1130,7 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
       &= \OB{\fun{tms}}{\phi_{2m-1}} - (2m-1)4^{m-1} + \phi_{2m-1}.
     \end{align*}
     En sommant membre à membre pour \(m=1\) à~\(m=n-1\) entraîne
-    \(9\OB{\fun{tms}}{\phi_{2n+1}} = \tfrac{1}{2}S_{n+1} - 3(4^n-1) +
+    \(9\OB{\fun{tms}}{\phi_{2n+1}} = S_{n+1}/2 - 3(4^n-1) +
     \sum_{m=0}^{n-1}\phi_{2m+1}\), qui se simplifie en
     \begin{equation}
       \OB{\fun{tms}}{\phi_{2n+1}} = \frac{1}{2}\phi_{2n+1}(2n - 1).
@@ -1137,17 +1145,20 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
     comme nous l'avons fait pour \(Q(\phi_{2n})\), nous posons \(f(x)
     := (1-x)\ln(1-1/x)\), nous avons \(\OB{\fun{tms}}{\phi_{2n+1}} -
     Q(\phi_{2n+1}) = f(4^n)/(3\ln 2)\). Nous savons déjà que
-    \(3\ln\tfrac{3}{4} \leqslant f(x) < 1\), si \(x \geqslant 4\),
+    \(3\ln(3/4) \leqslant f(x) < 1\), si \(x \geqslant 4\),
     soit
     \begin{equation*}
       \lg 3 - 2 \leqslant \OB{\fun{tms}}{\phi_{2n+1}} -
       Q(\phi_{2n+1}) < \frac{1}{3\ln 2},\; \text{si \(n \geqslant 1\)}.
     \end{equation*}
-    Nous avons donc établi: \(\boxed{0.4150 <
-      \OB{\fun{tms}}{\phi_{2n+1}} - Q(\phi_{2n+1}) < 0.4809.}\)
-
-    D'après le théorème~\ref{thm_OB_lambda} et
-    l'équation~\eqref{eq:OBtms_phi_2n_1}, nous déduisons
+    Nous avons donc établi:
+    \begin{equation}
+      0.4150 < \smash{\OB{\fun{tms}}{\phi_{2n+1}}} -
+      Q(\phi_{2n+1}) < 0.4809.
+      \label{ineq:OBtms_phi_2n_1}
+    \end{equation}
+    Par ailleurs, d'après le théorème~\ref{thm_OB_lambda} et
+    l'équation~\eqref{eq:OBtms_phi_2n_1}, nous tirons
     \begin{equation}
       \OB{\fun{tms}}{1+\phi_{2n+1}} = \frac{1}{2}(1+\phi_{2n+1})(2n - 1)
       + \frac{1}{2}.
@@ -1166,12 +1177,19 @@ est plus petite, alors l'entier \(p=\phi_k\) minimise
     \(5 - 3\lg 3 \leqslant h(x) < 1/2 - 1/(6\ln 2)\), si \(x \geqslant
     8\), c'est-à-dire que \(5 - 3\lg 3 \leqslant
     \OB{\fun{tms}}{1+\phi_{2n+1}} - Q(1+\phi_{2n+1}) < 1/2 - 1/(6\ln
-    2)\), si \(n \geqslant 1\). D'où \(\boxed{0.2450 <
-      \OB{\fun{tms}}{1+\phi_{2n+1}} - Q(1+\phi_{2n+1}) < 0.2596.}\)
+    2)\), si \(n \geqslant 1\). D'où
+    \begin{equation}
+      0.2450 < \smash{\OB{\fun{tms}}{1+\phi_{2n+1}}} -
+      Q(1+\phi_{2n+1}) < 0.2596.
+      \label{ineq:OBtms_1_phi_2n_1}
+    \end{equation}
 
-  \bigskip
-  \textsl{Donc \(p = 1+\phi_{2m+1} = (1010\dots1011)_2\) minimise
-  \(\OB{\fun{tms}}{p} - \tfrac{1}{2}p\lg p\).}
+    \bigskip
+    \noindent
+    \textsl{De~\eqref{ineq:OBtms_phi_2n_1}
+      et~\eqref{ineq:OBtms_1_phi_2n_1}, on a \(p = 1+\phi_{2m+1} =
+      (1010\dots1011)_2\) qui minimise \(\OB{\fun{tms}}{p} -
+      \tfrac{1}{2}p\lg p\).}
 
 \end{itemize}
 
@@ -1416,13 +1434,16 @@ pour les extremums du coût, celles-ci ne sont pas d'une grande aide,
 par conséquent nous devrions opter pour une approche inductive, comme
 nous l'avons fait pour trouver l'encadrement serré de
 \(\OB{\fun{tms}}{n}\). Les inéquations~\eqref{ineq:M_join}
-\vpageref{ineq:M_join} sont équivalentes à \(n\lg n - \alpha n +
-\alpha < \OM{\fun{tms}}{n} < n\lg n - \alpha n + 2\) si \(n = 2^p\), et
-  cela nous suggère de rechercher des bornes de la forme \(n\lg n + an
-  + b\) aussi quand \(n \neq 2^p\).
-
-Commençons par la borne inférieure et entreprenons de maximiser les
-constantes réelles \(a\)~et~\(b\) dans
+\vpageref{ineq:M_join} sont équivalentes à
+\begin{equation*}
+  n\lg n - \alpha n +
+\alpha < \OM{\fun{tms}}{n} < n\lg n - \alpha n + 2,\; \text{si \(n =
+  2^p\),}
+\end{equation*}
+et cela nous suggère de rechercher des bornes de la forme \(n\lg n +
+an + b\) aussi quand \(n \neq 2^p\). Commençons par la borne
+inférieure et entreprenons de maximiser les constantes réelles
+\(a\)~et~\(b\) dans
 \begin{equation*}
 \abovedisplayskip=0pt
 \belowdisplayskip=2pt
@@ -1434,8 +1455,8 @@ Puisque \(\pred{H}{2p}\) dépend de \(\pred{H}{p}\), et que
 \(\pred{H}{p\!+\!1}\), la propriété \(\pred{H}{n}\), pour tout
 \(n>1\), dépend donc transitivement de \(\pred{H}{2}\) seul, parce que
 nous itérons des divisions par~\(2\). Si nous écrivons \(\pred{H}{n}
-\leadsto \pred{H}{m}\) pour dire: `\(\pred{H}{n}\) dépend de
-\(\pred{H}{m}\)', nous avons alors, par exemple, \(\pred{H}{2^3}
+\leadsto \pred{H}{m}\) pour dire: «~\(\pred{H}{n}\) dépend de
+\(\pred{H}{m}\)~», nous avons alors, par exemple, \(\pred{H}{2^3}
 \leadsto \pred{H}{2^2} \leadsto \pred{H}{2^1}\); \(\pred{H}{7}
 \leadsto \pred{H}{3} \leadsto \pred{H}{2}\) et \(\pred{H}{7} \leadsto
 \pred{H}{4} \leadsto \pred{H}{2}\). \(\pred{H}{2}\) équivaut à
@@ -1509,13 +1530,13 @@ strictement sur \(p > 0\). Cherchons \(\lim_{p \to +\infty}\Psi(p)\)
 en réécrivant \(\Psi(p)\) comme suit:
 \begin{align*}
 \Psi(p)
-  &= 2 - \frac{2}{p+2} + (2p+1)\lg(p+\tfrac{1}{2}) - (p+1)\lg(p+1)
+  &= 2 - \frac{2}{p+2} + (2p+1)\lg(p+1/2) - (p+1)\lg(p+1)
      - p\lg p\\
-  &= 2 - \frac{2}{p+2} + p\left(\lg(p+\tfrac{1}{2})^2 - \lg(p+1)
-   - \lg p\right) + \lg(p+\tfrac{1}{2})\\
+  &= 2 - \frac{2}{p+2} + p\left(\lg(p+1/2)^2 - \lg(p+1)
+   - \lg p\right) + \lg(p+1/2)\\
   &\phantom{=} \quad - \lg(p+1)\\
   &= 2 - \frac{2}{p+2} + p\lg\left(1 + \frac{1}{4p(p+1)}\right) +
-  \lg\frac{p + \myfrac{1}/{2}}{p+1}.
+  \lg\frac{p + 1/2}{p+1}.
 \end{align*}
 La limite de \(x\ln(1+1/x^2)\) quand \(x \to +\infty\) est obtenue en
 changeant \(x\)~en \(1/y\) et en considérant la limite quand \(y \to
@@ -1536,9 +1557,10 @@ l'inéquation~\eqref{ineq:base_lower_Atms} nous dit que nous devons
 minimiser~\(b\) pour maximiser~\(a\) (ce qui constitue la priorité),
 donc devons choisir la limite: \(b_{\min} = 2\). La même inégalité
 entraîne \(a \leqslant -3/2\), donc \(a_{\max} = -3/2\) et le principe
-d'induction complète établit, pour \(n \geqslant 2\),
+d'induction complète établit
 \begin{equation}
-n\lg n - \frac{3}{2} n + 2 < \OM{\fun{tms}}{n}.
+  n\lg n - \frac{3}{2} n + 2 < \OM{\fun{tms}}{n},\; \text{pour \(n
+    \geqslant 2\)}.
 \label{ineq:lower_Atms}
 \end{equation}
 Ce minorant n'est pas très bon, mais il a été obtenu sans grande
