@@ -948,7 +948,7 @@ l'inégalité~\eqref{ineq:Btms_n_i_details}, nous tirons
 Soit \(\Phi(x) := \tfrac{1}{2}x\lg x - \tfrac{1}{2}(1+x)\lg(1+x) +
 x\). L'inégalité précedente est alors équivalente à \(a \leqslant
 \Phi(x)\). La fonction~\(\Phi\) est continûment prolongée en~\(0\) car
-\(\lim_{x \to 0} x\lg x = 0\), et elle est dérivable sur l'intervalle
+\(\lim_{x \to 0} x\lg x = 0\), et dérivable sur l'intervalle
 fermé \([0,1]\):
 \begin{equation}
 \frac{d\Phi}{dx} = \frac{1}{2}\lg\frac{4x}{x+1}.
@@ -972,8 +972,7 @@ général, \(2^k\!/3\). Les entiers les plus proches sont
 lequel minimise \(\OB{\fun{tms}}{n} -
 \tfrac{1}{2}n\lg(\tfrac{3}{4}n)\), étant donné que \(\tfrac{1}{2}n\lg
 n - \left(\tfrac{1}{2}\lg\tfrac{4}{3}\right)n =
-\tfrac{1}{2}n\lg(\tfrac{3}{4}n)\). Nous débutons avec les théorèmes
-suivants.
+\tfrac{1}{2}n\lg(\tfrac{3}{4}n)\). Nous débutons avec:
 \begin{lemma}
 \label{lem_div3}
 \textsl{Les entiers de la forme \(4^p-1\) sont divisibles par~\(3\).}
@@ -1031,12 +1030,15 @@ suivants.
     \floor{k/2}\).\hfill\(\Box\)
 
 \end{itemize}
+
+\bigskip
+
 \noindent Soit \(Q(x) := \tfrac{1}{2}x\lg(\tfrac{3}{4}x)\).  Comparons
 \(\OB{\fun{tms}}{\phi_k} - Q(\phi_k)\) avec \(\OB{\fun{tms}}{1+\phi_k}
 - Q(1+\phi_k)\) selon la parité de~\(k\). Si la première différence
 est plus petite, alors l'entier \(p=\phi_k\) minimise
 \(\OB{\fun{tms}}{p} - \tfrac{1}{2}p\lg(\tfrac{3}{4}p)\); sinon c'est
-\(p=1+\phi_k\).
+\(p=1+\phi_k\):
 \begin{itemize}
 
   \item Si \(k=2m+2\), alors \(\phi_{2m+2} = 2^{2m} + \phi_{2m}\)
@@ -1575,7 +1577,7 @@ n\lg n - \alpha n < \OM{\fun{tms}}{n}.
 À l'asymptote, ce minorant est identique à celui pour le cas
 \(n=2^p\). Notre méthode inductive ne peut mener à ce beau résultat
 car elle produit des conditions suffisantes qui sont trop fortes, en
-particulier, nous n'avons pas trouvé de décomposition
+particulier, nous n'avons pas trouvé de décomposition de la forme
 \(\OM{\fun{tms}}{2^p+i} = \OM{\fun{tms}}{2^p} + \OM{\fun{tms}}{i} +
 \dots\)
 
@@ -1634,7 +1636,19 @@ interclassement descendant, ce qui, en termes de coût, s'exprime
 ainsi: \(\OC{\fun{bms}}{2^p} = \OC{\fun{tms}}{2^p} = \C{\Join}{p}\),
 où \fun{bms/1}\index{bms@\fun{bms/1}} réalise le \emph{tri par
   interclassement ascendant} (anglais, \emph{bottom-up merge
-  sort}). En général,
+sort}). La différence entre les tris descendant et ascendant se voit
+aisément à la \fig~\ref{fig:top_vs_bot}.
+\begin{figure}
+\centering
+\subfloat[Ascendant\label{fig:bot_up}]{%
+\includegraphics{bot_up}}
+\qquad
+\subfloat[Descendant\label{fig:top_down}]{%
+\includegraphics{top_down}}
+\caption{Comparaison des tris de \([6,3,2,4,1,5]\)}
+\label{fig:top_vs_bot}
+\end{figure}
+En général,
 \begin{equation}
 \OC{\fun{bms}}{0} = \OC{\fun{bms}}{1} = 0,
 \quad
@@ -1657,12 +1671,11 @@ La \fig~\vref{fig:bot_up2}
 \end{figure}
 montre l'arbre d'interclassement\index{arbre!$\sim$ d'interclassement}
 de sept clés triées de cette manière. Remarquons que le singleton
-\([4]\) en bas est relié par un arc sans flèche au n{\oe}ud au-dessus
-parce qu'il est interclassé \emph{au niveau au-dessus} avec \([2,6]\),
-une pile deux fois plus longue. Le déséquilibre des longueurs est
-propagé vers le haut. Le cas général est mieux suggéré en ne
-conservant de chaque n{\oe}ud que la longueur de la pile associée,
-comme on peut en voir un exemple à la \fig~\vref{fig:msort_abs}.
+\([4]\) est interclassé avec \([2,6]\), une pile deux fois plus
+longue. Le déséquilibre des longueurs est propagé vers le haut. Le cas
+général est mieux suggéré en ne conservant de chaque n{\oe}ud que la
+longueur de la pile associée, comme on peut en voir un exemple à la
+\fig~\vref{fig:msort_abs}.
 
 %\addcontentsline{toc}{subsection}{Coût}
 \mypar{Coût minimum}
