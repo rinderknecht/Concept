@@ -1638,7 +1638,7 @@ où \fun{bms/1}\index{bms@\fun{bms/1}} réalise le \emph{tri par
   interclassement ascendant} (anglais, \emph{bottom-up merge
 sort}). La différence entre les tris descendant et ascendant se voit
 aisément à la \fig~\ref{fig:top_vs_bot}.
-\begin{figure}
+\begin{figure}[!b]
 \centering
 \subfloat[Ascendant\label{fig:bot_up}]{%
 \includegraphics{bot_up}}
@@ -1648,7 +1648,7 @@ aisément à la \fig~\ref{fig:top_vs_bot}.
 \caption{Comparaison des tris de \([6,3,2,4,1,5]\)}
 \label{fig:top_vs_bot}
 \end{figure}
-En général,
+En général, nous avons les équations suivantes:
 \begin{equation}
 \OC{\fun{bms}}{0} = \OC{\fun{bms}}{1} = 0,
 \quad
@@ -1660,7 +1660,7 @@ En général,
 \end{equation}
 
 La \fig~\vref{fig:bot_up2}
-\begin{figure}
+\begin{figure}[!b]
 \centering
 \subfloat[Arbre pour \({[}7,3,5,1,6,2,4{]}\)\label{fig:bot_up2}]{%
 \includegraphics[bb=58 632 192 721]{bot_up2}}
@@ -1763,11 +1763,11 @@ fermé \([0,1]\):
 \begin{equation*}
 \frac{d\Phi}{dx} = \lg\frac{2x}{x+1}.
 \end{equation*}
-La racine de \(d\Phi/dx = 0\) est~\(1\), la dérivée est négative avant
-et positive après; donc \(\Phi\)~décroît jusqu'à ce que \(x=1\):
-\(a_{\max} := \min_{0 < x \leqslant 1}\Phi(x) = \Phi(1) =
--1\). Du cas de base, nous tirons: \(b_{\max} := -2a_{\max} - 1 =
-1\). Par conséquent,
+La racine de \(d\Phi/dx = 0\) est~\(1\), la dérivée est négative
+avant, puis positive; donc \(\Phi\)~décroît jusqu'à \(x=1\):
+\(a_{\max} := \min_{0 < x \leqslant 1}\Phi(x) = \Phi(1) = -1\). Du cas
+de base, nous tirons: \(b_{\max} := -2a_{\max} - 1 = 1\). Par
+conséquent,
 \begin{equation*}
 n\lg n - n + 1 \leqslant \OW{\fun{bms}}{n}.
 \end{equation*}
@@ -1813,7 +1813,7 @@ page~\pageref{eq:e_r}.
 
 \begin{wrapfigure}[9]{r}[0pt]{0pt}
 \centering
-\includegraphics[bb=63 631 202 707]{msort_gen}% [... 721]
+\includegraphics[bb=63 631 202 721]{msort_gen}% [... 721]
 \caption{\(\sum_{j=0}^{r}2^{e_j}\) clés}
 \label{fig:msort_gen}
 \end{wrapfigure}
@@ -1828,13 +1828,13 @@ la branche descendant à droite, c'est-à-dire les n{\oe}uds à partir de
 la racine, \(2^{e_r}+ \dots + 2^{e_0}\), jusqu'à \(2^{e_1} +
 2^{e_0}\).\index{arbre!$\sim$ d'interclassement|)} À la
 \fig~\vref{fig:Wn_even}
-\begin{figure}
+\begin{figure}[b]
 \centering
-\subfloat[La somme est \(\protect\OW{\protect\fun{bms}}{n}\)
+\subfloat[La somme des nœuds est \(\protect\OW{\protect\fun{bms}}{n}\)
 \label{fig:w2p}]%
-{\includegraphics[bb=62 602 199 721]{w2p}}
+{\includegraphics[bb=55 602 199 721]{w2p}} % 62 ... ... ...
 \qquad
-\subfloat[La somme est \(\protect\OW{\protect\fun{bms}}{n+1}\)
+\subfloat[La somme des nœuds est \(\protect\OW{\protect\fun{bms}}{n+1}\)
 \label{fig:w2p_succ}]%
 {\includegraphics[bb=71 604 214 721]{w2p_succ}}
 \caption{Arbres de coût maximum pour \(n\)~pair et \(n+1\)}
@@ -1886,48 +1886,60 @@ est identique.
     \fig~\vref{fig:Wn_odd}.
 \begin{figure}[t]
 \centering
-\subfloat[La somme est \(\protect\OW{\protect\fun{bms}}{n}\)
+\subfloat[La somme des nœuds est \(\protect\OW{\protect\fun{bms}}{n}\)
 \label{fig:w2p1}]{%
 \includegraphics{w2p1}}
 \qquad
-\subfloat[La somme est \(\protect\OW{\protect\fun{bms}}{n+1}\)
+\subfloat[La somme des nœuds est \(\protect\OW{\protect\fun{bms}}{n+1}\)
 \label{fig:w2p1_succ}]{%
-\includegraphics[bb=56 602 194 721]{w2p1_succ}}
+\includegraphics[bb=48 602 194 721]{w2p1_succ}} % 56 ... ... ...
 \caption{Arbres de coût maximum pour \(n\)~impair et \(n+1\)}
 \label{fig:Wn_odd}
 \end{figure}
-La somme des expressions non-encadrées à la \fig~\ref{fig:w2p1} est
-\(\OW{\fun{bms}}{n} - \sum_{k=0}^{q-1}\OW{\fun{bms}}{2^k} -
-\sum_{k=2}^{q}2^k + 2((q-1)+(r-q+1)) = \OW{\fun{bms}}{n} -
-\sum_{k=0}^{q-1}((k-1)2^{k}+1) - \sum_{k=2}^{q}2^k + 2r =
-\OW{\fun{bms}}{n} - (q-1)2^q - q + 2r + 1\), en utilisant
-l'équation~\eqref{eq:worst_power} et \(\sum_{k=0}^{q-1}k2^k =
-(q-2)2^{q}+2\). En effet, soit \(S_{q} :=
-\sum_{k=0}^{q-1}{k2^{k-1}}\). Alors \(S_{q} + q2^{q-1} =
-\smash[t]{\sum_{k=1}^{q}{k2^{k-1}}} =
-\smash[t]{\sum_{k=0}^{q-1}{(k+1)2^{k}}} =
-\smash[t]{\sum_{k=0}^{q-1}{k2^{k}}} +
-\smash[t]{\sum_{k=0}^{q-1}{2^{k}}} = 2 \cdot S_{q-1} + 2^{q} - 1\),
-d'où
-     \begin{equation}
-       \abovedisplayskip=4pt
-       \belowdisplayskip=4pt
-       S_{q} = \smash[t]{\textstyle\sum_{k=1}^{q-1}{k2^{k-1}}} = (q-2)2^{q-1} + 1.\label{eq:Sj}
-     \end{equation}
-     La même somme à la \fig~\ref{fig:w2p1_succ}
-     vaut \(\OW{\fun{bms}}{n+1} - \OW{\fun{bms}}{2^q} + (r-q+1) =
-     \OW{\fun{bms}}{n+1} - (q-1)2^{q} - q + r\). Nous égalons ces deux
-     sommes et les simplifions en
-     \begin{equation*}
-       \OW{\fun{bms}}{n+1} = \OW{\fun{bms}}{n} + r + 1=
-       \OW{\fun{bms}}{n} + \nu_n.
-     \end{equation*}
-     En nous souvenant des récurrences~\eqref{def:nu} \vpageref{def:nu} et
-     en posant \(n=2k-1\), cette équation est simplifiée en
-     \begin{equation}
-       \OW{\fun{bms}}{2k} = \OW{\fun{bms}}{2k-1} + \nu_{k-1} + 1.
-       \label{eq:OWbms_2k}
-     \end{equation}
+    La somme des expressions non-encadrées à la \fig~\ref{fig:w2p1} est
+    \begin{multline*}
+      \OW{\fun{bms}}{n} - \sum_{k=0}^{q-1}\OW{\fun{bms}}{2^k} -
+      \sum_{k=2}^{q}2^k + 2((q-1)+(r-q+1))\\
+      \begin{aligned}
+        & = \OW{\fun{bms}}{n} - \sum_{k=0}^{q-1}((k-1)2^{k}+1)
+        - \sum_{k=2}^{q}2^k + 2r\\
+        & = \OW{\fun{bms}}{n} - (q-1)2^q - q + 2r + 1,
+      \end{aligned}
+    \end{multline*}
+    en utilisant l'équation~\eqref{eq:worst_power} et
+    \(\sum_{k=0}^{q-1}k2^k = (q-2)2^{q}+2\). En effet, soit \(S_{q} :=
+    \sum_{k=0}^{q-1}{k2^{k-1}}\). Alors
+    \begin{align*}
+      S_{q} + q2^{q-1} & = \smash[t]{\sum_{k=1}^{q}{k2^{k-1}}}
+      = \smash[t]{\sum_{k=0}^{q-1}{(k+1)2^{k}}} \\
+      & = \smash[t]{\sum_{k=0}^{q-1}{k2^{k}}} + \smash[t]{\sum_{k=0}^{q-1}{2^{k}}}
+      = 2 \cdot S_{q-1} + 2^{q} - 1,
+    \end{align*}
+    d'où
+    \begin{equation}
+      \abovedisplayskip=4pt
+      \belowdisplayskip=4pt
+      S_{q} = \smash[t]{\textstyle\sum_{k=1}^{q-1}{k2^{k-1}}} =
+      (q-2)2^{q-1} + 1.
+      \label{eq:Sj}
+    \end{equation}
+    La même somme à la \fig~\ref{fig:w2p1_succ}
+    vaut
+    \begin{equation*}
+      \OW{\fun{bms}}{n+1} - \OW{\fun{bms}}{2^q} + (r-q+1) =
+      \OW{\fun{bms}}{n+1} - (q-1)2^{q} - q + r.
+    \end{equation*}
+    Nous égalons ces deux sommes et les simplifions en
+    \begin{equation*}
+      \OW{\fun{bms}}{n+1} = \OW{\fun{bms}}{n} + r + 1=
+      \OW{\fun{bms}}{n} + \nu_n.
+    \end{equation*}
+    En nous souvenant des récurrences~\eqref{def:nu} \vpageref{def:nu} et
+    en posant \(n=2k-1\), cette équation est simplifiée en
+    \begin{equation}
+      \OW{\fun{bms}}{2k} = \OW{\fun{bms}}{2k-1} + \nu_{k-1} + 1.
+      \label{eq:OWbms_2k}
+    \end{equation}
 
 \end{itemize}
 D'après les équations~\eqref{eq:OWbms_2k} et~\eqref{eq:OWbms_2k_1},
@@ -1937,7 +1949,7 @@ nous déduisons
 \nu_{k-1} + \nu_k,\quad \OW{\fun{bms}}{2k+2} = \OW{\fun{bms}}{2k} + 2
 \cdot 2^{\rho_k} + 2\nu_k.
 \end{equation*}
-Ces équations sont un moyen suffisant pour calculer les valeurs de
+Ces équations sont un bon moyen pour calculer les valeurs de
 \(\OW{\fun{bms}}{n}\). En sommant les côtés pour des valeurs
 croissantes de la variable~\(k\) donne
 \begin{align}
@@ -2075,15 +2087,23 @@ Alors le discriminant de \(K_p(i) = 0\) est \(\Delta(2^{p+1}) \cdot
 \ln^2 2\). Le discriminant de \(\Delta(x) = 0 \) est négatif, donc
 \(\Delta(x)\) a une racine réelle~\(x_0 \simeq 8.64872\). Puisque le
 coefficient de~\(x^3\) est positif, \(\Delta(x)\) est négatif si \(x <
-x_0\) et positif si \(x > x_0\). Étant donné que \(p \geqslant 3\)
-implique \(2^{p+1} > x_0\), le discriminant\index{discriminant|)} de
-\(K_p(i) = 0\) est positif, ce qui veut dire que \(K_p(i)\) possède
-trois racines réelles distinctes si \(p \geqslant 3\), de même que
-\(\partial^2\Psi/\partial i^2\). Sinon, \(K_p(i)\) a une racine réelle
-si \(0 \leqslant p \leqslant 2\). Avant d'étudier ces deux cas en
-détail, rafraîchissons-nous la mémoire à propos des polynômes
-cubiques. Soient \(\rho_0\), \(\rho_1\) et~\(\rho_2\) les racines de
-\(P(x) = ax^3 + bx^2 + cx + d\). Alors \(P(x) =
+x_0\) et positif si \(x > x_0\).
+\begin{enumerate}
+
+  \item Étant donné que \(p \geqslant 3\) implique \(2^{p+1} > x_0\),
+    le discriminant\index{discriminant|)} de \(K_p(i) = 0\) est
+    positif, ce qui veut dire que \(K_p(i)\) possède trois racines
+    réelles distinctes si \(p \geqslant 3\), de même que
+    \(\partial^2\Psi/\partial i^2\).
+
+  \item Sinon, \(K_p(i)\) a une racine
+    réelle si \(0 \leqslant p \leqslant 2\).
+
+\end{enumerate}
+Avant d'étudier ces deux cas en détail, rafraîchissons-nous la mémoire
+à propos des polynômes cubiques. Soient \(\rho_0\), \(\rho_1\)
+et~\(\rho_2\) les racines du polynôme \(P(x) = ax^3 + bx^2 + cx +
+d\). Alors, sa forme factorisée, puis développée donne \(P(x) =
 a(x-\rho_0)(x-\rho_1)(x-\rho_2) = ax^3 - a(\rho_0+\rho_1+\rho_2)x^2 +
 a(\rho_0\rho_1 + \rho_0\rho_2 + \rho_1 \rho_2)x -
 a(\rho_0\rho_1\rho_2)\), donc \(\rho_0\rho_1\rho_2 = -d/a\).
@@ -2131,7 +2151,7 @@ a(\rho_0\rho_1\rho_2)\), donc \(\rho_0\rho_1\rho_2 = -d/a\).
 \end{itemize}
 Dans tous les cas, nous devons minimiser \(\Psi(p,2^p)\). Nous avons:
 \begin{equation*}
-\Psi(p,2^p) = - \frac{2}{2^p+1} - \sum_{k=0}^{p-1}\frac{1}{2^k+1}.
+  \Psi(p,2^p) = - \frac{1}{2^p+1} - \sum_{k=0}^{p}\frac{1}{2^k+1}.
 \end{equation*}
 Nous vérifions que \(\Psi(p,2^p) > \Psi(p+1,2^{p+1})\), donc la
 fonction décroît aux points entiers et \(a_{\max} = \min_{p >
@@ -2203,9 +2223,9 @@ La dérivation par rapport à~\(p\) produit
 Pour étudier le signe de \(\partial\Phi(p,i)/\partial p\) quand~\(p\)
 varie, définissons
 \begin{equation*}
-\varphi(x,i) := \frac{x}{i\ln 2} \cdot
-                \left.\frac{\partial\Phi}{\partial
-                    p}(p,i)\right|_{p=\lg x}.
+  \varphi(x,i) :=
+    \frac{x}{i\ln 2} \cdot
+    \left.\frac{\partial\Phi}{\partial p}(p,i)\right|_{p=\lg x}.
 \end{equation*}
 Puisque \(x \geqslant 1\) implique \(x/i\ln 2 > 0\) et \(\lg x
 \geqslant 0\), le signe de \(\varphi(x,i)\) quand~\(x \geqslant 1\)
