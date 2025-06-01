@@ -2268,11 +2268,15 @@ entraîne l'existence d'une racine unique~\(\rho > 0\) telle que
 différente). Ainsi, \(\Phi(p,i)\) décroît jusqu'à son minimum, avant
 de croître. (Voir à nouveau la \fig~\vref{fig:phi}.)
 
-De plus, \(\overline\lim_{p \to \infty}\Phi(p,i) = i/(i+1) - \alpha <
-1 - \alpha = \Phi(0,1)\), donc les courbes ont des asymptotes. Puisque
-nous sommes à la recherche du maximum, nous déduisons: \(a'_{\min} =
-\max_{0 < i \leqslant 2^p}\Phi(p,i) = 1 - \alpha \simeq -0.2645\), et
-la constante est \(b'_{\min} = -2a'_{\min} - 1 = 2\alpha - 3 \simeq
+De plus, nous avons la limite
+\begin{equation*}
+  \overline\lim_{p \to \infty}\Phi(p,i) = \frac{i}{i+1} - \alpha <
+  1 - \alpha = \Phi(0,1),
+\end{equation*}
+donc les courbes ont des asymptotes. Puisque nous sommes à la
+recherche du maximum, nous déduisons: \(a'_{\min} = \max_{0 < i
+  \leqslant 2^p}\Phi(p,i) = 1 - \alpha \simeq -0.2645\), et la
+constante est \(b'_{\min} = -2a'_{\min} - 1 = 2\alpha - 3 \simeq
 -0.471\). En somme, nous avons trouvé, pour \(n \geqslant 2\),
 \begin{equation}
 n\lg n - \alpha n + (2\alpha - 1) < \OM{\fun{bms}}{n}
@@ -2284,19 +2288,22 @@ interpréter les valeurs de~\(n\) pour lesquelles le majorant est
 approché au plus près, nous devons jeter un autre coup d'{\oe}il à la
 \fig~\vref{fig:phi}. Nous avons \(i/(i+1) - \alpha \to 1 - \alpha\),
 si \(p \to \infty\), mais ceci ne nous dit rien
-sur~\(p\). Malheureusement, comme nous l'avions remarqué plus tôt,
-pour un~\(p\) donné, nous ne savons caractériser
-explicitement~\(i_p\), qui est la valeur de~\(i\) qui maximise
-\(\Phi(p,i)\) (dans les plans perpendiculaires à cette page). Malgré
-tout, les termes linéaires de cet encadrement ne peuvent être
-améliorés. Cela veut dire que le nombre supplémentaire de comparaisons
-dû au tri de \(n=2^p+i\) clés au lieu de~\(2^p\) est au
-plus~\(n\). Comme c'était déjà le cas avec le tri par interclassement
-descendant, des mathématiques approfondies par
-\cite{PannyProdinger_1995} montrent que \(\OM{\fun{bms}}{n} = n\lg n +
-B^*(\lg n) \cdot n\)\index{bms@$\OM{\fun{bms}}{n}$}, où \(B^*\)~est
-une fonction continue, non-dérivable et périodique, dont la valeur
-moyenne est environ \(-0.965\). Trivialement, nous avons
+sur~\(p\).
+
+Malheureusement, comme nous l'avions remarqué plus tôt, pour un~\(p\)
+donné, nous ne savons caractériser explicitement~\(i_p\), qui est la
+valeur de~\(i\) qui maximise \(\Phi(p,i)\) (dans les plans
+perpendiculaires à cette page). Malgré tout, les termes linéaires de
+cet encadrement ne peuvent être améliorés. Cela veut dire que le
+nombre supplémentaire de comparaisons dû au tri de \(n=2^p+i\) clés au
+lieu de~\(2^p\) est au plus~\(n\).
+
+Comme c'était déjà le cas avec le tri par interclassement descendant,
+des mathématiques approfondies par \cite{PannyProdinger_1995} montrent
+que \(\OM{\fun{bms}}{n} = n\lg n + B^*(\lg n) \cdot
+n\)\index{bms@$\OM{\fun{bms}}{n}$}, où \(B^*\)~est une fonction
+continue, non-dérivable et périodique, dont la valeur moyenne est
+environ \(-0.965\). Trivialement, nous avons
 \begin{equation*}
 \OM{\fun{bms}}{n} \sim n\lg n \sim \OW{\fun{bms}}{n} \sim 2 \cdot
 \OB{\fun{bms}}{n}.
@@ -2344,24 +2351,34 @@ aisément visualisé par un arbre\index{arbre!$\sim$
 les traces d'évaluation sont conformes à ces arbres
 d'interclassement. Nous montrons à la \fig~\vref{fig:bms} la
 définition de la fonction de tri \fun{bms/1}\index{bms@\fun{bms/1}} et
-de plusieurs auxiliaires. L'appel
-\(\fun{solo}(s)\)\index{solo@\fun{solo/1}} s'évalue en une pile
-contenant des singletons avec toutes les clés de~\(s\) dans le même
-ordre. En d'autres termes, il s'agit des feuilles de l'arbre
-d'interclassement. L'appel \(\fun{all}(u)\)\index{all@\fun{all/1}}
-s'évalue en une pile contenant les interclassements des piles
-adjacentes dans~\(u\). Dit encore autrement, il s'agit du niveau juste
-au-dessus de~\(u\) dans l'arbre d'interclassement. L'appel
-\(\fun{all}(\fun{solo}(s))\), quant à lui, calcule la pile ordonnée
-correspondant à la pile de singletons~\(\fun{solo}(s)\), c'est-à-dire,
-en commençant par les feuilles, il construit les niveaux de plus en
-plus haut en faisant appel à \fun{mrg/2}\index{mrg@\fun{mrg/2}},
-jusqu'à atteindre la racine. La beauté de ce programme est qu'il n'y a
-pas besoin de deux phases distinctes, d'abord construire les arbres
-des interclassements équilibrés et puis effectuer les interclassement
-déséquilibrés à partir des racines de ceux-ci: il est possible de
-parvenir au même résultat en procédant vers la droite et vers le haut
-d'une manière uniforme.  \index{arbre!$\sim$ d'interclassement|)}
+de plusieurs auxiliaires.
+
+\begin{itemize}
+
+  \item L'appel \(\fun{solo}(s)\)\index{solo@\fun{solo/1}} s'évalue en
+    une pile contenant des singletons avec toutes les clés de~\(s\)
+    dans le même ordre. En d'autres termes, il s'agit des feuilles de
+    l'arbre d'interclassement.
+
+  \item L'appel \(\fun{all}(u)\)\index{all@\fun{all/1}} s'évalue en
+    une pile contenant les interclassements des piles adjacentes
+    dans~\(u\). Dit encore autrement, il s'agit du niveau juste
+    au-dessus de~\(u\) dans l'arbre d'interclassement.
+
+  \item L'appel \(\fun{all}(\fun{solo}(s))\), quant à lui, calcule la
+    pile ordonnée correspondant à la pile de
+    singletons~\(\fun{solo}(s)\), c'est-à-dire, en commençant par les
+    feuilles, il construit les niveaux de plus en plus haut en faisant
+    appel à \fun{mrg/2}\index{mrg@\fun{mrg/2}}, jusqu'à atteindre la
+    racine.
+
+\end{itemize}
+La beauté de ce programme est qu'il n'y a pas besoin de deux phases
+distinctes, d'abord construire les arbres des interclassements
+équilibrés et puis effectuer les interclassement déséquilibrés à
+partir des racines de ceux-ci: il est possible de parvenir au même
+résultat en procédant vers la droite et vers le haut d'une manière
+uniforme.\index{arbre!$\sim$ d'interclassement|)}
 
 \paragraph{Coût supplémentaire}
 
@@ -2369,7 +2386,7 @@ Pour déterminer le coût
 \(\C{\fun{bms}}{n}\)\index{bms@$\C{\fun{bms}}{n}$} nous avons besoin
 d'ajouter au nombre de comparaisons le nombre de réécritures qui
 n'impliquent pas de comparaisons, c'est-à-dire, autres que par les
-règles \(\kappa\)~et~\(\lambda\).
+règles~\(\kappa\) et~\(\lambda\).
 \begin{itemize}
 
 \item Les règles \(\theta\)~et~\(\iota\) sont utilisées une fois pour
@@ -2424,6 +2441,8 @@ règles \(\kappa\)~et~\(\lambda\).
     Cette récurrence équivaut à la forme close \(\Lambda(j) =
     \ceiling{n/2^j}\), en conséquence du théorème suivant.
 
+    \medskip
+
 \begin{thm}[Parties entières par excès et fractions]
 \label{thm_ceilings}
 \textsl{Soit \(x\)~un nom\-bre réel et \(q\)~un entier naturel. Alors
@@ -2476,10 +2495,10 @@ règles \(\kappa\)~et~\(\lambda\).
     \end{equation*}
     Donc, \(\ceiling{n/2^z} = 1\) équivaut à \(z=m-1\) si
     \(n=2^{m-1}\), et \(z=m\) sinon. L'équation~\eqref{eq:e_r}
-    \vpageref{eq:e_r} stipule \(m = \floor{\lg n} + 1\), donc
-    \(z=\floor{\lg n}\) si \(n\)~est une puissance de~\(2\), et
-    \(z=\floor{\lg n} + 1\) sinon. Plus simplement, ceci signifie que
-    \(z=\ceiling{\lg n}\).
+    \vpageref{eq:e_r} stipule \(m = \floor{\lg n} + 1\), et par
+    conséquent \(z=\floor{\lg n}\) si \(n\)~est une puissance
+    de~\(2\), et \(z=\floor{\lg n} + 1\) sinon. Plus simplement, ceci
+    signifie que \(z=\ceiling{\lg n}\).
 
   \item La règle~\(\rho\) est utilisée une fois, à la racine. La
     règle~\(\sigma\) est employée \(z\)~fois.
@@ -2504,7 +2523,7 @@ deuxième niveau de l'arbre d'interclassement\index{arbre!$\sim$
 \index{mrg@\fun{mrg/2}} Considérons le programme à la
 \fig~\vref{fig:bms0}, où \fun{solo/1}\index{solo@\fun{solo/1}} a
 été remplacée par~\fun{duo/1}\index{duo@\fun{duo/1}}.
-\begin{figure}[!b]
+\begin{figure}
 \begin{equation*}
 \boxed{%
 \begin{array}{r@{\;}l@{\;}l@{\;}l}
@@ -2567,9 +2586,9 @@ mettent en relation le coût de ces deux algorithmes.
 Le coût minimum des deux variantes du tri par interclassement est le
 même: \(\OB{\fun{tms}}{n} = \OB{\fun{bms}}{n}\) et
 \begin{equation*}
-\tfrac{1}{2}n\lg n - \left(\tfrac{1}{2}\lg\tfrac{4}{3}\right)n + \lg\tfrac{4}{3}
-\leqslant \OB{\fun{tms}}{n} \leqslant
-\tfrac{1}{2}n\lg n.
+\frac{1}{2}n\lg n - \left(\frac{1}{2}\lg\frac{4}{3}\right)n +
+\lg\frac{4}{3} \leqslant \OB{\fun{tms}}{n} \leqslant \frac{1}{2}n\lg
+n.
 \end{equation*}
 Le minorant est atteint si \(n=2\) et est approché au plus près quand
 \(n\)~est un nombre de Jacobsthal\index{Jacobsthal!nombre de $\sim$}
@@ -2599,7 +2618,7 @@ Nous avons déjà remarqué \(\OC{\fun{bms}}{2^p} =
 \OC{\fun{tms}}{2^p}\), d'où \(\OW{\fun{bms}}{2^p} =
 \OW{\fun{tms}}{2^p}\). Par ailleurs, \(\OW{\fun{bms}}{2^p} =
 \OW{\fun{bms}}{2^p-1} + p\), donc \(\OW{\fun{bms}}{2^p-1} =
-\OW{\fun{tms}}{2^p-1}\). Une autre valeur intéressante est
+\OW{\fun{tms}}{2^p-1}\). Un autre cas intéressant est
 \(\OW{\fun{tms}}{2^p+1} = (p-1)2^p + p + 2\), donc
 \(\OW{\fun{bms}}{2^p+1} - \OW{\fun{tms}}{2^p+1} = 2^p - p - 1\). Ceci
 nous incite à conjecturer l'encadrement suivant, aux bornes
@@ -2641,24 +2660,32 @@ Prouvons, pour tout \(n \geqslant 0\),
 Par~\eqref{eq:2p}, il est clair que \(\pred{W\(_L\)}{2^0}\) est
 vraie. Soit l'hypothèse d'induction \(\forall m \leqslant
 2^p.\pred{W\(_L\)}{m}\). Le principe d'induction exige que nous
-prouvions alors \(\pred{W\(_L\)}{2^p+i}\), pour tout \(0 < i < 2^p\).
+prouvions alors \(\pred{W\(_L\)}{2^p+i}\), pour tout \(0 < i <
+2^p\).
 
-\noindent Des équations \eqref{eq:bot} \& \eqref{eq:2p}
-vient\index{bms@$\OW{\fun{bms}}{n}$} \(\OW{\fun{bms}}{2^p+i} =
-\OW{\fun{bms}}{2^p} + \OW{\fun{bms}}{i} + 2^p + i - 1 =
-\OW{\fun{tms}}{2^p} + \OW{\fun{bms}}{i} + 2^p + i - 1 \geqslant
-\OW{\fun{tms}}{2^p} + \OW{\fun{tms}}{i} + 2^p + i - 1\), l'inégalité
-étant l'instance \(\pred{W\(_L\)}{i}\) de l'hypothèse d'induction.
-Par conséquent, si l'inégalité \(\OW{\fun{tms}}{2^p} +
+\noindent Des équations \eqref{eq:bot} et \eqref{eq:2p}, il vient
+\index{bms@$\OW{\fun{bms}}{n}$}
+\begin{align*}
+\OW{\fun{bms}}{2^p+i} &=
+\OW{\fun{bms}}{2^p} + \OW{\fun{bms}}{i} + 2^p + i - 1\\
+& = \OW{\fun{tms}}{2^p} + \OW{\fun{bms}}{i} + 2^p + i - 1 \geqslant
+\OW{\fun{tms}}{2^p} + \OW{\fun{tms}}{i} + 2^p + i - 1,
+\end{align*}
+l'inégalité étant l'instance \(\pred{W\(_L\)}{i}\) de l'hypothèse
+d'induction.  Par conséquent, si l'inégalité \(\OW{\fun{tms}}{2^p} +
 \OW{\fun{tms}}{i} + 2^p + i - 1 \geqslant \OW{\fun{tms}}{2^p+i}\) est
 vraie, alors le résultat \(\pred{W\(_L\)}{2^p+i}\) s'ensuit. Essayons
 donc de prouver cette condition suffisante.
 
-Soit \(n = 2^p + i\). Alors \(p = \floor{\lg n}\) et \(\ceiling{\lg n}
-= \floor{\lg n} + 1\). L'équation~\eqref{eq:top} \vpageref{eq:top}
-implique \(\OW{\fun{tms}}{2^p+i} =
-(2^p+i)(p+1)-2^{p+1}+1=((p-1)2^p+1)+(p+1)i = \OW{\fun{tms}}{2^p} +
-(p+1)i\). Par conséquent, nous avons seulement besoin de prouver que
+Soit \(n = 2^p + i\). Alors on a \(p = \floor{\lg n}\) et
+\(\ceiling{\lg n} = \floor{\lg n} + 1\). L'équation~\eqref{eq:top}
+\vpageref{eq:top} implique
+\begin{align*}
+\OW{\fun{tms}}{2^p+i} &=
+(2^p+i)(p+1)-2^{p+1}+1 = ((p-1)2^p+1)+(p+1)i\\
+&= \OW{\fun{tms}}{2^p} + (p+1)i.
+\end{align*}
+Par conséquent, nous avons seulement besoin de prouver que
 \(pi \leqslant \OW{\fun{tms}}{i} + 2^p - 1\). En employant
 l'équation~\eqref{eq:top}, cette inégalité équivaut à
 \begin{equation}
