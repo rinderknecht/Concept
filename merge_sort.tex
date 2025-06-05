@@ -2816,7 +2816,7 @@ avons\index{bms@$\OW{\fun{bms}}{n}$}\index{tms@$\OW{\fun{tms}}{n}$}
 \OW{\fun{tms}}{2^p} &= (p-1)2^p + 1,\\
 \OW{\fun{tms}}{2^p+i} &= \OW{\fun{tms}}{2^p} + (p+1)i.
 \end{align*}
-L'inégalité à prouver devient \(\OW{\fun{tms}}{i} + i - \ceiling{\lg i} \leqslant (p+1)i - p\), ou bien
+L'inégalité à prouver devient \(\OW{\fun{tms}}{i} + i - \ceiling{\lg i} \leqslant (p+1)i - p\), soit
 \begin{equation}
 1 \leqslant (i-1)(p-\ceiling{\lg i}) + 2^{\ceiling{\lg i}}.
 \label{eq:conj2}
@@ -2844,12 +2844,15 @@ Nous avons deux cas complémentaires à considérer:
     est vraie au sens strict (pas d'égalité).\hfill\(\Box\)
 
 \end{itemize}
-En passant, nous avons aussi prouvé que si \(i=1\), c'est-à-dire,
-\(n=2^p + 1\), alors \(\OW{\fun{bms}}{2^p+1} = \OW{\fun{tms}}{2^p} +
+En passant, nous avons aussi prouvé que si \(i=1\), soit \(n=2^p +
+1\), alors
+\begin{equation*}
+\OW{\fun{bms}}{2^p+1} = \OW{\fun{tms}}{2^p} +
 \OW{\fun{bms}}{1} + 2^p \leqslant \OW{\fun{tms}}{2^p} +
-\OW{\fun{tms}}{1} + 2^p = \OW{\fun{tms}}{2^p+1} + 2^p - p - 1\). Mais,
-puisque \(\OW{\fun{tms}}{1} = \OW{\fun{bms}}{1} = 0\), l'inégalité
-restante est en fait une égalité. En conclusion,
+\OW{\fun{tms}}{1} + 2^p = \OW{\fun{tms}}{2^p+1} + 2^p - p - 1.
+\end{equation*}
+Mais, puisque \(\OW{\fun{tms}}{1} = \OW{\fun{bms}}{1} = 0\),
+l'inégalité restante est en fait une égalité. En conclusion,
 \begin{equation*}
 \boxed{\OW{\fun{bms}}{n} = \OW{\fun{tms}}{n} + n - \ceiling{\lg n} - 1
   \Leftrightarrow n=1 \;\text{ou}\; n=2^p+1, \text{avec \(p \geqslant
@@ -2876,7 +2879,7 @@ bits de~\(n\), soit \(\C{\fun{exp2}}{n} = \floor{\lg n} + 2\), sinon
 
 En somme, nous avons établi, pour \(n \geqslant 2\),
 \begin{align*}
-n\lg n - \tfrac{3}{2}n + 2 &< \OM{\fun{tms}}{n} < n\lg n - n + 1,\\
+n\lg n - \frac{3}{2}n + 2 &< \OM{\fun{tms}}{n} < n\lg n - n + 1,\\
 n\lg n - \alpha n + (2\alpha - 1) &< \OM{\fun{bms}}{n}
 < n\lg n - (\alpha - 1)n - (3 - 2\alpha),
 \end{align*}
@@ -2959,10 +2962,10 @@ n'avons besoin que de trois cas: \((2p,2q)\), \((2p,2q+1)\) et
       \OM{\fun{tms}}{p+q} \leqslant \OM{\fun{tms}}{p} +
       \OM{\fun{tms}}{q} + p + q - \frac{p}{q+1} - \frac{q}{p+1}.
     \end{equation*}
-    Donc \(\tfrac{1}{2}r \geqslant \OM{\fun{tms}}{p+q} + p + q - 2 +
+    Donc \(r/2 \geqslant \OM{\fun{tms}}{p+q} + p + q - 2 +
     \tfrac{q+1}{p+1} + \tfrac{p+1}{q+1} - \tfrac{p}{2q+1} -
     \tfrac{q}{2p+1}\). Si le membre droit est supérieur ou égal à
-    \(\tfrac{1}{2}\OM{\fun{tms}}{m+n}\), alors \(\pred{T}{m,n}\) est
+    \(\OM{\fun{tms}}{m+n}/2\), alors \(\pred{T}{m,n}\) est
     prouvé. En d'autres termes, nous devons établir
     \begin{equation*}
       \frac{p+1}{q+1} + \frac{q+1}{p+1} \geqslant 1 +
@@ -3125,21 +3128,26 @@ obtenu l'encadrement~\eqref{ineq:bounds_Mbms}
 (n^2 + 13n - \ln 2n + 10)/8 < \M{\fun{i2wb}}{n} < (n^2 + 13n - \ln 2n + 17)/8.
 \end{equation*}
 où \(\alpha \simeq 1.2645\) et \(\ceiling{x} < x + 1\). Donc,
-\((n+2)\lg n + 1.236n + 1.529 < (n^2 + 13n - \ln 2n + 10)/8\) implique
-\(\M{\fun{bms\(_0\)}}{n} < \M{\fun{i2wb}}{n}\), et aussi l'inégalité
-\((n^2 + 13n - \ln 2n + 17)/8 < (n+2)\lg n + 0.152n + 0.69\) entraîne
-la relation \(\M{\fun{i2wb}}{n} < \M{\fun{bms\(_0\)}}{n}\). Avec
-l'aide d'un système de calcul formel, nous trouvons que
-\(\M{\fun{bms\(_0\)}}{n} < \M{\fun{i2wb}}{n}\) si \(n \geqslant 43\),
-et \(\M{\fun{i2wb}}{n} < \M{\fun{bms\(_0\)}}{n}\) si \(3 \leqslant n
-\leqslant 29\). Pour le cas \(n=2\), nous avons: \(\M{\fun{i2wb}}{2} =
-11/2 > 5 = \M{\fun{bms\(_0\)}}{2}\). Si nous laissons de côté ce cas
-particulier, nous pouvons conclure que le tri par insertion est plus
-rapide, en moyenne, pour des piles de moins de \(30\)~clés, et le
-contraire est vrai pour des piles d'au moins \(43\)~clés. Entre-deux,
-nous ne savons rien, mais nous pouvons calculer efficacement les coûts
-moyens et procéder par dichotomie sur l'intervalle de~\(30\)
-à~\(43\).
+\begin{equation*}
+  (n+2)\lg n + 1.236n + 1.529 < (n^2 + 13n - \ln 2n + 10)/8
+\end{equation*}
+implique \(\M{\fun{bms\(_0\)}}{n} < \M{\fun{i2wb}}{n}\), et aussi
+l'inégalité
+\begin{equation*}
+  (n^2 + 13n - \ln 2n + 17)/8 < (n+2)\lg n + 0.152n + 0.69
+\end{equation*}
+entraîne la relation \(\M{\fun{i2wb}}{n} <
+\M{\fun{bms\(_0\)}}{n}\). Avec l'aide d'un système de calcul formel,
+nous trouvons que \(\M{\fun{bms\(_0\)}}{n} < \M{\fun{i2wb}}{n}\) si
+\(n \geqslant 43\), et \(\M{\fun{i2wb}}{n} < \M{\fun{bms\(_0\)}}{n}\)
+si \(3 \leqslant n \leqslant 29\). Pour le cas \(n=2\), nous avons:
+\(\M{\fun{i2wb}}{2} = 11/2 > 5 = \M{\fun{bms\(_0\)}}{2}\). Si nous
+laissons de côté ce cas particulier, nous pouvons conclure que le tri
+par insertion est plus rapide, en moyenne, pour des piles de moins de
+\(30\)~clés, et le contraire est vrai pour des piles d'au moins
+\(43\)~clés. Entre-deux, nous ne savons rien, mais nous pouvons
+calculer efficacement les coûts moyens et procéder par dichotomie sur
+l'intervalle de~\(30\) à~\(43\).
 
 En utilisant le programme \Erlang ci-dessus, nous trouvons rapidement
 que le tri par insertion est battu le plus tôt par le tri par
@@ -3197,7 +3205,9 @@ variante; il montre qu'elle peut être efficacement programmée avec des
 structures de données purement fonctionnelles, tout comme la version
 hors ligne. (Remarquons que le contexte dans lequel il écrit est
 néanmoins différent du nôtre car il suppose une évaluation paresseuse
-et procède à une analyse du coût amorti.)
+et procède à une analyse du coût amorti.) Le tri hors ligne est
+utilisé dans la bibliothèque de référence de l'assistant de preuve
+\index{Coq@\textsf{Coq}} \textsf{Coq} \citep{BertotCasteran_2004}.
 
 Notre programme est montré à la \fig~\ref{fig:oms}\index{tri par
   interclassement!$\sim$ en ligne!programme}.
@@ -3393,15 +3403,20 @@ n\).\index{sum@$\OB{\fun{sum}}{n}$}
 \noindent Grâce à~\eqref{eq:best_merge} \&~\eqref{eq:cost_unb} on a
 \(\OB{\fun{unb}}{n} = \sum_{i=1}^{r}{\min\{2^{e_i},2^{e_{i-1}} + \dots
   + 2^{e_0}\}}\)\index{unb@$\OB{\fun{unb}}{n}$|(}. Commençons par
-noter que \(\sum_{j=0}^{i}{2^{e_j}} \leqslant \sum_{j=0}^{e_i}{2^j} =
-2 \cdot 2^{e_i} - 1\). Ceci équivaut au fait qu'un nombre binaire
-donné est toujours inférieur ou égal au nombre avec le même nombre de
-bits tous à~\(1\), par exemple, \((10110111)_2 \leqslant
-(11111111)_2\). Par définition de~\(e_i\), nous avons \(e_{i-1} + 1
-\leqslant e_i\), donc \(\sum_{j=0}^{i-1}{2^{e_j}} \leqslant
-2^{e_{i-1}+1} - 1 \leqslant 2^{e_i} - 1 < 2^{e_i}\) et
-\(\min\{2^{e_i},2^{e_{i-1}} + \dots + 2^{e_0}\} = 2^{e_{i-1}} + \dots
-+ 2^{e_0}\). Nous avons alors
+noter que
+\begin{equation*}
+  \sum_{j=0}^{i}{2^{e_j}} \leqslant \sum_{j=0}^{e_i}{2^j} = 2 \cdot
+  2^{e_i} - 1.
+\end{equation*}
+Ceci équivaut au fait qu'un nombre binaire donné est toujours
+inférieur ou égal au nombre avec le même nombre de bits tous à~\(1\),
+par exemple, \((10110111)_2 \leqslant (11111111)_2\). Par définition
+de~\(e_i\), on a \(e_{i-1} + 1 \leqslant e_i\), donc
+\begin{equation*}
+  \sum_{j=0}^{i-1}{2^{e_j}} \leqslant 2^{e_{i-1}+1} - 1 \leqslant 2^{e_i} - 1 < 2^{e_i}
+\end{equation*}
+et \(\min\{2^{e_i},2^{e_{i-1}} + \dots + 2^{e_0}\} = 2^{e_{i-1}} +
+\dots + 2^{e_0}\). Nous avons alors
 \begin{equation}
 \OB{\fun{unb}}{n} = \sum_{i=1}^{r}\sum_{j=0}^{i-1}{2^{e_j}} < n.
 \label{ineq:OBunb}
@@ -3437,22 +3452,24 @@ nombre binaire (car \(j\)~décrit les entiers successifs). Ceci revient
 \begin{itemize}
 
   \item Supposons d'abord que \(2n+1 = (\Xi 01^a)_2\), où \(\Xi\)~est
-  une chaîne de bits arbitraire et \((1^a)_2\)~est une chaîne de~\(1\)
-  répétés \(a\)~fois. Alors \(\nu_{2n+1} = \nu_{\Xi} + a\) et
-  \(\rho_{2n+1} = 0\).
+    une chaîne de bits arbitraire et \((1^a)_2\)~est une chaîne
+    de~\(1\) répétés \(a\)~fois. Alors \(\nu_{2n+1} = \nu_{\Xi} + a\)
+    et \(\rho_{2n+1} = 0\).
 
-  \item Supposons \(2n+2 = (\Xi 10^a)_2\), donc \(\nu_{2n+2} = \nu_{\Xi}
-  + 1\) et \(\rho_{2n+2} = a\). Nous pouvons maintenant mettre en
-  relation \(\rho\)~et~\(\nu\) grâce à~\(a\) pour \(2n+2\):
-  \(\rho_{2n+2} = \nu_{2n+1} - \nu_{\Xi} = \nu_{2n+1} - (\nu_{2n+2} -
-  1) = 1 + \nu_{2n+1} - \nu_{2n+2}\). Nous pouvons vérifier que le
-  même motif se répète avec~\(\rho_{2n+1}\) en usant simplement des
-  définitions de \(\rho\)~et~\(\nu\): \(\rho_{2n+1} = 1 + \nu_{2n} -
-  \nu_{2n+1}\).
+  \item Supposons \(2n+2 = (\Xi 10^a)_2\), donc \(\nu_{2n+2} =
+    \nu_{\Xi} + 1\) et \(\rho_{2n+2} = a\). Nous pouvons maintenant
+    mettre en relation \(\rho\)~et~\(\nu\) grâce à~\(a\):
+    \begin{equation*}
+      \rho_{2n+2} = \nu_{2n+1} - \nu_{\Xi} = \nu_{2n+1} - (\nu_{2n+2} - 1)
+      = 1 + \nu_{2n+1} - \nu_{2n+2}.
+    \end{equation*}
+    Nous pouvons vérifier la répétition du même motif
+    avec~\(\rho_{2n+1}\), avec simplement les définitions de
+    \(\rho\)~et~\(\nu\): \(\rho_{2n+1} = 1 + \nu_{2n} - \nu_{2n+1}\).
 
 \end{itemize}
 Ceci termine la preuve, pour tout entier \(n>0\), que \(\rho_n = 1 +
-\nu_{n-1} - \nu_{n}\). En sommant les membres, nous obtenons
+\nu_{n-1} - \nu_{n}\). En sommant membre à membre, nous obtenons
 \begin{equation*}
 \sum_{j=1}^{p}{\rho_j} = p - \nu_p.
 \end{equation*}
