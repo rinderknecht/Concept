@@ -221,7 +221,7 @@ règle~\(\gamma\) est
 Étant donnés un nombre \(\Gamma\) de n{\oe}uds \fun{cat},
 \(n\)~n{\oe}uds qui ne sont pas des piles (\(x_1\), \dots, \(x_n\)),
 quels sont les arbres de syntaxe abstraite conduisant à un extremum du
-coût? Nous avons trouvé que le coût minimum de
+coût? Nous avons trouvé que le coût minimal de
 \fun{cat/2}\index{cat@\fun{cat/2}} est obtenu lorsque tous les
 n{\oe}uds \fun{cat} constituent la \emph{branche}\index{arbre!branche}
 la plus à droite dans l'arbre de syntaxe abstraire. (Une branche est
@@ -235,24 +235,24 @@ minimale est montrée à la \fig~\ref{fig:cat_min1}
 \quad
 \subfloat[Si \(\Omega < \Gamma\), le minimum est \(2\Gamma-\Omega\).
 \label{fig:cat_min2}]{\includegraphics[bb=70 643 230 721]{cat_min2}}
-\caption{Coûts minimums pour la concaténation avec \fun{flat\(_0\)/1}}
+\caption{Coûts minimaux pour la concaténation avec \fun{flat\(_0\)/1}}
 \label{fig:cat_min}
 \end{figure}
 (au moins une pile vide doit être placée dans toute pile non-vide dont
 l'aplatissement résulte en une pile vide). Sinon, l'arbre de syntaxe
-abstraite de coût minimum est donné à la \fig~\ref{fig:cat_min2}, où
+abstraite de coût minimal est donné à la \fig~\ref{fig:cat_min2}, où
 toutes les piles vides disponibles (\(\Omega\)) sont utilisées par les
 n{\oe}uds \fun{cat} les plus profonds. Nous en concluons que le coût
-minimum\index{pile!aplatissement!coût minimum}
+minimal\index{pile!aplatissement!coût minimal}
 est\index{flat0@$\B{\fun{flat}_0}{n}$}
 \(\B{\fun{flat}_0}{n,\Omega,\Gamma} = 1 + n + \Omega + 3\Gamma +
 \min\{\Omega,\Gamma\}\).
 
-Le coût maximum\index{pile!aplatissement!coût maximum} à la
+Le coût maximal\index{pile!aplatissement!coût maximal} à la
 \fig~\ref{fig:cat_max}
 \begin{figure}
 \centering
-\subfloat[Coût maximum \((n+1)\Gamma\)\label{fig:cat_max}]{
+\subfloat[Coût maximal \((n+1)\Gamma\)\label{fig:cat_max}]{
 \includegraphics[bb=71 660 188 721]{cat_max}}
 \qquad
 \subfloat[$\protect\fun{flat}(\cons{\cons{x}{s}}{t})$\label{fig:lift1}]%
@@ -260,7 +260,7 @@ Le coût maximum\index{pile!aplatissement!coût maximum} à la
 \qquad
 \subfloat[$\protect\fun{flat}(\cons{x,s}{t})$\label{fig:lift2}]%
 {\includegraphics[bb=57 661 120 721]{flat_lift}}
-\caption{Coût maximum et rotation à droite}
+\caption{Coût maximal et rotation à droite}
 \end{figure}
 se présente pour le symétrique de l'arbre à la
 \fig~\ref{fig:cat_min1}. Nous

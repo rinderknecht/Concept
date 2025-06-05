@@ -103,8 +103,8 @@ de~\fun{rcat/2}\index{rcat@\fun{rcat/2}}. Nous dirons que la file a
 pour taille~\(n\) si le nombre total d'éléments dans les deux piles
 est~\(n\).  Le coût de l'enfilage\index{enq@$\C{\fun{enq}}{n}$} est
 \(\C{\fun{enq}}{n} = 1\). Le coût
-minimum\index{deq@$\B{\fun{deq}}{n}$} du défilage est
-\(\B{\fun{deq}}{n} = 1\), dû à la règle~\(\iota\). Le coût maximum est
+minimal\index{deq@$\B{\fun{deq}}{n}$} du défilage est
+\(\B{\fun{deq}}{n} = 1\), dû à la règle~\(\iota\). Le coût maximal est
 \begin{equation}
   \W{\fun{deq}}{n} = \len{\theta\eta^{n-1}\zeta\iota} = 1 + (n-1)
 + 1 + 1 = n + 2. \label{eq:Wdeq}
@@ -112,7 +112,7 @@ minimum\index{deq@$\B{\fun{deq}}{n}$} du défilage est
 Soit~\(\A{n}\) le coût d'une série de \(n\)~mises à jour d'une file
 fonctionnelle originellement vide. Une première tentative pour
 trouver~\(\A{n}\) consiste à ignorer toute dépendance entre opérations
-et à cumuler leur coût individuel maximum. Puisque \(\C{\fun{enq}}{k}
+et à cumuler leur coût individuel maximal. Puisque \(\C{\fun{enq}}{k}
 \leqslant \C{\fun{deq}}{k}\), nous supposons une série de
 \(n\)~défilages dans le pire des cas, c'est-à-dire, avec tous les
 éléments situés dans la pile arrière. D'ailleurs, après \(k\)~mises à
@@ -142,7 +142,7 @@ coût sera alors~\(1\).
 De plus, comme nous l'avons remarqué plus haut, \(\C{\fun{enq}}{k}
 \leqslant \C{\fun{deq}}{k}\), donc le pire des cas pour une suite de
 \(n\)~opérations se présente lorsque le nombre de défilages est
-maximum et vaut donc \(\lfloor{n/2}\rfloor\). Si nous dénotons
+maximal et vaut donc \(\lfloor{n/2}\rfloor\). Si nous dénotons
 par~\(e\) le nombre d'enfilages et par~\(d\) le nombre de défilages,
 nous avons la relation triviale \(n = e + d\) et les deux prérequis
 pour le pire des cas deviennent \(e=d\) (\(n\)~pair) ou \(e=d+1\)
@@ -245,7 +245,7 @@ ont toujours un coût unitaire et les défilages impliqués dans un
 réordonnancement ont aussi un coût unitaire, parce qu'ils trouvent la
 pile frontale non-vide après un sommet. Nous avons prouvé que tous les
 chemins sont équivalents à une chaîne de montagnes de même coût, donc
-le coût maximum peut être recherché parmi les chaînes uniquement.
+le coût maximal peut être recherché parmi les chaînes uniquement.
 
 Notons \(e_1, e_2, \dots, e_k\) les sous-séquences contiguës maximales
 de montées; par exemple, à la \fig~\ref{fig:dyck_eq}, nous avons
@@ -260,13 +260,13 @@ pas vide. Donc, la \(i^\text{e}\) montagne a pour coût
 \begin{equation*}
   \A{e,k} = \sum_{i=1}^{k}{(3e_i+1)} = 3e + k.
 \end{equation*}
-Le coût maximum est atteint en maximisant \(\A{e,k}\) pour un~\(e\)
+Le coût maximal est atteint en maximisant \(\A{e,k}\) pour un~\(e\)
 donné:
 \begin{equation*}
 \W{}{e,e} := \max_{1 \leqslant k \leqslant e}{\A{e,k}} = \A{e,e} = 4e
 = 2n,\,\; \text{où \(n=e+d=2e\)},
 \end{equation*}
-où \(\W{}{e,e}\) est le coût maximum quand il y a \(e\)~enfilages et
+où \(\W{}{e,e}\) est le coût maximal quand il y a \(e\)~enfilages et
 \({d=e}\) défilages. En d'autres termes, le pire des cas quand
 \(e=d=7\) est le chemin de Dyck en dents de scie montré à la
 \fig~\vref{fig:max_dyck}.
@@ -326,7 +326,7 @@ envisageons les deux cas suivants.
 \begin{itemize}
 
 \item Si nous avons une chaîne de \(n-1\)~opérations suivies par un
-  enfilage, le coût maximum de la chaîne est le coût d'un chemin de
+  enfilage, le coût maximal de la chaîne est le coût d'un chemin de
   Dyck en dents de scie, \(\W{}{e-1,e-1}=4(e-1)=2n-2\), car
   \(n=e+d=2e-1\), plus le coût d'un enfilage, totalisant donc
   \(2n-1\).

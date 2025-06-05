@@ -566,12 +566,12 @@ coût moyen de quelques algorithmes de tri, tel le \emph{tri par
   interclassement} \cite[\S{}5.2.4]{Knuth_1998}
 \cite[\S{}2.3]{CLRS_2009} ou le \emph{tri par insertion}
 \cite[\S{}5.2.1]{Knuth_1998} \cite[\S{}2.1]{CLRS_2009}, égale, à
-l'asymptote, leur coût maximum, c'est-à-dire que, pour un nombre
+l'asymptote, leur coût maximal, c'est-à-dire que, pour un nombre
 croissant de clés, le ratio des deux coûts approche arbitrairement
 près l'unité\index{coût!$\sim$ asymptotique}. L'ordre de grandeur du
 coût moyen d'autres tris, tel le \emph{tri de Hoare}, connu aussi sous
 le nom de \emph{tri rapide} \cite[\S{}5.2.2]{Knuth_1998}
-\cite[\S{}7]{CLRS_2009}, est inférieur à leur coût maximum, sur une
+\cite[\S{}7]{CLRS_2009}, est inférieur à leur coût maximal, sur une
 échelle asymptotique \cite[\S{}9]{GrahamKnuthPatashnik_1994}.
 
 \paragraph{En ligne par opposition à hors ligne}
@@ -602,16 +602,16 @@ remédié immédiatement, mais ce remède lui-même peut conduire à un état
 tel que les opérations ultérieures sont plus rapides que si la mise à
 jour coûteuse n'avait pas eu lieu. Par conséquent, lorsque nous
 considérerons une suite de mises à jour, il pourrait être trop
-pessimiste de cumuler les coûts maximums de toutes les opérations
+pessimiste de cumuler les coûts maximaux de toutes les opérations
 prises en isolement. À la place, l'\emph{analyse du coût amorti}
 \citep{Okasaki_1998a} \citep[\S{}17]{CLRS_2009}\index{coût!$\sim$
   amorti} prend en compte les interactions entre les mises à jour, de
-telle sorte qu'un coût maximum plus bas est obtenu. Remarquons par
+telle sorte qu'un coût maximal plus bas est obtenu. Remarquons par
 ailleurs que cette sorte d'analyse est intrinsèquement différente de
 l'analyse du coût moyen en ce sens que son objet est la composition de
 différentes fonctions au lieu d'appels indépendants à la même
 fonction, avec différentes données. L'analyse du coût amorti est une
-analyse du coût maximum d'une séquence de mises à jours, non d'une
+analyse du coût maximal d'une séquence de mises à jours, non d'une
 seule.
 
 \paragraph{Analyse agrégeante}
@@ -871,7 +871,7 @@ cas, un ordre lexicographique sur \((m,n) \in \mathbb{N}^2\), étendu à
 \fun{ack}(a_0,b_0) \succ \fun{ack}(a_1,b_1) :\Leftrightarrow
 \text{\(a_0 > a_1\) ou (\(a_0 = a_1\) et \(b_0 > b_1\)).}
 \end{equation*}
-Clairement, \(\fun{ack}(0,0)\) est l'élément minimum. Ensuite, nous
+Clairement, \(\fun{ack}(0,0)\) est l'élément minimal. Ensuite, nous
 devons prouver que \(\fun{ack}(m,n)\), avec \(m > 0\) ou \(n > 0\), se
 réécrit en appels plus petits. Nous n'avons besoin d'examiner que les
 règles~\(\iota\) et~\(\kappa\). Avec la première, nous avons

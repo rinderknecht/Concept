@@ -176,14 +176,14 @@ comparaisons est le nombre de n{\oe}uds avec un arc entrant.
 %\end{figure}
 
 %\addcontentsline{toc}{subsection}{Cost}
-\paragraph{Coût minimum}
+\paragraph{Coût minimal}
 \label{merge_best_case}
-\index{tri par interclassement!interclassement!coût minimum|(}
+\index{tri par interclassement!interclassement!coût minimal|(}
 
 Il y a deux n{\oe}uds blancs consécutifs sans arcs à l'extrême droite
 de la \fig~\vref{fig:merged}, ce qui suggère que plus il y a de clés
 provenant d'une même pile au fond du résultat, moins il y a eu de
-comparaisons pour l'interclassement: le nombre minimum est atteint
+comparaisons pour l'interclassement: le nombre minimal est atteint
 quand \emph{la pile la plus courte apparaît la première dans le
   résultat} (donc à gauche sur la figure). Considérons l'exemple
 suivant, où le nombre de comparaisons est le nombre de n{\oe}uds
@@ -191,16 +191,16 @@ noirs:
 \begin{center}
 \includegraphics[bb=73 705 292 720]{min_mrg}
 \end{center}
-Le nombre minimum de comparaisons
+Le nombre minimal de comparaisons
 \(\OB{\fun{mrg}}{m,n}\)\index{mrg@$\OB{\fun{mrg}}{m,n}$} pour
 l'interclassement de piles de taille \(m\)~et~\(n\) est donc
 \begin{equation}
 \OB{\fun{mrg}}{m,n} = \min\{m,n\}.\label{eq:best_merge}
 \end{equation}
-\index{tri par interclassement!interclassement!coût minimum|)}
+\index{tri par interclassement!interclassement!coût minimal|)}
 
-\paragraph{Coût maximum}
-\index{tri par interclassement!interclassement!coût maximum|(}
+\paragraph{Coût maximal}
+\index{tri par interclassement!interclassement!coût maximal|(}
 
 Nous pouvons augmenter le nombre de comparaisons par rapport à \(m+n\)
 en ôtant, à la \fig~\vref{fig:merged}, les n{\oe}uds à droite
@@ -209,7 +209,7 @@ en ôtant, à la \fig~\vref{fig:merged}, les n{\oe}uds à droite
 \includegraphics[bb=73 702 258 718]{max_mrg2}
 \end{center}
 Ceci maximise les comparaisons parce tous les n{\oe}uds, sauf le
-dernier (le plus à droite), sont pointés par un arc. Le nombre maximum
+dernier (le plus à droite), sont pointés par un arc. Le nombre maximal
 de comparaisons
 \(\OW{\fun{mrg}}{m,n}\)\index{mrg@$\OW{\fun{mrg}}{m,n}$} est donc
 \begin{equation}
@@ -220,9 +220,9 @@ laisse \(m+n-1\) invariant:
 \begin{center}
 \includegraphics[bb=71 700 260 726]{max_mrg1}
 \end{center}
-donc le nombre maximum de comparaisons se produit quand \emph{les deux
+donc le nombre maximal de comparaisons se produit quand \emph{les deux
   dernières clés dans le résultat proviennent de deux piles.}
-\index{tri par interclassement!interclassement!coût maximum|)}
+\index{tri par interclassement!interclassement!coût maximal|)}
 
 
 \paragraph{Coût moyen}
@@ -618,20 +618,19 @@ En déroulant la récurrence, nous aboutissons à
 \end{equation}
 
 %\addcontentsline{toc}{subsection}{Cost}
-\paragraph{Coût minimum}
-\index{tri par interclassement!puissance@$2^n$ clés!coût minimum|(}
+\paragraph{Coût minimal}
+\index{tri par interclassement!puissance@$2^n$ clés!coût minimal|(}
 
 Quand la pile donnée est déjà triée en ordre croissant ou décroissant,
-le nombre de comparaisons est minimum. En fait, étant donné un arbre
-d'interclassement au nombre minimum de
-comparaisons,\index{arbre!$\sim$ d'interclassement} l'échange de
-n'importe quels sous-arbres dont les racines sont interclassées laisse
-le nombre de comparaisons invariant. La raison en est que l'arbre
-d'interclassement est construit de façon ascendante et le nombre de
-comparaisons est une fonction symétrique.  Notons \(\B{\Join}{p}\) le
-nombre minimum de comparaisons pour trier \(2^p\)~clés. D'après les
-équations \eqref{eq:cost_power_2} et~\eqref{eq:best_merge}, nous avons
-alors
+le nombre de comparaisons est minimal. En fait, étant donné un arbre
+d'interclassement au nombre minimal de comparaisons,
+\index{arbre!$\sim$ d'interclassement} l'échange de n'importe quels
+sous-arbres dont les racines sont interclassées laisse le nombre de
+comparaisons invariant. La raison en est que l'arbre d'interclassement
+est construit de façon ascendante et le nombre de comparaisons est une
+fonction symétrique.  Notons \(\B{\Join}{p}\) le nombre minimal de
+comparaisons pour trier \(2^p\)~clés. D'après les équations
+\eqref{eq:cost_power_2} et~\eqref{eq:best_merge}, nous avons alors
 \begin{equation}
 %\abovedisplayskip=0pt
 %\belowdisplayskip=0pt
@@ -639,15 +638,15 @@ alors
   = 2^{p-1}\!\sum_{k=0}^{p-1}{\frac{1}{2^k}\OB{\fun{mrg}}{2^k,2^k}}
   = p2^{p-1}.\label{eq:best_power}\index{mrg@$\B{\Join}{n}$}
 \end{equation}
-\index{tri par interclassement!puissance@$2^n$ clés!coût minimum|)}
+\index{tri par interclassement!puissance@$2^n$ clés!coût minimal|)}
 
-\paragraph{Coût maximum}
-\index{tri par interclassement!puissance@$2^n$ clés!coût maximum|(}
+\paragraph{Coût maximal}
+\index{tri par interclassement!puissance@$2^n$ clés!coût maximal|(}
 
 Tout comme avec le meilleur des cas, la construction d'un arbre
-d'interclassement avec un nombre maximum de comparaisons exige que
+d'interclassement avec un nombre maximal de comparaisons exige que
 tous les sous-arbres soient aussi dans le pire des cas, par exemple,
-\([7,3,5,1,4,8,6,2]\). Soit~\(\W{\Join}{p}\) le nombre maximum de
+\([7,3,5,1,4,8,6,2]\). Soit~\(\W{\Join}{p}\) le nombre maximal de
 comparaisons pour trier \(2^p\)~clés. D'après les équations
 \eqref{eq:cost_power_2}~et~\eqref{eq:worst_merge},
 \begin{equation}
@@ -658,7 +657,7 @@ comparaisons pour trier \(2^p\)~clés. D'après les équations
   = (p-1)2^p + 1.
 \label{eq:worst_power}\index{mrg@$\W{\Join}{n}$}
 \end{equation}
-\index{tri par interclassement!puissance@$2^n$ clés!coût maximum|)}
+\index{tri par interclassement!puissance@$2^n$ clés!coût maximal|)}
 
 \paragraph{Coût moyen}
 \index{tri par interclassement!puissance@$2^n$ clés!coût moyen|(}
@@ -787,10 +786,10 @@ comparaisons satisfait
 \end{equation}
 
 %\addcontentsline{toc}{subsection}{Cost}
-\mypar{Coût minimum}
-\index{tri par interclassement!$\sim$ descendant!coût minimum|(}
+\mypar{Coût minimal}
+\index{tri par interclassement!$\sim$ descendant!coût minimal|(}
 
-Le nombre minimum de comparaisons vérifie
+Le nombre minimal de comparaisons vérifie
 \begin{equation*}
 %\abovedisplayskip=0pt
 \OB{\fun{tms}}{0} = \OB{\fun{tms}}{1} = 0,
@@ -1247,12 +1246,12 @@ l'analyse réelle et a montré que \(\OB{\fun{tms}}{n} =
 périodique de période~\(1\), continue et nulle part dérivable, et dont
 la série de Fourier montre que sa valeur moyenne est environ
 \(-0.145599\).  \index{tms@$\OB{\fun{tms}}{n}$|)} \index{tri par
-  interclassement!$\sim$ descendant!coût minimum|)}
+  interclassement!$\sim$ descendant!coût minimal|)}
 
-\mypar{Coût maximum}
-\index{tri par interclassement!$\sim$ descendant!coût maximum|(}
+\mypar{Coût maximal}
+\index{tri par interclassement!$\sim$ descendant!coût maximal|(}
 
-Le nombre maximum de comparaisons satisfait
+Le nombre maximal de comparaisons satisfait
 \begin{equation*}
 \OW{\fun{tms}}{0} = \OW{\fun{tms}}{1} = 0,
 \qquad
@@ -1317,8 +1316,8 @@ l'équation~\eqref{eq:e_r}, donc \(\Delta_n = \floor{\lg n} +
 \OW{\fun{tms}}{n} = \sum_{k=1}^{n-1}(\floor{\lg k}+1).
 \label{eq:tms_n_tmp}
 \end{equation}
-Alors que le coût minimum est le nombre de bits à~\(1\) jusqu'à
-\(n-1\), nous voyons maintenant que le coût maximum est le nombre
+Alors que le coût minimal est le nombre de bits à~\(1\) jusqu'à
+\(n-1\), nous voyons maintenant que le coût maximal est le nombre
 total de bits jusqu'à \(n-1\). Cela nous incite à parier que
 \(\OW{\fun{tms}}{n} \sim 2 \cdot \OB{\fun{tms}}{n} \sim n\lg n\), car
 nous nous attendons à ce que le nombre de bits à~\(0\) et à~\(1\)
@@ -1369,7 +1368,7 @@ que \(n = 2^p\) ou non:
     \(\theta'(x) = 1 - 2^x\ln 2\); elle a une racine \(\theta'(x_0) =
     0 \Leftrightarrow x_0 = -\lg\ln 2\); elle est positive
     avant~\(x_0\), et négative après.  Donc \(\theta(x)\) atteint son
-    maximum en~\(x_0\):
+    maximal en~\(x_0\):
     \begin{equation*}
       \max_{0<x\leqslant 1}\theta(x) = \theta(x_0)
       = -(1+\ln\ln{2})/\!\ln{2} \simeq -0.9139,
@@ -1396,7 +1395,7 @@ l'entier le plus proche de \(2^p\ln 2\) (prendre la notation binaire
 de \(\ln 2\), décaler le point décimal (ou virgule) \(p\)~fois vers la
 droite et arrondir). Très clairement, \(\OW{\fun{tms}}{n} \sim n\lg
 n\).\index{tms@$\OW{\fun{tms}}{n}$|)} \index{tri par
-  interclassement!$\sim$ descendant!coût maximum|)}
+  interclassement!$\sim$ descendant!coût maximal|)}
 
 \mypar{Coût moyen}
 \index{tri par interclassement!$\sim$ descendant!coût moyen|(}
@@ -1678,11 +1677,11 @@ longueur de la pile associée, comme on peut en voir un exemple à la
 \fig~\vref{fig:msort_abs}.
 
 %\addcontentsline{toc}{subsection}{Coût}
-\mypar{Coût minimum}
-\index{tri par interclassement!$\sim$ ascendant!coût minimum|(}
+\mypar{Coût minimal}
+\index{tri par interclassement!$\sim$ ascendant!coût minimal|(}
 
 Soit \(\OB{\fun{bms}}{n}\)\index{bms@$\OB{\fun{bms}}{n}$|(} le coût
-minimum pour trier \(n\)~clés de manière ascendante. Soit \(n=2^p+i\),
+minimal pour trier \(n\)~clés de manière ascendante. Soit \(n=2^p+i\),
 avec \(0 < i < 2^p\). Alors, de l'équation~\eqref{eq:cost_bms}
 \vpageref{eq:cost_bms}, et~\eqref{eq:best_merge}
 \vpageref{eq:best_merge}, nous déduisons:
@@ -1710,14 +1709,14 @@ lorsque \(n\)~est un nombre de Jacobsthal\index{Jacobsthal!nombre de
   $\sim$} (voir équations~\eqref{eq:Jacobsthal}
 \vpageref{eq:Jacobsthal}). Le majorant est atteint quand \(n=2^p\).
 \index{bms@$\OB{\fun{bms}}{n}$|)}
-\index{tri par interclassement!$\sim$ ascendant!coût minimum|)}
+\index{tri par interclassement!$\sim$ ascendant!coût minimal|)}
 
 
-\mypar{Coût maximum}
-\index{tri par interclassement!$\sim$ ascendant!coût maximum|(}
+\mypar{Coût maximal}
+\index{tri par interclassement!$\sim$ ascendant!coût maximal|(}
 
 Soit \(\OW{\fun{bms}}{n}\)\index{bms@$\OW{\fun{bms}}{n}$|(} le coût
-maximum pour trier \(n\)~clés de manière ascendante. Soit \(n=2^p+i\),
+maximal pour trier \(n\)~clés de manière ascendante. Soit \(n=2^p+i\),
 avec \(0 < i < 2^p\). Alors, de l'équation~\eqref{eq:cost_bms}
 \vpageref{eq:cost_bms}, et~\eqref{eq:worst_merge}
 \vpageref{eq:worst_merge}, nous déduisons
@@ -1837,10 +1836,10 @@ la racine, \(2^{e_r}+ \dots + 2^{e_0}\), jusqu'à \(2^{e_1} +
 \subfloat[La somme des nœuds est \(\protect\OW{\protect\fun{bms}}{n+1}\)
 \label{fig:w2p_succ}]%
 {\includegraphics[bb=71 604 214 721]{w2p_succ}}
-\caption{Arbres de coût maximum pour \(n\)~pair et \(n+1\)}
+\caption{Arbres de coût maximal pour \(n\)~pair et \(n+1\)}
 \label{fig:Wn_even}
 \end{figure}
-sont montrés les arbres de coût maximum pour \(n\)~pair et
+sont montrés les arbres de coût maximal pour \(n\)~pair et
 \(n+1\). Les expressions encadrées ne se trouvent pas dans l'arbre en
 opposition, donc, la somme dans chaque arbre des termes non-encadrés
 est identique.
@@ -1893,7 +1892,7 @@ est identique.
 \subfloat[La somme des nœuds est \(\protect\OW{\protect\fun{bms}}{n+1}\)
 \label{fig:w2p1_succ}]{%
 \includegraphics[bb=48 602 194 721]{w2p1_succ}} % 56 ... ... ...
-\caption{Arbres de coût maximum pour \(n\)~impair et \(n+1\)}
+\caption{Arbres de coût maximal pour \(n\)~impair et \(n+1\)}
 \label{fig:Wn_odd}
 \end{figure}
     La somme des expressions non-encadrées à la \fig~\ref{fig:w2p1} est
@@ -1969,7 +1968,7 @@ un rôle en théorie élémentaire des nombres:
 \(\sum_{k=1}^{p-1}2^{\rho_k}\) et \(\sum_{k=1}^{p-1}\nu_k\), cette
 dernière étant \(\OB{\fun{bms}}{p}\), comme nous l'avons vu à
 l'équation~\eqref{eq:OBbms}.  \index{bms@$\OW{\fun{bms}}{n}$|)}
-\index{tri par interclassement!$\sim$ ascendant!coût maximum|)}
+\index{tri par interclassement!$\sim$ ascendant!coût maximal|)}
 
 
 \mypar{Coût moyen}
@@ -2581,9 +2580,9 @@ par interclassement descendant et ascendant pour rendre plus aisée
 leur comparaison, et nous présentons aussi quelques propriétés qui
 mettent en relation le coût de ces deux algorithmes.
 
-\mypar{Coût minimum}
+\mypar{Coût minimal}
 
-Le coût minimum des deux variantes du tri par interclassement est le
+Le coût minimal des deux variantes du tri par interclassement est le
 même: \(\OB{\fun{tms}}{n} = \OB{\fun{bms}}{n}\) et
 \begin{equation*}
 \frac{1}{2}n\lg n - \left(\frac{1}{2}\lg\frac{4}{3}\right)n +
@@ -2596,7 +2595,7 @@ Le minorant est atteint si \(n=2\) et est approché au plus près quand
 atteint quand \(n=2^p\). Ces résultats ne sont peut-être pas
 intuitifs \emph{a priori}.
 
-\mypar{Coût maximum}
+\mypar{Coût maximal}
 
 Dans les sections précédentes, nous avons obtenu les encadrements
 suivants:
@@ -2632,7 +2631,7 @@ atteignables, qui relie le tri descendant et ascendant:
 Nous établirons ces inégalités grâce à l'induction complète sur~\(n\)
 et, ce faisant, nous découvrirons quand elles deviennent des
 égalités. D'abord, déduisons de la récurrence générale satisfaite par
-le coût du tri ascendant la récurrence pour le coût maximum:
+le coût du tri ascendant la récurrence pour le coût maximal:
 \begin{equation}
 \OW{\fun{bms}}{0} = \OW{\fun{bms}}{1} = 0;\quad \OW{\fun{bms}}{n} =
 \OW{\fun{bms}}{2^{\ceiling{\lg n}-1}} +
@@ -2663,7 +2662,7 @@ vraie. Soit l'hypothèse d'induction \(\forall m \leqslant
 prouvions alors \(\pred{W\(_L\)}{2^p+i}\), pour tout \(0 < i <
 2^p\).
 
-\noindent Des équations \eqref{eq:bot} et \eqref{eq:2p}, il vient
+Des équations \eqref{eq:bot} et \eqref{eq:2p}, il vient
 \index{bms@$\OW{\fun{bms}}{n}$}
 \begin{align*}
 \OW{\fun{bms}}{2^p+i} &=
@@ -2672,10 +2671,14 @@ prouvions alors \(\pred{W\(_L\)}{2^p+i}\), pour tout \(0 < i <
 \OW{\fun{tms}}{2^p} + \OW{\fun{tms}}{i} + 2^p + i - 1,
 \end{align*}
 l'inégalité étant l'instance \(\pred{W\(_L\)}{i}\) de l'hypothèse
-d'induction.  Par conséquent, si l'inégalité \(\OW{\fun{tms}}{2^p} +
-\OW{\fun{tms}}{i} + 2^p + i - 1 \geqslant \OW{\fun{tms}}{2^p+i}\) est
-vraie, alors le résultat \(\pred{W\(_L\)}{2^p+i}\) s'ensuit. Essayons
-donc de prouver cette condition suffisante.
+d'induction.  Par conséquent, si l'inégalité
+\begin{equation}
+\OW{\fun{tms}}{2^p} + \OW{\fun{tms}}{i} + 2^p + i - 1 \geqslant
+\OW{\fun{tms}}{2^p+i}
+\label{ineq:suff_cond}
+\end{equation}
+est vraie, alors le résultat \(\pred{W\(_L\)}{2^p+i}\)
+s'ensuit. Essayons donc de prouver cette condition suffisante.
 
 Soit \(n = 2^p + i\). Alors on a \(p = \floor{\lg n}\) et
 \(\ceiling{\lg n} = \floor{\lg n} + 1\). L'équation~\eqref{eq:top}
@@ -2685,69 +2688,89 @@ Soit \(n = 2^p + i\). Alors on a \(p = \floor{\lg n}\) et
 (2^p+i)(p+1)-2^{p+1}+1 = ((p-1)2^p+1)+(p+1)i\\
 &= \OW{\fun{tms}}{2^p} + (p+1)i.
 \end{align*}
-Par conséquent, nous avons seulement besoin de prouver que
+Par conséquent, l'inégalité~\eqref{ineq:suff_cond} est équivalente à
 \(pi \leqslant \OW{\fun{tms}}{i} + 2^p - 1\). En employant
 l'équation~\eqref{eq:top}, cette inégalité équivaut à
 \begin{equation}
-  \abovedisplayskip=2pt
-  \belowdisplayskip=2pt
+%  \abovedisplayskip=2pt
+%  \belowdisplayskip=2pt
   (p - \ceiling{\lg i})i \leqslant 2^p - 2^{\ceiling{\lg i}}.
 \label{conj}
 \end{equation}
-Nous devons analyser deux cas complémentaires:
+Pour la prouver, nous devons analyser deux cas complémentaires:
 \begin{itemize}
 
-\item \(i=2^q\), avec \(0 \leqslant q < p\). Alors \(\lg i = q\) et
-  l'équation~\eqref{conj} est équivalente à \((p-q)2^q \leqslant 2^p -
-  2^q\), c'est-à-dire, \(p-q \leqslant 2^{p-q} - 1\). Posons \(f(x) :=
-  2^x - x - 1\). Nous avons \(f(0) = f(1) = 0\) et \(f(x) > 0\) pour
-  \(x>1\), donc l'inégalité est vraie pour \(x=p-q=1,2,3,\ldots\) et
-  devient une égalité si, et seulement si, \(q=p-1\).
+  \item \(i=2^q\), avec \(0 \leqslant q < p\). Alors \(\lg i = q\) et
+    l'équation~\eqref{conj} est équivalente à \((p-q)2^q \leqslant 2^p
+    - 2^q\), c'est-à-dire,
+    \begin{equation}
+      p-q \leqslant 2^{p-q} - 1.\label{conj0}
+    \end{equation}
+    Posons \(f(x) := 2^x - x - 1\), pour \(x > 0\). Nous avons \(f(0)
+    = f(1) = 0\) et \(f(x) > 0\) pour \(x>1\), donc
+    l'inégalité~\eqref{conj0} est vraie et la borne est atteinte si,
+    et seulement si, \(x=1\), soit \(q=p-1\).
 
   \item \(i = 2^q + j\), avec \(0 \leqslant q < p\) et \(0 < j <
-  2^q\). Alors \(\floor{\lg i} = q = \ceiling{\lg i} - 1\) et
-  l'inéquation~\eqref{conj} équivaut à \((p-q-1)i \leqslant 2^p
-  - 2^{q+1}\), c'est-à-dire
+    2^q\). Alors \(\floor{\lg i} = q = \ceiling{\lg i} - 1\) et
+    l'inégalité~\eqref{conj} équivaut à \((p-q-1)i \leqslant 2^p -
+    2^{q+1}\), c'est-à-dire
   \begin{equation}
-    \abovedisplayskip=2pt
-    \belowdisplayskip=2pt
+%    \abovedisplayskip=2pt
+%    \belowdisplayskip=2pt
     (p-q+1)2^q + (p-q-1)j \leqslant 2^p.\label{conj1}
   \end{equation}
-  Puisque \(p-q-1 \geqslant 0\) et \(j < 2^q\), nous avons \((p-q-1)j
+  Puisque \(p-q-1 \geqslant 0\) et \(j < 2^q\), on a \((p-q-1)j
   \leqslant (p-q-1)2^q\) (égalité si \(q=p-1\)), donc
-  \((p-q+1)2^q+(p-q-1)j \leqslant
-  (p-q)2^{q+1}\). L'équation~\eqref{conj1} est impliquée par
-  l'inégalité \(2(p-q) \leqslant 2^{p-q}\). Posons \(g(x) := 2^x -
-  2x\). Nous avons \(g(1) = g(2) = 0\) et \(f(x) > 0\) si \(x >
-  2\). Donc, l'inégalité est vraie quand \(x = p-q =
-  1,2,3,\ldots\)\hfill\(\Box\)
+  \begin{equation*}
+    (p-q+1)2^q+(p-q-1)j \leqslant (p-q)2^{q+1}.
+  \end{equation*}
+  L'inégalité~\eqref{conj1} est impliquée par l'inégalité \(2(p-q)
+  \leqslant 2^{p-q}\). Posons \(g(x) := 2^x - 2x\), pour \(x>0\). Nous
+  avons \(g(1) = g(2) = 0\) et \(f(x) > 0\) si \(x > 2\). Donc,
+  l'inégalité~\eqref{conj1} est vraie et la borne atteinte si, et
+  seulement si, \(x=1\), soit \(q = p -1\) (le cas \(x = 2\) implique
+  \(i \leqslant 2^{p-1}\), donc une borne stricte). \hfill\(\Box\)
 
 \end{itemize}
-En passant, nous avons prouvé que si \(q=p-1\), soit
-\(n=(11(0+1)^*)_2\), alors \(\OW{\fun{tms}}{2^p+i} =
+
+Cherchons maintenant la forme de~\(n\) quand \(\pred{W\(_L\)}{n}\) est
+stricte. Nous avons établi ci-dessus que, si \(q=p-1\), c'est-à-dire
+que la notation binaire de~\(n\) commence par deux bits à~\(1\),
+formellement \((11(0+1)^*)_2\), alors l'inégalité suivante est vraie:
+\begin{equation*}
+\OW{\fun{tms}}{2^p+i} =
 \OW{\fun{tms}}{2^p} + \OW{\fun{tms}}{i} + 2^p + i - 1 \leqslant
 \OW{\fun{tms}}{2^p} + \OW{\fun{bms}}{i} + 2^p + i - 1 =
-\OW{\fun{bms}}{2^p+i}\). Par conséquent, \(\OW{\fun{bms}}{i} =
-\OW{\fun{tms}}{i}\) implique \(\OW{\fun{tms}}{2^p+i} =
-\OW{\fun{bms}}{2^p+i}\).  \index{bms@$\OW{\fun{bms}}{n}$}
+\OW{\fun{bms}}{2^p+i}.
+\end{equation*}
+Cette inégalité n'est pas stricte: \(\OW{\fun{tms}}{2^p+i} =
+\OW{\fun{bms}}{2^p+i} \Leftrightarrow \OW{\fun{tms}}{i} =
+\OW{\fun{bms}}{i}\). \index{bms@$\OW{\fun{bms}}{n}$}
 \index{tms@$\OW{\fun{tms}}{n}$}
-\begin{itemize}
 
-  \item Si \(i=2^q\), alors l'équation~\eqref{eq:2p} implique
-    \(\OW{\fun{bms}}{i} = \OW{\fun{tms}}{i}\);
-
-  \item sinon, \(i = 2^q + j\) et la contrainte devient
-    \(\OW{\fun{tms}}{2^q+j} = \OW{\fun{bms}}{2^q+j}\).
-
-\end{itemize}
-Récursivement, ceci signifie que \(n=(11^+0^*)_2\), c'est-à-dire, que
-\(n\)~est la différence de deux puissances de~\(2\). Nous souvenant
-que \(\OW{\fun{bms}}{2^p} = \OW{\fun{tms}}{2^p}\), nous avons donc
-établi
+En reprenant l'analyse par cas plus haut, si \(i = 2^q + j\), nous
+avons \(\OW{\fun{tms}}{2^p+i} = \OW{\fun{bms}}{2^p+i}\), si, et
+seulement si, \(\OW{\fun{tms}}{2^{p-1}+j} =
+\OW{\fun{bms}}{2^{p-1}+j}\). Ces équivalences peuvent être répétées,
+engendrant deux séries strictement décroissantes d'entiers positifs,
+\(2^p+i > 2^{p-1}+j > 2^{p-2}+k > \dots\) et \(i > j > k > \dots\) La
+fin de la dernière série est simplement~\(0\), ce qui veut dire que la
+première termine à une puissance de~\(2\), à laquelle s'applique
+l'équation~\eqref{eq:2p}. En d'autres termes, la représentation
+binaire de~\(n\) est constituée d'une série d'au moins un bit à~\(1\)
+(d'après \(2^p\), \(2^{p-1}\), \(2^{p-2}\), \ldots), possiblement
+suivie par des bits à~\(0\), ce que nous pouvons formellement écrire
+\(n=(1^+0^*)_2\), c'est-à-dire, que \(n\)~est la différence de deux
+puissances de~\(2\). Nous souvenant par ailleurs que
+\(\OW{\fun{bms}}{2^q} = \OW{\fun{tms}}{2^q}\), nous avons établi
 \begin{equation*}
-\boxed{\OW{\fun{bms}}{n} = \OW{\fun{tms}}{n} \Leftrightarrow n=2^p \;
+\boxed{\OW{\fun{bms}}{n} = \OW{\fun{tms}}{n} \Leftrightarrow n=2^q \;
   \text{ou} \; n=2^p - 2^q, \text{avec \(p > q \geqslant 0\)}.}
 \end{equation*}
+Remarquons que si \(n=2^p-1\), le nombre d'interclassements ascendants
+déséquilibrés est maximal, et les coûts maximaux sont les mêmes dans
+les deux variantes.
 
 \paragraph{Majorant}
 
@@ -2768,27 +2791,32 @@ souhaitons montrer que cette différence est maximale:
 Notons comment l'équation~\eqref{eq:2p} implique
 \(\pred{W\(_U\)}{2^p}\). Par conséquent, soit l'hypothèse d'induction
 \(\forall m \leqslant 2^p.\pred{W\(_U\)}{m}\) et montrons que
-\(\pred{W\(_U\)}{2^p+i}\), pour tout \(0 < i < 2^p\).
-
-Soit \(n=2^p+i\). De \eqref{eq:bot} \& \eqref{eq:2p} vient
-\(\OW{\fun{bms}}{2^p+i} = \OW{\fun{bms}}{2^p} + \OW{\fun{bms}}{i} +
-2^p + i - 1 = \OW{\fun{tms}}{2^p} + \OW{\fun{bms}}{i} + 2^p + i - 1
-\leqslant \OW{\fun{tms}}{2^p} + \OW{\fun{tms}}{i} + 2^p + 2i -
-\ceiling{\lg i} - 2\), où l'inégalité est l'instance
-\(\pred{W\(_U\)}{i}\) de l'hypothèse d'induction. De plus, \(n -
-\ceiling{\lg n} - 1 = 2^p + i - p - 2\). Par conséquent, si nous
-avions l'inégalité \(\OW{\fun{tms}}{2^p} + \OW{\fun{tms}}{i} + 2^p +
-2i - \ceiling{\lg i} - 2 \leqslant \OW{\fun{tms}}{2^p+i} + 2^p + i - p
-- 2\), alors \(\pred{W\(_U\)}{2^p+i}\) s'ensuivrait. En employant
-l'équation~\eqref{eq:top}, nous
-déduisons\index{bms@$\OW{\fun{bms}}{n}$}\index{tms@$\OW{\fun{tms}}{n}$}
+\(\pred{W\(_U\)}{2^p+i}\), pour tout \(0 < i < 2^p\). Soit
+\(n=2^p+i\). De \eqref{eq:bot} \& \eqref{eq:2p} vient
+\begin{align*}
+\OW{\fun{bms}}{2^p+i} &= \OW{\fun{bms}}{2^p} + \OW{\fun{bms}}{i} +
+2^p + i - 1
+= \OW{\fun{tms}}{2^p} + \OW{\fun{bms}}{i} + 2^p + i - 1\\
+&\leqslant \OW{\fun{tms}}{2^p} + \OW{\fun{tms}}{i} + 2^p + 2i -
+\ceiling{\lg i} - 2,
+\end{align*}
+où l'inégalité est l'instance \(\pred{W\(_U\)}{i}\) de l'hypothèse
+d'induction. De plus, \(n - \ceiling{\lg n} - 1 = 2^p + i - p -
+2\). Par conséquent, si nous avions l'inégalité
 \begin{equation*}
-\OW{\fun{tms}}{i} = i\ceiling{\lg i} - 2^{\ceiling{\lg i}} + 1,\;\;
-\OW{\fun{tms}}{2^p} = (p-1)2^p + 1,\;\,
-\OW{\fun{tms}}{2^p+i} = \OW{\fun{tms}}{2^p} + (p+1)i.
+\OW{\fun{tms}}{2^p} + \OW{\fun{tms}}{i} +
+2^p + 2i - \ceiling{\lg i} - 2 \leqslant \OW{\fun{tms}}{2^p+i} + 2^p +
+i - p - 2,
 \end{equation*}
-L'inégalité à prouver devient \(\OW{\fun{tms}}{i} + i - \ceiling{\lg
-  i} \leqslant (p+1)i - p\), ou bien
+alors \(\pred{W\(_U\)}{2^p+i}\) s'ensuivrait. En employant
+l'équation~\eqref{eq:top}, nous
+avons\index{bms@$\OW{\fun{bms}}{n}$}\index{tms@$\OW{\fun{tms}}{n}$}
+\begin{align*}
+\OW{\fun{tms}}{i} &= i\ceiling{\lg i} - 2^{\ceiling{\lg i}} + 1,\\
+\OW{\fun{tms}}{2^p} &= (p-1)2^p + 1,\\
+\OW{\fun{tms}}{2^p+i} &= \OW{\fun{tms}}{2^p} + (p+1)i.
+\end{align*}
+L'inégalité à prouver devient \(\OW{\fun{tms}}{i} + i - \ceiling{\lg i} \leqslant (p+1)i - p\), ou bien
 \begin{equation}
 1 \leqslant (i-1)(p-\ceiling{\lg i}) + 2^{\ceiling{\lg i}}.
 \label{eq:conj2}
@@ -2832,7 +2860,7 @@ restante est en fait une égalité. En conclusion,
 
 Nous présenterons le langage de programmation \Erlang dans la
 partie~\ref{part:implementation}, mais voici déjà comment calculer
-efficacement les coûts maximums: \ErlangInUnchecked{max} Remarquons
+efficacement les coûts maximaux: \ErlangInUnchecked{max} Remarquons
 que l'exponentiation binaire~\(2^n\) est évaluée efficacement au moyen
 des équations récurrentes suivantes:
 \begin{equation*}
@@ -2866,7 +2894,7 @@ nous avons étudiées. Nous allons donc prouver que le tri descendant
 requiert moins de comparaisons, en moyenne, que le tri
 ascendant. Puisque nous avons déjà établi que ceci est vrai aussi pour
 le cas le plus défavorable (voir~\eqref{ineq:topbot}
-\vpageref{ineq:topbot}), et que leur coût minimum sont égaux
+\vpageref{ineq:topbot}), et que leur coût minimal sont égaux
 (voir~\eqref{eq:OBbms} \vpageref{eq:OBbms}), ceci scelle le sort de la
 variante ascendante, qui renaîtra sous une forme plus utile à la
 section~\vref{sec:online}. Nous voulons prouver par induction:
@@ -3291,12 +3319,12 @@ comparaisons pour trier \(n\)~clés en ligne. On a
 \end{equation}
 
 %\addcontentsline{toc}{subsection}{Cost}
-\paragraph{Coût minimum}
-\index{tri par interclassement!$\sim$ en ligne!coût minimum|(}
+\paragraph{Coût minimal}
+\index{tri par interclassement!$\sim$ en ligne!coût minimal|(}
 
 En remplaçant~\(\Cost\) par~\(\Best\) dans
 l'équation~\eqref{eq:sum_2p}, nous obtenons les équations pour le
-nombre minimum de comparaisons, ce qui nous permet de simplifier
+nombre minimal de comparaisons, ce qui nous permet de simplifier
 \(\OB{\fun{sum}}{n}\)\index{sum@$\OB{\fun{sum}}{n}$} avec l'aide de
 l'équation~\eqref{eq:best_merge} \vpageref{eq:best_merge}:
 \begin{equation}
@@ -3381,14 +3409,14 @@ bits tous à~\(1\), par exemple, \((10110111)_2 \leqslant
 Trivialement, \(0 < \OB{\fun{unb}}{n}\), donc~\eqref{eq:ocost_online}
 implique \(\OB{\fun{oms}}{n} \sim n\lg n \sim 2
 \cdot \OB{\fun{bms}}{n}\).  \index{tri par interclassement!$\sim$ en
-  ligne!coût minimum|)} \index{unb@$\OB{\fun{unb}}{n}$|)}
+  ligne!coût minimal|)} \index{unb@$\OB{\fun{unb}}{n}$|)}
 
-\paragraph{Coût maximum}
-\index{tri par interclassement!$\sim$ en ligne!coût maximum|(}
+\paragraph{Coût maximal}
+\index{tri par interclassement!$\sim$ en ligne!coût maximal|(}
 
 En remplaçant~\(\Cost\) par~\(\Worst\) dans
 l'équation~\eqref{eq:sum_2p}, nous obtenons des équations pour le
-nombre maximum de comparaisons, que nous pouvons simplifier avec
+nombre maximal de comparaisons, que nous pouvons simplifier avec
 l'aide de l'équation~\eqref{eq:worst_merge} \vpageref{eq:worst_merge}
 en
 \begin{equation}
@@ -3452,7 +3480,7 @@ l'inéquation~\eqref{ineq:OBunb} impliquent
 \end{equation*}
 Par conséquent, \(\OW{\fun{oms}}{n} \sim 2n\lg n \sim 2
 \cdot \OW{\fun{bms}}{n}\).
-\index{tri par interclassement!$\sim$ en ligne!coût maximum|)}
+\index{tri par interclassement!$\sim$ en ligne!coût maximal|)}
 
 \paragraph{Coût supplémentaire}
 
