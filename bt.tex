@@ -229,7 +229,7 @@ par interclassement\index{tri par interclassement} au
 chapitre~\vref{chap:merge_sort}, qui souvent symbolise le concept
 lui-même.
 
-Le coût maximum
+Le coût maximal
 \(\W{\fun{pre}_0}{k}\)\index{pre0@$\W{\fun{pre}_0}{n}$} satisfait la
 récurrence
 \begin{equation}
@@ -244,7 +244,7 @@ Au lieu d'attaquer frontalement ces équations, nous pouvons deviner
 une solution possible et la vérifier. Ici, nous pourrions essayer de
 choisir à chaque appel récursif \(p=k\), en suivant l'idée que
 maximiser le péage à chaque n{\oe}ud de l'arbre conduira peut-être à
-un total qui est maximum. Donc, nous envisageons
+un total qui est maximal. Donc, nous envisageons
 \begin{equation}
 \W{\fun{pre}_0}{0} = 1;\quad
 \W{\fun{pre}_0}{k+1} = \W{\fun{pre}_0}{k} + k + 3.
@@ -267,7 +267,7 @@ de récurrence.
 À quoi ressemble un arbre binaire qui maximise le coût de
 \fun{pre\(_0\)/1}\index{pre0@\fun{pre\(_0\)/1}}? Nous obtenons le
 péage \(k+3\) dans~\eqref{eq:max_pre0_rec} parce que nous prenons le
-coût maximum de \fun{cat/2}\index{cat@\fun{cat/2}} à chaque n{\oe}ud,
+coût maximal de \fun{cat/2}\index{cat@\fun{cat/2}} à chaque n{\oe}ud,
 ce qui signifie que tous les n{\oe}uds internes qui sont concaténés
 proviennent du sous-arbre gauche, du sous-arbre gauche du sous-arbre
 gauche etc. donc ces n{\oe}uds sont concaténés encore et encore en
@@ -285,7 +285,7 @@ montrée à la \fig~\vref{fig:max_pre0}.
 \label{fig:tree_stack}
 \end{figure}
 
-Par dualité, le coût minimum
+Par dualité, le coût minimal
 \(\B{\fun{pre}_0}{k}\)\index{pre0@$\B{\fun{pre}_0}{n}$} satisfait la
 récurrence
 \begin{equation*}
@@ -314,7 +314,7 @@ montrée à la \fig~\vref{fig:min_pre0}. Notez que les deux arbres
 extrêmes sont isomorphes à une pile (c'est-à-dire à l'arbre de syntaxe
 abstraite\index{arbre!$\sim$ de syntaxe abstraite} d'une pile) et, en
 tant que tels, il sont des \emph{arbres dégénérés}.\index{arbre
-  binaire!$\sim$ dégénéré} Par ailleurs, le coût maximum de
+  binaire!$\sim$ dégénéré} Par ailleurs, le coût maximal de
 \fun{pre\(_0\)/1}\index{pre0@\fun{pre\(_0\)/1}} est quadratique, ce
 qui nécessite une amélioration.
 
@@ -857,7 +857,7 @@ définition~\eqref{eq:BS_order}. Si nous réalisons plus tard que des
 relations de sous-termes immédiats sont trop restrictives, nous
 choisirions ici des relations de sous-termes générales, ce qui
 signifie, dans le cas des arbres binaires, qu'un arbre est un
-sous-arbre d'un autre. L'élément minimum de l'ordre lexicographique
+sous-arbre d'un autre. L'élément minimal de l'ordre lexicographique
 que nous venons de définir est \((\fun{ext}(),\el)\). Le principe
 d'induction bien fondée requiert alors que nous établissions
 \begin{itemize}
@@ -1535,7 +1535,7 @@ Clairement, \(\pred{PreMir}{t,\el} \Leftrightarrow
 Il s'agit là essentiellement du même ordre que celui sur les appels à
 \fun{pre/1}\index{pre@\fun{pre/1}}, à la
 définition~\eqref{eq:BS_order} \vpageref{eq:BS_order}. L'élément
-minimum pour cet ordre lexicographique est
+minimal pour cet ordre lexicographique est
 \((\fun{ext}(),\el)\). L'induction bien fondée alors requiert la
 preuve de
 \begin{itemize}
@@ -1803,7 +1803,7 @@ pour les parcours en postfixe et par niveaux. Cette uniformité
 provient du fait que tous ces parcours vont vers la droite, à savoir,
 un enfant à gauche est visité avant son frère. La notion de
 hauteur\index{arbre!hauteur} d'un arbre se généralise à une forêt tout
-aussi bien: la hauteur d'une forêt est la hauteur maximum de ses
+aussi bien: la hauteur d'une forêt est la hauteur maximale de ses
 arbres. La raison pour laquelle cela est simple est que la hauteur est
 un concept qui repose sur une vue purement verticale des arbres, donc
 indépendent de l'ordre des sous-arbres.
@@ -1860,9 +1860,9 @@ En somme, nous obtenons
 \begin{equation*}
 \C{\fun{bf}_0}{n,h} = 4n + 4h + 7. \index{bf0@$\C{\fun{bf}_0}{n,h}$}
 \end{equation*}
-Par définition, le coût minimum est \(\B{\fun{bf}_0}{n} =
+Par définition, le coût minimal est \(\B{\fun{bf}_0}{n} =
 \min_h\C{\fun{bf}_0}{n,h}\). La hauteur\index{arbre binaire!hauteur}
-est minimum quand l'arbre binaire est \emph{parfait}\index{arbre
+est minimale quand l'arbre binaire est \emph{parfait}\index{arbre
   binaire!$\sim$ parfait}, c'est-à-dire que tous ses niveaux sont
 pleins (voir \fig~\vref{fig:comp_tree}). Dans ce cas, \(l_i=2^i\),
 pour \(0 \leqslant i \leqslant h-1\), et, par extension, il y a
@@ -1871,7 +1871,7 @@ l'équation \(n+1 = 2^h\), d'où \(h=\lg(n+1)\), et enfin nous avons
 \(\B{\fun{bf}_0}{n} = 4n + 4\lg(n+1) + 7 \sim
 4n\). \index{bf0@$\B{\fun{bf}_0}{n}$}
 
-Le coût maximum est obtenu en maximisant la hauteur\index{arbre
+Le coût maximal est obtenu en maximisant la hauteur\index{arbre
   binaire!hauteur}, tout en conservant la taille constante. Ceci se
 produit pour les arbre dégénérés\index{arbre binaire!$\sim$ dégénéré},
 comme ceux montrés à la \fig~\vref{fig:tree_stack} et à la
@@ -2048,9 +2048,9 @@ La somme de toutes ces sommes partielles donne
 \C{\fun{bf}}{n,h} = 4n + 3h + 3.\index{bf@$\C{\fun{bf}}{n,h}$}
 \end{equation*}
 Comme avec \fun{bf\(_0\)/1}\index{bf0@\fun{bf\(_0\)/1}}, le coût
-minimum se produit ici si \(h = \lg(n+1)\), donc \(\B{\fun{bf}}{n} =
+minimal se produit ici si \(h = \lg(n+1)\), donc \(\B{\fun{bf}}{n} =
 4n + 3\lg(n+1) + 3 \sim 4n\).\index{bf@$\B{\fun{bf}}{n,h}$} Le coût
-maximum se produit quand \(h=n\), d'où \(\W{\fun{bf}}{n} = 7n + 3 \sim
+maximal se produit quand \(h=n\), d'où \(\W{\fun{bf}}{n} = 7n + 3 \sim
 7n\). Nous pouvons maintenant comparer
 \fun{bf\(_0\)/1}\index{bf0@\fun{bf\(_0\)/1}} et
 \fun{bf/1}\index{bf@\fun{bf/1}}: \(\C{\fun{bf}}{n,h} <

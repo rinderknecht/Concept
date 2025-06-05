@@ -119,12 +119,12 @@ déduisons
 Un coup d'{\oe}il à la définition de~\fun{ins/2} révèle que
 \(\C{\fun{ins}}{i}\) ne peut être exprimé en termes de~\(i\)
 uniquement parce qu'il dépend de l'ordre relatif des clés. Ainsi, nous
-devons nous contenter des coûts minimum, maximum et
+devons nous contenter du coût minimal, maximal et
 moyen.\index{isrt@$\C{\fun{isrt}}{n}$|)}
 
 \addcontentsline{toc}{subsection}{Coût}
-\paragraph{Coût minimum}
-\index{tri par insertion!insertion simple!coût minimum}
+\paragraph{Coût minimal}
+\index{tri par insertion!insertion simple!coût minimal}
 
 Le meilleur des cas se passe de la règle~\(\kappa\). En d'autres
 termes, à la règle~\(\nu\), chaque clé~\(x\) insérée dans une pile
@@ -136,7 +136,7 @@ dans l'ordre inverse:
 \fun{ins}(\fun{ins}(\dots(\fun{ins}(\el,x_n)\dots),x_2),x_1).
 \label{inv_isrt}
 \end{equation}
-Par conséquent, \emph{le coût minimum est atteint pour une pile donnée
+Par conséquent, \emph{le coût minimal est atteint pour une pile donnée
   qui est déjà triée en ordre croissant,} c'est-à-dire que les clés
 dans le résultat sont croissantes, mais peuvent être répétées. Alors
 \(\B{\fun{ins}}{n} = \len{\lambda} = 1\)\index{ins@$\B{\fun{ins}}{n}$}
@@ -146,8 +146,8 @@ simple a un coût linéaire dans le meilleur des cas:
 \B{\fun{isrt}}{n} = 2n+1 \sim 2n.
 \end{equation*}
 
-\paragraph{Coût maximum}
-\index{tri par insertion!insertion simple!coût maximum}
+\paragraph{Coût maximal}
+\index{tri par insertion!insertion simple!coût maximal}
 
 Le pire des cas fait usage le plus possible de la règle~\(\kappa\), ce
 qui implique que \emph{le pire des cas se produit lorsque la pile
@@ -156,7 +156,7 @@ alors\index{ins@$\W{\fun{ins}}{n}$|(}
 \begin{equation*}
 \W{\fun{ins}}{n} = \len{\kappa^n\lambda} = n + 1.
 \end{equation*}
-Après substitution des coûts maximums dans
+Après substitution des coûts maximaux dans
 l'équation~\eqref{eq:cost_isrt} \vpageref{eq:cost_isrt}, nous voyons
 que le tri par insertion simple a un coût quadratique dans le pire des
 cas:
@@ -228,7 +228,7 @@ insertion simple est
 \index{tri par insertion!inversion|see{permutation}}
 
 Bien que le coût moyen est asymptotiquement équivalent à~\(50\%\) du
-coût maximum, il est néanmoins quadratique lui aussi. Le côté positif
+coût maximal, il est néanmoins quadratique lui aussi. Le côté positif
 est que l'insertion simple est plutôt efficace quand les clés données
 sont peu nombreuses ou presque triées~\citep{CookKim_1980}. Il s'agit
 là d'un exemple typique d'un \emph{algorithme de tri adaptatif}
@@ -274,8 +274,8 @@ est que le nombre moyen d'inversions dans une permutation aléatoire de
     pas sur les comparaisons.) Soient
     \(\OB{\fun{isrt}}{n}\)\index{isrt@$\OB{\fun{isrt}}{n}$},
     \(\OW{\fun{isrt}}{n}\)\index{isrt@$\OW{\fun{isrt}}{n}$} et
-    \(\OM{\fun{isrt}}{n}\)\index{isrt@$\OM{\fun{isrt}}{n}$} les
-    nombres minimum, maximum et moyen de comparaisons nécessaires pour
+    \(\OM{\fun{isrt}}{n}\)\index{isrt@$\OM{\fun{isrt}}{n}$} le
+    nombre minimal, maximal et moyen de comparaisons nécessaires pour
     trier par insertion simple une pile de longueur~\(n\). Établissez
     \begin{equation*}
       \OB{\fun{isrt}}{n} = n - 1; \quad
@@ -909,12 +909,12 @@ la règle~\(\rho\) est sélectionnée est le nombre de clés dans la pile
 de gauche après l'épuisement des clés à trier. La règle~\(\pi\) n'est
 utilisée qu'une seule fois.
 
-\mypar{Extremums du coût}
-\index{tri par insertion!insertion bidirectionnelle!coût minimum|(}
+\mypar{Coûts extrêmes}
+\index{tri par insertion!insertion bidirectionnelle!coût minimal|(}
 
-Cherchons les coûts minimum et maximum pour une pile donnée contenant
+Cherchons le coût minimal et maximal pour une pile donnée contenant
 \(n\)~clés. Le meilleur des cas fera un usage minimal des règles
-\(\sigma\)~et~\(\tau\), et ce nombre minimum d'appels est nul quand
+\(\sigma\)~et~\(\tau\), et ce nombre minimal d'appels est nul quand
 les deux comparaisons associées sont négatives. La première clé
 insérée n'utilise pas les clés \(\sigma\)~et~\(\tau\), mais seulement
 la règle~\(\upsilon\), donc, juste après, le préfixe retourné est vide
@@ -933,9 +933,9 @@ triées en ordre non-croissant, alors
 \begin{equation*}
 \B{\fun{i2w}}{n} = \len{\zeta\epsilon^n\alpha} = n + 2.
 \end{equation*}
-\index{tri par insertion!insertion bidirectionnelle!coût minimum|)}
+\index{tri par insertion!insertion bidirectionnelle!coût minimal|)}
 
-\index{tri par insertion!insertion bidirectionnelle!coût maximum|(}
+\index{tri par insertion!insertion bidirectionnelle!coût maximal|(}
 Supposons que la pile à trier soit \([x_0, x_1, \dots, x_{n-1}]\) et
 que \(x \prec y\) signifie \(y \succ x\). Le pire des cas doit
 déclencher un usage maximal des règles \(\sigma\)~et~\(\tau\), d'un
@@ -1004,8 +1004,8 @@ rôle \(x_1 \prec x_2\) et \(x_2 \prec x_0\).
 
 \end{itemize}
 Par conséquent, il semble que lorsque le nombre de clés est impair,
-poser \(x_1 \prec x_2\) mène au coût maximum, alors que \(x_2 \prec
-x_0\) aboutit au coût maximum lorsque le nombre de clés est
+poser \(x_1 \prec x_2\) mène au coût maximal, alors que \(x_2 \prec
+x_0\) aboutit au coût maximal lorsque le nombre de clés est
 pair. Déterminons ces coûts pour tout~\(n\) pour ne retenir que celui
 qui est le plus élevé. Notons \(\W{x_1 \prec x_2}{2p+1}\) le premier
 coût et \(\W{x_2 \prec x_0}{2p}\) le second.
@@ -1150,13 +1150,13 @@ de~\fun{i2w/1}:
 
 \par\vskip\baselineskip
 
-\noindent De peu, le premier cas produit donc le coût maximum:
+\noindent De peu, le premier cas produit donc le coût maximal:
 \begin{equation*}
   \W{\fun{i2w}}{n} = \frac{1}{2}{n^2} + n + 2 = \W{\fun{isrt}}{n} - n
   + 1 \sim
   \W{\fun{isrt}}{n} \sim \frac{1}{2}{n^2}.
 \end{equation*}
-\index{tri par insertion!insertion bidirectionnelle!coût maximum|)}
+\index{tri par insertion!insertion bidirectionnelle!coût maximal|)}
 
 
 \mypar{Coût moyen}
@@ -1471,13 +1471,13 @@ car certains arcs correspondent à deux réécritures. La \emph{longueur
 longueurs des chemins de la racine à chaque n{\oe}ud interne, donc le
 coût moyen est~\(43/6\).
 
-\mypar{Coût minimum}
+\mypar{Coût minimal}
 
-Continuons en cherchant le coût minimum de \fun{i2wb/1}. Supposons que
+Continuons en cherchant le coût minimal de \fun{i2wb/1}. Supposons que
 nous avons la pile \([x_0, x_1, x_2, x_3, x_4]\) et que nous voulions
 minimiser les réécritures, donc ne pas déclencher l'usage des
 règles~\(\sigma\), \(\tau\), \(\phi\) et~\(\chi\); l'usage de la
-règle~\(\rho\) devrait aussi être minimum. La règle~\(\rho\) n'est pas
+règle~\(\rho\) devrait aussi être minimal. La règle~\(\rho\) n'est pas
 un problème parce qu'elle retourne la pile gauche et, par
 construction, la pile droite a la même longueur que la gauche, ou
 contient au maximum une clé de plus. Un simple diagramme avec deux

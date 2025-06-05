@@ -409,13 +409,13 @@ dans~\(s\). Posons que la position du sommet de~\(s\) est~\(0\) et que
 que la position~\(n\) (ou plus grand) est synonyme d'absence, alors
 nous pouvons utiliser la dernière formule pour les deux cas.
 
-Selon cette même convention, le coût minimum
+Selon cette même convention, le coût minimal
 \(\B{\fun{sfst}}{n}\)\index{sfst@$\B{\fun{sfst}}{n}$} est la valeur
-minimum\index{pile!filtrage!coût minimum} de \(\C{\fun{sfst}}{n,j}\),
+minimale\index{pile!filtrage!coût minimal} de \(\C{\fun{sfst}}{n,j}\),
 pour des valeurs de~\(j\) allant de~\(0\) à~\(n\), par conséquent
 \(\B{\fun{sfst}}{n} = \C{\fun{sfst}}{n,0} = 1\), ce qui veut dire que
 l'élément se trouve au sommet, et, par dualité, le coût
-maximum\index{pile!filtrage!coût maximum}
+maximal\index{pile!filtrage!coût maximal}
 est\index{sfst@$\W{\fun{sfst}}{n}$} \(\W{\fun{sfst}}{n} =
 \C{\fun{sfst}}{n,n} = n + 1\), ce qui advient quand l'élément est
 absent. Le coût moyen
@@ -477,7 +477,7 @@ la \fig~\ref{fig:sfst0}.\index{sfst@\fun{sfst/4}}
                                & \fun{sfst}(s,x,\cons{y}{t},u).
 \end{array}}
 \end{equation*}
-\caption{Ôter la première occurrence avec partage maximum}
+\caption{Ôter la première occurrence avec partage maximal}
 \label{fig:sfst0}
 \end{figure}
 
@@ -525,8 +525,8 @@ Il apparaît maintenant avec clarté que
                     = \min_{0 \leqslant k < n}\{n+2,2k+3\} = 3,\\
 \W{\fun{sfst}_0}{n} & = \max_{0 \leqslant k < n}\{n+2,2k+3\} = 2n+1,
 \end{align*}
-où le coût minimum se produit quand l'élément est au sommet de la
-pile; le coût maximum lorsque l'élément est tout au fond de la pile.
+où le coût minimal se produit quand l'élément est au sommet de la
+pile; le coût maximal lorsque l'élément est tout au fond de la pile.
 
 Puisqu'appeler \fun{rcat/2}\index{rcat@\fun{rcat/2}} pour retourner
 les éléments visités est la source du coût supplémentaire, nous
@@ -580,9 +580,9 @@ Si~\(x\) est absent de~\(s\), nous avons
 \C{\fun{rev}}{n} = 3n+6\). Si~\(x\) se trouve à la position~\(k\),
 \(\C{\fun{slst}_0}{n,k} = 1 + \C{\fun{rev}}{n} +
 \C{\fun{sfst}}{n,n-k-1} + \C{\fun{rev}}{n-1} = 3n - k + 4\). En
-conséquence, nous sommes à même de dériver le coût minimum et
-maximum:\index{pile!filtrage!coût minimum}\index{pile!filtrage!coût
-  maximum}
+conséquence, nous sommes à même de dériver le coût minimal et
+maximal:\index{pile!filtrage!coût minimal}\index{pile!filtrage!coût
+  maximal}
 \begin{equation*}
 \abovedisplayskip=0pt
 \belowdisplayskip=0pt
@@ -609,10 +609,10 @@ Quand \(x\)~est présent, le pire des cas est quand il est au sommet de
 la pile: \(\W{\fun{slst}_0}{n} = \max_{k<n}\{3n - k + 4\} = 3 n+ 4
 \leqslant 3n + 6\).
 
-Dans tous les cas, le coût maximum égale, à l'asymptote, \(3n\),
+Dans tous les cas, le coût maximal égale, à l'asymptote, \(3n\),
 c'est-à-dire que trois visites complètes de~\(s\) sont effectuées,
 alors qu'une seule aurait suffit à détecter l'absence
-de~\(x\). Parallèlement, le coût minimum égale, à l'asymptote, \(2n\),
+de~\(x\). Parallèlement, le coût minimal égale, à l'asymptote, \(2n\),
 ce qui compte deux traversées complètes, alors que la présence
 de~\(x\) au fond aurait pu être vérifiée avec une seule. Toutes ces
 observations suggèrent qu'une meilleure conception vaut la peine
@@ -710,19 +710,20 @@ est~\(l\), nous avons obtenu la formule\index{slst@$\C{\fun{slst}}{n}$}
 \begin{equation*}
 \C{\fun{slst}}{n,f,l} = n + l - f + 1.
 \end{equation*}
-Nous en déduisons que le coût minimum\index{pile!filtrage!coût
-  minimum} se produit quand \(l-f+1 = p\), c'est-à-dire quand toutes
+Nous en déduisons que le coût minimal\index{pile!filtrage!coût
+  minimal} se produit quand \(l-f+1 = p\), c'est-à-dire quand toutes
 les occurrences sont consécutives, par conséquent
 \(\B{\fun{slst}}{n,p} = n + p\)\index{slst@$\B{\fun{slst}}{n}$}. Le
-coût maximum\index{pile!filtrage!coût maximum} arrive quand~\({f=0}\)
-et~\({l=n-1}\), c'est-à-dire quand il y a au moins deux occurrences
-de~\(x\), une au sommet et une autre au fond: \(\W{\fun{slst}}{n} =
-2n\)\index{slst@$\W{\fun{slst}}{n}$}. Nous pouvons vérifier que
-lorsque la pile est entièrement constituée de~\(x\), les extremums
-concourent à la valeur~\(2n\). Le coût moyen\index{pile!filtrage!coût
-  moyen} \index{slst@$\M{\fun{slst}}{n}$} quand \(x\)~est présent
-requiert la détermination du coût pour toutes les paires \((f,l)\)
-possibles, donc avec \(0 \leqslant f \leqslant l < n\):
+coût maximal\index{pile!filtrage!coût maximal} se produit
+quand~\({f=0}\) et~\({l=n-1}\), c'est-à-dire quand il y a au moins
+deux occurrences de~\(x\), une au sommet et une autre au fond:
+\(\W{\fun{slst}}{n} = 2n\)\index{slst@$\W{\fun{slst}}{n}$}. Nous
+pouvons vérifier que lorsque la pile est entièrement constituée
+de~\(x\), les extremums concourent à la valeur~\(2n\). Le coût
+moyen\index{pile!filtrage!coût moyen} \index{slst@$\M{\fun{slst}}{n}$}
+quand \(x\)~est présent requiert la détermination du coût pour toutes
+les paires \((f,l)\) possibles, donc avec \(0 \leqslant f \leqslant l
+< n\):
 \begin{align*}
 \M{\fun{slst}}{n}
   &= \frac{2}{n(n+1)} \sum_{f=0}^{n-1}\sum_{l=f}^{n-1}{\C{\fun{slst}}{n,f,l}}

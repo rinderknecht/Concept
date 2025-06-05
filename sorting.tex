@@ -67,7 +67,7 @@ La parabole \(P(k) := k(n+1-k) = -k^2 + (n+1)k\) atteint son maximum
 là où sa dérivée s'annule: \(P'(k_{\max}) = 0 \Leftrightarrow
 k_{\max}=(n+1)/2\). L'ordonnée correspondante est \(P(k_{\max}) =
 ((n+1)/2)^2 = k_{\max}^2\). Quand \(k\)~varie de~\(1\) à~\(n\),
-l'ordonnée minimum, \(n\), est atteinte aux points d'abscisses
+l'ordonnée minimale, \(n\), est atteinte aux points d'abscisses
 \(1\)~et~\(n\), comme le montre la \fig~\vref{fig:parabola}.
 \begin{figure}
 \centering
@@ -477,14 +477,14 @@ long de la ligne des clés, puis regardons à travers et inversons les
 arcs. De toute façon, les intersections sont invariantes. La symétrie
 horizontale est évidente aux \figs~\ref{fig:perm4} et~\ref{fig:inv1}.
 
-\paragraph{Minimiser le coût maximum}
+\paragraph{Minimiser le coût maximal}
 \label{par:minimax}
 
 Après l'analyse du coût d'un algorithme de tri opérant par
 comparaisons, nous aurons besoin de savoir dans quelle mesure son
 efficacité est proche de celle d'un algorithme
 optimal.\index{tri!optimalité|(} Le premier problème théorique que
-nous examinerons est celui de minimiser le coût maximum. La
+nous examinerons est celui de minimiser le coût maximal. La
 \fig~\vref{fig:cmp_tree}
 \begin{figure}
 \centering
@@ -527,10 +527,10 @@ précédentes sur le chemin depuis la racine.
     possède \(n!\)~n{\oe}uds externes.}
 \end{center}
 Étant donné que nous étudions ici comment trier \(n\)~clés avec un
-nombre minimum de comparaisons, nous considérerons par la suite les
+nombre minimal de comparaisons, nous considérerons par la suite les
 arbres de comparaisons optimaux avec \(n!\)~n{\oe}uds externes. De
 plus, parmi eux, nous voulons déterminer les arbres pour lesquels le
-nombre maximum de comparaisons est minimum.
+nombre maximal de comparaisons est minimal.
 
 Un \emph{chemin externe}\index{arbre binaire!chemin externe} est un
 chemin de la racine à un n{\oe}ud externe. Nous dirons que la
@@ -623,7 +623,7 @@ moyen. Nommons \emph{longueur
 externes d'un arbre donné. Le nombre moyen de comparaisons est la
 longueur externe moyenne. À la \fig~\vref{fig:cmp_tree}, elle vaut
 \((2+3+3+3+3+2)/3!=8/3\). Notre problème ici est donc de déterminer la
-forme de l'arbre de comparaisons optimal de longueur externe minimum.
+forme de l'arbre de comparaisons optimal de longueur externe minimale.
 
 Ces arbres ont leurs n{\oe}uds externes sur un ou deux niveaux
 successifs et sont donc \emph{presque parfaits}.\index{arbre
@@ -644,7 +644,7 @@ deux équations dont les solutions sont \(p\)~et~\(q\).
 \begin{itemize}
 
   \item D'après le problème ci-dessus de la minimisation du coût
-    maximum, nous savons qu'un arbre de comparaison optimal de
+    maximal, nous savons qu'un arbre de comparaison optimal de
     \(n\)~clés a \(n!\)~n{\oe}uds externes: \(p+q=n!\).
 
   \item Si nous remplaçons les n{\oe}uds externes au niveau \(h-1\)
@@ -654,14 +654,14 @@ deux équations dont les solutions sont \(p\)~et~\(q\).
 \end{itemize}
 Nous avons maintenant deux équations linéaires satisfaites par~\(p\)
 et~\(q\), dont les solutions sont \(p=2^h-n!\) et \(q=2n!-2^h\). De
-plus, nous pouvons maintenant exprimer la longueur externe minimum
+plus, nous pouvons maintenant exprimer la longueur externe minimale
 comme suit: \((h-1)p + hq = (h+1)n! - 2^h\).
 
 Finalement, nous devons déterminer la hauteur~\(h\) de l'arbre en
 fonction de~\(n!\). Ceci peut être accompli en remarquant que, par
 construction, le dernier niveau peut être incomplet, donc \(0 < q
 \leqslant 2^h\), ou, de manière équivalente, \(h = \ceiling{\lg
-  n!}\). Nous concluons que la longueur externe minimum est
+  n!}\). Nous concluons que la longueur externe minimale est
 \begin{equation*}
 (\ceiling{\lg n!} + 1) n! - 2^{\ceiling{\lg n!}}.
 \end{equation*}

@@ -291,22 +291,22 @@ et~\(n\) la longueur du texte~\(t\). De plus, comme c'est souvent le
 cas avec les algorithmes de recherche, nous discriminerons selon que
 \(p\)~est un facteur de~\(t\) ou non.
 
-\paragraph{Coût minimum}
-\index{recherche de motifs!$\sim$ na\"{\i}ve!coût minimum}
+\paragraph{Coût minimal}
+\index{recherche de motifs!$\sim$ na\"{\i}ve!coût minimal}
 
 Si \(m \leqslant n\), le meilleur cas se produit quand le motif est un
 préfixe du texte, donc la trace d'évaluation est \(\pi\tau^m\rho\) et
 sa longueur \(\B{\fun{loc}}{m,n} = m + 2\). Si \(m > n \), le coût
-minimum est \(\B{\fun{loc}}{m,n} = \len{\pi\tau^n\sigma} = n +
+minimal est \(\B{\fun{loc}}{m,n} = \len{\pi\tau^n\sigma} = n +
 2\). Nous pouvons regrouper ces deux cas en une seule formule:
 \begin{equation*}
 \B{\fun{loc}}{m,n} = \min\{m,n\} + 2.\index{loc@$\B{\fun{loc}}{m,n}$}
 \end{equation*}
 
-\paragraph{Coût maximum}
-\index{recherche de motifs!$\sim$ na\"{\i}ve!coût maximum|(}
+\paragraph{Coût maximal}
+\index{recherche de motifs!$\sim$ na\"{\i}ve!coût maximal|(}
 
-Pour trouver le coût maximum, étudions les cas où le motif est un
+Pour trouver le coût maximal, étudions les cas où le motif est un
 facteur du texte et quand il ne l'est pas.
 \begin{itemize}
 
@@ -326,12 +326,12 @@ facteur du texte et quand il ne l'est pas.
   2m + 1\).
 
 \end{itemize}
-Par conséquent, le coût maximum est \(\W{\fun{loc}}{m,n} = mn - m^2 +
+Par conséquent, le coût maximal est \(\W{\fun{loc}}{m,n} = mn - m^2 +
 2m + 1\) \index{loc@$\W{\fun{loc}}{m,n}$}, quand le motif n'est pas un
 facteur du texte et \(m \geqslant 1\). L'analyse précédente suggère
 une amélioration dans ce cas, mais qui empirerait le cas où le texte
 contient le motif: juste après la règle~\(\tau\), ajoutons
-\index{recherche de motifs!$\sim$ na\"{\i}ve!coût maximum|)}
+\index{recherche de motifs!$\sim$ na\"{\i}ve!coût maximal|)}
 \begin{equation*}
 \belowdisplayskip=0pt
 \fun{pre}([a],[b],p',t',j) \rightarrow \fun{absent}();\index{pre@\fun{pre/5}}
@@ -402,7 +402,7 @@ c'est-à-dire si \(\ind{p}{0,k-1}\)~est un \emph{bord}
 de~\(\ind{p}{0,i-1}\), alors nous pouvons recommencer à comparer
 \(\ind{t}{j}\) avec~\(\ind{p}{k}\). Clairement, plus~\(k\) est grand,
 plus on évite de comparaisons, donc nous voulons trouver le \emph{bord
-  maximum} de chaque préfixe de~\(p\).
+  maximal} de chaque préfixe de~\(p\).
 
 \paragraph{Bord}
 \index{recherche de motifs!bord|(}
@@ -410,12 +410,12 @@ plus on évite de comparaisons, donc nous voulons trouver le \emph{bord
 Le bord d'un mot non-vide~\(y\) est un préfixe propre de~\(y\) qui est
 aussi un suffixe. Par exemple, le mot \word{abacaba} a trois bords:
 \(\varepsilon\), \word{a}~et~\word{aba}. Ce dernier est le bord (de
-longueur) maximum et nous écrivons
+longueur) maximal et nous écrivons
 \(\Border{}{\underline{\word{aba}}\word{c}\underline{\word{aba}}} =
 \word{aba}\). Un autre exemple est \(\Border{}{\word{abac}} =
 \varepsilon\), car \(\word{abac} =
 \underline{\varepsilon}\word{abac}\underline{\varepsilon}\). Les bords
-maximums peuvent se recouvrir partiellement, par exemple
+maximaux peuvent se recouvrir partiellement, par exemple
 \(\Border{}{\underline{\word{aaa}}\word{a}} =
 \Border{}{\word{a}\underline{\word{aaa}}} = \word{aaa}\).
 
@@ -443,11 +443,11 @@ que \(\Border{}{a} = \varepsilon\), pour toute lettre~\(a\).
 
 Nous pouvons chercher soit \(\Border{}{ay}\), soit \(\Border{}{ya}\),
 où \(y\)~est un mot non-vide. Puisque que nous souhaitons trouver le
-bord maximum de chaque préfixe d'un motif donné, le second choix est
+bord maximal de chaque préfixe d'un motif donné, le second choix est
 plus adéquat (\(y \pref ya\)). L'idée est de considérer récursivement
 \(\Border{}{y} \cdot a\): si c'est un préfixe de~\(y\), alors
 \(\Border{}{ya} = \Border{}{y} \cdot a\); sinon, nous cherchons le
-bord maximum du bord maximum de~\(y\), c'est-à-dire \(\Border{2}{y}
+bord maximal du bord maximal de~\(y\), c'est-à-dire \(\Border{2}{y}
 \cdot a\) etc. jusqu'à ce que \(\Border{q}{y} \cdot a\) soit un
 préfixe de~\(y\) ou \(\Border{q}{y} = \varepsilon\). Par exemple,
 \(\Border{}{y \cdot \word{a}} = \Border{3}{y} \cdot \word{a}\) à la
@@ -518,19 +518,19 @@ appelée la \emph{fonction de suppléance} de~\(x\). Une définition
 \(0 < i \leqslant \wlen{x}\)}.
 \end{equation*}
 Par exemple, à la \fig~\vref{fig:mp_fail}, nous trouvons la table des
-bords maximums des préfixes du mot \word{abacabac}.
+bords maximaux des préfixes du mot \word{abacabac}.
 \begin{figure}
 \centering
 \includegraphics{mp_fail}
 \caption{Fonction de suppléance de \word{abacabac}}
 \label{fig:mp_fail}
 \end{figure}
-À la \fig~\vref{fig:mp}, la longueur du bord maximum est~\(k\), donc
+À la \fig~\vref{fig:mp}, la longueur du bord maximal est~\(k\), donc
 \(k=\MPfailure{p}{}{i}\) et \(\smash{\Ind{p}{\MPfailure{p}{}{i}}}\)
 est la première lettre à être comparée avec~\(\ind{t}{j}\) après le
 décalage. Par ailleurs, la figure présuppose que \({i>0}\), donc le
 bord en question est défini. Les équations \eqref{eq:Border}
-\vpageref{eq:Border} qui définissent le bord maximum peuvent être
+\vpageref{eq:Border} qui définissent le bord maximal peuvent être
 déroulées de la manière suivante:
 \begin{align*}
    \Border{}{ya}
@@ -823,12 +823,12 @@ où \(x=\word{abacabac}\). Si \(x=\word{ababaca}\), alors
 \index{recherche de motifs!prétraitement de Morris et Pratt!définition|)}
 
 %\addcontentsline{toc}{subsection}{Cost}
-\paragraph{Coût minimum}
-\index{recherche de motifs!prétraitement de Morris et Pratt!coût minimum|(}
+\paragraph{Coût minimal}
+\index{recherche de motifs!prétraitement de Morris et Pratt!coût minimal|(}
 
 Il est clair que, d'après la définition~\eqref{eq:Border}
-\vpageref{eq:Border}, la détermination du bord maximum d'un mot
-non-vide requiert le bord maximum de tout ou partie de ses préfixes
+\vpageref{eq:Border}, la détermination du bord maximal d'un mot
+non-vide requiert le bord maximal de tout ou partie de ses préfixes
 propres, donc, si le mot contient \(n\)~lettres, au moins \(n-1\)
 comparaisons sont nécessaires, car le bord de la première lettre seule
 n'a besoin d'aucune comparaison. Cette borne inférieure peut être
@@ -885,10 +885,10 @@ comparaison. Commencer avec \(i=0\) nous amène à \(\ind{x}{1} \neq
 \ind{x}{0}\), donc \(i=1\) mène à \(\ind{x}{2} \neq \ind{x}{0}\)
 etc. ainsi les effets de toutes ces comparaisons négatives sont
 \(\ind{x}{0} \neq \ind{x}{i}\), pour \(1 \leqslant i \leqslant
-n-2\). Le nombre de comparaisons négatives est \(n-1\), donc minimum,
+n-2\). Le nombre de comparaisons négatives est \(n-1\), donc minimal,
 mais la structure du mot est différente du cas précédent, car la
 première lettre doit différer de toutes les suivantes. Soit
-\(\OB{\fun{pp}}{n}\)\index{pp@$\OB{\fun{pp}}{n}$} le nombre minimum de
+\(\OB{\fun{pp}}{n}\)\index{pp@$\OB{\fun{pp}}{n}$} le nombre minimal de
 comparaisons impliquées dans l'évaluation de
 \(\fun{pp}(x)\)\index{pp@\fun{pp/1}}, où la longueur du motif~\(x\)
 est~\(n\). C'est le même nombre que le nombre de comparaisons pour
@@ -897,17 +897,17 @@ cas parmi les meilleurs. Par conséquent,
 %\begin{equation*}
 \(\OB{\fun{pp}}{n} = n - 2\).
 %\end{equation*}
-\index{recherche de motifs!prétraitement de Morris et Pratt!coût minimum|)}
+\index{recherche de motifs!prétraitement de Morris et Pratt!coût minimal|)}
 
-\paragraph{Coût maximum}
-\index{recherche de motifs!prétraitement de Morris et Pratt!coût maximum|(}
+\paragraph{Coût maximal}
+\index{recherche de motifs!prétraitement de Morris et Pratt!coût maximal|(}
 
-%Trouver le bord maximum d'un mot nécessite le bord maximum de tous ses
+%Trouver le bord maximal d'un mot nécessite le bord maximal de tous ses
 %préfixes propres, donc, p
 
 Pour maximiser le nombre de comparaisons, nous
 devons calculer le plus de bords possibles. Pour ce faire,
-l'évaluation de \(\Border{}{x}\) amènerait à chercher le bord maximum
+l'évaluation de \(\Border{}{x}\) amènerait à chercher le bord maximal
 d'un facteur de longueur \(n-1\), où \(n\)~est la longueur
 de~\(x\). Le meilleur des cas \(x=a^{n}\) montre que \(\Border{}{x} =
 \ind{x}{1,n-1}\), ce qui sied à notre but, sauf que nous voudrions
@@ -953,7 +953,7 @@ positives précédentes, font un total de \(2n-3\). Puisque
 \belowdisplayskip=0pt
 \OW{\fun{pp}}{n} = 2(n-1)-3 = 2n - 5.
 \end{equation*}
-\index{recherche de motifs!prétraitement de Morris et Pratt!coût maximum|)}
+\index{recherche de motifs!prétraitement de Morris et Pratt!coût maximal|)}
 
 \vspace*{-20pt}
 
@@ -1007,12 +1007,12 @@ incrémentée à chaque inégalité de la première lettre du motif
 
 
 \addcontentsline{toc}{subsection}{Coût}
-\paragraph{Coût minimum}
-\index{recherche de motifs!algorithme de Morris et Pratt!coût minimum|(}
+\paragraph{Coût minimal}
+\index{recherche de motifs!algorithme de Morris et Pratt!coût minimal|(}
 
 Soit
 \(\smash[t]{\OB{\fun{mp/5}}{m,n}}\)\index{mp@$\OB{\fun{mp/5}}{m,n}$}
-le nombre minimum de comparaisons effectuées durant une évaluation de
+le nombre minimal de comparaisons effectuées durant une évaluation de
 \fun{mp/5}, où \(m\)~est la longueur du motif et \(n\)~est la longueur
 du texte. Tout comme avec la recherche na\"{\i}ve, le meilleur des cas
 est quand le motif est un préfixe du texte, donc
@@ -1025,12 +1025,12 @@ le nombre de comparaisons
 \OB{\fun{mp}}{m,n} = \OB{\fun{pp}}{m} + \OB{\fun{mp/5}}{m,n} = (m-2)
 + m = 2m - 2.
 \end{equation*}
-\index{recherche de motifs!algorithme de Morris et Pratt!coût minimum|)}
+\index{recherche de motifs!algorithme de Morris et Pratt!coût minimal|)}
 
 \vspace*{-10pt}
 
-\paragraph{Coût maximum}
-\index{recherche de motifs!algorithme de Morris et Pratt!coût maximum|(}
+\paragraph{Coût maximal}
+\index{recherche de motifs!algorithme de Morris et Pratt!coût maximal|(}
 
 Puisque l'algorithme de Morris et Pratt seulement lit le texte vers
 l'avant, le pire des cas doit maximiser le nombre de fois que les
@@ -1044,18 +1044,18 @@ motif à se décaler le moins possible, nous imposons en plus
 \(\ind{p}{1} \neq \ind{t}{i}\), pour \(i>0\). En bref, cela signifie
 que \(ab \prefeq p\), avec des lettres \(a\)~et~\(b\) telles que \(a
 \neq b\) et \(t=a^n\). Un simple diagramme suffit pour révéler que
-cette configuration produit le nombre maximum de comparaisons
+cette configuration produit le nombre maximal de comparaisons
 \(\OW{\fun{mp/5}}{m,n} = 2n - 1\)\index{mp@$\OW{\fun{mp/5}}{m,n}$},
 car chaque lettre du texte est comparée deux fois, sauf la première,
 qui n'est comparée qu'une fois. En tenant compte du prétraitement, le
-nombre maximum de comparaisons \(\OW{\fun{mp}}{m,n}\)
+nombre maximal de comparaisons \(\OW{\fun{mp}}{m,n}\)
 \index{mp@$\OW{\fun{mp}}{m,n}$} de \fun{mp/2}\index{mp@\fun{mp/2}} est
 \begin{equation*}
 \belowdisplayskip=0pt
 \OW{\fun{mp}}{m,n} = \OW{\fun{pp}}{m} + \OB{\fun{mp/5}}{m,n} = (2m-5)
 + (2n-1) = 2(n + m - 3).
 \end{equation*}
-\index{recherche de motifs!algorithme de Morris et Pratt!coût maximum|)}
+\index{recherche de motifs!algorithme de Morris et Pratt!coût maximal|)}
 
 \vspace*{-10pt}
 
@@ -1065,7 +1065,7 @@ nombre maximum de comparaisons \(\OW{\fun{mp}}{m,n}\)
 L'étude précédente mène à des programmes pour le prétraitement et la
 recherche qui obscurcissent plutôt l'idée principale derrière
 l'algorithme de Morris et Pratt, à savoir, le recours aux bords
-maximums des préfixes propres du motif et la lecture unidirectionnelle
+maximaux des préfixes propres du motif et la lecture unidirectionnelle
 du texte. La raison de cette infortune est que, pour des impératifs
 d'efficacité, nous devons mémoïser\index{mémoïsation} les valeurs de
 la fonction de suppléance et, au lieu de travailler avec le motif
@@ -1163,7 +1163,7 @@ matière à réflexion. Que se passerait-il si \(a = \word{a}\)?  Alors
 le décalage mènerait immédiatement à une comparaison négative. Donc,
 comparons \(\smash{\Ind{p}{\MPfailure{p}{}{i}}}\) à~\(\ind{t}{j}\)
 seulement si \(\smash{\Ind{p}{\MPfailure{p}{}{i}}} \neq
-\ind{p}{i}\). Sinon, nous prenons le bord maximum du bord maximum
+\ind{p}{i}\). Sinon, nous prenons le bord maximal du bord maximal
 etc. jusqu'à ce que nous trouvions le plus petit~\(q\) tel que
 \(\smash{\Ind{p}{\MPfailure{p}{q}{i}}} \neq \ind{p}{i}\). Ceci est une
 amélioration proposée par \cite{KnuthMorrisPratt_1977}. Une édition

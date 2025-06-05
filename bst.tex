@@ -62,10 +62,10 @@ redéfinition de \fun{in/2}\index{in@\fun{in/2}} à la
 2n + 2\).
 
 Le pire des cas pour \fun{ord/1}\index{ord@\fun{ord/1}} se produit
-quand la pile est ordonnée de façon croissante, donc le coût maximum
+quand la pile est ordonnée de façon croissante, donc le coût maximal
 est \(\W{\fun{ord}}{n} = n\), si \(n > 0\). Le meilleur des cas est
 manifesté quand la première clé est supérieure à la deuxième, donc le
-coût minimum est \(\B{\fun{ord}}{n} = 1\). En somme, nous avons
+coût minimal est \(\B{\fun{ord}}{n} = 1\). En somme, nous avons
 \(\B{\fun{bst}_0}{n} = 1 + (2n+2) + 1 = 2n + 4\) et
 \(\W{\fun{bst}_0}{n} = 1 + (2n+2) + n = 3n + 3\).
 
@@ -112,7 +112,7 @@ Le programme est montré à la
 \caption{Vérification d'un arbre binaire de recherche}
 \label{fig:bst}
 \end{figure}
-Le paramètre~\(m\) représente la clé \emph{minimum} jusqu'à
+Le paramètre~\(m\) représente la clé \emph{minimale} jusqu'à
 présent. Le seul but de \fun{norm/1}\index{norm@\fun{norm/1}} est de
 se débarrasser de la plus petite clé~\(m\) dans l'arbre et de terminer
 à la place avec \(\fun{true}()\), mais, si l'arbre n'est pas vide,
@@ -122,7 +122,7 @@ utile.\index{true@\fun{true/1}}
 
 Dans le pire des cas, l'arbre originel est un arbre binaire de
 recherche, donc il doit être traversé dans son intégralité. S'il y a
-\(n\)~n{\oe}uds internes, le coût maximum est \(\W{\fun{bst}}{n} = 1 +
+\(n\)~n{\oe}uds internes, le coût maximal est \(\W{\fun{bst}}{n} = 1 +
 2n + (n+1) + 1 = 3n + 3\)\index{bst@$\W{\fun{bst}}{n}$} parce que
 chaque n{\oe}ud interne déclenche un appel à
 \fun{bst\(_1\)/2}\index{bst1@\fun{bst\(_1\)/2}} et, à son tour, un
@@ -133,7 +133,7 @@ ce qui n'est pas une amélioration. Néanmoins, ici, nous ne
 construisons pas une pile avec toutes les clés, ce qui est un gain
 clair en termes de mémoire allouée.
 
-Ceci dit, la mémoire n'est pas le seul avantage, car le coût minimum
+Ceci dit, la mémoire n'est pas le seul avantage, car le coût minimal
 de \fun{bst/1}\index{bst@\fun{bst/1}} est inférieur à celui de
 \fun{bst\(_0\)/1}.\index{bst0@\fun{bst\(_0\)/1}} En effet, le meilleur
 des cas pour les deux se produit lorsque l'arbre n'est pas un arbre
@@ -151,7 +151,7 @@ configurations font l'affaire:
 \end{align*}
 où \(x \succcurlyeq y\). (Le deuxième arbre est la rotation à gauche
 du premier. Nous avons vu \vpageref{par:rotation} que les parcours
-infixes sont invariants par rotations.) Le coût minimum dans les deux
+infixes sont invariants par rotations.) Le coût minimal dans les deux
 cas est \(\B{\fun{bst}}{n} = 8\),\index{bst@$\B{\fun{bst}}{n}$} à
 contraster avec le coût linéaire \(\B{\fun{bst}_0}{n} = 2n +
 4\)\index{bst0@$\B{\fun{bst}_0}{n}$} dû à l'inévitable parcours infixe
@@ -188,7 +188,7 @@ tous les n{\oe}uds. Plus précisément, si tous les n{\oe}uds sont
 visités, alors l'arbre est dégénéré\index{arbre binaire!$\sim$
   dégénéré}, à savoir, il est isomorphe à une pile, comme les arbres à
 la \fig~\vref{fig:tree_stack} et~\vref{fig:zigzag}. Il est évident que
-le coût minimum d'une recherche positive (la clé est trouvée) se
+le coût minimal d'une recherche positive (la clé est trouvée) se
 produit quand la clé est à la racine, donc
 \(\B{\fun{mem}}{n{\scriptscriptstyle (+)}} =
 1\),\index{mem@$\B{\fun{mem}}{n{\scriptscriptstyle (+)}}$} et une
@@ -200,7 +200,7 @@ recherche positive maximise son coût quand l'arbre est dégénéré et la
 clé en question est la seule feuille\index{arbre binaire!feuille}, donc
 \(\W{\fun{mem}}{n{\scriptscriptstyle (+)}} =
 n\),\index{mem@$\W{\fun{mem}}{n{\scriptscriptstyle (+)}}$} et une
-recherche négative de coût maximum se produit si nous visitons un des
+recherche négative de coût maximal se produit si nous visitons un des
 enfants de la feuille d'un arbre dégénéré\index{arbre binaire!$\sim$
   dégénéré}: \(\W{\fun{mem}}{n{\scriptscriptstyle (-)}} =
 n+1\).\index{mem@$\W{\fun{mem}}{n{\scriptscriptstyle (-)}}$}
@@ -846,7 +846,7 @@ tout arbre dégénéré est le pire des cas.
 Le meilleur des cas pour l'insertion d'une feuille avec
 \(\fun{insl/2}\) et \(\fun{insl\(_1\)/2}\) se produit quand la clé
 doit devenir l'enfant, à gauche ou à droite, de la racine, ou, dit
-autrement, la racine contient la clé minimum ou maximum dans le
+autrement, la racine contient la clé minimale ou maximale dans le
 parcours infixe, donc \(\B{\fun{insl}}{n} =
 2\)\index{insl@$\B{\fun{insl}}{n}$} et \(\B{\fun{insl}_1}{n} =
 3\).\index{insl@$\B{\fun{insl}_1}{n}$} En ce qui concerne les
@@ -865,7 +865,7 @@ n'a plus d'enfant vide, donc le meilleur des cas que nous avons
 déterminé avant n'est plus valable.
 
 Soit \(\OB{\fun{mkl}}{n}\)\index{mkl@$\OB{\fun{mkl}}{n}$} le nombre
-minimum de comparaisons nécessaires pour cons\-trui\-re un arbre
+minimal de comparaisons nécessaires pour cons\-trui\-re un arbre
 binaire de recherche de taille~\(n\) par insertion de feuilles. Si
 nous souhaitons minimiser le coût de chaque insertion, alors la
 longueur interne de chaque n{\oe}ud doit être minimale et cela est
@@ -899,7 +899,7 @@ enfin
 \OB{\fun{mkl}}{n} = (n+1)\lg(n+1) - 2n.
 \end{equation*}
 Nous avons prouvé \(1 + \floor{\lg n} = \ceiling{\lg(n+1)}\) en
-déterminant le nombre maximum de comparaisons du tri par
+déterminant le nombre maximal de comparaisons du tri par
 interclassement descendant, à l'équation~\eqref{eq:top}
 \vpageref{eq:top}, donc nous pouvons conclure:
 \begin{equation}
@@ -968,7 +968,7 @@ Dans tous les cas, il est clairement établi à ce point que
 \(\OB{\fun{mkl}}{n} \sim n\lg n\).\index{mkl@$\OB{\fun{mkl}}{n}$}
 
 Soit \(\OW{\fun{mkl}}{n}\)\index{mkl@$\OW{\fun{mkl}}{n}$} le nombre
-maximum de comparaisons pour construire un arbre binaire de recherche
+maximal de comparaisons pour construire un arbre binaire de recherche
 de taille~\(n\) par insertion de feuilles. Si nous maximisons chaque
 insertion, nous devons faire croître un arbre dégénéré et insérer à un
 n{\oe}ud de longueur externe maximale:
@@ -1729,7 +1729,7 @@ d'une feuille, les analyses précédentes des extremums du coût de
 \fun{insl/2} et \fun{insl\(_1\)/2} sont valables aussi bien pour
 \fun{insr/2}. Considérons maintenant les coûts amortis de
 \fun{insr/2}, à savoir, les extremums du coût de \fun{mkr/1}.  Soit
-\(\OB{\fun{mkr}}{n}\)\index{mkr@$\OB{\fun{mkr}}{n}$} le nombre minimum
+\(\OB{\fun{mkr}}{n}\)\index{mkr@$\OB{\fun{mkr}}{n}$} le nombre minimal
 de comparaisons pour construire un arbre binaire de recherche de
 taille~\(n\) en employant des insertions de racines. Nous avons vu que
 le meilleur cas pour l'insertion d'une feuille (\fun{insl/2}) se
@@ -1741,16 +1741,16 @@ racine avec exactement une rotation (à gauche si la clé était l'enfant
 à droite, à droite si elle était l'enfant à gauche), laissant la place
 libre à nouveau pour une autre insertion efficace (\fun{insr/2}). Au
 bout du compte, l'arbre de recherche est dégénéré; en fait, il y a
-exactement deux arbres de coût minimum, dont les formes sont celles de
+exactement deux arbres de coût minimal, dont les formes sont celles de
 la \fig~\vref{fig:tree_stack}. Il est intéressant de noter que ces
-arbres sont de coût maximum lorsqu'ils sont construits avec des
+arbres sont de coût maximal lorsqu'ils sont construits avec des
 insertions de feuilles. La première clé n'est pas comparée, donc nous
 avons \(\OB{\fun{mkr}}{n} = n - 1 \sim \OB{\fun{mkl}}{n}/\lg n\). Il
-est peut-être surprenant que le nombre maximum de comparaisons
+est peut-être surprenant que le nombre maximal de comparaisons
 \(\OW{\fun{mkr}}{n}\)\index{mkr@$\OW{\fun{mkr}}{n}$} pour faire un
 arbre de recherche de taille~\(n\) avec \fun{mkr/1}, c'est-à-dire le
-nombre maximum amorti de comparaisons avec \fun{insr/2}, est bien plus
-difficile a déterminer que le coût minimum ou moyen.
+nombre maximal amorti de comparaisons avec \fun{insr/2}, est bien plus
+difficile a déterminer que le coût minimal ou moyen.
 \cite{GeldenhuysVanderMerwe_2009} montrent que
 \begin{equation*}
 \abovedisplayskip=4pt
@@ -1810,8 +1810,8 @@ recherche sans la clé en question. Comme avec l'insertion, nous
 pourrions simplement commencer avec la recherche de la clé: si elle
 est absente, il n'y a rien à faire, sinon nous remplaçons la clé par
 son successeur ou prédécesseur immédiat en ordre infixe, c'est-à-dire
-par la clé minimum du sous-arbre droit ou la clé maximum du sous-arbre
-gauche.
+par la clé minimale du sous-arbre droit ou la clé maximale du
+sous-arbre gauche.
 
 Les définitions pour ces deux phases se trouvent à la
 \fig~\vref{fig:del}.
@@ -1841,7 +1841,7 @@ Les définitions pour ces deux phases se trouvent à la
 \label{fig:del}
 \end{figure}
 Nous avons \(\fun{min}(t_2) \twoheadrightarrow
-\pair{m}{t'_2}\),\index{min@\fun{min/1}} où \(m\)~est la clé minimum
+\pair{m}{t'_2}\),\index{min@\fun{min/1}} où \(m\)~est la clé minimale
 de l'arbre~\(t_2\) et \(t'_2\)~est la reconstruction de~\(t_2\)
 sans~\(m\); en d'autres termes, le n{\oe}ud interne le plus à gauche
 de~\(t_2\) contient la clé~\(m\) et ce n{\oe}ud a été remplacé par un

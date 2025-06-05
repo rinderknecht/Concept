@@ -862,7 +862,7 @@ pratique, les compilateurs n'assurent pas cette propriété et les
 programmeurs doivent expliciter le partage lorsqu'il va au-delà de
 simples variables. Par exemple, examinons à nouveau la
 \fig~\vref{fig:flat0} où la fonction \fun{flat\(_0\)/1} est
-définie. En \Erlang, le partage maximum à la règle~\(\gamma\) est
+définie. En \Erlang, le partage maximal à la règle~\(\gamma\) est
 réalisé en nommant \(\cons{x}{s}\) dans le motif et en réutilisant ce
 nom dans le membre droit. Ce nom est un \emph{synonyme} (anglais,
 \emph{alias}). La syntaxe est évidente:
@@ -884,7 +884,7 @@ vue à la \fig~\vref{fig:red} et qui recopie la pile donnée tout en
 \end{array}
 \end{equation*}
 Par exemple, \(\fun{red}([4,2,2,1,1,1,2]) \twoheadrightarrow
-[4,2,1,2]\). La traduction en \Erlang avec partage maximum est
+[4,2,1,2]\). La traduction en \Erlang avec partage maximal est
 \begin{alltt}
 red(         []) -> [];
 red([X|\textbf{S=[X|\_]}]) -> red(\textbf{S});
@@ -947,7 +947,7 @@ tms(          T) -> T.
                      & \fun{i2w}(s,t,\cons{x}{u}).
 \end{array}
 \end{equation*}
-En \Erlang, le partage maximum exige un synonyme aux clauses
+En \Erlang, le partage maximal exige un synonyme aux clauses
 \clause{\sigma}~et~\clause{\tau}:
 \begin{alltt}
 i2w(S)                              -> i2w(S,[],[]).
@@ -976,7 +976,7 @@ mem4(_,           ext,        _)            -> false.
 
 Parfois, la synonymie est cruciale. Par exemple, toute la discussion à
 propos de la persistance, à la section~\ref{sec:persistence}, repose
-sur l'existence d'un partage maximum dans chaque règle de réécriture,
+sur l'existence d'un partage maximal dans chaque règle de réécriture,
 mais, ici, \Erlang a besoin de synonymes pour mettre en {\oe}uvre
 cette condition, donc les définitions~\eqref{eq:push_pop_persistence}
 \vpageref{eq:push_pop_persistence} \emph{doivent} être traduites comme
@@ -1014,7 +1014,7 @@ de \fun{sum/1} à la \fig~\vref{fig:sum_dag}.
 \begin{figure}
 \centering
 \includegraphics{sum_dag}%[bb=71 666 237 721]
-\caption{Définition de \fun{sum/1} avec partage maximum}
+\caption{Définition de \fun{sum/1} avec partage maximal}
 \label{fig:sum_dag}
 \end{figure}
 Évaluons \(\fun{sum}([3,7,5])\) et montrons les premières réécritures
@@ -2203,9 +2203,9 @@ réinsérées à la clause~\(\epsilon_0\).
 La même analyse que nous avons faite pour déterminer le coût de
 \erlcode{isrt/1} est valable ici aussi, sauf que les clés sont
 insérées dans leur ordre initial. Donc, lorsque les clés sont
-triées par ordre croissant, le coût ici est \emph{maximum} (à savoir,
+triées par ordre croissant, le coût ici est \emph{maximal} (à savoir,
 la clause~\(\delta\) est utilisée au maximum) et quand elle est triée
-par ordre non-croissant, le coût est \emph{minimum} (la
+par ordre non-croissant, le coût est \emph{minimal} (la
 clause~\(\delta\) n'est jamais utilisée). \emph{Si les clés ne sont
   pas répétées, le meilleur des cas de \erlcode{isrt/1} est le pire des
 cas de \erlcode{isrt\_tf/1}, et le pire des cas de \erlcode{isrt/1} est
@@ -2213,7 +2213,7 @@ le meilleur des cas de \erlcode{isrt\_tf/1}.} Ceci tient parce que
 «~non-croissant~» signifie la même chose que «~croissant~» lorsqu'il n'y a
 pas de répétition.
 
-Dans le but de déterminer le coût minimum de la version finale de
+Dans le but de déterminer le coût minimal de la version finale de
 \erlcode{isrt\_tf/1}, il est utile de comprendre mieux au préalable
 l'évaluation en examinant la trace d'un petit exemple, comme le tri de
 \erlcode{[4,3,2,1]}, qui est une pile triée par ordre décroissant:
@@ -2224,7 +2224,7 @@ isrt_tf([4,3,2,1]) \(\MyArrow{\duparrow}{\alpha\sb{1}}\) ins(     [],4,[3,2,1])
                    \(\MyArrow{\duparrow}{\epsilon\sb{0}}\) ins([2,3,4],1,     [])
                    \(\MyArrow{\duparrow}{\epsilon\sb{1}}\) [1,2,3,4]\textrm{.}
 \end{alltt}
-Notons \(\B{\fun{isrt\_tf}}{n}\) le coût minimum pour trier
+Notons \(\B{\fun{isrt\_tf}}{n}\) le coût minimal pour trier
 \(n\)~clés. Alors \(\B{\fun{isrt\_tf}}{0} = 1\), via la
 clause~\(\alpha_0\). Supposons ensuite que \(n > 0\). Alors
 \begin{itemize}
@@ -2255,12 +2255,12 @@ si~\(n>0\). Étant donné que nous avons trouvé \(\B{\fun{isrt\_tf}}{0}
 \(\W{\fun{isrt}}{n} = (n^2 + 3n + 2)/2\), parce que le meilleur des
 cas de \erlcode{isrt\_tf/1} correspond au pire des cas de
 \erlcode{isrt/1} quand les clés sont uniques. Nous pouvons de plus
-raisonner que ce coût minimum de \erlcode{isrt\_tf/1} est aussi un
+raisonner que ce coût minimal de \erlcode{isrt\_tf/1} est aussi un
 minimum absolu pour un algorithme de tri quand l'entrée est triée par
 ordre non-croissant, car il s'agit simplement du coût pour retourner
 l'entrée.
 
-Soit \(\W{\fun{isrt\_tf}}{n}\) le coût maximum de
+Soit \(\W{\fun{isrt\_tf}}{n}\) le coût maximal de
 \erlcode{isrt\_tf(\(S\))}, où la pile~\(S\) contient \(n\)~clés (en
 ordre croissant). Pour la pile vide, la trace d'évaluation
 est~\(\alpha_0\). Pour les singletons, par exemple \erlcode{[5]}, nous
@@ -2308,11 +2308,11 @@ c'est-à-dire que la trace d'évaluation générale, quand \(n > 1\), est
 = \alpha_1\prod_{p=0}^{n-2}{\left((\delta\epsilon_0)^p\epsilon_0\right)}
 \cdot (\delta\epsilon_0)^{n-1} \cdot \epsilon_1.
 \end{equation*}
-Cette observation est déterminante pour obtenir le coût maximum car
+Cette observation est déterminante pour obtenir le coût maximal car
 elle suggère de compter les emplois des clauses~\(\delta\)
 et~\(\epsilon_0\) \emph{ensemble}, comme cela est montré dans le
 membre droit de l'égalité qui précède. Nous pouvons maintenant
-directement dériver le coût maximum:
+directement dériver le coût maximal:
 \begin{align*}
   \W{\fun{isrt\_tf}}{n}
   &= \left|\alpha_1\prod_{p=0}^{n-2}{\left((\delta\epsilon_0)^p\epsilon_0\right)}
@@ -2413,7 +2413,7 @@ isrt0([I|L],    P,    Q)            -> isrt0(    L,    P,[I|Q]).
 \noindent Ici, une réécriture implique le déplacement d'une clé
 exactement, donc le coût de \erlcode{isrt0/3} est le nombre de
 mouvements de clés pour trier la pile originelle. Analysez le nombre
-minimum, maximum et moyen de mouvements de clés.
+minimal, maximal et moyen de mouvements de clés.
 
 \paragraph{Codage léger des piles d'accumulation}
 \index{pile!codage avec des \(n\)-uplets|(}
@@ -2651,14 +2651,14 @@ recalculant, donc l'arbre ressemble maintenant à la
 \begin{figure}
 \centering
 \includegraphics[bb=71 671 349 718]{fib5shared}
-\caption{Arbre des appels de \erlcode{fib(5)} avec partage maximum}
+\caption{Arbre des appels de \erlcode{fib(5)} avec partage maximal}
 \label{fig:fib5shared}
 \end{figure}
 où les arcs fléchés dénotent le partage de sous-arbres. À proprement
 parler, il s'agit d'un graphe orienté sans circuits, et cette
 représentation nous amène à penser que si deux nombres de Fibonacci
 successifs sont conservés à tout moment, nous pouvons réaliser ce
-partage maximum. Dénotons par~\(F_n\) le \(n^\text{e}\)~nombre de
+partage maximal. Dénotons par~\(F_n\) le \(n^\text{e}\)~nombre de
 Fibonacci dans la suite. Alors chaque étape de calcul est
 \((F_{n-1},F_{n}) \rightarrow (F_{n}, F_{n+1}) :=
 (F_{n},F_{n}+F_{n-1})\). Définissons~\(f\) telle que \(f(x,y) :=
@@ -3387,7 +3387,7 @@ l'ordre des arguments de la fonction \erlcode{ins/2} est important.
 Ceci nous amène à formuler des règles d'usage à propos de la
 transformation en forme terminale. Nous savons déjà qu'une définition
 en forme terminale est bénéfique ou même nécessaire si la taille
-maximum de la pile de contrôle est inférieure à celle d'une entrée
+maximale de la pile de contrôle est inférieure à celle d'une entrée
 traversée récursivement dans sa plus grande étendue. Aucune
 accélération ne devrait être attendue a priori de la transformation en
 forme terminale --- bien que ceci se produise parfois. Habituellement,
@@ -3404,7 +3404,7 @@ forme terminale --- bien que ceci se produise parfois. Habituellement,
   \item lorsque nous écrivons notre propre récursivité, c'est-à-dire
   sans ressortir aux compositions itérées, il vaut mieux faire en
   sorte qu'elle soit en forme terminale si l'accumulateur est un
-  entier, sinon la taille maximum de la pile de contrôle utilisée peut
+  entier, sinon la taille maximale de la pile de contrôle utilisée peut
   être proportionnelle à la taille de l'entrée, bien que le résultat
   soit un entier. (Contraster \erlcode{sum/1} et \erlcode{sum0/2},
   mais aussi \erlcode{len/1} et \erlcode{len0/1}.)
@@ -4644,7 +4644,7 @@ La différence est que \erlcode{pal0/3}, plutôt que de construire une
 continuation qui retient les éléments de la première moitié et prévoie
 un test, elle retourne explicitement la première moitié et la compare
 à la seconde moitié au moyen de \erlcode{eq/2}. Le coût de
-\erlcode{pal/1} et \erlcode{pal0/1} sont les mêmes. Le coût minimum
+\erlcode{pal/1} et \erlcode{pal0/1} sont les mêmes. Le coût minimal
 est \(\B{\fun{pal}}{n} = \B{\fun{pal0}}{n} = \floor{n/2} + 2\), si
 \erlcode{S}~n'est pas un palindrome et la différence est au milieu; le
 pire des cas est quand \erlcode{S}~est un palindrome et le coût est

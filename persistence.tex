@@ -24,13 +24,13 @@ l'original.
 \label{fig:red}
 \end{wrapfigure}
 
-\paragraph{Partage maximum}
+\paragraph{Partage maximal}
 \index{partage}
 
 Une occasion évidente de partage est l'occurrence d'une variable dans
 les deux membres d'une même règle, comme on peut le voir à la
 \fig~\vref{fig:cat_dag} par exemple. Mais ceci ne conduit pas
-nécessairement à un partage maximum, comme la définition de
+nécessairement à un partage maximal, comme la définition de
 \fun{red/1}\index{red@\fun{red/1}} (\emph{réduire}) à la
 \fig~\vref{fig:red} le montre. Cette fonction recopie une pile sans
 ses éléments répétés consécutivement. Par exemple,
@@ -43,7 +43,7 @@ orienté sans circuit représentant la deuxième règle est montré à la
   \includegraphics[bb=65 645 163 723]{red_dag1}
 }
 \qquad\qquad
-\subfloat[Partage maximum\label{fig:red_dag2}]{%
+\subfloat[Partage maximal\label{fig:red_dag2}]{%
   \includegraphics[bb=60 645 163 723]{red_dag2}
 }
 \caption{Graphe orienté sans circuits de la seconde règle de \fun{red/1}}
@@ -51,15 +51,15 @@ orienté sans circuit représentant la deuxième règle est montré à la
 Dans cette figure, le partage est fondé sur des occurrences communes
 de variables, mais nous pouvons constater que \(\cons{x}{s}\) n'est
 pas complètement partagé. Considérons la même règle à la
-\fig~\vref{fig:red_dag2} avec un partage maximum, où un sous-arbre
+\fig~\vref{fig:red_dag2} avec un partage maximal, où un sous-arbre
 complet est partagé.
 
 %\setlength{\intextsep}{12pt}
 
 Dans toute discussion sur la gestion de la mémoire, \emph{nous
-  supposerons que le partage est maximum pour chaque règle}, donc, par
+  supposerons que le partage est maximal pour chaque règle}, donc, par
 exemple, \fig~\vref{fig:red_dag2} serait le défaut. Mais cette
-propriété n'est pas suffisante pour assurer que le partage est maximum
+propriété n'est pas suffisante pour assurer que le partage est maximal
 entre les arguments d'un appel de fonction et sa valeur. Par exemple,
 \begin{equation*}
 \fun{cp}(\el) \rightarrow \el;\qquad
@@ -114,7 +114,7 @@ Les graphes orientés sans circuits (GOSC) associés sont montrés à la
 \begin{figure}[t]
 \centering
 \includegraphics[bb=70 639 294 723]{push_pop_dag}
-\caption{GOSC de \fun{push/2} et \fun{pop/1} avec partage maximum}
+\caption{GOSC de \fun{push/2} et \fun{pop/1} avec partage maximal}
 \label{fig:push_pop_dag}
 \end{figure}
 L'histoire \([[4,2,1],[2,1],[3,2,1],[2,1],[1],\el]\) est montrée
@@ -425,7 +425,7 @@ longueur~\(n\). Voir la \fig~\ref{fig:ver}.
 \end{array}
 \end{equation*}
 
-Maintenant, il existe un coût minimum et maximum. Le pire des cas est
+Maintenant, il existe un coût minimal et maximal. Le pire des cas est
 quand l'élément au fond dans la dernière version est le premier
 élément empilé dans l'histoire, donc
 \fun{lst\(_4\)/3}\index{lst4@\fun{lst\(_4\)/3}} doit retourner jusqu'à
