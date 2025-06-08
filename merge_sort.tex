@@ -1283,7 +1283,7 @@ Posons la différence entre deux termes successifs: \(\Delta_n :=
 En somme, \(\Delta_0 = 0\) et \(\Delta_n = \Delta_{\floor{n/2}} +
 1\). Si nous déroulons la récurrence, nous trouvons que \(\Delta_n =
 \Delta_{\floor{\floor{n/2}/2}}+ 2\), donc nous devons simplifier
-\(\floor{\floor{\floor{\dots}/2}/2}\).
+un terme de la forme \(\floor{\floor{\floor{\dots}/2}/2}\).
 \begin{thm}[Parties entières par défaut et fractions]
 \label{thm_floors}
 \textsl{Soit \(x\)~un nombre réel et \(q\)~un entier naturel. Alors
@@ -1781,10 +1781,10 @@ Cherchons maintenant les plus petites constantes réelles
 La différence avec le minorant est que les inégalités sont inversées
 et nous minimisons les inconnues, au lieu de les maximiser. Par
 conséquent, le cas de base est ici \(b' \geqslant -2a - 1\) et la
-condition pour l'induction est \(a' \geqslant \Phi(x)\). Nous
-connaissons le comportement de~\(\Phi\), donc \(a'_{\min} := \max_{0
-  \leqslant x \leqslant 1}\Phi(x) = \Phi(0) = 0\), et \(b'_{\min} :=
--2a'_{\min} - 1 = -1\). En conclusion,
+condition pour l'induction est \(a' \geqslant \Phi(x)\). D'après les
+variations de~\(\Phi\): \(a'_{\min} := \max_{0 \leqslant x \leqslant
+  1}\Phi(x) = \Phi(0) = 0\), et \(b'_{\min} := -2a'_{\min} - 1 =
+-1\). En conclusion,
 \begin{equation}
 n\lg n - n + 1 \leqslant \OW{\fun{bms}}{n} < n\lg n - 1.
 \label{ineq:OWbms}
@@ -2272,11 +2272,11 @@ De plus, nous avons la limite
   \overline\lim_{p \to \infty}\Phi(p,i) = \frac{i}{i+1} - \alpha <
   1 - \alpha = \Phi(0,1),
 \end{equation*}
-donc les courbes ont des asymptotes. Puisque nous sommes à la
-recherche du maximum, nous déduisons: \(a'_{\min} = \max_{0 < i
-  \leqslant 2^p}\Phi(p,i) = 1 - \alpha \simeq -0.2645\), et la
-constante est \(b'_{\min} = -2a'_{\min} - 1 = 2\alpha - 3 \simeq
--0.471\). En somme, nous avons trouvé, pour \(n \geqslant 2\),
+donc les courbes ont des asymptotes. Puisque nous recherchons le
+maximum, nous déduisons: \(a'_{\min} = \max_{0 < i \leqslant
+  2^p}\Phi(p,i) = 1 - \alpha \simeq -0.2645\), et la constante est
+\(b'_{\min} = -2a'_{\min} - 1 = 2\alpha - 3 \simeq -0.471\). En somme,
+nous avons trouvé, pour \(n \geqslant 2\),
 \begin{equation}
 n\lg n - \alpha n + (2\alpha - 1) < \OM{\fun{bms}}{n}
 < n\lg n - (\alpha - 1)n - (3 - 2\alpha).
