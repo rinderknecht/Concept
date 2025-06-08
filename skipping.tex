@@ -164,7 +164,7 @@ Il n'est pas possible de discriminer les deux cas, le premier
 signifiant absence de l'élément et le second présence, car tous deux
 terminent avec la pile vide. En fait, nous aurions dû distinguer deux
 constructeurs pour dénoter «~l'élément est présent~» et «~l'élément est
-absent.~» Par exemple,
+absent~». Par exemple,
 \begin{equation*}
 \begin{array}{r@{\;}l@{\;}l}
 \fun{mem}(\el,x)         & \smashedrightarrow{\zeta}  & \fun{false}();\\
@@ -291,7 +291,7 @@ est~\(0\) dans notre modèle. Notons aussi qu'il est crucial d'écrire
 la règle~\(\iota\) avant~\(\kappa\), sinon \(\iota\) serait inutile
 (\emph{code mort}\index{langage fonctionnel!code mort}) car nous
 pourrions alors avoir \(y = x\) dans~\(\kappa\). Voici un
-exemple\index{pile!filtrage!exemple} d'une recherche qui trouve son
+exemple\index{pile!filtrage!exemple} de recherche qui trouve son
 objet:
 \begin{equation*}
 \fun{sfst}([3,0,1,2],1) \xrightarrow{\smash{\kappa}}
@@ -311,21 +311,21 @@ Des exemples plus compliqués, \vpageref{sfst_ex}, donnent:
 \begin{array}{r@{\;}l@{\;}l}
 \fun{sfst}([4,[1,2],\el,\el,4],\el)
 & \smashedrightarrow{\kappa} &
-  [4|\fun{sfst}([[1,2],\el,\el,4],\el)]\\
+  \cons{4}{\fun{sfst}([[1,2],\el,\el,4],\el)}\\
 & \smashedrightarrow{\kappa} &
-  [4|[[1,2]|\fun{sfst}([\el,\el,4],\el)]]\\
-& = & [4,[1,2]|\fun{sfst}([\el,\el,4],\el)]\\
-& \smashedrightarrow{\iota} & [4,[1,2]|[\el,4]]\\
+  \cons{4}{\cons{[1,2]}{\fun{sfst}([\el,\el,4],\el)}}\\
+& = & \cons{4, [1,2]}{\fun{sfst}([\el,\el,4],\el)}\\
+& \smashedrightarrow{\iota} & \cons{4,[1,2]}{[\el,4]}\\
 & = & [4,[1,2],\el,4].
 \end{array}
 \end{equation*}
 \begin{equation*}
 \begin{array}{r@{\;}l@{\;}l}
 \fun{sfst}([3,\el],[5,2])
-& \smashedrightarrow{\kappa} & [3|\fun{sfst}([\el],[5,2])]\\
-& \smashedrightarrow{\kappa} & [3|[\el|\fun{sfst}(\el,[5,2])]]\\
-& = & [3,\el|\fun{sfst}(\el,[5,2])]\\
-& \smashedrightarrow{\theta} & [3,\el|\el]\\
+& \smashedrightarrow{\kappa} & \cons{3}{\fun{sfst}([\el],[5,2])}\\
+& \smashedrightarrow{\kappa} & \cons{3}{\cons{\el}{\fun{sfst}(\el,[5,2])}}\\
+& = & \cons{3,\el}{\fun{sfst}(\el,[5,2])}\\
+& \smashedrightarrow{\theta} & \cons{3,\el}{\el}\\
 & = & [3,\el].
 \end{array}
 \end{equation*}
@@ -427,7 +427,7 @@ suppose que \(j\)~peut prendre toutes les positions dans la pile:
   \frac{1}{n}\sum_{j=0}^{n-1}(j+1) = \frac{1}{n}\sum_{j=0}^{n}j
   = \frac{n+1}{2} \sim \frac{n}{2},
 \end{equation*}
-par l'équation~\eqref{eq:sum_k} \vpageref{eq:sum_k}.
+de par l'équation~\eqref{eq:sum_k} \vpageref{eq:sum_k}.
 
 Notons que la règle~\(\kappa\) implique la création d'un
 n{\oe}ud~(\texttt{|}), que nous appelons \emph{n{\oe}ud

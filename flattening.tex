@@ -124,19 +124,19 @@ Considérons un exemple à la \fig~\vref{fig:flat0_ex},
 & \xrightarrow{\smash{\omega}}
 & \fun{flat}_0([[[1],2],3])\\
 & \xrightarrow{\smash{\gamma}}
-& \fun{cat}(\underline{\fun{flat}_0([[1],2])},\fun{flat}_0([3]))\\
+& \fun{cat}(\ufun{flat}_0([[1],2]),\fun{flat}_0([3]))\\
 & \xrightarrow{\smash{\gamma}}
-& \fun{cat}(\fun{cat}(\underline{\fun{flat}_0([1])},\fun{flat}_0([2])),\fun{flat}_0([3]))\\
+& \fun{cat}(\fun{cat}(\ufun{flat}_0([1]),\fun{flat}_0([2])),\fun{flat}_0([3]))\\
 & \xrightarrow{\smash{\delta}}
-& \fun{cat}(\fun{cat}([1|\underline{\fun{flat}_0(\el)}],\fun{flat}_0([2])),\fun{flat}_0([3]))\\
+& \fun{cat}(\fun{cat}(\cons{1}{\ufun{flat}_0(\el)},\fun{flat}_0([2])),\fun{flat}_0([3]))\\
 & \xrightarrow{\smash{\psi}}
-& \fun{cat}(\fun{cat}([1],\underline{\fun{flat}_0([2])}),\fun{flat}_0([3]))\\
+& \fun{cat}(\fun{cat}([1],\ufun{flat}_0([2])),\fun{flat}_0([3]))\\
 & \xrightarrow{\smash{\delta}}
-& \fun{cat}(\fun{cat}([1],[2|\underline{\fun{flat}_0(\el)}]),\fun{flat}_0([3]))\\
+& \fun{cat}(\fun{cat}([1],\cons{2}{\ufun{flat}_0(\el)}),\fun{flat}_0([3]))\\
 & \xrightarrow{\smash{\psi}}
-& \fun{cat}(\fun{cat}([1],[2]),\underline{\fun{flat}_0([3])})\\
+& \fun{cat}(\fun{cat}([1],[2]),\ufun{flat}_0([3]))\\
 & \xrightarrow{\smash{\delta}}
-& \fun{cat}(\fun{cat}([1],[2]),[3|\underline{\fun{flat}_0(\el)}])\\
+& \fun{cat}(\fun{cat}([1],[2]),\cons{3}{\ufun{flat}_0(\el)})\\
 & \xrightarrow{\smash{\psi}}
 & \fun{cat}(\fun{cat}([1],[2]),[3])\\
 & \twoheadrightarrow & [1,2,3].
@@ -224,10 +224,14 @@ quels sont les arbres de syntaxe abstraite conduisant à un extremum du
 coût? Nous avons trouvé que le coût minimal de
 \fun{cat/2}\index{cat@\fun{cat/2}} est obtenu lorsque tous les
 n{\oe}uds \fun{cat} constituent la \emph{branche}\index{arbre!branche}
-la plus à droite dans l'arbre de syntaxe abstraire. (Une branche est
+la plus à droite dans l'arbre de syntaxe abstraite. (Une branche est
 une suite de n{\oe}uds où l'un est le parent du suivant, de la racine
-à une feuille.) Si \(\Omega \geqslant \Gamma\), la configuration
-minimale est montrée à la \fig~\ref{fig:cat_min1}
+à une feuille.)
+
+\begin{itemize}
+
+  \item Si l'on a \(\Omega \geqslant \Gamma\), alors la configuration
+    minimale est montrée à la \fig~\ref{fig:cat_min1}
 \begin{figure}
 \centering
 \subfloat[Si \(\Omega \geqslant \Gamma\), le minimum est \(\Gamma\).
@@ -239,15 +243,18 @@ minimale est montrée à la \fig~\ref{fig:cat_min1}
 \label{fig:cat_min}
 \end{figure}
 (au moins une pile vide doit être placée dans toute pile non-vide dont
-l'aplatissement résulte en une pile vide). Sinon, l'arbre de syntaxe
-abstraite de coût minimal est donné à la \fig~\ref{fig:cat_min2}, où
-toutes les piles vides disponibles (\(\Omega\)) sont utilisées par les
-n{\oe}uds \fun{cat} les plus profonds. Nous en concluons que le coût
-minimal\index{pile!aplatissement!coût minimal}
-est\index{flat0@$\B{\fun{flat}_0}{n}$}
-\(\B{\fun{flat}_0}{n,\Omega,\Gamma} = 1 + n + \Omega + 3\Gamma +
-\min\{\Omega,\Gamma\}\).
+l'aplatissement résulte en une pile vide).
 
+\item Sinon, l'arbre de syntaxe abstraite de coût minimal est donné à
+  la \fig~\ref{fig:cat_min2}, où toutes les piles vides disponibles
+  (\(\Omega\)) sont utilisées par les n{\oe}uds \fun{cat} les plus
+  profonds. Nous en concluons que le coût
+  minimal\index{pile!aplatissement!coût minimal} est
+  \index{flat0@$\B{\fun{flat}_0}{n}$}
+  \(\B{\fun{flat}_0}{n,\Omega,\Gamma} = 1 + n + \Omega + 3\Gamma +
+  \min\{\Omega,\Gamma\}\).
+
+\end{itemize}
 Le coût maximal\index{pile!aplatissement!coût maximal} à la
 \fig~\ref{fig:cat_max}
 \begin{figure}
