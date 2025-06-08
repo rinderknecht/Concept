@@ -256,14 +256,13 @@ Prouvons cette propriété par \emph{induction sur la longueur de la
   \fun{pre}(p,t,p,t,0)\) et \(t \succcurlyeq t\) est triviale.
 
   \item L'hypothèse d'induction est \(\pred{Comp}{n}\) et nous voulons
-  montrer que, avec cette hypothèse, \(\pred{Comp}{n+1}\) est vraie
-  aussi. Autrement dit, supposons que \(\fun{loc}(p,t)
-  \xrightarrow{\smash{n}} \fun{pre}(p_0,t_0,p_0',t_0',j)\) implique
-  \(t_0' \succcurlyeq t_0\) et nous voulons prouver que
-  \(\fun{pre}(p_0,t_0,p_0',t_0',j) \rightarrow
-  \fun{pre}(p_1,t_1,p_1',t_1',k)\) implique \(t_1' \succcurlyeq
-  t_1\). Cette réécriture ne peut être que via~\(\tau\)
-  ou~\(\upsilon\).
+    montrer que, avec cette hypothèse, \(\pred{Comp}{n+1}\) est vraie
+    aussi. Autrement dit, si \(\fun{loc}(p,t) \xrightarrow{\smash{n}}
+    \fun{pre}(p_0,t_0,p_0',t_0',j)\), alors \(t_0' \succcurlyeq t_0\);
+    nous voulons prouver que \(\fun{pre}(p_0,t_0,p_0',t_0',j)
+    \rightarrow \fun{pre}(p_1,t_1,p_1',t_1',k)\) implique \(t_1'
+    \succcurlyeq t_1\). Cette réécriture ne peut être que via~\(\tau\)
+    ou~\(\upsilon\).
   \begin{itemize}
 
     \item Si~\(\tau\), l'hypothèse d'induction appliquée au membre
@@ -409,13 +408,13 @@ plus on évite de comparaisons, donc nous voulons trouver le \emph{bord
 
 Le bord d'un mot non-vide~\(y\) est un préfixe propre de~\(y\) qui est
 aussi un suffixe. Par exemple, le mot \word{abacaba} a trois bords:
-\(\varepsilon\), \word{a}~et~\word{aba}. Ce dernier est le bord (de
-longueur) maximal et nous écrivons
+\(\varepsilon\), \word{a}~et~\word{aba}. Ce dernier est le bord de
+longueur maximale, ce que nous décrivons par l'égalité
 \(\Border{}{\underline{\word{aba}}\word{c}\underline{\word{aba}}} =
 \word{aba}\). Un autre exemple est \(\Border{}{\word{abac}} =
 \varepsilon\), car \(\word{abac} =
 \underline{\varepsilon}\word{abac}\underline{\varepsilon}\). Les bords
-maximaux peuvent se recouvrir partiellement, par exemple
+maximaux peuvent se recouvrir partiellement, par exemple nous avons
 \(\Border{}{\underline{\word{aaa}}\word{a}} =
 \Border{}{\word{a}\underline{\word{aaa}}} = \word{aaa}\).
 
@@ -1044,7 +1043,7 @@ motif à se décaler le moins possible, nous imposons en plus
 \(\ind{p}{1} \neq \ind{t}{i}\), pour \(i>0\). En bref, cela signifie
 que \(ab \prefeq p\), avec des lettres \(a\)~et~\(b\) telles que \(a
 \neq b\) et \(t=a^n\). Un simple diagramme suffit pour révéler que
-cette configuration produit le nombre maximal de comparaisons
+cette configuration maximise le nombre de comparaisons
 \(\OW{\fun{mp/5}}{m,n} = 2n - 1\)\index{mp@$\OW{\fun{mp/5}}{m,n}$},
 car chaque lettre du texte est comparée deux fois, sauf la première,
 qui n'est comparée qu'une fois. En tenant compte du prétraitement, le
