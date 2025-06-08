@@ -1,0 +1,214 @@
+Soit~\(h_n\) la hauteur moyenne des arbres de Catalan avec \(n\)~arcs
+et soit \(H_{n,h}\) le nombre d'arbres de Catalan avec \(n\)~arcs et
+de hauteur~\(h\). Nous avons alors \(h_n = S_n/C_{n}\), où \(S_n :=
+\sum_{h \geqslant 1} h \cdot H_{n,h}\). Nous devons saisir cette
+somme. Par exemple, nous pourrions définir~\(A_{n,h}\) comme étant le
+nombre d'arbres avec \(n\)~arcs et de hauteur inférieure ou égale
+à~\(h\). Bien sûr, \(A_{n,h} = A_{n,n+1} = C_{n}\), si \(h >
+n\). Alors \(H_{n,h} = A_{n,h}-A_{n,h-1}\). Les formules peuvent être
+davantage simplifiées en définissant \(B_{n,h}\) comme étant le nombre
+d'arbres avec \(n\)~arcs et de hauteur supérieure à~\(h\):
+\begin{equation}
+S_n = \sum_{h \geqslant 1}h(A_{n,h}-A_{n,h-1})
+    = \sum_{h \geqslant 1}h(B_{n,h-1}-B_{n,h}) = \sum_{h\geqslant 0} B_{n,h}.
+\label{eq:Sn}
+\end{equation}
+
+Avec la détermination de~\(A_{n,h}\) en tête, considérons à la
+\fig~\ref{fig:height} un chemin de Dyck de longueur~\(2n\) et
+hauteur~\(h-1\).
+\begin{figure}[!b]
+\centering
+\subfloat[Chemin de Dyck de longueur~\(2n\) et
+de hauteur \(h-1\) \label{fig:height}]{
+\includegraphics[scale=0.9,bb=71 565 247 721]{height}}
+\quad
+\subfloat[Chemin de \(A\) à \(\Omega\) évitant \(y=x+s\) et
+\(y=x-t\)\label{fig:mohanty}]{
+\includegraphics[scale=0.9,bb=71 621 219 721]{mohanty}}
+\caption{Chemins évitant des frontières diagonales}
+\label{fig:boundaries}
+\end{figure}
+Les lignes doubles sont des frontières qui ne peuvent être atteintes
+par le chemin. Ceci est en fait un cas particulier d'un chemin
+monotone entre deux frontières diagonales, comme on peut le voir à la
+\fig~\ref{fig:mohanty}, où \(s\)~dénote la distance verticale à partir
+de~\(A\), et \(t\)~est la distance horizontale à partir de~\(A\). Il
+est bien connu que le nombre de chemins monotones s'étendant
+de~\(A(0,0)\) à~\(\Omega(a,b)\) et évitant les frontières est
+\begin{equation}
+\left\lvert\mathcal{L}(a,b;t,s)\right\rvert = \sum_{k \in \mathbb{Z}}\left[\binom{a+b}{b+k(t+s)} - \binom{a+b}{b+k(t+s)+t}\right].
+\label{eq:mohanty}
+\end{equation}
+
+La preuve par \citet[p.~6]{Mohanty_1979} de cette formule est fondée
+sur le principe de réflexion et le principe d'inclusion et
+d'exclusion, par lequel un sur-ensemble est pris et un sous-ensemble
+est soustrait parce que ces deux ensembles sont plus aisément
+énumérables que le tout (nous avons employé ce principe implicitement
+pour parvenir à la formule~\eqref{eq:Cn}). Nous reproduisons verbatim
+sa preuve ici parce qu'elle n'est pas facile à trouver de nos jours.
+\begin{proof}
+  (\textbf{Mohanty}) Pour faire bref, nommons les frontières \(x=y+t\)
+  et \(x=y-s\), \(\mathcal{L}^{+}\) et \(\mathcal{L}^{-}\),
+  respectivement. Dénotons par~\(A_1\) l'ensemble des chemins qui
+  atteignent \(\mathcal{L}^{+}\), par~\(A_2\) l'ensemble des chemins
+  qui atteignent \(\mathcal{L}^{+}\), \(\mathcal{L}^{-}\) dans cet
+  ordre, et en général par~\(A_i\) l'ensemble des chemins qui
+  atteignent \(\mathcal{L}^{+}\), \(\mathcal{L}^{-}\),
+  \(\mathcal{L}^{+}\), \ldots (\(i\)~fois) dans l'ordre indiqué. De la
+  même manière, soit~\(B_i\) l'ensemble des chemins atteignant
+  \(\mathcal{L}^{-}\), \(\mathcal{L}^{+}\), \(\mathcal{L}^{-}\),
+  \ldots (\(i\)~fois) dans l'ordre spécifié. Une application de la
+  méthode usuelle d'inclusion\--exclusion donne
+  \begin{equation}
+    \left\lvert\mathcal{L}(a,b;t,s)\right\rvert = \binom{a+b}{b} +
+    \sum_{i \leqslant 1}(-1)^{i}(\lvert{A_i}\rvert +
+    \lvert{B_i}\rvert),\label{eq:L}
+  \end{equation}
+  où~\(\lvert{A_i}\rvert\) et~\(\lvert{B_i}\rvert\) sont évalués
+  répétitivement au moyen du principe de réflexion. Par exemple,
+  considérez~\(A_3\). Puisque chaque chemin dans~\(A_3\) doit
+  atteindre~\(\mathcal{L}^{+}\), \(A_3\) lorsqu'il est réfléchi par
+  rapport à \(\mathcal{L}^{+}\) devient l'ensemble des chemins de
+  \((t,-t)\) à \((a,b)\), chacun atteignant \(\mathcal{L}^{+}\) après
+  avoir atteint \(\mathcal{L}^{-}\). Une autre réflexion par rapport à
+  \(\mathcal{L}^{-}\) rendrait~\(A_3\) équivalent à l'ensemble des
+  chemins de \((-s-t,s+t)\) à \((a,b)\) qui
+  atteignent~\(\mathcal{L}^{+}\), qui à son tour peut s'écrire
+  \(R(a+s+t,b-s-t; 2s+3t)\). [Note: \(R(a,b;t)\) est l'ensemble des
+    chemins de \((0,0)\) à \((a,b)\) réfléchis par rapport
+    à~\(\mathcal{L}^{+}\).] Par conséquent, puisque
+  \(\lvert{R(a,b;t)}\rvert = \binom{a+b}{a-t}\),
+  \begin{equation*}
+    \left\lvert{A_3}\right\rvert = \binom{a+b}{a-s-2t},
+  \end{equation*}
+  et, plus généralement,
+  \begin{equation*}
+    \left\lvert{A_{2j}}\right\rvert = \binom{a+b}{a+j(s+t)}
+    \quad\text{et}\quad \left\lvert{A_{2j+1}}\right\rvert =
+    \binom{a+b}{a-j(s+t)-t}.
+  \end{equation*}
+  Les expressions pour \(\lvert{B_{2j}}\rvert\),
+  \(\lvert{B_{2j+1}}\rvert\), \(j=0, 1, 2, \dots\), avec
+  \(\lvert{A_0}\rvert\), \(\lvert{B_0}\rvert\) étant
+  \(\binom{a+b}{b}\), sont obtenues en interchangeant \(a\)~et~\(b\)
+  et \(s\)~avec~\(t\). La substitution de ces valeurs
+  dans~\eqref{eq:L} donne~\eqref{eq:mohanty} après quelques
+  simplifications.
+\end{proof}
+
+En reprenant le fil de notre argumentation, si nous faisons se
+correspondre les figures dans la \fig~\ref{fig:boundaries}, nous
+déduisons que \(s=h\), \(t=1\), \(a=b=n\), d'où \(a+b=2n\) et
+\(b+k(s+t)=n+k(h+1)\), que nous remplaçons dans la
+formule~\eqref{eq:mohanty} où nous changeons \(h\)~en \(h-1\):
+\begin{equation*}
+A_{n,h-1} = \sum_{k \in \mathbb{Z}}\left[\binom{2n}{n+kh} -
+           \binom{2n}{n+1+kh}\right].
+\end{equation*}
+Après la partition de la somme en les cas \(k<0\), \(k=0\) et \(k>0\),
+puis le changement de signe de~\(k\) dans le premier cas, ensuite en
+utilisant \(\binom{p}{q} = \binom{p}{p-q}\) dans le second et dernier
+cas, puis enfin en regroupant les sommes restantes indexées par \(k
+\geqslant 1\), nous obtenons
+\begin{align*}
+A_{n,h-1}
+  &= - \sum_{k \geqslant 1}\left[\binom{2n}{n+1-kh} -
+    2\binom{2n}{n-kh} + \binom{2n}{n-1-kh}\right]\\
+  &\phantom{=}\; + \binom{2n}{n} - \binom{2n}{n-1}.
+\end{align*}
+Nous reconnaissons \(C_n\) de la page~\pageref{eq:Ann}, et nous
+réécrivons
+\begin{equation*}
+C_n - A_{n,h-1}
+  = \sum_{k \geqslant 1}\left[\binom{2n}{n+1-kh} -
+    2\binom{2n}{n-kh} + \binom{2n}{n-1-kh}\right].
+\end{equation*}
+Finalement, nous souvenant que \(B_{n,h} = A_{nn} - A_{n,h}\) et \(C_n =
+A_{n,n+1}\), nous parvenons à la formule
+\begin{equation}
+B_{n,h-1} = \sum_{k \geqslant 1}
+            \left[\binom{2n}{n+1-kh} - 2\binom{2n}{n-kh}
+            + \binom{2n}{n-1-kh}\right].
+\label{eq:Bn}
+\end{equation}
+
+\citet*{KnuthdeBruijnRice_1972} ont publié un article majeur où ils
+obtiennent le même résultat en employant des mathématiques bien plus
+compliquées. Ils commencent par modéliser le problème avec une
+fonction génératrice \citep{Wilf_1990} qui satisfait une équation de
+récurrence dont la solution exprime la fonction génératrice en termes
+de fractions continuées de polynômes de Fibonacci. Ils utilisent alors
+l'intégration sur le plan complexe pour trouver la
+formule~\eqref{eq:Bn}. Alternativement, les fonctions génératrices
+peuvent être employées sur les chemins monotones dans des treillis, au
+lieu des arbres de Catalan \citep[page~64]{Kemp_1984}
+\citep{FlajoletNebelProdinger_2006}.
+
+\citet*{SedgewickFlajolet_1996} \citep{FlajoletSedgewick_2009} utilisent l'analyse combinatoire et l'analyse réelle pour obtenir l'approximation asymptotique de~\(B_{n,h}\). Ils écrivent~\cite[p.~260]{SedgewickFlajolet_1996}: «~Cette analyse est la plus difficile de celles que nous menons dans ce livre. Elle combine des techniques pour résoudre des récurrences linéaires et des fractions continuées, des développements limités de fonctions génératrices, en particulier au moyen du théorème d'inversion de Lagrange, les approximations binomiales et les sommes d'Euler\--Maclaurin.~» Il n'est pas possible d'entrer dans les détails ici, mais nous pouvons esquisser comment une approximation asymptotique peut être menée à bien.
+
+L'équation~\eqref{eq:Sn} implique \(S_{n} = \sum_{h \geqslant 1}
+B_{n,h-1}\), d'où
+\begin{equation*}
+S_{n} = \sum_{k' \geqslant 1}d(k') \cdot
+         \left[\binom{2n}{n+1-k'} - 2\binom{2n}{n-k'}
+         + \binom{2n}{n-1-k'}\right],
+\end{equation*}
+où~\(d(k')\) est le nombre de diviseurs positifs de~\(k'\), mais une
+analyse sur les nombres complexes est nécessaire
+\citep{KnuthdeBruijnRice_1972,FlajoletGourdonDumas_1995}. Une autre
+approche consiste à exprimer les coefficients binomiaux en termes de
+\(\binom{2n}{n-kh}\) comme suit:
+\begin{align*}
+\binom{2n}{n-m+1} &= \frac{(2n)!}{(n-m+1)!\,(n+m-1)!}\\
+                  &= \frac{(2n)!\,(n+m)}{(n-m)!\,(n-m+1)(n+m)!}
+                   = \frac{n+m}{n-m+1}\binom{2n}{n-m},\\
+\binom{2n}{n-m-1} &= \frac{(2n)!}{(n-m-1)!\,(n+m+1)!}\\
+                  &= \frac{(2n)!\,(n-m)}{(n-m)!\,(n+m)!\,(n+m+1)}
+                   = \frac{n-m}{n+m+1}\binom{2n}{n-m}.
+\end{align*}
+Par conséquent,
+\begin{equation*}
+\binom{2n}{n-m+1} - 2\binom{2n}{n-m} + \binom{2n}{n-m-1}
+= 2 \cdot \frac{2m^2-(n+1)}{(n+1)^2-m^2}\binom{2n}{n-m}.
+\end{equation*}
+Posons \(F_n(m) = (2m^2-n)/(n^2-m^2)\). Nous avons
+\begin{equation*}
+S_{n} = 2 \cdot \sum_{h \geqslant 1}\sum_{k \geqslant 1} F_{n+1}(kh)
+\cdot \binom{2n}{n-kh},
+\end{equation*}
+De l'équation~\eqref{eq:Cn} et de \(h_n = S_n/C_n\), nous tirons
+\(h_{n} = (n+1)S_{n}{\binom{2n}{n}}^{-1}\), donc nous devons approcher
+\((n+1)F_{n+1}(m)\) et \(\binom{2n}{n-m}\binom{2n}{n}^{-1}\). D'une
+part, nous avons
+\begin{equation*}
+F_{n+1}(m) \sim \frac{2m^2-n}{n^2} \sim \frac{2m^2-n}{n(n+1)},
+\end{equation*}
+donc \((n+1)F_{n+1}(kh) \sim 2k^2h^2\!/n-1\). D'une autre part,
+\citet*[4.6, 4.8]{SedgewickFlajolet_1996} montrent que
+\begin{equation*}
+\binom{2n}{n-m}{\binom{2n}{n}}^{-1} \sim e^{-m^2\!/n}.
+\end{equation*}
+En supposant que les termes d'erreur implicites des deux
+approximations précédentes diminuent exponentiellement, nous avons
+\begin{equation*}
+h_{n} \sim \sum_{h \geqslant 1}\sum_{k \geqslant 1}
+(4k^2h^2\!/n - 2)e^{-k^2h^2\!/n}
+= \sum_{h \geqslant 1}H(h/\!\sqrt{n}),
+\end{equation*}
+avec \(H(x) := \sum_{k \geqslant
+  1}(4k^2x^2-2)e^{-k^2x^2}\). Finalement,
+\citet*[5.9]{SedgewickFlajolet_1996}, tout comme
+\citet*[9.6]{GrahamKnuthPatashnik_1994}, font usage d'analyse réelle
+pour conclure
+\begin{equation*}
+h_{n} \sim \sum_{h \geqslant 1}H(h/\!\sqrt{n})
+\sim \sqrt{n} \int_0^{\infty}\!\!H(x) dx \sim \sqrt{\pi n}.
+\end{equation*}
+Après que \(B_{n,h-1}\) a été obtenu, la fin de notre dérivation est
+difficile et même pas entièrement formelle parce que les termes
+d'erreur dans l'approximation asymptotique bivaluée devraient être
+prudemment vérifiés, comme les auteurs référencés le
+font. Malheureusement, ceci aussi veut dire que cette partie a peu de
+chance d'être simplifiée davantage.
