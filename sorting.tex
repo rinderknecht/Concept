@@ -384,9 +384,9 @@ qu'elles sont des bijections d'un intervalle discret sur lui-même. On
 parle alors de \emph{graphes bipartis}\index{graphe!$\sim$
   biparti}\index{permutation!bigraphe}, aussi appelés
 \emph{bigraphes}\index{bigraphe|see{graphe, biparti}}. De tels
-graphes sont faits de deux ensembles disjoints de n{\oe}uds de même
+graphes sont faits de deux ensembles disjoints de nœuds de même
 cardinal, les index et les clés, et les arcs joignent un index et une
-clé, sans partager des n{\oe}uds avec d'autres arcs. Par exemple, la
+clé, sans partager des nœuds avec d'autres arcs. Par exemple, la
 permutation ~\(\pi_1\) est montrée à la \fig~\vref{fig:perm1}
 \begin{figure}
 \centering
@@ -419,7 +419,7 @@ de~\(\pi_1\) avec les index de~\(\pi_1^{-1}\), comme montré à la
 \end{figure}
 La permutation identité\index{permutation!identité} est obtenue en
 remplaçant deux arcs adjacents par leur clôture transitive
-\index{clôture transitive} et en effaçant le n{\oe}ud intermédiaire,
+\index{clôture transitive} et en effaçant le nœud intermédiaire,
 comme montré à la \fig~\vref{fig:perm2}. Notons qu'une permutation
 peut être son propre inverse, comme
 \begin{equation*}
@@ -471,7 +471,7 @@ par la comparaison des bigraphes\index{permutation!bigraphe}
 de~\(\pi_1\) et~\(\pi_1^{-1}\) à la \fig~\vref{fig:pi_1}: pour déduire
 le bigraphe de~\(\pi_1^{-1}\) de celui correspondant à~\(\pi_1\),
 inversons l'orientation de chaque arc, puis échangeons les index et
-les clés, c'est-à-dire les deux lignes de n{\oe}uds. Une autre façon
+les clés, c'est-à-dire les deux lignes de nœuds. Une autre façon
 est d'imaginer que nous plions vers les bas la feuille de papier le
 long de la ligne des clés, puis regardons à travers et inversons les
 arcs. De toute façon, les intersections sont invariantes. La symétrie
@@ -494,14 +494,14 @@ nous examinerons est celui de minimiser le coût maximal. La
 \end{figure}
 montre l'arbre de toutes les comparaisons possibles
 \index{arbre!$\sim$ de comparaison|see{tri}} pour trier trois
-nombres. Les \emph{n{\oe}uds externes}\index{arbre
-  binaire!n{\oe}ud externe}
+nombres. Les \emph{nœuds externes}\index{arbre
+  binaire!nœud externe}
 \label{def:external_node} sont toutes les
 permutations\index{permutation|)} de \((a_1,a_2,a_3)\). Les
-\emph{n{\oe}uds internes}\index{arbre binaire!n{\oe}ud interne} sont
+\emph{nœuds internes}\index{arbre binaire!nœud interne} sont
 des comparaisons entre deux clés \(a_i\)~et~\(a_j\), notée
 \(a_i?a_j\). Remarquons que les feuilles, dans ce cadre, sont les
-n{\oe}uds internes avec deux enfants qui sont des n{\oe}uds externes.
+nœuds internes avec deux enfants qui sont des nœuds externes.
 Si \({a_i < a_j}\), alors cette propriété est vraie partout dans le
 sous-arbre gauche, sinon \({a_i > a_j}\) est avérée dans le sous-arbre
 droit. Cet arbre n'est qu'un arbre parmi d'autres: il correspond à un
@@ -518,22 +518,22 @@ trouver la comparaison \({a_i < a_k}\). La \fig~\vref{fig:red_cmp}
 \end{figure}
 %\end{wrapfigure}
 montre un arbre de comparaisons avec une telle comparaison
-redondante. Le n{\oe}ud externe spécial~\(\bot\) ne correspond à
+redondante. Le nœud externe spécial~\(\bot\) ne correspond à
 aucune permutation parce qu'une comparaison \({a_1 < a_3}\) ne peut
 échouer car elle est impliquée par transitivité par les comparaisons
 précédentes sur le chemin depuis la racine.
 \begin{center}
   \emph{Un arbre de comparaisons non-redondantes pour \(n\)~clés
-    possède \(n!\)~n{\oe}uds externes.}
+    possède \(n!\)~nœuds externes.}
 \end{center}
 Étant donné que nous étudions ici comment trier \(n\)~clés avec un
 nombre minimal de comparaisons, nous considérerons par la suite les
-arbres de comparaisons optimaux avec \(n!\)~n{\oe}uds externes. De
+arbres de comparaisons optimaux avec \(n!\)~nœuds externes. De
 plus, parmi eux, nous voulons déterminer les arbres pour lesquels le
 nombre maximal de comparaisons est minimal.
 
 Un \emph{chemin externe}\index{arbre binaire!chemin externe} est un
-chemin de la racine à un n{\oe}ud externe. Nous dirons que la
+chemin de la racine à un nœud externe. Nous dirons que la
 \emph{hauteur}\index{arbre binaire!hauteur} d'un arbre est la
 longueur, comptée en nombre d'arcs, de son chemin externe le plus
 long. À la \fig~\ref{fig:cmp_tree}, la hauteur est~\(3\) et il y
@@ -543,21 +543,21 @@ a~\(4\) chemins externes de longueur~\(3\), par exemple \((a_1 < a_2)
 
 La contrainte de maximalité signifie que nous devons porter notre
 attention sur la hauteur de l'arbre de comparaisons parce que le
-nombre de n{\oe}uds internes (comparaisons) le long des chemins
+nombre de nœuds internes (comparaisons) le long des chemins
 externes maximaux est un majorant du nombre de comparaisons
 nécessaires pour trier \emph{toutes} les
 permutations.\index{permutation}\index{tri}
 
 La contrainte de minimalité dans l'énoncé du problème signifie alors
 que \emph{nous voulons un minorant de la hauteur d'un arbre de
-  comparaisons avec \(n!\)~n{\oe}uds externes}.
+  comparaisons avec \(n!\)~nœuds externes}.
 
 % Wrapping figure better declared before a paragraph
 %
 %\setlength{\intextsep}{0pt}
 Un \emph{arbre binaire parfait}\index{arbre binaire!$\sim$ parfait}
-est un arbre binaire dont les n{\oe}uds internes ont des enfants qui
-sont deux n{\oe}uds internes ou bien deux n{\oe}uds
+est un arbre binaire dont les nœuds internes ont des enfants qui
+sont deux nœuds internes ou bien deux nœuds
 \begin{wrapfigure}[]{r}[0pt]{0pt}
 % {r} mandatory right placement (better because of a list)
 \centering
@@ -566,12 +566,12 @@ sont deux n{\oe}uds internes ou bien deux n{\oe}uds
 \label{fig:comp_tree}
 \end{wrapfigure}
 externes. Si un tel arbre a hauteur~\(h\), alors il a
-\(2^h\)~n{\oe}uds externes. Par exemple, la \fig~\vref{fig:comp_tree}
+\(2^h\)~nœuds externes. Par exemple, la \fig~\vref{fig:comp_tree}
 illustre le cas où la hauteur~\(h\) est~\(3\) et nous constatons qu'il
-y a en effet \(2^h=8\) n{\oe}uds externes, figurés par des
+y a en effet \(2^h=8\) nœuds externes, figurés par des
 carrés. Puisque, par définition, les arbres minimisant les
-comparaisons ont \(n!\)~n{\oe}uds externes et hauteur~\(S(n)\), ils
-contiennent nécessairement moins de n{\oe}uds externes qu'un arbre
+comparaisons ont \(n!\)~nœuds externes et hauteur~\(S(n)\), ils
+contiennent nécessairement moins de nœuds externes qu'un arbre
 binaire parfait de même hauteur, c'est-à-dire que \(n! \leqslant
 2^{S(n)}\), donc
 \begin{equation*}
@@ -625,14 +625,14 @@ longueur externe moyenne. À la \fig~\vref{fig:cmp_tree}, elle vaut
 \((2+3+3+3+3+2)/3!=8/3\). Notre problème ici est donc de déterminer la
 forme de l'arbre de comparaisons optimal de longueur externe minimale.
 
-Ces arbres ont leurs n{\oe}uds externes sur un ou deux niveaux
+Ces arbres ont leurs nœuds externes sur un ou deux niveaux
 successifs et sont donc \emph{presque parfaits}.\index{arbre
   binaire!$\sim$ presque parfait} Pour comprendre pourquoi,
 considérons un arbre binaire ne vérifiant pas cette propriété, donc
-ses n{\oe}uds externes les plus près de la racine sont situés au
+ses nœuds externes les plus près de la racine sont situés au
 niveau~\(l\) et ceux les plus près des feuilles sont au niveau~\(L\),
 avec \(L \geqslant l + 2\). Si nous échangeons une feuille au
-niveau~\(L-1\) avec un n{\oe}ud externe au niveau~\(l\), la longueur
+niveau~\(L-1\) avec un nœud externe au niveau~\(l\), la longueur
 externe est diminuée de la quantité \((l+2L) - (2(l+1) + (L-1)) = L -
 l - 1 \geqslant 1\). En répétant ces échanges, on abouti à la forme
 annoncée.
@@ -645,11 +645,11 @@ deux équations dont les solutions sont \(p\)~et~\(q\).
 
   \item D'après le problème ci-dessus de la minimisation du coût
     maximal, nous savons qu'un arbre de comparaison optimal de
-    \(n\)~clés a \(n!\)~n{\oe}uds externes: \(p+q=n!\).
+    \(n\)~clés a \(n!\)~nœuds externes: \(p+q=n!\).
 
-  \item Si nous remplaçons les n{\oe}uds externes au niveau \(h-1\)
+  \item Si nous remplaçons les nœuds externes au niveau \(h-1\)
     par des feuilles, le niveau~\(h\) devient complet, avec~\(2^h\)
-    n{\oe}uds externes, donc \(2p+q=2^h\).
+    nœuds externes, donc \(2p+q=2^h\).
 
 \end{itemize}
 Nous avons maintenant deux équations linéaires satisfaites par~\(p\)

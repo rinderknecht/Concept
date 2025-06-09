@@ -102,7 +102,7 @@ La fonction \fun{mrg/2}\index{mrg@\fun{mrg/2}} (anglais, \emph{merge})
 \label{fig:mrg}
 \index{tri par interclassement!interclassement!programme}
 \end{figure}
-met en {\oe}uvre cette technique. La règle~\(\iota\) n'est pas
+met en œuvre cette technique. La règle~\(\iota\) n'est pas
 nécessaire mais nous la conservons tout de même car elle rend le coût
 symétrique, tout comme \fun{mrg/2}\index{mrg@\fun{mrg/2}} l'est:
 \(\C{\fun{mrg}}{m,n} =
@@ -157,14 +157,14 @@ nombre de comparaisons pour interclasser avec
 Pour gagner en généralité, nous étudierons
 \(\OC{\fun{mrg}}{m,n}\). Graphiquement, nous représentons les clés
 d'une pile par un disque blanc \((\circ)\) et les clés de l'autre par
-un disque noir \((\bullet)\). Nous les appellerons \emph{n{\oe}uds} et
+un disque noir \((\bullet)\). Nous les appellerons \emph{nœuds} et
 nous les dessinerons sur une ligne horizontale, celui la plus à gauche
 étant le plus petit. Les comparaisons sont toujours effectuées entre
-un n{\oe}ud blanc et un n{\oe}ud noir, et sont représentées comme des
+un nœud blanc et un nœud noir, et sont représentées comme des
 \emph{arcs} à la \fig~\vref{fig:merged}.  Un arc entrant (côté pointu)
-signifie que la clé du n{\oe}ud est inférieure à celle de l'autre
+signifie que la clé du nœud est inférieure à celle de l'autre
 extrémité, donc tous les arcs pointent vers la gauche et le nombre de
-comparaisons est le nombre de n{\oe}uds avec un arc entrant.
+comparaisons est le nombre de nœuds avec un arc entrant.
 %\par\vskip\baselineskip
 %\begin{figure}[h]
 %\centering
@@ -180,13 +180,13 @@ comparaisons est le nombre de n{\oe}uds avec un arc entrant.
 \label{merge_best_case}
 \index{tri par interclassement!interclassement!coût minimal|(}
 
-Il y a deux n{\oe}uds blancs consécutifs sans arcs à l'extrême droite
+Il y a deux nœuds blancs consécutifs sans arcs à l'extrême droite
 de la \fig~\vref{fig:merged}, ce qui suggère que plus il y a de clés
 provenant d'une même pile au fond du résultat, moins il y a eu de
 comparaisons pour l'interclassement: le nombre minimal est atteint
 quand \emph{la pile la plus courte apparaît la première dans le
   résultat} (donc à gauche sur la figure). Considérons l'exemple
-suivant, où le nombre de comparaisons est le nombre de n{\oe}uds
+suivant, où le nombre de comparaisons est le nombre de nœuds
 noirs:
 \begin{center}
 \includegraphics[bb=73 705 292 720]{min_mrg}
@@ -203,19 +203,19 @@ l'interclassement de piles de taille \(m\)~et~\(n\) est donc
 \index{tri par interclassement!interclassement!coût maximal|(}
 
 Nous pouvons augmenter le nombre de comparaisons par rapport à \(m+n\)
-en ôtant, à la \fig~\vref{fig:merged}, les n{\oe}uds à droite
+en ôtant, à la \fig~\vref{fig:merged}, les nœuds à droite
 \emph{qui ne sont pas comparés}, comme on peut le voir ici:
 \begin{center}
 \includegraphics[bb=73 702 258 718]{max_mrg2}
 \end{center}
-Ceci maximise les comparaisons parce tous les n{\oe}uds, sauf le
+Ceci maximise les comparaisons parce tous les nœuds, sauf le
 dernier (le plus à droite), sont pointés par un arc. Le nombre maximal
 de comparaisons
 \(\OW{\fun{mrg}}{m,n}\)\index{mrg@$\OW{\fun{mrg}}{m,n}$} est donc
 \begin{equation}
 \OW{\fun{mrg}}{m,n} = m + n - 1.\label{eq:worst_merge}
 \end{equation}
-Échanger les deux n{\oe}uds les plus à droite dans l'exemple précédent
+Échanger les deux nœuds les plus à droite dans l'exemple précédent
 laisse \(m+n-1\) invariant:
 \begin{center}
 \includegraphics[bb=71 700 260 726]{max_mrg1}
@@ -238,23 +238,23 @@ interclassements de deux piles de longueurs
   (\(\bullet\))}
 \label{fig:mean_mrg1}
 \end{figure}
-avec \(m=3\) n{\oe}uds blancs et \(n=2\) n{\oe}uds noirs qui sont
+avec \(m=3\) nœuds blancs et \(n=2\) nœuds noirs qui sont
 interclassés de toutes les manières possibles. Examinons la structure
 en jeu. La première colonne liste toutes les configurations où le
-n{\oe}ud noir le plus à droite est aussi le plus à droite dans le
+nœud noir le plus à droite est aussi le plus à droite dans le
 résultat (le dernier). La deuxième colonne liste tous les cas où le
-n{\oe}ud noir le plus à droite est avant-dernier dans le résultat. La
+nœud noir le plus à droite est avant-dernier dans le résultat. La
 troisième colonne est divisée en deux groupes, le premier dénombrant
-les cas où le n{\oe}ud noir le plus à droite est l'antépénultième dans
+les cas où le nœud noir le plus à droite est l'antépénultième dans
 le résultat. Le nombre total de comparaisons est~\(35\) et le nombre
 de configurations est~\(10\), donc le nombre moyen de comparaisons est
 \(35/10 = 7/2\).\label{seven_two} Cherchons une méthode qui fournit ce
 ratio pour tout \(m\)~et~\(n\).
 
 Tout d'abord, le nombre de configurations: combien y a-t-il de
-manières de combiner \(m\)~n{\oe}uds blancs et \(n\)~n{\oe}uds noirs?
+manières de combiner \(m\)~nœuds blancs et \(n\)~nœuds noirs?
 Cela revient à se demander combien il y a de façons de peindre en noir
-\(n\)~n{\oe}uds choisis parmi \(m+n\) n{\oe}uds blancs. Plus
+\(n\)~nœuds choisis parmi \(m+n\) nœuds blancs. Plus
 abstraitement, cela équivaut à trouver combien il y a de manières de
 choisir \(n\)~objets parmi \(m+n\). Ce nombre est appelé
 \emph{coefficient binomial}\index{coefficient binomial} et est noté
@@ -301,8 +301,8 @@ Ceci peut aussi être facilement prouvé via la définition:
 Comme nous l'avons remarqué précédemment, le nombre total \(K(m,n)\)
 de comparaisons nécessaires pour interclasser \(m\)~et~\(n\) clés de
 toutes les façons possibles avec notre méthode est le nombre de
-n{\oe}uds avec un arc entrant. Soit \(\overline{K}(m,n)\) le nombre
-total de n{\oe}uds \emph{sans} arc entrant, entourés à la
+nœuds avec un arc entrant. Soit \(\overline{K}(m,n)\) le nombre
+total de nœuds \emph{sans} arc entrant, entourés à la
 \fig~\ref{fig:mean_mrg2}.
 \begin{figure}
 \centering
@@ -312,19 +312,19 @@ total de n{\oe}uds \emph{sans} arc entrant, entourés à la
 \end{figure}
 Cette figure a été obtenue en déplaçant la troisième colonne de la
 \fig~\vref{fig:mean_mrg1} sous la deuxième colonne et en ôtant les
-arcs. Le nombre total de n{\oe}uds est donc \(K(m,n) +
+arcs. Le nombre total de nœuds est donc \(K(m,n) +
 \overline{K}(m,n)\). Puisqu'à chaque interclassement, on a \(m+n\)
-n{\oe}uds et qu'il y a \(\binom{m+n}{n}\) interclassements, ce même
+nœuds et qu'il y a \(\binom{m+n}{n}\) interclassements, ce même
 nombre est \((m + n) \binom{m+n}{n}\), donc
 \begin{equation}
 K(m,n) + \overline{K}(m,n) = (m + n) \binom{m+n}{n}.
 \label{eq:KoverK}
 \end{equation}
-Nous pouvons facilement caractériser les n{\oe}uds cerclés: ils
+Nous pouvons facilement caractériser les nœuds cerclés: ils
 constituent la plus longue série monochromatique et continue à droite
 dans le résultat. Puisqu'il n'y a que deux couleurs, la détermination
-du nombre total \(W(m,n)\) de n{\oe}uds blancs cerclés est duale à la
-détermination du nombre total \(B(m,n)\) de n{\oe}uds noirs,
+du nombre total \(W(m,n)\) de nœuds blancs cerclés est duale à la
+détermination du nombre total \(B(m,n)\) de nœuds noirs,
 précisément:
 \begin{equation*}
 B(m,n) = W(n,m).
@@ -340,14 +340,14 @@ K(m,n) = (m + n) \binom{m+n}{n} - W(m,n) - W(n,m).
 \label{eq:K_temp}
 \end{equation}
 Nous pouvons décomposer \(W(m,n)\) en dénombrant \emph{verticalement}
-les n{\oe}uds blancs cerclés. À la \fig~\ref{fig:mean_mrg2},
+les nœuds blancs cerclés. À la \fig~\ref{fig:mean_mrg2},
 \(W(3,2)\) est la somme des nombres d'interclassements avec au moins
-trois, deux et un n{\oe}uds blancs cerclés terminaux: \(W(3,2) = 1+ 3
+trois, deux et un nœuds blancs cerclés terminaux: \(W(3,2) = 1+ 3
 + 6 = 10\). La première colonne donne \(B(3,2) = 1 + 4 = 5\). En
-général, le nombre d'interclassements avec un n{\oe}ud blanc cerclé à
-droite est le nombre de manières de combiner \(n\)~n{\oe}uds noirs
-avec \(m-1\) n{\oe}uds blancs: \(\binom{n+m-1}{n}\). Le nombre
-d'interclassements avec au moins deux n{\oe}uds blancs à droite est
+général, le nombre d'interclassements avec un nœud blanc cerclé à
+droite est le nombre de manières de combiner \(n\)~nœuds noirs
+avec \(m-1\) nœuds blancs: \(\binom{n+m-1}{n}\). Le nombre
+d'interclassements avec au moins deux nœuds blancs à droite est
 \(\binom{n+m-2}{n}\), et ainsi de suite. Par conséquent
 \begin{equation*}
 W(m,n)
@@ -589,7 +589,7 @@ tous les interclassements et leur ordre relatif dans le tri de la pile
 \([7, 3, 5, 1, 6, 8, 4, 2]\). Nous nommons cette structure un
 \emph{arbre d'interclassement}\index{tri par interclassement!arbre
   d'interclassement}\index{arbre!$\sim$ d'interclassement}, parce que
-chaque n{\oe}ud de l'arbre est une pile ordonnée, soit un singleton,
+chaque nœud de l'arbre est une pile ordonnée, soit un singleton,
 soit le résultat de l'interclassement de ses deux enfants. La racine
 contient logiquement le résultat. L'arbre d'interclassement est mieux
 compris lors d'un examen du bas vers le haut, niveau par
@@ -1672,7 +1672,7 @@ montre l'arbre d'interclassement\index{arbre!$\sim$ d'interclassement}
 de sept clés triées de cette manière. Remarquons que le singleton
 \([4]\) est interclassé avec \([2,6]\), une pile deux fois plus
 longue. Le déséquilibre des longueurs est propagé vers le haut. Le cas
-général est mieux suggéré en ne conservant de chaque n{\oe}ud que la
+général est mieux suggéré en ne conservant de chaque nœud que la
 longueur de la pile associée, comme on peut en voir un exemple à la
 \fig~\vref{fig:msort_abs}.
 
@@ -1823,7 +1823,7 @@ sous-arbres constitués d'\emph{interclassements équilibrés},
 c'est-à-dire d'interclassements entre piles de même longueurs, pour
 lesquels nous connaissons déjà le nombre de comparaisons. Les
 longueurs des \emph{interclassements déséquilibrés} se trouvent dans
-la branche descendant à droite, c'est-à-dire les n{\oe}uds à partir de
+la branche descendant à droite, c'est-à-dire les nœuds à partir de
 la racine, \(2^{e_r}+ \dots + 2^{e_0}\), jusqu'à \(2^{e_1} +
 2^{e_0}\).\index{arbre!$\sim$ d'interclassement|)} À la
 \fig~\vref{fig:Wn_even}
@@ -2284,7 +2284,7 @@ n\lg n - \alpha n + (2\alpha - 1) < \OM{\fun{bms}}{n}
 \end{equation}
 Le minorant est approché au plus près lorsque \(n=2^p\). Pour
 interpréter les valeurs de~\(n\) pour lesquelles le majorant est
-approché au plus près, nous devons jeter un autre coup d'{\oe}il à la
+approché au plus près, nous devons jeter un autre coup d'œil à la
 \fig~\vref{fig:phi}. Nous avons \(i/(i+1) - \alpha \to 1 - \alpha\),
 si \(p \to \infty\), mais ceci ne nous dit rien
 sur~\(p\).
@@ -2392,7 +2392,7 @@ règles~\(\kappa\) et~\(\lambda\).
   conclure chaque interclassement. Soit
   \(\OC{\ltimes}{n}\)\index{mrg@$\OC{\ltimes}{n}$} le nombre de
   comparaisons effectuées lors des interclassements déséquilibrés
-  quand il y a \(n\)~clés à trier. Un coup d'{\oe}il à la
+  quand il y a \(n\)~clés à trier. Un coup d'œil à la
   \fig~\vref{fig:msort_gen} révèle
     \begin{equation}
       \OC{\ltimes}{n} :=
@@ -2428,7 +2428,7 @@ règles~\(\kappa\) et~\(\lambda\).
   \item La règle~\(\upsilon\) est employée une fois par niveau dans
     l'arbre d'interclassement\index{arbre!$\sim$ d'interclassement},
     sauf pour la racine, avec \(u\)~étant soit vide, soit un
-    singleton. Soit~\(\Lambda(j)\) le nombre de n{\oe}uds au
+    singleton. Soit~\(\Lambda(j)\) le nombre de nœuds au
     niveau~\(j\), où \(j=0\) représente le niveau des feuilles. Alors,
     le nombre~\(z\) que nous recherchons est le plus grand entier
     natural satisfaisant l'équation \(\Lambda(z) = 1\), à la racine.
@@ -3310,7 +3310,7 @@ comparaisons pour ajouter \(n\)~clés à \(\el\). Nous avons
 \end{gather}
 Soit \(\OC{\fun{unb}}{n}\)\index{unb@$\OC{\fun{unb}}{n}$} le nombre de
 comparaisons de tous les interclassements déséquilibrés pour trier
-\(n\)~clés. Un coup d'{\oe}il en arrière, à la
+\(n\)~clés. Un coup d'œil en arrière, à la
 définition~\eqref{eq:C_unbal} page~\pageref{eq:C_unbal} nous rappelle
 que
 \begin{equation}
@@ -3579,7 +3579,7 @@ Au total, nous avons \(\C{\fun{oms}}{n} - \OC{\fun{oms}}{n} = 3n +
       {\left\lceil\frac{p-2^i}{2^{i+1}}\right\rceil 2^i}.
     \end{equation*}
 
-  \item Comparez le nombre de n{\oe}uds d'empilage\index{n{\oe}ud
+  \item Comparez le nombre de nœuds d'empilage\index{nœud
       d'empilage} créés par \fun{bms/1} et \fun{tms/1}.
 
 \end{enumerate}

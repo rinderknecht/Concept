@@ -189,7 +189,7 @@ ne sont pas celui qui l'intéresse, donc, après avoir trouvé ce dernier
 ou conclu à son absence, elle ne peut reconstruire la pile
 résultante. Par entrelacement, nous entendons que, durant la
 traversée, les concepts d'appartenance et de recopie sont combinés, au
-lieu d'être mis en {\oe}uvre en séquence avec deux appels de
+lieu d'être mis en œuvre en séquence avec deux appels de
 fonction. Nous avons rencontré une situation similaire lors de la
 conception de la fonction qui retourne une pile: \fun{rev\(_0\)}, qui
 appelle \fun{cat/2}, est bien plus lente que \fun{rev/1}, qui utilise
@@ -430,8 +430,8 @@ suppose que \(j\)~peut prendre toutes les positions dans la pile:
 de par l'équation~\eqref{eq:sum_k} \vpageref{eq:sum_k}.
 
 Notons que la règle~\(\kappa\) implique la création d'un
-n{\oe}ud~(\texttt{|}), que nous appelons \emph{n{\oe}ud
-  d'empilage}\index{n{\oe}ud d'empilage}, comme on peut le voir à la
+nœud~(\texttt{|}), que nous appelons \emph{nœud
+  d'empilage}\index{nœud d'empilage}, comme on peut le voir à la
 \fig~\vref{fig:sfst_dag}.
 \begin{figure}[b]
 \centering
@@ -440,12 +440,12 @@ n{\oe}ud~(\texttt{|}), que nous appelons \emph{n{\oe}ud
 \label{fig:sfst_dag}
 \end{figure}
 Ainsi, alors que le contenu de la nouvelle pile est partagé avec la
-pile originelle, \(j\)~n{\oe}uds sont alloués si~\(x\) se trouve à la
+pile originelle, \(j\)~nœuds sont alloués si~\(x\) se trouve à la
 position~\(j\) dans~\(s\). Le pire des cas se présente donc lorsque
-\(x\)~est absent, de telle sorte que \(n\)~n{\oe}uds sont requis, tous
+\(x\)~est absent, de telle sorte que \(n\)~nœuds sont requis, tous
 inutiles parce que, dans ce cas, \(\fun{sfst}(s,x) \equiv s\). Pour
 éviter cette situation, une autre définition de \fun{sfst/2} doit être
-conçue, une qui se défasse de tous les n{\oe}uds construits et
+conçue, une qui se défasse de tous les nœuds construits et
 référence directement la pile donnée quand~\(x\) est absent.
 
 Le point crucial est exprimé par la construction
@@ -775,7 +775,7 @@ annulations deux à deux, sauf le premier et le dernier terme:
   \item Prouvez \fun{slst/2} = \fun{slst\(_0\)/2}.
 
   \item Montrez que, dans le pire des cas à déterminer,
-    \(\fun{slst}_0(s,x)\) créé \(3n\)~n{\oe}uds inutiles si~\(s\)
+    \(\fun{slst}_0(s,x)\) créé \(3n\)~nœuds inutiles si~\(s\)
     contient \(n\)~éléments. Comparez l'usage qui est fait de la
     mémoire par \fun{slst\(_0\)/2}\index{slst@\fun{slst\(_0\)/2}} avec
     celui de \fun{slst/2}\index{slst@\fun{slst/2}}.

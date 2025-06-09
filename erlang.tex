@@ -11,7 +11,7 @@ par synonymie. De plus, nous expliquerons en termes du modèle de la
 mémoire à la section~\ref{sec:memory} comment les concepts de
 \emph{pile de contrôle} (ou \emph{pile des appels}) et le \emph{tas}
 émergent, mais aussi nous présenterons une technique d'optimisation
-mise en {\oe}uvre par la plupart des compilateurs de langages
+mise en œuvre par la plupart des compilateurs de langages
 fonctionnels: l'\emph{optimisation des appels
   terminaux}.\index{mémoire!optimisation des appels terminaux}
 
@@ -328,8 +328,8 @@ graphes orientés sans circuits uniquement, à savoir, les arbres de
 syntaxe abstraite avec partage explicite.\index{arbre!$\sim$ de
   syntaxe abstraite}\index{graphe orienté sans circuits} Typiquement,
 une mesure de la quantité de mémoire nécessaire au total sera le
-nombre de n{\oe}uds de ces arbres, ou une catégorie de ceux-ci, comme
-les n{\oe}uds d'empilage\index{n{\oe}ud d'empilage}.
+nombre de nœuds de ces arbres, ou une catégorie de ceux-ci, comme
+les nœuds d'empilage\index{nœud d'empilage}.
 
 \paragraph{Addition d'entiers}
 
@@ -410,9 +410,9 @@ La définition à la \fig~\vref{def:cat} est
                                  \cons{x}{\fun{cat}(s,t)}.
 \end{equation*}
 La mesure pertinente de l'usage mémoriel ici est le nombre de
-n{\oe}uds d'empilage\index{n{\oe}ud d'empilage} créés par la
+nœuds d'empilage\index{nœud d'empilage} créés par la
 règle~\(\beta\). Clairement, l'appel \(\fun{cat}(s,t)\) créé
-\(n\)~n{\oe}uds de ce type, où \(n\)~est la longueur de la pile~\(s\).
+\(n\)~nœuds de ce type, où \(n\)~est la longueur de la pile~\(s\).
 
 \index{mémoire!concaténation de piles|)}
 
@@ -427,7 +427,7 @@ La définition de~\fun{rev\(_0\)/1} à la section~\ref{sec:reversal}:
 \end{equation*}
 La pile vide dans le membre droit de la règle~\(\gamma\) est partagée
 avec le motif. Bien sûr, la même chose peut être dite de tout
-constructeur constant. Nous savons déjà combien de ces n{\oe}uds sont
+constructeur constant. Nous savons déjà combien de ces nœuds sont
 créés par les appels à \fun{cat/2} et, puisque la longueur de~\(s\)
 dans l'appel récursif \(\fun{rev}_0(s)\) est diminuée de~\(1\), le
 nombre d'empilages est \(\sum_{k=1}^{n-1}k = \tfrac{1}{2}n(n-1)\), si
@@ -450,14 +450,14 @@ Le nombre total d'empilages est~\(n\), la longueur de la pile donnée.
 
 Quantifions la mémoire nécessaire pour trier par interclassement
 \(n=2^p\)~clés, de façon ascendante. Tout d'abord, le nombre de piles
-créées est le nombre de n{\oe}uds de l'arbre d'interclassement: \(2^p
-+ 2^{p-1} + \ldots + 2^0 = 2^{p+1}-1 = 2n - 1\). Il y a un n{\oe}ud
-d'empilage\index{n{\oe}ud d'empilage} pour chaque clé, ce qui nous
+créées est le nombre de nœuds de l'arbre d'interclassement: \(2^p
++ 2^{p-1} + \ldots + 2^0 = 2^{p+1}-1 = 2n - 1\). Il y a un nœud
+d'empilage\index{nœud d'empilage} pour chaque clé, ce qui nous
 amène à déterminer la somme des longueurs des piles créées: \((p+1)2^p
-= n\lg n + n\). Ceci est le nombre total de n{\oe}uds d'empilage. Dans
+= n\lg n + n\). Ceci est le nombre total de nœuds d'empilage. Dans
 le cas de la variante descendante, seulement la première moitié des
 piles, l'originelle inclue, sont retournées, donc allouent de la
-mémoire. Ainsi, le nombre total de n{\oe}uds d'empilage créés est
+mémoire. Ainsi, le nombre total de nœuds d'empilage créés est
 \(\tfrac{1}{2}n\lg n\).
 
 \index{mémoire!interclassement|)}
@@ -498,7 +498,7 @@ qu'elle contient à la \fig~\ref{fig:sum_call}.
 }
 \caption{\(1+(2+\fun{sum}([3,4]))\)}
 \end{figure}
-En prenant comme origine le n{\oe}ud \fun{sum}, l'arbre de syntaxe
+En prenant comme origine le nœud \fun{sum}, l'arbre de syntaxe
 abstraite peut être divisé en la partie sous celui-ci, à savoir
 l'argument à la \fig~\ref{fig:sum_arg}, et la partie au-dessus, nommée
 \emph{instances du contexte}, à la \fig~\ref{fig:sum_ctxt}.
@@ -509,7 +509,7 @@ par un sous-arbre, en d'autres termes, un arbre est inclus dans un
 autre. De plus, les espaces sont absentes aussi et ainsi l'essentiel
 est mis en valeur. Pour illustrer le gain en visibilité, considérons à
 nouveau la précédente évaluation dans sa totalité, de gauche à droite
-(le n{\oe}ud qui va être réécrit est encadré), à la
+(le nœud qui va être réécrit est encadré), à la
 \fig~\ref{fig:sum1234}.
 \begin{figure}
 \centering
@@ -520,9 +520,9 @@ nouveau la précédente évaluation dans sa totalité, de gauche à droite
 Il est clair maintenant que les instances du contexte s'accumulent et
 croissent en proportion inverse de la taille de l'argument: les
 entiers se déplacent un par un de l'argument vers le contexte et
-l'opération associée passe d'être un n{\oe}ud
-d'empilage\index{n{\oe}ud d'empilage} à devenir une addition. Par
-conséquent, si nous utilisons comme unité de mesure un n{\oe}ud, la
+l'opération associée passe d'être un nœud
+d'empilage\index{nœud d'empilage} à devenir une addition. Par
+conséquent, si nous utilisons comme unité de mesure un nœud, la
 mémoire totale utilisée est en effet constante, sauf pour la dernière
 réécriture.
 
@@ -977,7 +977,7 @@ mem4(_,           ext,        _)            -> false.
 Parfois, la synonymie est cruciale. Par exemple, toute la discussion à
 propos de la persistance, à la section~\ref{sec:persistence}, repose
 sur l'existence d'un partage maximal dans chaque règle de réécriture,
-mais, ici, \Erlang a besoin de synonymes pour mettre en {\oe}uvre
+mais, ici, \Erlang a besoin de synonymes pour mettre en œuvre
 cette condition, donc les définitions~\eqref{eq:push_pop_persistence}
 \vpageref{eq:push_pop_persistence} \emph{doivent} être traduites comme
 suit:
@@ -994,13 +994,13 @@ pop(T=[[X|S]|_]) -> {X,[S|T]}.
 La mémoire\index{mémoire} est sous la supervision exclusive du
 \emph{glaneur de cellules} (anglais, \emph{garbage collector}). Il
 s'agit d'un processus qui a constamment accès aux graphes orientés
-sans circuits et dont la tâche consiste à trouver les n{\oe}uds qui
+sans circuits et dont la tâche consiste à trouver les nœuds qui
 sont devenus inutiles durant les évaluations. Il récupère alors
-l'espace associé, de telle sorte que les n{\oe}uds créés après
+l'espace associé, de telle sorte que les nœuds créés après
 puissent trouver assez de place. Ce chapitre a pour ambition de
 démontrer que le concept de \emph{pile de contrôle} et de \emph{tas}
 jaillissent naturellement quand une analyse détaillée montre comment
-ces n{\oe}uds peuvent être automatiquement supprimés dès qu'ils
+ces nœuds peuvent être automatiquement supprimés dès qu'ils
 deviennent inutiles, facilitant ainsi le travail du glaneur de
 cellules et améliorant l'efficacité de la gestion de la mémoire. Notre
 étude montrera en plus que les appels à des fonctions en forme
@@ -1062,12 +1062,12 @@ le graphe est une référence à la valeur immédiate~\(5\). \emph{Quand
 écrirons «~valeur~» quand une référence à une valeur est aussi possible.
 
 Bien que notre modèle d'évaluation raffiné ne fasse aucune place à la
-suppression de n{\oe}uds parce que celle-ci est la tâche exclusive du
+suppression de nœuds parce que celle-ci est la tâche exclusive du
 glaneur de cellules, il permet cependant le remplacement par sa valeur
 de l'arc aboutissant au dernier appel réécrit. Comme nous l'avons
 expliqué précédemment, ces appels ont été successivement encadrés à la
 \fig~\vref{fig:sum375_push}. La phase de dépilage consiste ici à
-remplacer l'arc vers le n{\oe}ud \fun{sum} précédent par un arc vers
+remplacer l'arc vers le nœud \fun{sum} précédent par un arc vers
 la valeur courante. Ensuite, l'arbre ainsi modifié est évalué à son
 tour, et cela mène peut-être à l'empilement d'autres arbres et des
 phases subséquentes de dépilage jusqu'à ce qu'une seule valeur soit
@@ -1083,45 +1083,45 @@ La phase de dépilage est montrée en action à la \fig~\vref{fig:sum375_pop},
 qui doit être lue de droite à gauche. L'état de la mémoire le plus à
 droite est le résultat de la phase d'empilage précédente, à partir du
 dernier état de la \fig~\ref{fig:sum375_push}. Remarquons que tous les
-n{\oe}uds \fun{sum} et~(\(+\)) deviennent inutiles, pas à pas,
+nœuds \fun{sum} et~(\(+\)) deviennent inutiles, pas à pas,
 c'est-à-dire qu'ils ne peuvent être atteints depuis la pile (ces
-n{\oe}uds se trouvent sous la ligne de base horizontale). À des fins
-d'illustration, nous avons fait disparaître tous les n{\oe}uds~(\(+\))
-dès que possible et trois n{\oe}uds \fun{sum} sont réclamés par le
+nœuds se trouvent sous la ligne de base horizontale). À des fins
+d'illustration, nous avons fait disparaître tous les nœuds~(\(+\))
+dès que possible et trois nœuds \fun{sum} sont réclamés par le
 glaneur de cellules, le premier inclus, à savoir le plus à gauche. La
 flèche hachurée la plus à gauche a pour exposant~\(2\) parce qu'elle
 combine à elle seule deux étapes (\(3+12 \rightarrow 15\) et écarter
-le n{\oe}ud \fun{sum}), pour faire court. \emph{Un n{\oe}ud est utile
+le nœud \fun{sum}), pour faire court. \emph{Un nœud est utile
   s'il peut être atteint d'une des racines du graphe.} Gardons à
 l'esprit que l'argument de l'appel originel, à savoir \([3,7,5]\),
 peut ne pas être glané, selon qu'il est partagé ou non (un partage
-avec un arbre hors de la figure, donc dans un contexte). Le n{\oe}ud
+avec un arbre hors de la figure, donc dans un contexte). Le nœud
 intermédiaire contenant la valeur~\(12\) a été glané aussi en chemin,
 pour suggérer que le glanage de cellules est entrelacé avec
 l'évaluation ou, en adhérant à un cadre multiprocesseur, nous dirions
 que le glanage et le calcul s'exécutent en parallèle, partageant le
 même espace mémoire mais sans interférences du point de vue du
-programmeur (seuls les n{\oe}uds qui deviennent inatteignables sont
+programmeur (seuls les nœuds qui deviennent inatteignables sont
 éliminés).
 
 Notre exemple requiert un examen plus approfondi. En effet, nous
-pouvons prédire exactement quand les n{\oe}uds \fun{sum} peuvent être
+pouvons prédire exactement quand les nœuds \fun{sum} peuvent être
 réclamés: après chaque pas en arrière (de la droite vers la gauche à
-la \fig~\ref{fig:sum375_pop}), le n{\oe}ud \fun{sum} le plus à droite
+la \fig~\ref{fig:sum375_pop}), le nœud \fun{sum} le plus à droite
 devient inutile. Idem pour la valeur intermédiaire~\(12\): elle
 devient inaccessible depuis les racines du graphe dès qu'elle a servi
 à calculer~\(15\). La même observation peut être faite à propos des
-n{\oe}uds~(\(+\)). Tous ces faits signifient que, dans notre exemple,
+nœuds~(\(+\)). Tous ces faits signifient que, dans notre exemple,
 nous n'avons pas besoin de compter sur le glaneur de cellules pour
-identifier l'inutilité de ces n{\oe}uds particuliers: mettons vraiment
-en {\oe}uvre une pile d'expressions comme un méta-objet, plutôt que de
+identifier l'inutilité de ces nœuds particuliers: mettons vraiment
+en œuvre une pile d'expressions comme un méta-objet, plutôt que de
 seulement s'appuyer sur une analogie et de ranger tout dans le même
 espace indistinct. La mémoire gérée par le glaneur de cellules est
 appelée le \emph{tas}, en contraste avec notre nouvelle pile, appelée
 la \emph{pile de contrôle}. Le tas et la pile de contrôle sont
 distincts et complémentaires, constituant à eux deux la mémoire
 totale. Par ailleurs, pour des raisons techniques de mise en
-{\oe}uvre, la pile de contrôle ne contient jamais de valeurs
+œuvre, la pile de contrôle ne contient jamais de valeurs
 construites, mais des références à celles-ci dans le tas.
 
 Considérons comment le calcul à la \fig~\vref{fig:sum375_pop} peut
@@ -1165,15 +1165,15 @@ que nous les qualifierons toutes deux de valeurs dans la suite.
     devient le sommet;
     \begin{enumerate}
 
-    \item si la racine de l'arbre au sommet est un n{\oe}ud \fun{sum},
+    \item si la racine de l'arbre au sommet est un nœud \fun{sum},
       alors nous le dépilons et empilons à sa place la valeur;
 
-    \item sinon, le n{\oe}ud \fun{sum} dans l'arbre possède un arc
+    \item sinon, le nœud \fun{sum} dans l'arbre possède un arc
       entrant:
       \begin{enumerate}
 
       \item nous changeons sa destination de telle sorte qu'il
-        atteigne la valeur et nous nous débarrassons du n{\oe}ud
+        atteigne la valeur et nous nous débarrassons du nœud
         \fun{sum};
 
       \item nous évaluons l'arbre modifié au sommet et nous itérons le
@@ -1226,7 +1226,7 @@ seconde phase ne contribue pas à construire la valeur, ce qui nous
 amène à nous interroger sur l'utilité de conserver les arbres
 antérieurs. En effet, ceux-ci deviennent inutiles après chaque
 empilage et une optimisation fréquente, appelée \emph{optimisation des
-  appels terminaux} et mise en {\oe}uvre par les compilateurs de
+  appels terminaux} et mise en œuvre par les compilateurs de
 langages fonctionnels, consiste à dépiler l'arbre qui précède (celui
 filtré par le motif de la règle) et à empiler le nouveau (créé par le
 membre droit de la même règle). De cette manière, la pile de contrôle
@@ -1454,7 +1454,7 @@ pourrions continuer avec un seul mais en nous assurant que les valeurs
 qu'il contient sont distinguées selon leur origine, donc une valeur
 d'un contexte donné n'est pas confondue avec une valeur d'un autre
 contexte. (Ceci était réalisé avant en utilisant un accumulateur
-différent pour différentes valeurs de contexte.) La mise en {\oe}uvre
+différent pour différentes valeurs de contexte.) La mise en œuvre
 consiste alors à mettre dans un \(n\)-uplet les valeurs d'un contexte
 donné avec un atome qui joue le rôle d'un marqueur identifiant
 l'expression originelle contenant l'appel. Revenons à
@@ -1540,7 +1540,7 @@ nous pouvons poursuivre en plaçant~\erlcode{V} dans le cadre vide de la clause~
 \begin{alltt}
 appk(V,[\{k1,T\}|A]) \(\smashedrightarrow{\kappa}\) cat(\textbf{V},flat0(T,A));
 \end{alltt}
-Un coup d'{\oe}il suffit pour comprendre que la clause~\(\kappa\)
+Un coup d'œil suffit pour comprendre que la clause~\(\kappa\)
 n'est pas en forme terminale. Par conséquent, itérons la même
 technique. Le premier appel qui doit être réécrit
 est~\erlcode{flat0(T,A)}, dont le contexte est
@@ -2423,7 +2423,7 @@ terminale sont, dans leur cas le plus général, des piles ou des
 \(n\)-uplets. Bien que l'usage d'une pile incarne bien la fonction de
 l'accumulateur, il encoure une pénalité proportionnelle à la mémoire
 nécessaire parce que, dans les arbres de syntaxe abstraite, un
-empilage correspond à un n{\oe}ud, tout comme un \(n\)-uplet. \emph{En
+empilage correspond à un nœud, tout comme un \(n\)-uplet. \emph{En
   utilisant des \(n\)-uplets dans des \(n\)-uplets, nous pouvons nous
   passer de la pile complètement.} Ainsi, au lieu de
 \erlcode{[\{k3,\(X_1\)\},\{k1,\(V\),\(E\)\},\{k3,\(X_2\)\}]}, nous
@@ -2439,17 +2439,17 @@ deux arbres de syntaxe abstraite sont facilement comparés à la
 \subfloat[Avec des \(n\)-uplets imbriqués\label{fig:acc_tup}]{
   \includegraphics[bb=71 659 195 721]{acc_tup}
 }
-\caption{Deux mises en {\oe}uvre du même accumulateur linéaire}
+\caption{Deux mises en œuvre du même accumulateur linéaire}
 \label{fig:tuple_vs_stack}
 \end{figure}
 Le codage d'une pile d'accumulation par le biais de \(n\)-uplets
 uniquement suppose d'ajouter une composante à chaque \(n\)-uplet, qui
 contient ce qui était le «~prochain~» \(n\)-uplet dans la pile. La
 mémoire ainsi économisée consiste en une référence (arc) pour chaque
-\(n\)-uplet initial, plus tous les n{\oe}uds d'empilage, c'est-à-dire
+\(n\)-uplet initial, plus tous les nœuds d'empilage, c'est-à-dire
 que s'il y avait \(m\)~\(n\)-uplets, nous économisons \(m\)~références
 (souvent appelées \emph{pointeurs} dans les langages impératifs) et
-\(m\)~n{\oe}uds. Ceci est un gain significatif. Pour l'illustrer,
+\(m\)~nœuds. Ceci est un gain significatif. Pour l'illustrer,
 améliorons donc le programme que nous avons obtenu précédemment:
 \index{pile!aplatissement|(}
 \begin{alltt}
@@ -2631,7 +2631,7 @@ coût, en général. En regardant l'arbre des appels de \erlcode{fib(5)}
 nous réalisons que quelques petits sous-arbres sont dupliqués, comme
 ceux dont la racine est \erlcode{fib(2)}, et des plus grands comme
 \erlcode{fib(3)}. Étudions la branche la plus à gauche, de la feuille
-à la racine. Elle est faite des n{\oe}uds successifs \erlcode{fib(1)},
+à la racine. Elle est faite des nœuds successifs \erlcode{fib(1)},
 \erlcode{fib(2)}, \erlcode{fib(3)}, \erlcode{fib(4)} et
 \erlcode{fib(5)}, à savoir \erlcode{fib(N)} pour toutes les valeurs
 de~\erlcode{N} allant de~\erlcode{1} à~\erlcode{5}. En généralisant
@@ -3139,7 +3139,7 @@ mathématique, le résultat final serait exprimé ainsi:
 \begin{equation*}
 \sum_{k \in S}{f(k)}.
 \end{equation*}
-Dans le but de mettre en {\oe}uvre ceci en \Erlang, nous devons
+Dans le but de mettre en œuvre ceci en \Erlang, nous devons
 procéder en deux temps: d'abord, nous avons besoin d'une fonction
 d'ordre supérieur qui calcule les images des éléments d'une pile par
 une fonction; ensuite, nous avons besoin d'une fonction qui somme les
@@ -3301,7 +3301,7 @@ revl(S) -> foldl(fun(X,A) -> [X|A] end,[],S).
 La fonction \erlcode{foldl/3} n'est pas en forme terminale à cause de
 l'appel imbriqué \erlcode{F(X,A)}, mais seule une portion constante de
 pile de contrôle est utilisée pour la récursivité de \erlcode{foldl/3}
-elle-même (un n{\oe}ud). Dans nos deux exemples, \erlcode{F}~est en
+elle-même (un nœud). Dans nos deux exemples, \erlcode{F}~est en
 forme terminale, donc ces deux nouvelles définitions sont
 \emph{presque} en forme terminale et peuvent tenir face aux
 originaux. D'autres définitions presque en forme terminale sont
@@ -4265,7 +4265,7 @@ odd(I) -> Even = fun(Odd) -> fun(0) -> true;
 La technique présentée ici permet la récursivité locale en \Erlang et
 est intéressante au-delà de la compilation, comme l'ont montré
 \cite{GoldbergWiener_2009}. Les combinateurs de point fixe peuvent
-aussi être mis en {\oe}uvre dans les langages impératifs, comme
+aussi être mis en œuvre dans les langages impératifs, comme
 \Clang:
 \begin{alltt}
 \textbf{#include}<stdio.h>
@@ -4517,7 +4517,7 @@ insl0(Y,            T)            -> T.
 Au cas où \erlcode{Y}~est présent dans l'arbre, la dernière clause
 partagera le sous-arbre sous l'occurrence trouvée de~\erlcode{Y} dans
 l'arbre d'entrée, mais les deux premières clauses, correspondant à la
-phase de recherche, dupliquerons tous les n{\oe}uds de la racine
+phase de recherche, dupliquerons tous les nœuds de la racine
 à~\erlcode{Y} (exclue). Ceci peut être évité en passant d'appel en
 appel l'arbre originel et en transformant la fonction en forme
 terminale, de telle sorte que si~\erlcode{Y} est trouvée, l'entrée
