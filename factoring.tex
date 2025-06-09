@@ -964,7 +964,7 @@ Nous avons trouvé ci-dessus: \(n-2 \leqslant \OC{\fun{pp}}{n}
 3\). Pour employer la valeur de \(\fun{pp}(p)\), nous pourrions
 commencer par modifier la recherche linéaire de la
 section~\ref{sec:naive_factoring}, en particulier le programme à la
-\fig~\ref{fig:loc} \vpageref{fig:loc}, tout en gardant un {\oe}il sur
+\fig~\ref{fig:loc} \vpageref{fig:loc}, tout en gardant un œil sur
 la \fig~\vref{fig:mp}. Le résultat est montré à la
 \fig~\vref{fig:mp_def}.
 \begin{figure}[b]
@@ -1157,13 +1157,13 @@ métaprogramme.\index{recherche de motifs!algorithme de Morris et
 \mypar{Variante de Knuth}
 \index{recherche de motifs!algorithme de Knuth, Morris et Pratt|(}
 
-Un coup d'{\oe}il à la \fig~\vref{fig:mp}, devrait nous fournir
-matière à réflexion. Que se passerait-il si \(a = \word{a}\)?  Alors
-le décalage mènerait immédiatement à une comparaison négative. Donc,
-comparons \(\smash{\Ind{p}{\MPfailure{p}{}{i}}}\) à~\(\ind{t}{j}\)
-seulement si \(\smash{\Ind{p}{\MPfailure{p}{}{i}}} \neq
-\ind{p}{i}\). Sinon, nous prenons le bord maximal du bord maximal
-etc. jusqu'à ce que nous trouvions le plus petit~\(q\) tel que
+Un coup d'œil à la \fig~\vref{fig:mp}, devrait nous fournir matière à
+réflexion. Que se passerait-il si \(a = \word{a}\)?  Alors le décalage
+mènerait immédiatement à une comparaison négative. Donc, comparons
+\(\smash{\Ind{p}{\MPfailure{p}{}{i}}}\) à~\(\ind{t}{j}\) seulement si
+\(\smash{\Ind{p}{\MPfailure{p}{}{i}}} \neq \ind{p}{i}\). Sinon, nous
+prenons le bord maximal du bord maximal etc. jusqu'à ce que nous
+trouvions le plus petit~\(q\) tel que
 \(\smash{\Ind{p}{\MPfailure{p}{q}{i}}} \neq \ind{p}{i}\). Ceci est une
 amélioration proposée par \cite{KnuthMorrisPratt_1977}. Une édition
 mise à jour a été publiée par \cite{Knuth_2010} et un traitement fondé

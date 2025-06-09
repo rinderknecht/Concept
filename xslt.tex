@@ -29,7 +29,7 @@ exemples précédents en \Erlang sont systématiquement débarrassés de
 leurs filtrages pour qu'ils deviennent facilement traduisibles en
 \XSLT, qui ne possède pas ce mécanisme. En même temps, nous
 travaillons directement en \XSLT de nouveaux exercises sur des arbres
-de Catalan, c'est-à-dire des arbres dont les n{\oe}uds internes
+de Catalan, c'est-à-dire des arbres dont les nœuds internes
 peuvent avoir un nombre variable d'enfants, dans l'espoir d'un
 transfert de compétence à partir d'\Erlang. Le but de ce chapitre
 n'est pas d'illustrer le plus de fonctionnalités possible de \XSLT,
@@ -49,7 +49,7 @@ ne l'utiliser que comme une référence pour les chapitres suivants.
 
 L'acronyme \XML signifie en anglais \emph{eXtensible Markup Language},
 soit «~langage d'annotations extensible~». Il s'agit d'un langage pour
-définir des arbres de Catalan (des arbres dont le degré des n{\oe}ud
+définir des arbres de Catalan (des arbres dont le degré des nœud
 n'est pas fixe ou limité) avec simplement du texte, avec un nombre
 minimal de constructions syntaxiques. Ces arbres sont employés pour
 modéliser des \emph{documents structurés}. Les programmeurs de bases
@@ -77,7 +77,7 @@ concerne les éléments, un courriel contient au moins
   \item un contenu de simple texte.
 
 \end{itemize}
-Les éléments correspondent aux n{\oe}uds de l'arbre et la structure
+Les éléments correspondent aux nœuds de l'arbre et la structure
 est modélisée par la forme de l'arbre lui-même (sa topologie). Par
 exemple:\\
 \noindent\rule{\linewidth}{0.5pt}
@@ -102,12 +102,12 @@ Sujet: Devoirs
 \end{center}
 \end{figure}
 Remarquons que les feuilles (sous forme de boîtes aux bords arrondis),
-appelées \emph{n{\oe}uds textuels}, contiennent du texte, alors que
-les n{\oe}uds internes contiennent de l'information \emph{au sujet} de
+appelées \emph{nœuds textuels}, contiennent du texte, alors que
+les nœuds internes contiennent de l'information \emph{au sujet} de
 leurs sous-arbres, en particulier les feuilles. (Pour rendre la
 différence encore plus évidente, nous avons utilisé l'anglais pour le
-contenu des n{\oe}uds internes.) Puisque l'information dans les
-n{\oe}uds internes décrit l'information qui est formatée, elle est
+contenu des nœuds internes.) Puisque l'information dans les
+nœuds internes décrit l'information qui est formatée, elle est
 dite \emph{métadonnée} ou \emph{annotation}, ce qui explique une
 partie de l'acronyme «~\textsf{XML}~». Le document \XML correspondant
 est:
@@ -138,11 +138,11 @@ contenue dans le sous-arbre. Par exemple, l'ensemble du document \XML
 est un élément dont le nom est \texttt{email} parce que le document
 décrit un courriel (anglais, \emph{email}). Un parcours préfixe de
 l'arbre \XML (voir page~\pageref{preorder} pour les arbres binaires)
-produit des n{\oe}uds dans le même ordre de lecture des éléments
+produit des nœuds dans le même ordre de lecture des éléments
 correspondants dans le document \XML. (Nous commenterons cela.) Les
 données (par opposition aux métadonnées) sont toujours contenues dans
 les feuilles, et il s'agit toujours de texte. En particulier, notons
-que le contenu des n{\oe}uds textuels qui sont les enfants des
+que le contenu des nœuds textuels qui sont les enfants des
 éléments \texttt{definition} et \texttt{emphasis} ont été composés
 respectivement en gras et italique, mais d'autres interprétations
 auraient été possibles. Il faut bien comprendre que l'interprétation
@@ -188,9 +188,9 @@ associé est
 \end{center}
 Un élément vide correspond à une feuille dans l'arbre \XML, bien qu'il
 soit une annotation et pas une donnée (on peut imaginer la présence
-implicite d'un n{\oe}ud textuel vide comme enfant).
+implicite d'un nœud textuel vide comme enfant).
 
-Les n{\oe}uds n'ont pas besoin d'être uniques parmi une fratrie
+Les nœuds n'ont pas besoin d'être uniques parmi une fratrie
 (ensemble des enfants d'un même parent). Par exemple, si nous voulons
 envoyer un courriel à plusieurs destinataires, nous écririons:
 \begin{alltt}
@@ -209,7 +209,7 @@ L'arbre \XML associé à ce document \XML est
 \begin{center}
 \includegraphics[scale=0.93]{mailtoto}
 \end{center}
-Remarquons qu'il y a deux n{\oe}uds \texttt{to} et que leur ordre doit
+Remarquons qu'il y a deux nœuds \texttt{to} et que leur ordre doit
 être le même que dans le document \XML.
 
 \paragraph{Attributs}
@@ -235,8 +235,8 @@ Ce document \XML peut être représenté par l'arbre annoté suivant:
 \includegraphics[bb=71 652 322 721]{urgent}
 \end{center}
 Notons le symbole \textsf{@} qui précède le nom de l'attribut, qui le
-distingue des n{\oe}uds éléments. Dans une fratrie, les n{\oe}uds
-attributs sont placés \emph{avant}\label{attr_before} les n{\oe}uds
+distingue des nœuds éléments. Dans une fratrie, les nœuds
+attributs sont placés \emph{avant}\label{attr_before} les nœuds
 éléments. Nous pouvons attacher plusieurs attributs à un élément
 donné:
 \begin{alltt}
@@ -255,7 +255,7 @@ d'un <emphasis>devoir</emphasis>.
 \end{center}
 L'ordre des attributs est significatif. N'importe quel élément peut
 porter des attributs, y compris les éléments vides. Les attributs sont
-considérés comme une espèce de n{\oe}ud spéciale, bien qu'ils ne
+considérés comme une espèce de nœud spéciale, bien qu'ils ne
 soient pas souvent représentés dans l'arbre \XML à cause du manque de
 place.
 
@@ -649,7 +649,7 @@ Par exemple,
 \end{alltt}
 Contrairement aux langages de programmation, les commentaires ne sont
 \emph{pas} ignorés par les analyseurs syntaxiques et deviennent des
-n{\oe}uds dans l'arbre \XML.
+nœuds dans l'arbre \XML.
 
 
 \paragraph{Espaces de noms}
@@ -847,7 +847,7 @@ Toutefois, tous les suivants sont valides, le second parce que
 Les espaces de noms se révèleront très important lorsque nous
 présenterons \XSLT. Bien que les espaces de noms sont déclarés comme
 des attributs, ils sont présents dans l'arbre \XML correspondant au
-document comme un n{\oe}ud spécial, différent des n{\oe}uds attributs.
+document comme un nœud spécial, différent des nœuds attributs.
 
 \paragraph{Instructions de traitement}
 
@@ -1129,7 +1129,7 @@ l'hyperlien suivant:
 \mypar{\XHTML}
 
 Le document de travail actuel de \HTML est \HTML~\textsf{5}. Avant
-qu'il ne devienne une norme mise en {\oe}uvre par les navigateurs et
+qu'il ne devienne une norme mise en œuvre par les navigateurs et
 les processeurs \XSLT, les débutants devraient plutôt utiliser une
 version plus simple d'\HTML, appelée \XHTML (anglais, \emph{eXtensible
   Hyper-Text Markup Language}), dont la recommandation par le
@@ -1343,7 +1343,7 @@ produit
 \smallXMLinUnchecked{cookbook1_out.xml}
 
 Il peut être surprenant de constater que quelque chose s'est bien
-produit: les contenus des \emph{n{\oe}uds textuels} du document \XML
+produit: les contenus des \emph{nœuds textuels} du document \XML
 ont été extraits \emph{dans le même ordre}, mais pas les valeurs
 d'attributs. (Notons que s'il manquait
 \verb|<xsl:output method="text"/>|, le résultat serait considéré comme
@@ -1354,7 +1354,7 @@ précisément, l'ordre correspond à un parcours en préordre de l'arbre
   order}). La raison pour cela est que, puisque le but est souvent de
 réécrire un document en un autre, ce parcours correspond à l'ordre
 dans lequel un livre est écrit et lu, de la première à la dernière
-page. De plus, la raison pour laquelle les n{\oe}uds textuels sont
+page. De plus, la raison pour laquelle les nœuds textuels sont
 extraits par défaut est due à ce que \XSLT favorise un style avec
 filtrage: si une partie de l'entrée devrait être ignorée ou augmentée,
 le programmeur doit le dire. Finalement, remarquons qu'il n'y a pas
@@ -1373,8 +1373,8 @@ un patron (anglais, \emph{template}). Il porte l'attribute
 \texttt{match}, dont la valeur est le nom de l'élément que nous
 voulons transformer. Durant le parcours en préordre, si un élément
 \texttt{chapter} est trouvé (c'est-à-dire, filtré), le contenu du
-n{\oe}ud textuel du patron (\texttt{A chapter}) devient le
-résultat. (Ne confondons pas le n{\oe}ud textuel et son contenu.) En
+nœud textuel du patron (\texttt{A chapter}) devient le
+résultat. (Ne confondons pas le nœud textuel et son contenu.) En
 appliquant la transformation précédente au document
 dans le fichier nommé \texttt{cookbook.xml} donne
 \smallXMLinUnchecked{cookbook2_out.xml}
@@ -1383,21 +1383,21 @@ dans le fichier nommé \texttt{cookbook.xml} donne
 \smallXSLTinUnchecked{chapters.xsl}
 \noindent Le résultat est alors:
 \smallXMLinUnchecked{cookbook3_out.xml}
-\noindent La raison est que lorsqu'un patron filtre un n{\oe}ud,
-appelé le \emph{n{\oe}ud contextuel} (anglais, \emph{context node})
-dans le patron, ce n{\oe}ud est traité (ici, le texte
+\noindent La raison est que lorsqu'un patron filtre un nœud,
+appelé le \emph{nœud contextuel} (anglais, \emph{context node})
+dans le patron, ce nœud est traité (ici, le texte
 \texttt{Chapters:} ou \texttt{A chapter} est produit) et le parcours
-en préordre reprend \emph{sans visiter les enfants du n{\oe}ud
+en préordre reprend \emph{sans visiter les enfants du nœud
   contextuel}. Par conséquent, après que l'élément \texttt{cookbook}
 est filtré et traité, le processeur \XSLT ignore tout le reste
 puisqu'il s'agit de l'élément racine.
 
-Pour visiter et filtrer les enfants du n{\oe}ud contextuel, nous
+Pour visiter et filtrer les enfants du nœud contextuel, nous
 devons informer le processeur en utilisant l'élément vide spécial
 \begin{sverb}
 <xsl:apply-templates/>
 \end{sverb}
-Ajoutons cet élément comme enfant du patron qui filtre le n{\oe}ud
+Ajoutons cet élément comme enfant du patron qui filtre le nœud
 racine: \smallXSLTinUnchecked{cookbook.xsl}
 \noindent Le résultat est maintenant
 \smallXMLinUnchecked{cookbook4_out.xml}
@@ -1418,7 +1418,7 @@ simplement définir un patron vide qui filtre \texttt{title}:
 \smallXMLinUnchecked{cookbook5_out.xml}
 
 Si nous voulions conserver le titre, nous devrions extraire le texte
-du n{\oe}ud textuel qui est l'enfant de l'élément \texttt{title}, et
+du nœud textuel qui est l'enfant de l'élément \texttt{title}, et
 le mettre avant «~\texttt{Chapters:}~». Une méthode consiste à appliquer
 les patrons à l'élément \texttt{title} seulement en utilisant
 l'attribut prédéfini \texttt{select}, dont la valeur est le nom de
@@ -1435,16 +1435,16 @@ devons pas appliquer les patrons à tous les enfants de
 \smallXMLinUnchecked{cookbook7_out.xml}
 \noindent Nous venons de rencontrer une nouvelle bizarrerie avec les
 sauts de lignes. Ce qui s'est passé est que la \emph{sélection} (via
-l'attribut \texttt{select}) a réuni tous les n{\oe}uds
+l'attribut \texttt{select}) a réuni tous les nœuds
 \texttt{chapter} dans une structure linéaire appelée une
-\emph{séquence}, les patrons ont été appliqués à tous les n{\oe}uds
+\emph{séquence}, les patrons ont été appliqués à tous les nœuds
 qu'elle contient et, finalement, un caractère de saut de ligne a été
 ajouté. La raison pour laquelle nous avions des sauts de ligne après
 chaque «~\texttt{A chapter}~» précédemment est due au fait que chacun de
 ces textes constituait une séquence singleton. Pour recouvrer les
 sauts de ligne, nous pourrions employer l'élément spécial
 \texttt{xsl:text}, dont le but est de produire le contenu de son
-unique n{\oe}ud textuel \emph{tel quel}, sans ajuster les espaces et
+unique nœud textuel \emph{tel quel}, sans ajuster les espaces et
 les sauts de ligne. Ici, nous pourrions forcer un saut après chaque
 «~\texttt{A chapter}~». En \XML, le caractère de saut de ligne est
 l'entité numérotée \verb|&#10;|
@@ -1516,7 +1516,7 @@ immédiate de~\(s\). Notons que nous ne pouvons définir \fun{tail/1}
 sans filtrage par motifs, donc elle doit être traduite en une fonction
 prédéfinie. Pour commencer l'écriture du programme \XSLT, nous devons
 être plus précis quant aux données. Supposons que nous obtenons une
-séquence en sélectionnant les n{\oe}uds \texttt{chapter}, enfants de
+séquence en sélectionnant les nœuds \texttt{chapter}, enfants de
 l'élément racine \texttt{book}. Autrement dit, nous voulons compter le
 nombre de chapitres dans un livre. Par exemple,
 \smallXMLinUnchecked{toc.xml}
@@ -1541,7 +1541,7 @@ Dans tous nos programmes \XSLT dont le résultat est du texte, nous
 souhaiterions améliorer la lisibilité en ajoutant à la fin un
 caractère de saut de ligne. Étant donné que l'élément racine changera
 probablement, nous filtrons la \emph{racine du document} (anglais,
-\emph{document root}), notée~\texttt{/}, qui est un n{\oe}ud implicite
+\emph{document root}), notée~\texttt{/}, qui est un nœud implicite
 dont l'unique enfant est l'élément racine. Nous appliquons alors tout
 patron disponible à l'élément racine et mettons un saut de ligne:
 \begin{sverb}
@@ -1759,7 +1759,7 @@ nommé pour \fun{len\(_0\)/1}.
 
 Considérons une dernière variante où les chapitres, dans l'entrée,
 sont tous des enfants d'un élément \texttt{contents} et leur noms sont
-présents dans un attribut \texttt{title}, au lieu d'un n{\oe}ud textuel:
+présents dans un attribut \texttt{title}, au lieu d'un nœud textuel:
 \smallXMLinUnchecked{toc3.xml}
 \noindent Bien entendu, la \DTD \texttt{book\_att.dtd} doit être
 changée: \smallDTDin{book_att.dtd}
@@ -1777,10 +1777,10 @@ patron de façon à sélectionner les chapitres là où ils se trouvent maintena
   </xsl:template>
 \end{alltt}
 L'expression \texttt{contents/chapter} est une sélection en \XPath qui
-signifie: «~Regrouper tous les enfants \texttt{contents} du n{\oe}ud
+signifie: «~Regrouper tous les enfants \texttt{contents} du nœud
 contextuel (\texttt{book}), en préservant leur ordre relatif (ici, il
 n'y en a qu'un), puis sélectionner tous les enfants nommés
-\texttt{chapter} de tous ces n{\oe}uds, en préservant aussi leur ordre
+\texttt{chapter} de tous ces nœuds, en préservant aussi leur ordre
 relatif.~» À part cela, il n'y a pas besoin de changer le patron (sauf
 son nom, maintenant \texttt{len3}). Notons aussi qu'utiliser des
 attributs \texttt{title} n'a fait aucune différence.
@@ -1857,7 +1857,7 @@ supplied value has item type xs:double
 exigé de la valeur du paramètre \texttt{\$n} est \texttt{xs:integer};
 la valeur fournie a le type \texttt{xs:double}.~») et le résultat
 erroné \texttt{18135233274}, qui est la concaténation du contenu des
-n{\oe}uds textuels des éléments \texttt{num}. Qu'est-ce qui s'est
+nœuds textuels des éléments \texttt{num}. Qu'est-ce qui s'est
 passé? D'après le message, une chose est claire: le problème est lié
 au typage, c'est pourquoi nous ne l'avons pas anticipé à partir de
 \fun{sum\(_0\)/2}, qui n'est pas typée. Il est clair aussi que le
@@ -1869,7 +1869,7 @@ déclaré, ce qui signifie que les items qu'elle contient sont des
 éléments, pas des entiers, d'où le problème. Nous devons forcer le
 type de \texttt{\$elem[1]} à être \texttt{xs:integer}, c'est-à-dire,
 nous le \emph{transtypons} (anglais, \emph{cast}). D'abord, nous
-devons sélectionner le n{\oe}ud textuel de \texttt{\$elem[1]} et
+devons sélectionner le nœud textuel de \texttt{\$elem[1]} et
 convertir son type en utilisant \texttt{xs:integer} comme une
 \emph{fonction} \XPath:
 \texttt{xs:integer(\$elm[1]/text()\!)}. L'avertissement disparaît:
@@ -1877,11 +1877,11 @@ convertir son type en utilisant \texttt{xs:integer} comme une
 18135233274
 \end{sverb}
 Le résultat est toujours erroné, ceci dit. Il est temps de comprendre
-pourquoi! Clairement, il est fait à partir de tous les n{\oe}uds
+pourquoi! Clairement, il est fait à partir de tous les nœuds
 textuels, en ordre documentaire et sérialisés sans séparation. Nous
 savons depuis le début que, par défaut, c'est ce que \XSLT fait, donc
 nous avons échoué à spécifier ce que \emph{nous} voulions. Un coup
-d'{\oe}il en arrière au premier appel à \texttt{sum} révèle:
+d'œil en arrière au premier appel à \texttt{sum} révèle:
 \begin{sverb}
   <xsl:template match="book" as="xs:integer">
     <xsl:call-template name="sum">
@@ -1893,7 +1893,7 @@ d'{\oe}il en arrière au premier appel à \texttt{sum} révèle:
 Parce que nous n'avons pas d'éléments \texttt{chapter} dans l'entrée
 maintenant, une séquence vide est sélectionnée par
 \texttt{contents/chapter}. Ce devrait être \texttt{num}. Mais ceci ne
-change pas le faux résultat. La raison est qu'il n'y a pas de n{\oe}ud
+change pas le faux résultat. La raison est qu'il n'y a pas de nœud
 contextuel car il n'y a pas d'élément \texttt{book} dans le
 document. Par conséquent, nous devrions écrire:
 \begin{sverb}
@@ -1986,7 +1986,7 @@ reste:
 \fun{cutl}(\cons{x,y}{s}) \rightarrow \cons{x}{\fun{cutl}(\cons{y}{s})};\quad
 \fun{cutl}(s) \rightarrow \el.
 \end{equation*}
-En \Erlang, ceci serait mis en {\oe}uvre comme suit (en-tête omis):
+En \Erlang, ceci serait mis en œuvre comme suit (en-tête omis):
 \begin{verbatim}
 cutl([X|S=[_|_]]) -> [X|cutl(S)];
 cutl(_)           -> [].
@@ -2062,8 +2062,8 @@ l'élément \texttt{<book>...</book>}, et ceci aurait été correct, en
 effet. Mais nous pourrions préférer ne pas copier le nom de l'élément
 trop souvent, au cas où il changerait dans de futures versions. C'est
 alors que \texttt{xsl:copy} se révèle utile: il effectue une
-\emph{copie superficielle du n{\oe}ud contextuel}. Le n{\oe}ud
-contextuel est le dernier n{\oe}ud qui a été filtré (attribut
+\emph{copie superficielle du nœud contextuel}. Le nœud
+contextuel est le dernier nœud qui a été filtré (attribut
 \texttt{match}) par un élément \texttt{xsl:template}, donc il s'agit
 ici de \texttt{book}, et «~superficielle~» veut dire que les enfants ne
 sont pas copiés (nous voulons une copie mais aussi modifier les
@@ -2108,7 +2108,7 @@ cet appel pour ne pas la recalculer. Nous commençons ainsi:
 \end{alltt}
 Notons que nous n'avons pas spécialisé le patron pour traiter
 seulement des éléments \texttt{chapter}, mais toute espèce d'item,
-même les types primitifs comme les entiers, mais aussi les n{\oe}uds
+même les types primitifs comme les entiers, mais aussi les nœuds
 et, en particulier, les éléments.
 
 Maintenant, nous devons traduire la conditionnelle. Nous avons déjà vu
@@ -2178,7 +2178,7 @@ La raison est que quand un espace de noms est déclaré, tous les
    </contents>
 \end{sverb}
 dans la transformation précédente, l'élément \texttt{contents} avait
-\emph{implicitement} un enfant qui était le n{\oe}ud d'espace de
+\emph{implicitement} un enfant qui était le nœud d'espace de
 noms~\texttt{xs}. La raison pour laquelle \texttt{author} et
 \texttt{title} n'en avaient pas est que nous avions utilisé
 \texttt{xsl:sequence} pour référencer l'entrée, où l'espace de noms
@@ -2186,7 +2186,7 @@ est absent. La même chose se produit avec les éléments
 \texttt{chapter}, qui sont sélectionnés dans l'entrée. L'élément
 \texttt{book} était en fait copié au moyen de \texttt{xsl:copy}, et
 nous avons vu que cet élément ne recopie pas les enfants, parmi
-lesquels se trouvent les n{\oe}uds d'espace de noms. Le comportement
+lesquels se trouvent les nœuds d'espace de noms. Le comportement
 par défaut du processeur \XSLT est de faire figurer les espaces de
 noms hérités au cas où ils seraient utiles dans le résultat. Dans
 l'exemple présent, \texttt{xs} est inutile, donc il vaut mieux
@@ -2402,17 +2402,17 @@ qui, interprété par un navigateur, est très probablement rendu ainsi:
   </xsl:template>
 \end{alltt}
 Remarquons premièrement la sélection \texttt{title/text()}, qui veut
-dire: «~Les n{\oe}uds textuels de l'élément \texttt{title}, qui est
-l'enfant du n{\oe}ud contextuel (\texttt{book}).~» Deuxièmement, nous
+dire: «~Les nœuds textuels de l'élément \texttt{title}, qui est
+l'enfant du nœud contextuel (\texttt{book}).~» Deuxièmement, nous
 faisons connaissance avec un nouvel élément \XSLT,
-\texttt{xsl:value-of}, dont l'objet est de créer un n{\oe}ud textuel à
+\texttt{xsl:value-of}, dont l'objet est de créer un nœud textuel à
 partir des items sélectionnés. Si nous sélectionnions des éléments,
-comme ici l'unique élément \texttt{title}, ses n{\oe}uds textuels
+comme ici l'unique élément \texttt{title}, ses nœuds textuels
 \emph{descendants} (il n'y a qu'un enfant ici) seraient concaténés en
-ordre documentaire et mis dans un nouveau n{\oe}ud textuel. Par
+ordre documentaire et mis dans un nouveau nœud textuel. Par
 conséquent, \texttt{<xsl:sequence select="title/text()"/>} produit le
 même effet que \texttt{<xsl:value-of select="title"/>}, bien que dans
-ce dernier un nouveau n{\oe}ud textuel soit alloué (au lieu d'être
+ce dernier un nouveau nœud textuel soit alloué (au lieu d'être
 partagé avec l'entrée). Notons par ailleurs que nous avons décidé de
 spécialiser les types pour les faire coller le plus possible aux
 éléments à traiter, comme \texttt{element(xhtml:html)} qui signifie:
@@ -2460,7 +2460,7 @@ Le second extrait digne d'attention est la sélection
 \texttt{\$chap[1]/@title} par l'élément \texttt{xsl:value-of} qui veut
 dire: «~L'attribut \texttt{title} du premier élément de la séquence
 \texttt{\$chap}.~» Ici, nous ne pouvons substituer
-\texttt{xsl:sequence}, comme avec le n{\oe}ud textuel avant. En effet,
+\texttt{xsl:sequence}, comme avec le nœud textuel avant. En effet,
 si nous essayons à la place \texttt{<xsl:sequence
   select="\$chap[1]/@title"/>}, le résultat est
 \begin{sverb}
@@ -2473,13 +2473,13 @@ si nous essayons à la place \texttt{<xsl:sequence
        ...
 \end{sverb}
 Souvenons-nous que \texttt{xsl:sequence} est un alias de l'entrée (une
-référence à celle-ci), en ce cas un n{\oe}ud attribut, donc nous
+référence à celle-ci), en ce cas un nœud attribut, donc nous
 devrions nous attendre à un \emph{attribut} \texttt{title} dans le
 résultat. Mais nous voulions la valeur de l'attribut \texttt{title},
 pas l'attribut lui-même, d'où le nécessaire \texttt{xsl:value-of}. Si
 nous nous demandions pourquoi nous avons réellement besoin de
-fabriquer un n{\oe}ud textuel, nous devrions comprendre que \emph{la
-  valeur d'un attribut n'est pas un n{\oe}ud textuel}. Ceci peut être
+fabriquer un nœud textuel, nous devrions comprendre que \emph{la
+  valeur d'un attribut n'est pas un nœud textuel}. Ceci peut être
 vu en changeant la sélection en \texttt{<xsl:sequence
   select="\$chap[1]/title/text()"/>}, auquel cas, le résultat est
 \begin{sverb}
@@ -2498,7 +2498,7 @@ les débutants.
 \label{par:CSV}
 
 Le but de cet exercice est d'écrire une transformation \XSLT qui prend
-en entrée une séquence d'éléments contenant chacun un n{\oe}ud textuel
+en entrée une séquence d'éléments contenant chacun un nœud textuel
 et produit leur contenus dans le même ordre, séparés par des virgules
 et terminés par un point final. Si la séquence d'entrée est vide, le
 résultat est la séquence vide. Plus précisément, supposons la \DTD suivante:
@@ -2514,13 +2514,13 @@ singleton, le résultat est l'item qu'elle contient, suivi par un
 point; sinon, le premier item du résultat est le premier de la donnée,
 suivi par une virgule et la valeur de l'appel récursif sur la
 sous-séquence immédiate. La difficulté est plutôt de mettre en
-{\oe}uvre ce schéma en \XSLT. Voici comment:
+œuvre ce schéma en \XSLT. Voici comment:
 \smallXSLTinUnchecked{csv1.xsl}
 \noindent Remarquons que nous avons fusionné les deux patrons qui
 filtrent la racine du document (\texttt{/}) et l'élément racine
 (\texttt{numbers}) parce que nous ne reconstruisons pas un document
 \XML. De plus, nous pourrions remarquer le type \texttt{text()*}, qui
-veut dire: «~Une séquence (éventuellement vide) de n{\oe}uds textuels.~»
+veut dire: «~Une séquence (éventuellement vide) de nœuds textuels.~»
 Les autres bons morceaux sont les éléments \texttt{xsl:value-of}, en
 particulier le nouvel attribut \texttt{separator}. Sa valeur doit être
 une chaîne qui est employée pour séparer les items sélectionnés. Par
@@ -2540,8 +2540,8 @@ apprendre quelques autres encore. Considérons l'arbre dans la \fig~\vref{fig:te
 \caption{Sous-types \XPath}
 \label{fig:tests}
 \end{figure}
-La lecture ascendante d'un arc à partir d'un n{\oe}ud~\(x\) vers un
-n{\oe}ud~\(y\) est: «~\(x\)~est un [sous-type de] \(y\).~» Par exemple,
+La lecture ascendante d'un arc à partir d'un nœud~\(x\) vers un
+nœud~\(y\) est: «~\(x\)~est un [sous-type de] \(y\).~» Par exemple,
 un \texttt{element()} est un \texttt{node()}. Ceci modélise une
 relation de sous-typage, ce qui signifie que dans tout contexte où un
 \texttt{node()} est correct, un \texttt{element()} l'est aussi. Cette
@@ -2574,14 +2574,14 @@ question a donc le type \texttt{item()*}, car \texttt{xs:string} est
 un sous-type de \texttt{item()}, comme on peut le voir à la
 \fig~\vref{fig:tests}. Puisque le résultat du patron a pour type
 \texttt{text()*}, les chaînes qu'il contient seront transtypées en
-n{\oe}uds textuels, impliquant allocation de mémoire. Le sérialiseur
+nœuds textuels, impliquant allocation de mémoire. Le sérialiseur
 est la partie finale du code produit par le compilateur \XSLT (la
 partie frontale est l'analyseur de syntaxe \XML) et sa raison d'être
 est d'engendrer du texte à partir de toutes les valeurs obtenues. Dans
-ce cas, il va alors déstructurer tous ces n{\oe}uds textuels pour la
+ce cas, il va alors déstructurer tous ces nœuds textuels pour la
 génération de chaînes (affichées par un terminal ou écrites dans un
 fichier). Si nous souhaitions éviter cet emballage de chaînes (sous
-la forme de n{\oe}uds textuels), puis leur déballage, nous pourrions
+la forme de nœuds textuels), puis leur déballage, nous pourrions
 anticiper et choisir un type de retour \texttt{xs:string*}, donc
 \begin{alltt}
 \small  <xsl:template match="/" as="\textbf{xs:string*}">
@@ -2595,13 +2595,13 @@ anticiper et choisir un type de retour \texttt{xs:string*}, donc
 L'effet de cette modification est l'obtention de
 «~\texttt{0,\textvisiblespace{}1,\textvisiblespace{}A,\textvisiblespace{}B,\textvisiblespace{}C.}~». Les
 espaces supplémentaires viennent du fait que nous avons oublié que les
-éléments \texttt{xsl:value-of} créent des n{\oe}uds textuels et la
+éléments \texttt{xsl:value-of} créent des nœuds textuels et la
 sérialisation implicite de ceux-ci (par transtypage en
 \texttt{xs:string*}) engendre des séparateurs invisibles, ici rendus
 par «~\texttt{\textvisiblespace}~». La morale de cette aventure est
 qu'il vaut mieux travailler avec des types non-primitifs, soit
-attributs et n{\oe}uds, si l'entrée contient des attributs et des
-n{\oe}uds, et de laisser le sérialiseur d'occuper de la linéarisation
+attributs et nœuds, si l'entrée contient des attributs et des
+nœuds, et de laisser le sérialiseur d'occuper de la linéarisation
 de la sortie. (Il est possible d'utiliser \XSLT pour le traitement de
 chaînes de caractères, bien que ceci ne soit pas le principal domaine
 d'application du langage, auquel cas travailler avec
@@ -2639,9 +2639,9 @@ en préordre de l'arbre \XML donné; quand il trouve un élément~\(e\),
 il évalue le patron qui le filtre, puis reprend le parcours. Un patron
 filtrant fonctionne comme une règle de réécriture dans notre langage
 fonctionnel abstrait, chaque règle étant essayée tour à tour quand un
-n{\oe}ud est visité dans l'arbre \XML.
+nœud est visité dans l'arbre \XML.
 
-Puisque nous sélectionnons souvent quelques enfants du n{\oe}ud
+Puisque nous sélectionnons souvent quelques enfants du nœud
 contextuel et leur appliquons le même traitement (comme en parallèle),
 nous avons besoin d'un mécanisme pour regrouper les résultats pour
 chaque enfant en une seule séquence. Dans le contexte de l'exercice
@@ -2663,25 +2663,25 @@ par
 qui est analogue à l'appel de \texttt{map} en
 \Erlang.\label{match_as_map}
 
-Le seul problème qui reste consiste à déterminer si le n{\oe}ud
+Le seul problème qui reste consiste à déterminer si le nœud
 contextuel \texttt{hexa} est le dernier dans la séquence sur laquelle
 tous les patrons ont été appliqués. C'est ici où \XPath se révèle
 utile en fournissant une fonction \texttt{last()}, qui retourne la
-position du dernier item filtré dans la même séquence que le n{\oe}ud
+position du dernier item filtré dans la même séquence que le nœud
 contextuel. Voici ce à quoi la transformation ressemble maintenant:
 \smallXSLTinUnchecked{csv3.xsl}
 \noindent Ceci nous rappelle que tout item transporte implicitement
 des information à son sujet, comme sa position dans une séquence, mais
 aussi la position du dernier item dans celle-ci. Remarquons que nous
 n'avons besoin d'aucun paramètre dans le patron filtrant
-\texttt{hexa}, parce qu'à l'intérieur le n{\oe}ud contextuel est l'un
+\texttt{hexa}, parce qu'à l'intérieur le nœud contextuel est l'un
 des éléments \texttt{hexa} originaux, et nous n'avons pas besoin de
 savoir lequel ni quels sont les autres (nous pouvons penser en termes
 de traitement en parallèle, si c'est utile). Par exemple,
 \begin{sverb}
 <xsl:sequence select="text()"/>
 \end{sverb}
-signifie: «~Référencer le n{\oe}ud textuel du n{\oe}ud contextuel,~»
+signifie: «~Référencer le nœud textuel du nœud contextuel,~»
 (par opposition à le copier avec \texttt{xsl:value-of}).
 
 Nous emploierons des patrons filtrants dans la section qui vient à
@@ -2741,7 +2741,7 @@ ait deux paramètres, un pour les noms et un pour les notes:
     ...
   </xsl:template>
 \end{sverb}
-Notons que nous employons \texttt{xsl:copy} pour copier le n{\oe}ud
+Notons que nous employons \texttt{xsl:copy} pour copier le nœud
 contextuel \texttt{persons} et que nous avons utilisé le type de
 retour \texttt{element()*} car nous ne pouvons exprimer en \XPath:
 «~Une séquence d'éléments (mêlés) \texttt{name} et \texttt{note}.~» Le
@@ -2852,7 +2852,7 @@ Le but de cet exercice est d'écrire une transformation \XSLT qui prend
 en entrée une séquence d'entiers et produit le maximum de ces nombres
 sous forme de texte libre. Si un item n'est pas transtypable en
 \texttt{xs:integer}, une erreur de type dynamique est signalée et
-l'exécution est suspendue. Si un item est un n{\oe}ud textuel vide,
+l'exécution est suspendue. Si un item est un nœud textuel vide,
 par exemple, \texttt{<num/>}, il est ignoré. Si la séquence ne
 contient aucun entier, aucun texte n'est produit, parce que le
 maximum n'est pas défini. L'élément racine est \texttt{numbers} et les
@@ -2900,7 +2900,7 @@ dernier avec le contenu du premier nombre:
 Notons que si nous avions écrit \texttt{\$num[1]/text()}, la sélection
 aurait été vide, car il n'y a pas de \emph{variable} \texttt{num},
 mais nous voulions dire les \emph{enfants} \texttt{num}. Par ailleurs,
-nous avons sélectionné les n{\oe}uds textuels, bien que les types
+nous avons sélectionné les nœuds textuels, bien que les types
 attendus soient \texttt{xs:integer*} et \texttt{xs:integer?}. En fait,
 un transtypage sera effectué à l'exécution. Dans le cas de
 \texttt{cur}, si le transtypage échoue, la séquence vide en résultera;
@@ -2924,7 +2924,7 @@ distinguer les situations suivantes:
     et nous recommençons et écartons le maximum précédent.
 
 \end{itemize}
-Ce schéma est mis en {\oe}uvre comme suit:
+Ce schéma est mis en œuvre comme suit:
 \begin{sverb}
   <xsl:template name="max" as="xs:integer?">
     <xsl:param name="int" as="xs:integer*"/>
@@ -3104,10 +3104,10 @@ n'aurions qu'à changer le code comme suit:
 Après un long entrainement à la transformation de séquences, il est
 temps d'aborder le cas général, c'est-à-dire les arbres. Comme nous
 l'avons mentionné au début de ce chapitre, les arbres \XML sont des
-\emph{arbres de Catalan}, ce qui veut dire qu'un n{\oe}ud élément peut
+\emph{arbres de Catalan}, ce qui veut dire qu'un nœud élément peut
 avoir un nombre variable d'enfants, si ce n'est pas interdit par une
 \DTD. Ceci est à contraster avec les arbres binaires, par exemple,
-dont les n{\oe}uds peuvent n'avoir que deux enfants ou aucun.
+dont les nœuds peuvent n'avoir que deux enfants ou aucun.
 
 \mypar{Taille}
 
@@ -3126,7 +3126,7 @@ et ensuite d'écrire la transformation.
 
 L'idée est de filtrer l'élément racine, puis de sélectionner le
 premier niveau des sections, juste en dessous des chapitres. Cette
-séquence de n{\oe}uds \texttt{section} est passée à un patron nommé
+séquence de nœuds \texttt{section} est passée à un patron nommé
 \texttt{count}, dont la tâche est de compter toutes les sections. Si
 cette séquence de sections est vide, la réponse est~\texttt{0}. Sinon,
 \begin{enumerate}
@@ -3143,13 +3143,13 @@ cette séquence de sections est vide, la réponse est~\texttt{0}. Sinon,
 
 \end{enumerate}
 Notons que les deux appels récursifs peuvent être interchangés et le
-cas décrit (appel d'abord sur les enfants du premier n{\oe}ud, puis
-sur les autres n{\oe}uds de même niveau), décrit un parcours \emph{en
+cas décrit (appel d'abord sur les enfants du premier nœud, puis
+sur les autres nœuds de même niveau), décrit un parcours \emph{en
   profondeur} de l'arbre, que nous écrivons en premier:
 \smallXSLTinUnchecked{count1.xsl}
 \noindent Il faut sélectionner \texttt{\$sections[1]/section}, pas
 \texttt{sections[1]/section}, qui est vide, parce que \texttt{section}
-est un enfant élément du n{\oe}ud contextuel, alors que
+est un enfant élément du nœud contextuel, alors que
 \texttt{\$section} est le contenu de la variable \texttt{section}. Il
 est peut être sage d'éviter des variables qui sont aussi des noms
 d'éléments de l'entrée. Notons aussi que, puisque nous devons appeler
@@ -3161,7 +3161,7 @@ fonctions \XSLT (\texttt{xsl:function}), nous les aurions appelées en
 si, dans certains contextes, ils peuvent augmenter la verbosité d'un
 langage déjà assez verbeux.
 
-Si nous voulions visiter les n{\oe}uds frères avant les enfants, nous
+Si nous voulions visiter les nœuds frères avant les enfants, nous
 devrions simplement interchanger les déclarations des variables:
 \begin{sverb}
       ...
@@ -3176,7 +3176,7 @@ devrions simplement interchanger les déclarations des variables:
 Ceci ne fait aucune différence parce que les parties de l'arbre
 parcourues par les deux appels sont complémentaires. Il est néanmoins
 instructif de dessiner l'arbre \XML et de suivre les appels
-(descendants) avec une couleur sur le côté gauche des n{\oe}uds, et
+(descendants) avec une couleur sur le côté gauche des nœuds, et
 les résultats (ascendants) avec une autre couleur sur le côté droit.
 
 Au lieu de compter les sections d'une manière ascendante, nous pouvons
@@ -3264,7 +3264,7 @@ pour mieux comprendre le résultat:
 \smallXMLinUnchecked{toc_simple_out.xml}
 
 La différence avec \fun{mir/1} est que les arbres \XML sont des arbres
-de Catalan et qu'ils n'ont pas de n{\oe}uds externes. Le cas
+de Catalan et qu'ils n'ont pas de nœuds externes. Le cas
 \(\fun{mir}(\fun{ext}())\) correspond à la séquence vide de
 sous-sections et son membre droit \(\fun{ext}()\) est traduit alors en
 une séquence vide aussi, ce qui signifie que la structure du patron
@@ -3290,7 +3290,7 @@ les enfants doivent être retournés aussi, et aussi les petits-enfants
 etc. Autrement dit, nous devons parcourir l'arbre entier, donc nous
 devrions nous attendre à effectuer deux appels récursifs: un
 horizontalement (pour traiter le niveau courant \texttt{\$sections}),
-et un verticalement (pour traiter les enfants d'un n{\oe}ud dans le
+et un verticalement (pour traiter les enfants d'un nœud dans le
 niveau courant, souvent le premier).
 
 Le premier canevas devrait alors être rempli ainsi:
@@ -3317,8 +3317,8 @@ la réflexion récursive des enfants de la racine. Notons que nous avons
 besoin de \texttt{<xsl:sequence select="\$sections[1]/@title"/>} pour
 reconstruire l'attribut de l'image réfléchie
 \texttt{<section>...</section>} de la première section. Souvenons-nous
-que les n{\oe}uds attributs doivent être définis \emph{avant} les
-autres espèces de n{\oe}uds parmi les enfants (voir
+que les nœuds attributs doivent être définis \emph{avant} les
+autres espèces de nœuds parmi les enfants (voir
 page~\pageref{attr_before}), c'est-à-dire immédiatement après la
 balise ouvrante \texttt{<section>}.
 
@@ -3395,15 +3395,15 @@ dire que nous pouvons réutiliser la même structure que celle de
   </xsl:template>
 \end{sverb}
 Notons que l'élément \texttt{xsl:copy} ne peut comporter un attribut
-\texttt{select}: il n'effectue qu'une copie superficielle du n{\oe}ud
-contextuel. Ici, il est clair que le n{\oe}ud contextuel est
+\texttt{select}: il n'effectue qu'une copie superficielle du nœud
+contextuel. Ici, il est clair que le nœud contextuel est
 \texttt{book} parce que \texttt{xsl:copy} est un enfant du patron
 filtrant \texttt{book}. Mais que se passerait-il s'il se trouvait dans
-un patron nommé? Comment y connaîtrions-nous le n{\oe}ud contextuel,
+un patron nommé? Comment y connaîtrions-nous le nœud contextuel,
 puisque nous ne serions pas dans un patron filtrant? La réponse est
-que le n{\oe}ud contextuel est le dernier n{\oe}ud filtré dans le flot
+que le nœud contextuel est le dernier nœud filtré dans le flot
 de contrôle jusqu'à l'endroit présent. Par exemple, dans le patron
-nommé \texttt{mir}, le n{\oe}ud contextuel est l'élément racine
+nommé \texttt{mir}, le nœud contextuel est l'élément racine
 \texttt{book}.
 
 Parce que l'ordre des chapitres doit rester inchangé, il est
@@ -3414,7 +3414,7 @@ traiter et de l'appeler avec \texttt{<xsl:apply-templates
 \begin{enumerate}
 
 \item sélectionner les éléments \texttt{chapter} qui sont des enfants
-  du n{\oe}ud contextuel;
+  du nœud contextuel;
 
 \item pour chaque élément dans la séquence résultante, en parallèle,
   appliquer le premier patron dans la transformation qui filtre
@@ -3467,7 +3467,7 @@ avons fait usage d'un nouvel élément \XSLT:
 \end{alltt}
 Ceci est une option à l'usage de \texttt{xsl:sequence} comme
 précédemment. Par ailleurs, nous avons maintenant un élément
-\texttt{xsl:copy} par patron filtrant, le n{\oe}ud contextuel étant
+\texttt{xsl:copy} par patron filtrant, le nœud contextuel étant
 \texttt{book} dans un cas, et \texttt{chapter} dans l'autre.
 
 En comparant le contenu du patron filtrant les chapitres avec celui de
@@ -3572,7 +3572,7 @@ des patrons filtrants uniquement et réutilisons le patron nommé
 \smallXSLTinUnchecked{height1.xsl}
 
 Même question mais cette fois-ci, au lieu de calculer en parallèle les
-hauteurs des enfants d'un n{\oe}ud donné, calculons-les
+hauteurs des enfants d'un nœud donné, calculons-les
 séquentiellement à l'aide d'un patron nommé. L'objectif est d'éviter
 le calcul d'une séquence de hauteurs et d'en déduire la plus grande:
 au lieu de cela, nous pourrions calculer la hauteur courante pendant
@@ -3592,7 +3592,7 @@ hauteur. Alors
   \item le maximum de cette valeur et \texttt{\$cur} est la valeur de
     \texttt{cur} dans l'appel récursif avec
     \texttt{\$seq[position()>1]}. Si \texttt{\$seq} est vide, la plus
-    grande hauteur des n{\oe}uds est \texttt{\$cur}. (Ce schéma est
+    grande hauteur des nœuds est \texttt{\$cur}. (Ce schéma est
     analogue au comptage du nombre de sections.)
 
 \end{enumerate}
@@ -3711,11 +3711,11 @@ qui serait probablement interprété par un navigateur ainsi:
 \smallXSLTinUnchecked{num1.xsl}
 \noindent On notera \texttt{<xsl:value-of select="@title"/>}, car les
 titres sont des valeurs d'attributs, donc nous avons besoin de
-\texttt{xsl:value-of} pour créer des n{\oe}uds textuels, tout comme
+\texttt{xsl:value-of} pour créer des nœuds textuels, tout comme
 pour \texttt{"author/@first,author/@last"}, ce qui est le même que
 \texttt{"(author/@first,author/@last)"}. Il aurait été possible
 d'écrire \texttt{"author/@*"}, ce qui signifie: «~Toutes les valeurs
-d'attributs de l'élément \texttt{author}, enfant du n{\oe}ud
+d'attributs de l'élément \texttt{author}, enfant du nœud
 contextuel.~»
 
 À présent, ajoutons un nombre entre crochets après la balise \XHTML
@@ -3783,7 +3783,7 @@ le patron filtrant les chapitres et les sections:
 \end{alltt}
 À l'attribut \texttt{separator} doit être affecté la chaîne vide, de
 manière à ce que les items dans la sélection (chaînes et entiers)
-soient convertis en un n{\oe}ud textuel sans l'espace séparatrice par
+soient convertis en un nœud textuel sans l'espace séparatrice par
 défaut. Par exemple, si nous essayons \texttt{<xsl:value-of
   select="1,2,3">} le résultat est \texttt{'1 2 3'}.
 
@@ -3845,8 +3845,8 @@ filtrant les chapitres et les sections, qui reçoivent le préfixe
 numérotant le parent. Par exemple, lorsque nous filtrons la section
 intitulée «~Declarations vs. definitions~», la valeur du paramètre est
 la séquence \texttt{(1,'.',2,'.')}, donc nous concaténons simplement
-la position de la section parmi les n{\oe}uds de même niveau,
-soit~\texttt{1}. Ensuite, nous créons un n{\oe}ud textuel pour
+la position de la section parmi les nœuds de même niveau,
+soit~\texttt{1}. Ensuite, nous créons un nœud textuel pour
 formatter \texttt{[1.2.1]}. Voici la modification:
 \begin{sverb}
   <xsl:template match="chapter|section" as="element(xhtml:li)">
@@ -3895,7 +3895,7 @@ séquences ordonnées qui sont interclassées à l'aide du patron nommé
 laquelle nous pouvons appliquer le patron nommé \texttt{csv}. Plus
 précisément, ce parcours peut être effectué en parallèle: les
 applications récursives fournissent deux séquences triées qui sont
-interclassées; si le n{\oe}ud contextuel est l'élément racine, alors
+interclassées; si le nœud contextuel est l'élément racine, alors
 nous appelons \texttt{csv}. Autrement, les interclassements sont
 effectués d'une manière purement ascendante (c'est-à-dire après la fin
 des appels récursifs). Par conséquent, nous commençons avec

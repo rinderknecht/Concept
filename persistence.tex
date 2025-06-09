@@ -87,7 +87,7 @@ dans notre exemple. Par ailleurs, nous souhaitons que deux versions
 successives partagent le plus de structure possible. (Nous employons
 le terme «~version~» plutôt qu'«~état~» parce que dernier se réfère à
 des valeurs qui ne sont pas persistantes.) Ces exigences sont au
-c{\oe}ur des logiciels dits de \emph{gestion de versions}, utilisés
+cœur des logiciels dits de \emph{gestion de versions}, utilisés
 par les programmeurs pour conserver une trace de l'évolution de leur
 programmes.
 
@@ -281,7 +281,7 @@ Quelle est la quantité totale de mémoire
 allouée?\index{partage}\index{mémoire|see{partage}} Plus précisément,
 nous souhaitons connaître le nombre d'empilements effectués. La seule
 règle de \fun{lst\(_0\)/1} qui use d'un empilement dans son membre
-droit est la seconde, donc le nombre de n{\oe}uds d'empilage est le
+droit est la seconde, donc le nombre de nœuds d'empilage est le
 nombre d'empilages. Mais ceci est un gâchis dans certains cas, par
 exemple, quand la version construite est vide, comme avec l'histoire
 \([\ufun{pop}(),\ufun{push}(6)]\). La méthode optimale est d'allouer
@@ -303,7 +303,7 @@ des caractéristiques à la fois de
 \fun{top\(_0\)/1}\index{top0@\fun{top\(_0\)/1}} et de
 \fun{lst\(_0\)/1}. Alors\index{lst1@$\C{\fun{lst}_1}{n}$}
 \(\C{\fun{lst}_1}{n} = \C{\fun{lst}_0}{n} = n + 1\), et le nombre de
-n{\oe}uds d'empilage\index{partage|(} créés est alors la longueur de
+nœuds d'empilage\index{partage|(} créés est alors la longueur de
 la dernière version. Nous avons là encore un exemple de coût qui
 dépend de la taille du résultat, comme pour
 \fun{flat\(_0\)/1}\index{flat0@\fun{flat$_0$/1}} à la
@@ -391,7 +391,7 @@ l'équation~\eqref{ex_history1}:
 \end{equation*}
 Ce nouveau codage\index{pile!codage avec des \(n\)-uplets} reflète
 bien l'appel~\eqref{ex_history} à la page~\pageref{ex_history} et
-économise \(n\)~n{\oe}uds d'empilage dans une histoire de
+économise \(n\)~nœuds d'empilage dans une histoire de
 longueur~\(n\). Voir la \fig~\ref{fig:ver}.
 \begin{figure}
 \begin{equation*}

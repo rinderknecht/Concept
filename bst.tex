@@ -1,6 +1,6 @@
 \chapter{Arbres binaires de recherche}
 
-La recherche d'un n{\oe}ud interne dans un arbre binaire peut être
+La recherche d'un nœud interne dans un arbre binaire peut être
 couteuse parce que, dans le pire des cas, l'arbre en entier doit être
 parcouru, par exemple, en préfixe ou en largeur. Pour remédier à cela,
 deux choses sont désirables: l'arbre binaire devrait être aussi
@@ -20,7 +20,7 @@ t_2)\),\index{bst@\fun{bst/3}}
 \label{fig:bst_ex}
 \end{wrapfigure}
 est un arbre binaire tel que la clé~\(x\) est supérieure aux clés
-de~\(t_1\) et inférieure aux clés de~\(t_2\). (Le n{\oe}ud externe
+de~\(t_1\) et inférieure aux clés de~\(t_2\). (Le nœud externe
 \(\fun{ext}()\) est un arbre de recherche trivial.) La fonction de
 comparaison dépend de la nature des clés, mais doit être
 \emph{totale}, c'est-à-dire que toute clé est comparable avec
@@ -73,7 +73,7 @@ Un meilleur dessein consiste à ne pas construire le parcours infixe, à
 \emph{conserver seulement la plus petite clé jusqu'à présent}, en
 supposant que l'arbre est traversé de droite à gauche, et à la
 comparer avec la clé courante. Nous avons alors un problème au
-commencement, parce que nous n'avons encore visité aucun n{\oe}ud. Une
+commencement, parce que nous n'avons encore visité aucun nœud. Une
 méthode fréquemment employée pour gérer ces situations exceptionnelles
 consiste à utiliser une \emph{sentinelle}\index{sentinelle}, qui est
 une valeur factice. Ici, nous voudrions prendre \(+\infty\) comme
@@ -122,12 +122,12 @@ utile.\index{true@\fun{true/1}}
 
 Dans le pire des cas, l'arbre originel est un arbre binaire de
 recherche, donc il doit être traversé dans son intégralité. S'il y a
-\(n\)~n{\oe}uds internes, le coût maximal est \(\W{\fun{bst}}{n} = 1 +
+\(n\)~nœuds internes, le coût maximal est \(\W{\fun{bst}}{n} = 1 +
 2n + (n+1) + 1 = 3n + 3\)\index{bst@$\W{\fun{bst}}{n}$} parce que
-chaque n{\oe}ud interne déclenche un appel à
+chaque nœud interne déclenche un appel à
 \fun{bst\(_1\)/2}\index{bst1@\fun{bst\(_1\)/2}} et, à son tour, un
 appel à \fun{cmp/3}\index{cmp@\fun{cmp/3}}; de même, tous les \(n+1\)
-n{\oe}uds externes sont visités. Par conséquent, \(\W{\fun{bst}_0}{n}
+nœuds externes sont visités. Par conséquent, \(\W{\fun{bst}_0}{n}
 = \W{\fun{bst}}{n}\),\index{bst0@$\W{\fun{bst}_0}{n}$} si \(n > 0\),
 ce qui n'est pas une amélioration. Néanmoins, ici, nous ne
 construisons pas une pile avec toutes les clés, ce qui est un gain
@@ -184,7 +184,7 @@ racine de l'arbre donné. La définition de \fun{mem/2} (anglais,
 \label{fig:mem}
 \end{figure}
 Le point crucial est que nous ne sommes pas forcément amenés à visiter
-tous les n{\oe}uds. Plus précisément, si tous les n{\oe}uds sont
+tous les nœuds. Plus précisément, si tous les nœuds sont
 visités, alors l'arbre est dégénéré\index{arbre binaire!$\sim$
   dégénéré}, à savoir, il est isomorphe à une pile, comme les arbres à
 la \fig~\vref{fig:tree_stack} et~\vref{fig:zigzag}. Il est évident que
@@ -193,7 +193,7 @@ produit quand la clé est à la racine, donc
 \(\B{\fun{mem}}{n{\scriptscriptstyle (+)}} =
 1\),\index{mem@$\B{\fun{mem}}{n{\scriptscriptstyle (+)}}$} et une
 recherche négative minimise son coût si la racine possède un enfant
-qui est un n{\oe}ud externe visité:
+qui est un nœud externe visité:
 \(\B{\fun{mem}}{n{\scriptscriptstyle (-)}} =
 2\).\index{mem@$\B{\fun{mem}}{n{\scriptscriptstyle (-)}}$} Une
 recherche positive maximise son coût quand l'arbre est dégénéré et la
@@ -230,8 +230,8 @@ soulève la question du coût moyen de
 \mypar{Coût moyen}
 
 Il est clair d'après la définition qu'une recherche commence à la
-racine et s'achève à un n{\oe}ud interne, en cas de succès, ou bien à
-un n{\oe}ud externe si elle est infructueuse; de plus, chaque n{\oe}ud
+racine et s'achève à un nœud interne, en cas de succès, ou bien à
+un nœud externe si elle est infructueuse; de plus, chaque nœud
 sur ces chemins correspond à un appel de fonction. Par conséquent, le
 coût moyen de \fun{mem/2}\index{mem@\fun{mem/2}} est en relation
 directe avec la longueur interne moyenne\index{arbre binaire!longueur
@@ -240,15 +240,15 @@ directe avec la longueur interne moyenne\index{arbre binaire!longueur
 comment, considérons un arbre binaire de recherche de taille~\(n\)
 contenant des clés distinctes. Le coût total de la recherche de toutes
 ces clés est \(n+I_n\), où \(I_n\)~est la longueur interne (nous
-ajoutons~\(n\) à~\(I_n\) parce que nous comptons les n{\oe}uds sur les
-chemins, pas les arcs, car un n{\oe}ud interne est associé à un appel
+ajoutons~\(n\) à~\(I_n\) parce que nous comptons les nœuds sur les
+chemins, pas les arcs, car un nœud interne est associé à un appel
 de fonction.)  En d'autres termes, une clé choisie au hasard parmi
 celles que nous savons présentes dans un arbre donné de taille~\(n\)
 est trouvée par \fun{mem/2} pour un coût moyen de \(1+I_n/n\). Par
-dualité, le coût total pour atteindre tous les n{\oe}uds externes d'un
+dualité, le coût total pour atteindre tous les nœuds externes d'un
 arbre binaire de recherche est \((n+1)+E_n\), où \(E_n\)~est la
-longueur externe (il y a \(n+1\) n{\oe}uds externes dans un arbre
-contenant \(n\)~n{\oe}uds internes; voir le théorème~\ref{thm_int_ext}
+longueur externe (il y a \(n+1\) nœuds externes dans un arbre
+contenant \(n\)~nœuds internes; voir le théorème~\ref{thm_int_ext}
 \vpageref{thm_int_ext}). Autrement dit, le coût moyen d'une recherche
 négative (la clé est absente) avec \fun{mem/2}\index{mem@\fun{mem/2}}
 est \(1 + E_n/(n+1)\).
@@ -332,9 +332,9 @@ nombre de comparaisons pour chaque chemin de recherche est différent à
 cause de l'asymétrie entre la gauche et la droite: la visite
 de~\(t_1\) cause une comparaison (\(x \succ y\)), alors que
 \(t_2\)~déclenche deux comparaisons (\(x \nsucc y\) et \(y \succ
-x\)). De plus, nous avons aussi déplacé le motif pour le n{\oe}ud
+x\)). De plus, nous avons aussi déplacé le motif pour le nœud
 externe après les règles avec des comparaisons, parce que chaque
-chemin de recherche contient exactement un n{\oe}ud externe à la fin,
+chemin de recherche contient exactement un nœud externe à la fin,
 donc il est probablement plus efficace de vérifier cela en dernier. En
 passant, tous les manuels dont nous avons connaissance supposent
 qu'une seule comparaison atomique avec trois résultats possibles (une
@@ -353,15 +353,15 @@ explicitement en compte l'usage de comparaisons bivaluées et réduit
 leur nombre au minimum, aux dépens de plus d'appels de fonctions. Le
 dessein consiste à passer d'un appel à l'autre une clé candidate, tout
 en descendant dans l'arbre, et à toujours terminer une recherche à un
-n{\oe}ud externe: si la candidate égale alors la clé recherchée, la
+nœud externe: si la candidate égale alors la clé recherchée, la
 recherche est positive, sinon elle ne l'est pas. Par conséquent, le
 coût en termes d'appels de fonctions d'une recherche négative est le
 même qu'avec \fun{mem/2}\index{mem@\fun{mem/2}} ou
-\fun{mem\(_0\)/2}\index{mem0@\fun{mem\(_0\)/2}}, et le n{\oe}ud externe
+\fun{mem\(_0\)/2}\index{mem0@\fun{mem\(_0\)/2}}, et le nœud externe
 terminal est le même, mais le coût d'une recherche positive est plus
 élevé. Néanmoins, l'avantage est que \emph{l'égalité n'est pas testée
-  à la descente}, seulement quand le n{\oe}ud externe est atteint,
-donc seulement une comparaison par n{\oe}ud est nécessaire. Le
+  à la descente}, seulement quand le nœud externe est atteint,
+donc seulement une comparaison par nœud est nécessaire. Le
 programme est montré à la \fig~\vref{fig:mem1}.
 \begin{figure}
 \begin{equation*}
@@ -390,7 +390,7 @@ seule différence conceptuelle avec
 \fun{mem\(_0\)/2}\index{mem0@\fun{mem\(_0\)/2}} est la manière dont
 une recherche positive est identifiée: si, quelque part lors de la
 descente, \(x = y \), alors \(x\)~devient la candidate et elle sera
-passée aux autres appels («~vers le bas~») jusqu'à un n{\oe}ud externe
+passée aux autres appels («~vers le bas~») jusqu'à un nœud externe
 où \(x = x\).
 
 Le pire des cas se produit quand l'arbre est dégénéré\index{arbre
@@ -404,13 +404,13 @@ avons utilisées dans l'analyse du tri par interclassement\index{tri
 Dans le cas de \fun{mem\(_0\)/2}, l'appel récursif au sous-arbre droit
 entraîne deux fois plus de comparaisons qu'au sous-arbre gauche, donc
 le pire des cas est un arbre dégénéré penchant à droite, comme celui à
-la \fig~\vref{fig:min_pre0}, tous les n{\oe}uds internes étant
+la \fig~\vref{fig:min_pre0}, tous les nœuds internes étant
 visités: \(\OW{\fun{mem}_0}{n} = 2n\).\index{mem0@$\OW{\fun{mem}_0}{n}$}
 
 Dans le cas de \fun{mem/2}, le nombre de comparaisons est symétrique
 parce que l'égalité est vérifiée d'abord, donc le pire des cas est un
 arbre dégénéré dans lequel une recherche négative amène à visiter tous
-les n{\oe}uds internes et un n{\oe}ud externe: \(\OW{\fun{mem}}{n} =
+les nœuds internes et un nœud externe: \(\OW{\fun{mem}}{n} =
 2n + 1\).\index{mem@$\OW{\fun{mem}}{n}$} Asymptotiquement, nous avons
 \begin{equation*}
 \OW{\fun{mem}}{n} \sim \OW{\fun{mem}_0}{n}
@@ -458,7 +458,7 @@ candidate dans le programme originel. Voir \fig~\vref{fig:mem3}
 \end{figure}
 où nous avons \(\OW{\fun{mem}_3}{n} = \OW{\fun{mem}_1}{n} = n + 1\).
 Cette version ne devrait être privilégiée que si le langage de
-programmation employé pour la mise en {\oe}uvre possède des
+programmation employé pour la mise en œuvre possède des
 \emph{synonymes}\index{mémoire!synonymie}, définis dans les motifs, ou,
 de façon équivalente, si le compilateur peut détecter que le terme
 \(\fun{bst}(x,t_1,t_2)\) peut être partagé au lieu d'être dupliqué
@@ -475,9 +475,9 @@ lecture de \cite{Spuler_1992}.
 \mypar{Insertion de feuilles}\index{arbre binaire de
   recherche!insertion de feuilles|(}
 
-Puisque toutes les recherches se terminent à un n{\oe}ud externe, il
+Puisque toutes les recherches se terminent à un nœud externe, il
 est extrêmement tentant de commencer l'insertion d'une clé distincte
-par une recherche négative et ensuite remplacer le n{\oe}ud externe
+par une recherche négative et ensuite remplacer le nœud externe
 par une feuille contenant la clé à ajouter. La \fig~\vref{fig:insl}
 \begin{figure}[b]
 \begin{equation*}
@@ -596,7 +596,7 @@ de~\(t\), mais le coût moyen
 \(\fun{insl}(x,t)\) dépend seulement de la taille~\(k\) des arbres,
 parce que toutes les formes sont créées par \(\fun{mkl}(s)
 \twoheadrightarrow t\) pour une longueur donnée de~\(s\), et tous les
-n{\oe}uds externes de~\(t\) ont une égale probabilité d'être remplacés
+nœuds externes de~\(t\) ont une égale probabilité d'être remplacés
 par une feuille contenant~\(x\). Précisément:
 \begin{equation}
 \abovedisplayskip=2pt
@@ -606,9 +606,9 @@ par une feuille contenant~\(x\). Précisément:
 \label{eq:Mmkl0}
 \end{equation}
 Une caractéristique remarquable de l'insertion de feuilles est que les
-n{\oe}uds internes ne bougent pas, donc la longueur
+nœuds internes ne bougent pas, donc la longueur
 interne\index{arbre binaire de recherche!longueur interne} des
-n{\oe}uds est invariante et le coût de rechercher toutes les clés d'un
+nœuds est invariante et le coût de rechercher toutes les clés d'un
 arbre de taille~\(n\) est le coût de les avoir insérées
 auparavant. Nous avons déjà remarqué que le coût moyen de la recherche
 est \(n + \Expected{I_n}\); le coût moyen des \(n\)~insertions est
@@ -748,8 +748,8 @@ arbres binaires normaux.
 
 Si nous nous intéressons à des résultats un petit plus théoriques,
 nous pourrions rechercher le nombre moyen de comparaisons pour une
-recherche et une insertion. Un coup d'{\oe}il à la \fig~\vref{fig:mem}
-révèle que deux comparaisons bivaluées par n{\oe}ud interne sont
+recherche et une insertion. Un coup d'œil à la \fig~\vref{fig:mem}
+révèle que deux comparaisons bivaluées par nœud interne sont
 effectuées à la descente et une comparaison bivaluée (égalité) est
 faite si la clé est atteinte, sinon aucune:
 \begin{equation}
@@ -790,7 +790,7 @@ et~\eqref{eq:Mmem_fail} à la page~\pageref{eq:Mmem_fail}:
 n\).\index{mem3@$\M{\fun{mem}_3}{n}$} Un retour sur la
 \fig~\vref{fig:mem3} met en exergue qu'une comparaison bivaluée (\(x
 \succ y\)) est effectuée en descendant dans l'arbre et une de plus
-pour l'arrêt à un n{\oe}ud externe, que la recherche soit positive ou
+pour l'arrêt à un nœud externe, que la recherche soit positive ou
 non:
 \begin{equation*}
   \OM{\fun{mem}_3}{n} = \frac{1}{n+1}\Expected{E_n} =
@@ -807,7 +807,7 @@ Nous pouvons finalement comparer le nombre moyen de comparaisons entre
 En ce qui concerne l'insertion de feuilles,
 \fun{insl/2}\index{insl@\fun{insl/2}} se comporte comme
 \fun{mem\(_3\)/2}\index{mem3@\fun{mem\(_3\)/2}}, sauf qu'aucune
-comparaison n'est faite aux n{\oe}uds externes. De plus, nous
+comparaison n'est faite aux nœuds externes. De plus, nous
 finissons l'analyse du coût moyen de \(\fun{insl/2}\) avec les
 équations~\eqref{eq:n_plus_EIn} et~\eqref{eq:Mmem_fail}:
 \begin{equation*}
@@ -839,7 +839,7 @@ cas de l'insertion à la Andersson, à la \fig~\vref{fig:insl1}, le pire
 des cas est identique mais il y a un appel supplémentaire pour
 initialiser la clé candidate, d'où \(\W{\fun{insl}_1}{n} = n +
 2\).\index{insl1@$\W{\fun{insl}_1}{n}$} De plus, le nombre de
-comparaisons est symétrique et égale~\(1\) par n{\oe}ud interne, donc
+comparaisons est symétrique et égale~\(1\) par nœud interne, donc
 \(\OW{\fun{insl}_1}{n} = n\)\index{insl1@$\OW{\fun{insl}_1}{n}$} et
 tout arbre dégénéré est le pire des cas.
 
@@ -868,14 +868,14 @@ Soit \(\OB{\fun{mkl}}{n}\)\index{mkl@$\OB{\fun{mkl}}{n}$} le nombre
 minimal de comparaisons nécessaires pour cons\-trui\-re un arbre
 binaire de recherche de taille~\(n\) par insertion de feuilles. Si
 nous souhaitons minimiser le coût de chaque insertion, alors la
-longueur interne de chaque n{\oe}ud doit être minimale et cela est
+longueur interne de chaque nœud doit être minimale et cela est
 possible si l'arbre croît comme un arbre parfait\index{arbre
   binaire!$\sim$ parfait} ou presque parfait.\index{arbre
   binaire!$\sim$ presque parfait} Un arbre parfait est un arbre dont
-les n{\oe}uds externes appartiennent au même niveau, une configuration
+les nœuds externes appartiennent au même niveau, une configuration
 que nous avons déjà rencontrée \vpageref{par:perfection} (l'arbre est
 contenu sans vide dans un triangle isocèle); un arbre presque parfait
-est un arbre dont les n{\oe}uds externes sont sur deux niveaux
+est un arbre dont les nœuds externes sont sur deux niveaux
 consécutifs et nous avons vu ce genre d'arbre au paragraphe consacré
 aux arbres de comparaison et à la minimisation du coût moyen du tri
 \vpageref{par:opt_sort_minimean}.
@@ -883,15 +883,15 @@ aux arbres de comparaison et à la minimisation du coût moyen du tri
 Supposons d'abord que l'arbre est parfait, de taille~\(n\) et
 hauteur~\(h\).\index{arbre binaire!hauteur} La hauteur est la
 longueur, comptée en nombre d'arcs, du chemin le plus long de la
-racine à un n{\oe}ud externe. La longueur totale pour un niveau~\(k\)
-constitué uniquement de n{\oe}uds internes est~\(k2^k\). Par
+racine à un nœud externe. La longueur totale pour un niveau~\(k\)
+constitué uniquement de nœuds internes est~\(k2^k\). Par
 conséquent, en additionnant tous les niveaux, il vient
 \begin{equation}
 \OB{\fun{mkl}}{n} = \sum_{k=1}^{h-1}k2^k = (h-2)2^h + 2,
 \label{eq:OBmkl_tmp1}
 \end{equation}
 grâce à l'équation~\eqref{eq:Sj} \vpageref{eq:Sj}. De plus, en
-additionnant le nombre de n{\oe}uds internes par niveaux: \(n =
+additionnant le nombre de nœuds internes par niveaux: \(n =
 \sum_{k=0}^{h-1}2^k = 2^{h} - 1\), donc \(h = \lg(n+1)\), que nous
 pouvons remplacer dans l'équation~\eqref{eq:OBmkl_tmp1} pour obtenir
 enfin
@@ -909,14 +909,14 @@ interclassement descendant, à l'équation~\eqref{eq:top}
 \end{equation}
 
 Supposons maintenant que l'arbre est presque parfait, avec
-l'avant-dernier niveau \(h-1\) contenant \(q \neq 0\)~n{\oe}uds
+l'avant-dernier niveau \(h-1\) contenant \(q \neq 0\)~nœuds
 internes; alors
 \begin{equation}
 \OB{\fun{mkl}}{n} = \sum_{k=1}^{h-2}k2^k + (h-1)q
 = (h-3)2^{h-1} + 2 + (h-1)q.
 \label{eq:OBmkl_tmp2}
 \end{equation}
-De plus, le nombre total~\(n\) de n{\oe}uds internes, lorsqu'il est le
+De plus, le nombre total~\(n\) de nœuds internes, lorsqu'il est le
 résultat d'une somme par niveaux, satisfait \(n = \sum_{k=0}^{h-2}2^k
 + q = 2^{h-1} - 1 + q\), d'où \(q = n - 2^{h-1} + 1\). Par définition,
 nous avons \(0 < q \leqslant 2^{h-1}\), donc \(0 < n - 2^{h-1} + 1
@@ -971,7 +971,7 @@ Soit \(\OW{\fun{mkl}}{n}\)\index{mkl@$\OW{\fun{mkl}}{n}$} le nombre
 maximal de comparaisons pour construire un arbre binaire de recherche
 de taille~\(n\) par insertion de feuilles. Si nous maximisons chaque
 insertion, nous devons faire croître un arbre dégénéré et insérer à un
-n{\oe}ud de longueur externe maximale:
+nœud de longueur externe maximale:
 \begin{equation*}
 \abovedisplayskip=4pt
 \belowdisplayskip=0pt
@@ -990,8 +990,8 @@ une feuille, il est préférable de l'insérer comme une nouvelle racine
 \citep{Stephenson_1980}. La méthode consiste à d'abord effectuer une
 insertion de feuille et, sur le chemin du retour vers la racine
 (c'est-à-dire, après l'évaluation de chaque appel récursif), nous
-effectuons des rotations pour faire monter le nouveau n{\oe}ud dans
-l'arbre. Plus précisément, si le n{\oe}ud a été inséré dans un
+effectuons des rotations pour faire monter le nouveau nœud dans
+l'arbre. Plus précisément, si le nœud a été inséré dans un
 sous-arbre gauche, alors une rotation à droite l'amène un niveau plus
 haut, sinon une rotation à gauche aura le même effet. La composition
 de ces rotations fait monter la feuille jusqu'à la racine. La rotation
@@ -1128,7 +1128,7 @@ de \fun{insr/2}, à la \fig~\vref{fig:insr}.
 \caption{Insertion de racine avec doublons possibles}
 \label{fig:insr}
 \end{figure}
-Notons que nous pouvons éviter de créer les n{\oe}uds internes
+Notons que nous pouvons éviter de créer les nœuds internes
 temporaires \(\fun{bst}(x,\dots,t_2)\) et \(\fun{bst}(x,t_1,\dots)\)
 en modifiant \fun{rotl/1} et \fun{rotr/1} de telle sorte qu'elles
 prennent trois arguments (\fun{rotl\(_0\)/3} et \fun{rotr\(_0\)/3}),
@@ -1158,7 +1158,7 @@ comme on le voit avec la nouvelle version \fun{insr\(_0\)/2} à la
 
 Une comparaison entre les insertions de feuille et de racine révèle
 des faits intéressants. Par exemple, puisque l'insertion de feuilles
-ne déplace aucun n{\oe}ud, les constructions d'un même arbre à partir
+ne déplace aucun nœud, les constructions d'un même arbre à partir
 de deux permutations des clés ont le même coût, par exemple
 \((1,3,2,4)\) et \((1,3,4,2)\). D'un autre côté, comme l'ont remarqué
 \cite{GeldenhuysVanderMerwe_2009}, fabriquer le même arbre de
@@ -1843,9 +1843,9 @@ Les définitions pour ces deux phases se trouvent à la
 Nous avons \(\fun{min}(t_2) \twoheadrightarrow
 \pair{m}{t'_2}\),\index{min@\fun{min/1}} où \(m\)~est la clé minimale
 de l'arbre~\(t_2\) et \(t'_2\)~est la reconstruction de~\(t_2\)
-sans~\(m\); en d'autres termes, le n{\oe}ud interne le plus à gauche
-de~\(t_2\) contient la clé~\(m\) et ce n{\oe}ud a été remplacé par un
-n{\oe}ud externe. L'appel à \fun{aux\(_0\)/3} substitue simplement la
+sans~\(m\); en d'autres termes, le nœud interne le plus à gauche
+de~\(t_2\) contient la clé~\(m\) et ce nœud a été remplacé par un
+nœud externe. L'appel à \fun{aux\(_0\)/3} substitue simplement la
 clé~\(x\) à supprimer par son successeur immédiat~\(m\). Le but de la
 fonction auxiliaire \fun{aux\(_1\)/3} est de reconstruire l'arbre dans
 lequel le minimum a été supprimé. Remarquons que le motif de la
@@ -1859,7 +1859,7 @@ en moyenne, les arbres obtenus après des suppressions suivies par au
 moins deux insertions. En d'autres termes, ces arbres ne sont pas, en
 moyenne, aussi équilibrés que ceux contenant les mêmes clés et
 construits seulement par insertions. Ce phénomène est difficile à
-comprendre et des exemples sont nécessaire pour le voir à l'{\oe}uvre
+comprendre et des exemples sont nécessaire pour le voir à l'œuvre
 \citep{Eppinger_1983,CulbersonMunro_1989,CulbersonEvans_1994,Knuth_1998a,Heyer_2009}.
 
 Une autre sorte d'asymétrie est que la suppression est bien plus
@@ -1870,13 +1870,13 @@ la recherche à la Andersson avec un arbre candidat est modifiée pour
 faire une suppression, le programme est plutôt court si le langage de
 programmation est impératif.
 
-Une autre approche de la suppression consiste à marquer les n{\oe}uds
+Une autre approche de la suppression consiste à marquer les nœuds
 visés comme supprimés sans vraiment les supprimer. Ils sont toujours
 nécessaires pour de futures comparaisons mais ils ne sont plus
 considérés comme faisant partie de la collection de clés que dénote
 l'arbre binaire de recherche. En tant que tels, ils sont comme des
 zombies, ni vivants ni morts, ou on pourrait parler de suppression
-paresseuse. Plus sérieusement, ceci nécessite deux sortes de n{\oe}uds
+paresseuse. Plus sérieusement, ceci nécessite deux sortes de nœuds
 internes, \fun{bst/3} et \fun{del/3}.\index{del@\fun{del/3}} Cette
 autre conception est montrée à la \fig~\vref{fig:del0}.
 \begin{figure}
@@ -1900,9 +1900,9 @@ autre conception est montrée à la \fig~\vref{fig:del0}.
 \label{fig:del0}
 \end{figure}
 Remarquons que l'insertion d'une clé qui a été supprimée
-paresseusement n'a pas besoin d'être réalisée à un n{\oe}ud externe:
+paresseusement n'a pas besoin d'être réalisée à un nœud externe:
 le constructeur \fun{del/3} est alors simplement changé en
-\fun{bst/3}, la marque d'un n{\oe}ud interne normal.
+\fun{bst/3}, la marque d'un nœud interne normal.
 
 \paragraph{Exercice}
 

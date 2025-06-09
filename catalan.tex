@@ -37,30 +37,30 @@ le coût de le traverser de différentes façons.
 \label{fig:catalan_tree}
 \end{wrapfigure}
 Les arbres de Catalan sont un type spécial de graphe, soit un objet
-constitué de \emph{n{\oe}uds} (appelés aussi \emph{sommets}) reliés
+constitué de \emph{nœuds} (appelés aussi \emph{sommets}) reliés
 par des \emph{arcs}, sans orientation (seule la connexion importe). Ce
-qui fait un arbre de Catalan est la distinction d'un n{\oe}ud, appelé
+qui fait un arbre de Catalan est la distinction d'un nœud, appelé
 la \emph{racine}, et l'absence de cycles, c'est-à-dire de chemins
-fermés contenant des n{\oe}uds reliés successivement. Les arbres de
+fermés contenant des nœuds reliés successivement. Les arbres de
 Catalan sont souvent appelés \emph{arbres ordonnés} (anglais:
 \emph{ordered trees} ou \emph{planted plane trees}), en théorie des
-graphes, et \emph{arbres généraux} (anglais, \emph{unranked trees},
+graphes, et \emph{arbres généraux} (anglais: \emph{unranked trees},
 \emph{\(n\)-ary trees}, \emph{rose trees}) en théorie de la
 programmation. Un exemple est donné à la
-\fig~\ref{fig:catalan_tree}. Remarquons que la racine est le n{\oe}ud
+\fig~\ref{fig:catalan_tree}. Remarquons que la racine est le nœud
 situé en haut de la figure et qu'elle possède quatre sous-arbres
-ordonnés, dont les racines sont nommées \emph{enfants}. Les n{\oe}uds
+ordonnés, dont les racines sont nommées \emph{enfants}. Les nœuds
 dessinés comme des disques blancs \((\circ)\) constituent un chemin
-maximal commençant à la racone (le nombre de n{\oe}uds le long de
-celui-ci est maximal). Le n{\oe}ud terminal n'a pas d'enfants; il y a
-précisément~\(8\) n{\oe}uds de ce genre au total, appelés
+maximal commençant à la racone (le nombre de nœuds le long de
+celui-ci est maximal). Le nœud terminal n'a pas d'enfants; il y a
+précisément~\(8\) nœuds de ce genre au total, appelés
 \emph{feuilles}. Le nombre de disques blancs est la \emph{hauteur} de
 l'arbre de Catalan (il peut y avoir plusieurs chemins maximaux de même
 longueur), donc l'exemple donné a pour hauteur~\(4\).
 
-Les programmeurs mettent en {\oe}uvre les arbres de Catalan comme une
+Les programmeurs mettent en œuvre les arbres de Catalan comme une
 structure de donnée, par exemple via l'usage de \textsf{XML}, auquel
-cas, des informations sont logées dans les n{\oe}uds et leur recherche
+cas, des informations sont logées dans les nœuds et leur recherche
 peut exiger l'atteinte d'une feuille, dans la circonstance la plus
 défavorable. Le coût maximal d'une recherche est donc proportionnel à
 la hauteur de l'arbre et la détermination de la hauteur moyenne
@@ -69,8 +69,8 @@ aléatoires \citep{VitterFlajolet_1990}. Pour mener à bien ce type
 d'analyse, nous devons d'abord déterminer le nombre d'arbres de
 Catalan d'une taille donnée. Il y a deux mesures usuelles de la
 taille: soit nous quantifions les arbres par le nombre de leurs
-n{\oe}uds, ou bien nous comptons le nombre d'arcs. En fait, le choix
-de l'une ou l'autre mesure n'est dicté que par des considérations de commodité ou de style: il y a \(n\)~arcs s'il y a \(n+1\) n{\oe}uds, tout simplement parce que chaque n{\oe}ud, sauf la racine, possède un parent. Il arrive fréquemment que les formules à propos des arbres de Catalan soient un peu plus simples lorsqu'elles font référence au nombre d'arcs, donc ce sera là notre mesure de la taille dans ce chapitre.
+nœuds, ou bien nous comptons le nombre d'arcs. En fait, le choix
+de l'une ou l'autre mesure n'est dicté que par des considérations de commodité ou de style: il y a \(n\)~arcs s'il y a \(n+1\) nœuds, tout simplement parce que chaque nœud, sauf la racine, possède un parent. Il arrive fréquemment que les formules à propos des arbres de Catalan soient un peu plus simples lorsqu'elles font référence au nombre d'arcs, donc ce sera là notre mesure de la taille dans ce chapitre.
 
 \section{Énumeration}
 \label{sec:Catalan_enumeration}
@@ -127,22 +127,22 @@ montrer qu'\emph{il existe une bijection entre les chemins de Dyck de
 Pour comprendre cette bijection, nous devons d'abord présenter un type
 particulier de \emph{parcours}\index{arbre!parcours}, ou
 \emph{traversée}\index{arbre!traversée|see{parcours}}, de l'arbre de
-Catalan. Imaginons qu'un arbre est une carte routière où les n{\oe}uds
+Catalan. Imaginons qu'un arbre est une carte routière où les nœuds
 dénotent des villes et les arcs des routes. Un parcours complet de
 l'arbre consiste alors à commencer notre voyage à la racine et, en
-suivant les arcs, à visiter tous les n{\oe}uds. (Il est permis de
-passer plusieurs fois par le même n{\oe}ud, puisqu'il n'y a pas de
+suivant les arcs, à visiter tous les nœuds. (Il est permis de
+passer plusieurs fois par le même nœud, puisqu'il n'y a pas de
 cycles.) Bien entendu, il existe de nombreuses façons de réaliser
 cette tournée et celle que nous envisagerons ici est dite un
 \emph{parcours en préordre}.
 
-À chaque n{\oe}ud, nous prenons l'arc le plus à gauche qui n'a pas
+À chaque nœud, nous prenons l'arc le plus à gauche qui n'a pas
 encore été emprunté et nous parcourons le sous-arbre correspondant en
 préordre; lorsque nous sommes de retour, nous itérons le choix avec
 les enfants qui restent. Pour plus de clarté, nous montrons à la
 \fig~\ref{fig:ctree_pre} la \emph{numérotation en
   préordre}\index{arbre!$\sim$ de Catalan!numérotation en préordre} de
-la \fig~\ref{fig:ctree}, où l'ordre dans lequel un n{\oe}ud est
+la \fig~\ref{fig:ctree}, où l'ordre dans lequel un nœud est
 rencontré la première fois remplace le disque noir \((\bullet)\).
 
 La première partie de la bijection est une injection des arbres de
@@ -210,20 +210,20 @@ longueurs des chemins depuis la racine. Nous avons vu ce concept dans
 le contexte des arbres binaires, où il était décliné en deux
 variantes, la \emph{longueur interne}
 (page~\pageref{insertion__internal_path_length}) et la \emph{longueur
-  externe} (page~\pageref{sorting__external_path_length}), selon que
-le n{\oe}ud final était interne ou externe. Dans le cas des arbres de
-Catalan, la distinction pertinente entre n{\oe}uds est d'être une
-\emph{feuille} (c'est-à-dire un n{\oe}ud sans sous-arbre) ou non, mais
+externe} (page~\pageref{sorting__external_path_length}), selon que le
+nœud final était interne ou externe. Dans le cas des arbres de
+Catalan, la distinction pertinente entre nœuds est d'être une
+\emph{feuille} (c'est-à-dire un nœud sans sous-arbre) ou non, mais
 certains auteurs parlent néanmoins de longueur externe lorsqu'ils se
 réfèrent aux distances des feuilles, et de longueur interne pour les
-non-feuilles, donc nous devons garder présent à l'esprit si le
+nœuds internes, donc nous devons garder présent à l'esprit si le
 contexte est les arbres de Catalan ou les arbres binaires.
 
 Dans le but d'étudier la longueur moyenne (des chemins) des arbres de
 Catalan, et quelques paramètres voisins, nous pourrions suivre
 \cite{DershowitzZaks_1981} en recherchant d'abord le nombre moyen de
-n{\oe}uds de degré~\(d\) au niveau~\(l\) dans un arbre de Catalan
-avec \(n\)~arcs. Le \emph{degré d'un n{\oe}ud} est le nombre de ses
+nœuds de degré~\(d\) au niveau~\(l\) dans un arbre de Catalan
+avec \(n\)~arcs. Le \emph{degré d'un nœud} est le nombre de ses
 enfants et son \emph{niveau} est sa distance jusqu'à la racine,
 comptée en arcs, sachant que la racine se trouve au niveau~\(0\).
 
@@ -244,7 +244,7 @@ arbre. La \fig~\ref{fig:ctree_deg}
 \caption{Bijection fondée sur les degrés}
 \label{fig:degree_based_bijection}
 \end{figure}
-montre le même arbre, où le contenu des n{\oe}uds est leur degré. Le
+montre le même arbre, où le contenu des nœuds est leur degré. Le
 parcours en préordre (des degrés) est \([3,0,0,2,1,0,0]\). Puisque le
 dernier degré est toujours~\(0\) (une feuille), nous l'éliminons et
 conservons \([3,0,0,2,1,0]\). Un autre chemin de Dyck équivalent est
@@ -260,7 +260,7 @@ convaincre soi-même que nous pouvons reconstruire l'arbre à partir du
 chemin de Dyck, par conséquent, nous avons bien là une bijection.
 
 La raison d'être de cette nouvelle bijection est la nécessité de
-trouver le nombre moyen de n{\oe}uds dans un arbre de Catalan dont la
+trouver le nombre moyen de nœuds dans un arbre de Catalan dont la
 racine possède un degré donné. Ce nombre nous aidera à parvenir à la
 longueur moyenne des chemins, en appliquant une idée de
 \cite{Ruskey_1983}. D'après la bijection, il est clair que le nombre
@@ -342,12 +342,12 @@ le met en relation avec \(\mathcal{R}_n(r)\) dans l'équation suivante:
 \caption{Bijection}
 \label{fig:bij_root_level}
 \end{figure}
-se trouve le motif général d'un arbre de Catalan avec un n{\oe}ud
+se trouve le motif général d'un arbre de Catalan avec un nœud
 (\(\bullet\)) au niveau~\(d\) et de degré~\(d\). Les arcs doubles
 dénotent un ensemble d'arcs, donc \(\mathcal{L}_i\), \(\mathcal{R}_i\)
 et \(\mathcal{B}_i\) représentent en fait des forêts. À la
 \fig~\ref{fig:lifted_node}, nous voyons un arbre de Catalan en
-bijection avec le premier, obtenu de celui-ci en élevant le n{\oe}ud
+bijection avec le premier, obtenu de celui-ci en élevant le nœud
 qui nous intéresse (\(\bullet\)) pour en faire la racine, les forêts
 \(\mathcal{L}_i\) avec leurs parents respectifs sont attachées
 en-dessous, ensuite les \(\mathcal{B}_i\), et, finalement, les
@@ -361,7 +361,7 @@ en déduisons
 \mathcal{N}_n(l,d) = \frac{2l+d}{2n-d}\binom{2n-d}{n+l}
 = \binom{2n-d-1}{n+l-1} - \binom{2n-d-1}{n+l},
 \end{equation*}
-où la dernière étape résulte de l'expression du coefficient binomial en termes de la fonction factorielle. En particulier, ceci entraîne que le nombre total de n{\oe}uds au niveau~\(l\) dans tous les arbres de Catalan avec \(n\)~arcs est
+où la dernière étape résulte de l'expression du coefficient binomial en termes de la fonction factorielle. En particulier, ceci entraîne que le nombre total de nœuds au niveau~\(l\) dans tous les arbres de Catalan avec \(n\)~arcs est
 \begin{equation*}
 \sum_{d=0}^{n}\mathcal{N}_n(l,d)
   = \sum_{d=0}^{n}\binom{2n-d-1}{n+l-1}
@@ -381,7 +381,7 @@ Nous pouvons maintenant employer l'identité \eqref{eq:binom_sum}
 \end{equation*}
 De plus, en remplaçant \(l\)~par \(l+1\) donne
 \(\sum_{d=0}^{n}\binom{2n-d-1}{n+l} = \binom{2n}{n+l+1}\), donc le
-nombre total de n{\oe}uds au niveau~\(l\) dans tous les arbres de
+nombre total de nœuds au niveau~\(l\) dans tous les arbres de
 Catalan avec \(n\)~arcs est
 \begin{equation}
 \sum_{d=0}^{n}\mathcal{N}_n(l,d)
@@ -397,12 +397,12 @@ arbre de Catalan avec \(n\)~arcs. Nous avons
 \end{equation*}
 parce qu'il y a \(C_n\)~arbres et la double somme est la somme des
 longueurs des chemins de tous les arbres. Si nous moyennons encore par
-le nombre de n{\oe}uds, soit \(n+1\), nous obtenons le niveau moyen
-d'un n{\oe}ud dans un arbre de Catalan aléatoire, et nous devons
+le nombre de nœuds, soit \(n+1\), nous obtenons le niveau moyen
+d'un nœud dans un arbre de Catalan aléatoire, et nous devons
 prendre garde car certains auteurs choisissent cette quantité comme la
 définition de la longueur moyenne. Alternativement, si nous
 choisissons au hasard des arbres de Catalan distincts avec \(n\)~arcs,
-puis choisissons des n{\oe}uds distincts dans ceux-ci,
+puis choisissons des nœuds distincts dans ceux-ci,
 \(\Expected{P_n}/(n+1)\) est la limite du coût moyen pour les
 atteindre depuis la racine. En usant des équations \eqref{eq:N_n_l_d}
 et~\eqref{eq:Cn} \vpageref{eq:Cn}, alors
@@ -462,14 +462,14 @@ développement asymptotique suivant:
 \label{eq:Pn_asymptotics}
 \end{equation}
 Remarquons que cette équivalence est vraie aussi si~\(n\) dénote un
-nombre de n{\oe}uds, au lieu d'un nombre d'arcs. La formule exacte
+nombre de nœuds, au lieu d'un nombre d'arcs. La formule exacte
 donnant la longueur moyenne des chemins d'un arbre de Catalan avec
-\(n\)~n{\oe}uds est \(\Expected{P_{n-1}}\) car il possède alors
+\(n\)~nœuds est \(\Expected{P_{n-1}}\) car il possède alors
 \(n-1\) arcs.
 
 Pour certaines applications, il est utile de connaître les longueurs
 externes et internes, qui sont, respectivement, les longueurs des
-chemins jusqu'aux feuilles et aux n{\oe}uds internes (à ne pas
+chemins jusqu'aux feuilles et aux nœuds internes (à ne pas
 confondre avec les longueurs externes et internes des arbres
 binaires). Soit \(\Expected{E_n}\) la première et \(\Expected{I_n}\)
 la seconde. Nous avons:
@@ -542,7 +542,7 @@ et~\eqref{eq:EIn} impliquent
 %% \end{equation*}
 %% On peut montrer que \((n+1)/2\) est le nombre moyen de feuilles dans
 %% un arbre Catalan avec \(n\)~arcs, c'est-à-dire que la moitié des
-%% n{\oe}uds sont des feuilles en moyenne.
+%% nœuds sont des feuilles en moyenne.
 
 %% À l'asymptote, les formules \eqref{eq:EPn}, \eqref{eq:EEn}
 %% et~\eqref{eq:EIn} entraînent
@@ -559,10 +559,9 @@ La bijection fondée sur les degrés que nous avons présentée à la
 feuilles en moyenne dans un arbre de Catalan aléatoire avec
 \(n\)~arcs. En effet, une feuille est un coin dans le treillis
 ordinaire, et ce n'est \emph{pas} un coin dans le chemin du treillis
-fondé sur les degrés, c'est-à-dire un nœud interne (pas une feuille),
-par conséquent, feuilles et non-feuilles sont en nombre égal et,
-puisque leur nombre total est \(n+1\), le nombre moyen de feuilles est
-\((n+1)/2\).
+fondé sur les degrés, c'est-à-dire un nœud interne, par conséquent,
+feuilles et nœuds internes sont en nombre égal et, puisque leur nombre
+total est \(n+1\), le nombre moyen de feuilles est \((n+1)/2\).
 
 %% Ce dénombrement a une intéressante conséquence pour la programmation
 %% des algorithmes traitant les arbres de Catalan, en particulier les
@@ -606,11 +605,10 @@ Pour plus d'information, nous recommandons les articles par
 \label{sec:Catalan_height}
 
 Comme mentionné plus haut, la \emph{hauteur} d'un arbre est le nombre
-de n{\oe}uds sur un chemin maximal de la racine à une feuille,
-c'est-à-dire un n{\oe}ud sans sous-arbres; par exemple, nous pouvons
-suivre vers le bas et compter les n{\oe}uds~\((\circ)\) dans la
-\fig~\ref{fig:catalan_tree}. Un arbre réduit à une unique feuille a
-pour hauteur~\(0\).
+de nœuds sur un chemin maximal de la racine à une feuille (un nœud
+sans sous-arbres); par exemple, nous pouvons suivre vers le bas et
+compter les nœuds~\((\circ)\) dans la \fig~\ref{fig:catalan_tree}. Un
+arbre réduit à une unique feuille a pour hauteur~\(0\).
 
 Nous commençons par l'observation clé qu'un arbre de Catalan avec
 \(n\)~arcs et de hauteur~\(h\) est en bijection avec un chemin de Dyck
