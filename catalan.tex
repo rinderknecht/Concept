@@ -51,7 +51,7 @@ programmation. Un exemple est donné à la
 situé en haut de la figure et qu'elle possède quatre sous-arbres
 ordonnés, dont les racines sont nommées \emph{enfants}. Les nœuds
 dessinés comme des disques blancs \((\circ)\) constituent un chemin
-maximal commençant à la racone (le nombre de nœuds le long de
+maximal commençant à la racine (le nombre de nœuds le long de
 celui-ci est maximal). Le nœud terminal n'a pas d'enfants; il y a
 précisément~\(8\) nœuds de ce genre au total, appelés
 \emph{feuilles}. Le nombre de disques blancs est la \emph{hauteur} de
@@ -106,7 +106,7 @@ objets doivent être aisément dénombrables.
 \label{fig:bijection}
 \end{wrapfigure}
 Les objets qui conviennent le mieux à notre objectif sont ici les
-\emph{chemins monotones dans un trellis}, \index{chemin monotone dans
+\emph{chemins monotones dans un treillis}, \index{chemin monotone dans
   un treillis|see{chemin de Dyck}} c'est-à-dire une grille carrée
 \citep{Mohanty_1979,Humphreys_2010}. Ces chemins sont constitués d'une
 suite de pas orientés vers le haut (\(\uparrow\)), appelés
@@ -347,10 +347,10 @@ se trouve le motif général d'un arbre de Catalan avec un nœud
 dénotent un ensemble d'arcs, donc \(\mathcal{L}_i\), \(\mathcal{R}_i\)
 et \(\mathcal{B}_i\) représentent en fait des forêts. À la
 \fig~\ref{fig:lifted_node}, nous voyons un arbre de Catalan en
-bijection avec le premier, obtenu de celui-ci en élevant le nœud
-qui nous intéresse (\(\bullet\)) pour en faire la racine, les forêts
+bijection avec le premier, obtenu de celui-ci en élevant le nœud qui
+nous intéresse (\(\bullet\)) pour en faire la racine, les forêts
 \(\mathcal{L}_i\) avec leurs parents respectifs sont attachées
-en-dessous, ensuite les \(\mathcal{B}_i\), et, finalement, les
+dessous, ensuite les \(\mathcal{B}_i\), et, finalement, les
 \(\mathcal{R}_i\) pour lesquelles de nouveaux parents sont nécessaires
 (dans un cadre hachuré dans la figure). Il est clair que la nouvelle
 racine a pour degré \(2l+d\) et il y a \(n+l\) arcs. Il est essentiel
@@ -520,38 +520,6 @@ et~\eqref{eq:EIn} impliquent
 \Expected{I_n} \sim \Expected{E_n} \sim \frac{1}{2}\Expected{P_n}.
 \end{equation*}
 
-%% La dérivation de \(\Expected{I_n}\) est:
-%% \begin{align}
-%%   \Expected{I_n} \cdot C_n
-%%   &= \sum_{l=0}^{n}l\sum_{d=1}^{n}\mathcal{N}_n(l,d)
-%%    = \sum_{l=0}^{n}l\left[\binom{2n-1}{n+l} -
-%%      \binom{2n-1}{n+l+1}\right]\notag\\
-%%   &= \sum_{l=1}^{n-1}\binom{2n-1}{n+l} = \Expected{E_n} \cdot C_n -
-%%   \binom{2n-1}{n}\notag\\
-%%   &= 4^{n-1} - \frac{1}{2}\binom{2n}{n}
-%%    = 4^{n-1} - \frac{1}{2}(n+1)C_n.\notag
-%% \intertext{Par conséquent,}
-%% \Expected{I_n}
-%%   &= (n+1)4^{n-1}\binom{2n}{n}^{-1} - \frac{n+1}{2} \sim
-%%   \frac{1}{4}n\sqrt{\pi n}.
-%% \label{eq:EIn}
-%% \end{align}
-%% Des formules \eqref{eq:EEn} et~\eqref{eq:EIn}, nous tirons
-%% \begin{equation*}
-%% \Expected{E_n} = \Expected{I_n} + \frac{n+1}{2}.
-%% \end{equation*}
-%% On peut montrer que \((n+1)/2\) est le nombre moyen de feuilles dans
-%% un arbre Catalan avec \(n\)~arcs, c'est-à-dire que la moitié des
-%% nœuds sont des feuilles en moyenne.
-
-%% À l'asymptote, les formules \eqref{eq:EPn}, \eqref{eq:EEn}
-%% et~\eqref{eq:EIn} entraînent
-%% \begin{equation*}
-%% \Expected{I_n} \sim \Expected{E_n} \sim \frac{1}{2}\Expected{P_n}.
-%% \end{equation*}
-%% Pour appronfondir le sujet, nous recommandons les articles de
-%% \citet*{DershwowitzZaks_1980,DershowitzZaks_1981,DershowitzZaks_1990}.
-
 \section{Nombre moyen de feuilles}
 
 La bijection fondée sur les degrés que nous avons présentée à la
@@ -562,41 +530,6 @@ ordinaire, et ce n'est \emph{pas} un coin dans le chemin du treillis
 fondé sur les degrés, c'est-à-dire un nœud interne, par conséquent,
 feuilles et nœuds internes sont en nombre égal et, puisque leur nombre
 total est \(n+1\), le nombre moyen de feuilles est \((n+1)/2\).
-
-%% Ce dénombrement a une intéressante conséquence pour la programmation
-%% des algorithmes traitant les arbres de Catalan, en particulier les
-%% structures de données. En effet, de prime abord, on pourrait utiliser
-%% un constructeur de donnée \fun{tree} avec une paire d'arguments: le
-%% premier est la donnée contenue à la racine, le second la liste des
-%% sous-arbres. Par exemple, \(\fun{tree}(0,[\fun{tree}(1,\el),
-%%   \fun{tree}(2,\el)])\) dénote un arbre avec une racine~\(0\) et deux
-%% feuilles, \(1\)~and~\(2\). Notons comment les feuilles sont
-%% distinguées par une liste vide de sous-arbres, ce qui facilite la
-%% définition par cas des fonctions parce que seuls deux cas suffisent
-%% pour couvrir toutes les configurations. L'inconvénient devient
-%% apparent quand nous réalisons des algorithmes dans un langage
-%% fonctionnel, parce que loger une liste signifie avoir une indirection
-%% vers le tas, où le contenu de la liste est alloué. Par conséquent,
-%% avec l'encodage précédent des arbres de Catalan, chaque feuille
-%% signifie une indirection et pas de contenu, ce qui peut paraître un
-%% gaspillage. Si nous supposons que les arbres de Catalan à traiter sont
-%% choisis uniformément au hazard, la question se réduit à déterminer le
-%% nombre moyen de feuilles, que nous savons maintenant être la moitié
-%% des nœuds. En d'autres termes, \(50\%\) des nœuds sont représentés en
-%% mémoire avec une indirection sans contenu associé. Une représentation
-%% alternative consiste à employer des listes seulement si elles
-%% contiennent au moins un sous-arbre, c'est-à-dire uniquement pour les
-%% nœuds internes, et les feuilles sont alors décrites par:
-%% \(\fun{inner}(0,[\fun{leaf}(1),\fun{leaf}(2)])\). Ce n'est pas
-%% parfait, parce ce que nous pourrions écrire par inattention
-%% \(\fun{inner}(0,\el)\), qui est incorrect. Au lieu de cela, nous
-%% devons définir une structure de données pour représenter les listes
-%% non-vides, comme \(\fun{single}(x)\) pour la liste singleton
-%% contenant~\(x\), et \(\fun{many}(x,l)\), pour les listes contenant au
-%% moins deux items, le premier étant~\(x\) et le reste se trouvant dans
-%% la sous-liste~\(l\). Par conséquent, l'exemple précédent est
-%% maintenant correctement écrit
-%% \(\fun{inner}(0,\fun{many}(\fun{leaf}(1),\fun{single}(\fun{leaf}(2))))\).
 
 Pour plus d'information, nous recommandons les articles par
 \citet*{DershwowitzZaks_1980,DershowitzZaks_1981,DershowitzZaks_1990}.
@@ -613,17 +546,17 @@ arbre réduit à une unique feuille a pour hauteur~\(0\).
 Nous commençons par l'observation clé qu'un arbre de Catalan avec
 \(n\)~arcs et de hauteur~\(h\) est en bijection avec un chemin de Dyck
 de longueur~\(2n\) \emph{et de hauteur~\(h\)} (voir
-\fig~\vref{fig:catalan_tree} et \fig~\ref{fig:bijection}). Ce simple
-fait nous permet de raisonner sur la hauteur des chemins de Dyck et de
-transférer le résultat vers les arbres de Catalan de départ. En effet,
-nous avons déjà vu que la correspondance entre chemins dans un
-treillis et arbres de Catalan, où une montée atteignant la
-diagonale~\(l\) correspond à un nœud au niveau~\(l\) dans l'arbre, en
-contant les niveaux à partir du niveau~\(0\) de la racine. Une simple
-bijection entre chemins montrera que pour chaque nœud de niveau~\(l\)
-d'un arbre de hauteur~\(h\) et taille~\(n\), il y a nœud correspondant
-soit au niveau \(h-l+1\) ou \(h-l\) dans un autre arbres de même
-hauteur et taille \citep{Rinderknecht_2013d}.
+\fig~\vref{fig:bijection}). Ce simple fait nous permet de raisonner
+sur la hauteur des chemins de Dyck et de transférer le résultat vers
+les arbres de Catalan de départ. En effet, nous avons déjà vu que la
+correspondance entre chemins dans un treillis et arbres de Catalan, où
+une montée atteignant la diagonale~\(l\) correspond à un nœud au
+niveau~\(l\) dans l'arbre, en contant les niveaux à partir du
+niveau~\(0\) de la racine. Une simple bijection entre chemins montrera
+que pour chaque nœud de niveau~\(l\) d'un arbre de hauteur~\(h\) et
+taille~\(n\), il y a nœud correspondant soit au niveau \(h-l+1\) ou
+\(h-l\) dans un autre arbres de même hauteur et taille
+\citep{Rinderknecht_2013d}.
 
 Considérons le chemin de Dyck à la~\Fig~\ref{fig:h},
 \begin{figure}
@@ -634,7 +567,7 @@ Considérons le chemin de Dyck à la~\Fig~\ref{fig:h},
 \end{figure}
 en bijection avec un arbre de \(n=8\) arcs et hauteur
 \(h=3\). Cherchons le dernier (le plus à droite) des points sur le
-chemin lorsqu'il atteint sa pleine hauteur (la line pointillée de
+chemin lorsqu'il atteint sa pleine hauteur (la ligne pointillée de
 l'équation \(y = x + h\)), que nous appelons l'\emph{apex} du chemin
 (nommé~\(A\) sur la figure). La descente qui suit immédiatement mène
 à~\(B\) et est dessinée avec une double ligne. Faisons tourner de
@@ -650,20 +583,22 @@ comme nous le voyons à \fig~\ref{fig:h_prime}.
 \label{fig:h_prime}
 \end{figure}
 
-Le point-clé est que chaque montée atteignant le niveau~\(l\) à la
+La clef est que chaque montée atteignant le niveau~\(l\) à la
 \fig~\ref{fig:h}, représentant un nœud de niveau~\(l\) dans l'arbre de
 Catalan correspondant, atteint le niveau $h-l+1$ ou $h-l$ dans la
 \fig~\ref{fig:h_prime}, selon qu'elle se trouvait à la gauche (segment
-avant~$A$) ou à la droite (segment après~$B$) de l'apex. Dans
-l'exemple de la figure, la montée~\(a\) atteint le niveau~\(1\), and
-sa contrepartie après transformation atteint le niveau \(3-1+1=3\); la
-montée~\(b\) atteint le niveau~\(2\) and aussi après parce que
+avant~$A$) ou à la droite (segment après~$B$) de l'apex.
+
+Dans l'exemple de la figure, la montée~\(a\) atteint le niveau~\(1\),
+et sa contrepartie après transformation atteint le niveau \(3-1+1=3\);
+la montée~\(b\) atteint le niveau~\(2\) and aussi après parce que
 \(3-2+1=2\); la montée~\(c\) atteint aussi le niveau~\(2\), mais,
 parce elle se trouvait avant à la droite de l'apex, elle atteint après
-le niveau \(3-2=1\). De cette bijection, il suit que \emph{la hauteur
-moyenne est, à~\(1\) près, le double du niveau moyen d'un nœud, soit
-la longueur moyenne des chemins}. L'équation~\eqref{eq:EPn} est
-équivalente à
+le niveau \(3-2=1\).
+
+De cette bijection, il suit que \emph{la hauteur moyenne est, à~\(1\)
+près, le double du niveau moyen d'un nœud, soit la longueur moyenne
+des chemins}. L'équation~\eqref{eq:EPn} est équivalente à
 \begin{equation*}
 2\frac{\Expected{P_n}}{n+1} = 4^{n}\binom{2n}{n}^{-1} - 1.
 \end{equation*}

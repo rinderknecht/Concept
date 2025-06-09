@@ -90,7 +90,7 @@ Les arbres de coût minimum pour \(n+1\) sont montrés aux \figs{}
 \index{tri par interclassement!$\sim$ ascendant!coût minimum|)}
 \index{bms@$\OB{\fun{bms}}{n}$|)}
 Les expressions encadrées sont celles qui sont absentes dans l'arbre
-d'interclassement correspondant. Par conséquent, 
+d'interclassement correspondant. Par conséquent,
 \(\OB{\fun{bms}}{n+1} -
 \OB{\fun{bms}}{2^q} = \OB{\fun{bms}}{n+1} - q2^{q-1}\) est la somme
 des termes qui ne sont pas encadrés dans l'arbre de \(n+1\), alors que
@@ -135,11 +135,6 @@ concluons finalement avec élégance:
 
 
 
-
-
-
-
-
 Si nous choisissons de ne pas accepter ces fonctions comme des formes
 closes, nous pouvons néanmoins en déduire des encadrements du coût
 maximum.
@@ -149,7 +144,7 @@ en réutilisant les définitions~\eqref{eq_ruler}:
 \begin{align*}
 U_{2p}   &= \sum_{k=0}^{p-1}2^{\rho_{2k+1}} + \sum_{k=1}^{p-1}2^{\rho_{2k}}
          = p + 2 \cdot U_p,\\
-U_{2p+1} &= \sum_{k=0}^{p-1}2^{\rho_{2k+1}} + \sum_{k=1}^{p}2^{\rho_{2k}} 
+U_{2p+1} &= \sum_{k=0}^{p-1}2^{\rho_{2k+1}} + \sum_{k=1}^{p}2^{\rho_{2k}}
         = p + 2 \cdot U_{p+1}.
 \end{align*}
 En d'autres termes, \(U_n = 2 \cdot U_{\ceiling{n/2}} + \floor{n/2} =
@@ -246,7 +241,7 @@ De plus, \(x - 1 < \floor{x} \leqslant x\) et \(\floor{x} = x -
 \begin{align*}
 n(\lg n - \{\lg n\}) + 2n - 2^{\lg n - \{\lg n\} +
   1} + 2 < 2 \cdot T_n &\leqslant n\lg n + 2n,\\
-n\lg n + 2n + 2 - n \cdot \theta_L(\{\lg n\}) < 2 \cdot T_n 
+n\lg n + 2n + 2 - n \cdot \theta_L(\{\lg n\}) < 2 \cdot T_n
 &\leqslant n\lg n + 2n,
 \end{align*}
 où \(\theta_L(x) := x + 2^{1 - x}\). Puisque \(\max_{0 \leqslant x <
@@ -301,5 +296,77 @@ pour encadrer \(\OW{\fun{bms}}{n}\) pour tout~\(n > 2\):
 
 \paragraph{Comparaison avec le tri descendant}
 
-Il nous manque encore un minorant de \(\OW{\fun{bms}}{n}\). 
+Il nous manque encore un minorant de \(\OW{\fun{bms}}{n}\).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Ce dénombrement a une intéressante conséquence pour la programmation
+des algorithmes traitant les arbres de Catalan, en particulier les
+structures de données. En effet, de prime abord, on pourrait utiliser
+un constructeur de donnée \fun{tree} avec une paire d'arguments: le
+premier est la donnée contenue à la racine, le second la liste des
+sous-arbres. Par exemple, \(\fun{tree}(0,[\fun{tree}(1,\el),
+  \fun{tree}(2,\el)])\) dénote un arbre avec une racine~\(0\) et deux
+feuilles, \(1\)~and~\(2\). Notons comment les feuilles sont
+distinguées par une liste vide de sous-arbres, ce qui facilite la
+définition par cas des fonctions parce que seuls deux cas suffisent
+pour couvrir toutes les configurations. L'inconvénient devient
+apparent quand nous réalisons des algorithmes dans un langage
+fonctionnel, parce que loger une liste signifie avoir une indirection
+vers le tas, où le contenu de la liste est alloué. Par conséquent,
+avec l'encodage précédent des arbres de Catalan, chaque feuille
+signifie une indirection et pas de contenu, ce qui peut paraître un
+gaspillage. Si nous supposons que les arbres de Catalan à traiter sont
+choisis uniformément au hazard, la question se réduit à déterminer le
+nombre moyen de feuilles, que nous savons maintenant être la moitié
+des nœuds. En d'autres termes, \(50\%\) des nœuds sont représentés en
+mémoire avec une indirection sans contenu associé. Une représentation
+alternative consiste à employer des listes seulement si elles
+contiennent au moins un sous-arbre, c'est-à-dire uniquement pour les
+nœuds internes, et les feuilles sont alors décrites par:
+\(\fun{inner}(0,[\fun{leaf}(1),\fun{leaf}(2)])\). Ce n'est pas
+parfait, parce ce que nous pourrions écrire par inattention
+\(\fun{inner}(0,\el)\), qui est incorrect. Au lieu de cela, nous
+devons définir une structure de données pour représenter les listes
+non-vides, comme \(\fun{single}(x)\) pour la liste singleton
+contenant~\(x\), et \(\fun{many}(x,l)\), pour les listes contenant au
+moins deux items, le premier étant~\(x\) et le reste se trouvant dans
+la sous-liste~\(l\). Par conséquent, l'exemple précédent est
+maintenant correctement écrit
+\(\fun{inner}(0,\fun{many}(\fun{leaf}(1),\fun{single}(\fun{leaf}(2))))\).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+La dérivation de \(\Expected{I_n}\) est:
+\begin{align}
+  \Expected{I_n} \cdot C_n
+  &= \sum_{l=0}^{n}l\sum_{d=1}^{n}\mathcal{N}_n(l,d)
+   = \sum_{l=0}^{n}l\left[\binom{2n-1}{n+l} -
+     \binom{2n-1}{n+l+1}\right]\notag\\
+  &= \sum_{l=1}^{n-1}\binom{2n-1}{n+l} = \Expected{E_n} \cdot C_n -
+  \binom{2n-1}{n}\notag\\
+  &= 4^{n-1} - \frac{1}{2}\binom{2n}{n}
+   = 4^{n-1} - \frac{1}{2}(n+1)C_n.\notag
+\intertext{Par conséquent,}
+\Expected{I_n}
+  &= (n+1)4^{n-1}\binom{2n}{n}^{-1} - \frac{n+1}{2} \sim
+  \frac{1}{4}n\sqrt{\pi n}.
+\label{eq:EIn}
+\end{align}
+Des formules \eqref{eq:EEn} et~\eqref{eq:EIn}, nous tirons
+\begin{equation*}
+\Expected{E_n} = \Expected{I_n} + \frac{n+1}{2}.
+\end{equation*}
+On peut montrer que \((n+1)/2\) est le nombre moyen de feuilles dans
+un arbre Catalan avec \(n\)~arcs, c'est-à-dire que la moitié des
+nœuds sont des feuilles en moyenne.
+
+À l'asymptote, les formules \eqref{eq:EPn}, \eqref{eq:EEn}
+et~\eqref{eq:EIn} entraînent
+\begin{equation*}
+\Expected{I_n} \sim \Expected{E_n} \sim \frac{1}{2}\Expected{P_n}.
+\end{equation*}
+Pour appronfondir le sujet, nous recommandons les articles de
+\citet*{DershwowitzZaks_1980,DershowitzZaks_1981,DershowitzZaks_1990}.
