@@ -82,7 +82,7 @@ particulier la plus grande \emph{qui n'est pas connue}. (Si elle
 l'était, nous la prendrions comme sentinelle.) Il est en fait facile
 de représenter cette valeur infinie dans notre langage fonctionnel:
 usons simplement d'un constructeur constant
-\fun{infty/0}\index{infty@\fun{infty/0}} (anglais, \emph{infinity}) et
+\fun{infty/0}\index{infty@\fun{infty/0}} (anglais: \emph{infinity}) et
 assurons-nous que nous traitons ses comparaisons séparément des
 autres. En réalité, \(\fun{infty}()\)\index{infty@\fun{infty/0}} n'est
 comparé qu'une fois, avec la clé la plus grande, mais nous
@@ -166,7 +166,7 @@ motivation initiale. Étant donné l'arbre de recherche
 que \(y \succ x\), alors nous la recherchons récursivement
 dans~\(t_2\); sinon, si \(x \succ y\), nous examinons~\(t_1\);
 finalement, si \(y = x\), c'est que nous venons de la trouver à la
-racine de l'arbre donné. La définition de \fun{mem/2} (anglais,
+racine de l'arbre donné. La définition de \fun{mem/2} (anglais:
 \emph{membership}) est donnée à la \fig~\vref{fig:mem}.
 \begin{figure}
 \begin{equation*}
@@ -494,7 +494,7 @@ par une feuille contenant la clé à ajouter. La \fig~\vref{fig:insl}
 \label{fig:insl}
 \end{figure}
 montre le programme pour \fun{insl/2}\index{insl@\fun{insl/2}}
-(anglais, \emph{insert a leaf}). Remarquons qu'il permet la présence
+(anglais: \emph{insert a leaf}). Remarquons qu'il permet la présence
 de clés en doublon, ce qui complique considérablement l'analyse du
 coût \citep{Burge_1976,ArchibaldClement_2006,Pasanen_2010}.  La
 \fig~\vref{fig:insl0}
@@ -562,7 +562,7 @@ que si des clés peuvent être répétées en entrée et doivent être
 identifiées, laissant l'arbre de recherche invariant.)
 
 \hspace*{-3pt} Définissons une fonction \fun{mkl/1}\index{mkl@\fun{mkl/1}}
-\index{mkl@\fun{mkl/2}} (anglais, \emph{make leaves}) à la
+\index{mkl@\fun{mkl/2}} (anglais: \emph{make leaves}) à la
 \fig~\vref{fig:mkl}
 \begin{figure}
 \begin{equation*}
@@ -579,7 +579,7 @@ identifiées, laissant l'arbre de recherche invariant.)
 qui construit un arbre binaire de recherche en insérant des feuilles
 dont le contenu est donné dans une pile. Remarquons que nous pourrions
 aussi définir une fonction \fun{mklR/1}\index{mklR@\fun{mklR/1}}
-(anglais, \emph{make leaves in reverse order}) telle que
+(anglais: \emph{make leaves in reverse order}) telle que
 \(\fun{mklR}(s) \equiv \fun{mkl}(\fun{rev}(s))\), d'une manière
 compacte:
 \begin{equation}
@@ -995,8 +995,8 @@ l'arbre. Plus précisément, si le nœud a été inséré dans un
 sous-arbre gauche, alors une rotation à droite l'amène un niveau plus
 haut, sinon une rotation à gauche aura le même effet. La composition
 de ces rotations fait monter la feuille jusqu'à la racine. La rotation
-à droite, \fun{rotr/1}\index{rotr@\fun{rotr/1}} (anglais, \emph{rotate
-  right}) et à gauche, \fun{rotl/1}\index{rotl@\fun{rotl/1}} (anglais,
+à droite, \fun{rotr/1}\index{rotr@\fun{rotr/1}} (anglais: \emph{rotate
+  right}) et à gauche, \fun{rotl/1}\index{rotl@\fun{rotl/1}} (anglais:
 \emph{rotate left}),\index{arbre binaire!rotation} ont été discutées à
 la section~\ref{sec:traversals} \vpageref{par:rotation} et sont
 définies à la \fig~\vref{fig:rotations}.
@@ -1172,7 +1172,7 @@ par insertion de racines ou de feuilles parce que
 \index{RootLeaf@\predName{RootLeaf}}
 \end{equation}
 où \fun{mkr/1}\index{mkr@\fun{mkr/1}} \index{mkr@\fun{mkr/2}}
-(anglais, \emph{make roots}) est aisément définie à la
+(anglais: \emph{make roots}) est aisément définie à la
 \fig~\vref{fig:mkr}.
 \begin{figure}
 \begin{equation*}

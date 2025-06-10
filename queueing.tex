@@ -71,7 +71,7 @@ page~\pageref{par:stacks}. Ici le constructeur de file sera
 \fun{q/2}\index{q@\fun{q/2}} et l'appel \(\fun{q}(r,f)\) dénote une
 file fonctionnelle dont la pile arrière est~\(r\) et la
 frontale~\(f\). Enfiler est réalisé par la fonction
-\fun{enq/2}\index{enq@\fun{enq/2}} (anglais, \emph{enqueue}):
+\fun{enq/2}\index{enq@\fun{enq/2}} (anglais: \emph{enqueue}):
 \begin{equation}
 \fun{enq}(x,\fun{q}(r,f)) \rightarrow \fun{q}(\cons{x}{r},f).
 \label{def:enq}
@@ -85,7 +85,7 @@ représentée graphiquement, avec une flèche pointant à droite.
 %% \(\fun{pair}(x,y)\), mais une notation symbolique est plus commode:
 %% \(\pair{x}{y}\). Les chevrons nous permettent d'éviter l'écriture de
 %% \(f((x,y))\) quand nous voulons dire \(f(\pair{x}{y})\).
-Nommons \fun{deq/1}\index{deq@\fun{deq/1}} (anglais, \emph{dequeue})
+Nommons \fun{deq/1}\index{deq@\fun{deq/1}} (anglais: \emph{dequeue})
 la fonction de défilage:
 \begin{equation}
 \begin{array}{@{}r@{\;}l@{\;}l@{}}
