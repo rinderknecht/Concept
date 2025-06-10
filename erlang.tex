@@ -265,7 +265,7 @@ dénotée par le symbole du dollar américain (\erlcode{\$}). Le
 caractère \(\talloblong\) dénote l'invite clignotante de la boucle
 \Erlang où la saisie a lieu. Si nous voulons fermer la boucle et
 revenir à l'interprète de commandes du terminal, il suffit de saisir
-«~\erlcode{q().}~» (anglais, \emph{quit}). Chaque commande doit être
+«~\erlcode{q().}~» (anglais: \emph{quit}). Chaque commande doit être
 terminée par un point~(\erlcode{.}) et suivie par la pression sur la
 touche «~retour~» (ou «~entrée~»).
 \begin{alltt}
@@ -864,7 +864,7 @@ simples variables. Par exemple, examinons à nouveau la
 \fig~\vref{fig:flat0} où la fonction \fun{flat\(_0\)/1} est
 définie. En \Erlang, le partage maximal à la règle~\(\gamma\) est
 réalisé en nommant \(\cons{x}{s}\) dans le motif et en réutilisant ce
-nom dans le membre droit. Ce nom est un \emph{synonyme} (anglais,
+nom dans le membre droit. Ce nom est un \emph{synonyme} (anglais:
 \emph{alias}). La syntaxe est évidente:
 \begin{alltt}
 flat0(         []) -> [];
@@ -873,7 +873,7 @@ flat0([\textbf{S=[\_|\_]}|T]) -> cat(flat0(\textbf{S}),flat0(T));\hfill% \emph{S
 flat0(      [Y|T]) -> [Y|flat0(T)].
 \end{alltt}
 \index{pile!aplatissement!synonymie|)} \index{pile!compression|(} Un
-autre exemple est la fonction \fun{red/1} (anglais, \emph{reduce}),
+autre exemple est la fonction \fun{red/1} (anglais: \emph{reduce}),
 vue à la \fig~\vref{fig:red} et qui recopie la pile donnée tout en
 écartant les éléments qui sont successivement répétés:
 \begin{equation*}
@@ -992,7 +992,7 @@ pop(T=[[X|S]|_]) -> {X,[S|T]}.
 \index{mémoire!tas|(}
 
 La mémoire\index{mémoire} est sous la supervision exclusive du
-\emph{glaneur de cellules} (anglais, \emph{garbage collector}). Il
+\emph{glaneur de cellules} (anglais: \emph{garbage collector}). Il
 s'agit d'un processus qui a constamment accès aux graphes orientés
 sans circuits et dont la tâche consiste à trouver les nœuds qui
 sont devenus inutiles durant les évaluations. Il récupère alors
@@ -2804,7 +2804,7 @@ convention avec~\erlcode{F} et imposons que la valeur de
 \erlcode{F(X,Y)} soit l'atome \erlcode{true} si~\erlcode{X} est
 supérieur à~\erlcode{Y}, sinon \erlcode{false}. C'est encore mieux de
 changer le paramètre~\erlcode{F} en quelque nom plus parlant, en
-rapport avec son comportement, comme~\erlcode{Gt} (anglais,
+rapport avec son comportement, comme~\erlcode{Gt} (anglais:
 \emph{\textbf{G}reater \textbf{t}han}):
 \begin{alltt}
 triage( \textbf{true},[Y|S],X,Gt) \(\MyArrow{\dblarrow}{\zeta}\) [Y|ins(Gt,X,S)];
@@ -3069,8 +3069,8 @@ trivaluée, de façon à mettre en avant le test d'égalité. Modifions la
 variable~\erlcode{Gt} pour refléter ce niveau de détail supplémentaire
 et appelons-la, avec plus de généralité, \erlcode{Cmp}
 (\emph{compare}). Ses arguments devraient être des valeurs parmi les
-atomes~\erlcode{lt} (anglais, \emph{lower than}), \erlcode{gt}
-(anglais, \emph{greater than}) et~\erlcode{eq} (anglais,
+atomes~\erlcode{lt} (anglais: \emph{lower than}), \erlcode{gt}
+(anglais: \emph{greater than}) et~\erlcode{eq} (anglais:
 \emph{equal}). Nous avons
 \begin{alltt}
 isrtf(   [],  \_, \_)   \(\MyArrow{\dblarrow}{\beta}\) [];
@@ -3145,7 +3145,7 @@ d'ordre supérieur qui calcule les images des éléments d'une pile par
 une fonction; ensuite, nous avons besoin d'une fonction qui somme les
 entiers d'une pile. Nous avons déjà rencontré cette dernière, à la
 \fig~\vref{fig:sum0} en la personne de \erlcode{sum0/1}. La première
-fonction est une \emph{projection} (en anglais, \emph{map}) et nommée
+fonction est une \emph{projection} (en anglais: \emph{map}) et nommée
 \erlcode{map/2}, de telle sorte que l'appel \erlcode{map(\(F\),\(S\))}
 applique la fonction~\(F\) à tous les éléments de la pile~\(S\) et
 s'évalue en la pile des résultats. C'est-à-dire,
@@ -3330,7 +3330,7 @@ l'ordre des éléments n'est pas significatif, parce que \erlcode{map/2}
 a besoin d'une pile de contrôle aussi longue que la pile
 d'entrée. Ceci nous amène naturellement à présenter une autre fonction
 d'ordre supérieur: \erlcode{foldr/3}, dont le nom signifie
-«~composition itérée de droite à gauche~» (anglais, \emph{fold right}),
+«~composition itérée de droite à gauche~» (anglais: \emph{fold right}),
 ou \emph{composition itérée à gauche}. Nous voulons dire:
 \begin{equation*}
 \erlcode{foldr(\(F\),\(A\),[\(X_1\),\(X_2\),\(\ldots\),\(X_{n}\)])}
@@ -4299,7 +4299,7 @@ terminale est appliquée à des programmes de premier ordre, à savoir
 ceux sans fonctions d'ordre supérieur, et le résultat est un programme
 du premier ordre aussi. Ici, nous expliquons brièvement une
 transformation en forme terminale qui produit des fonctions d'ordre
-supérieur \emph{avec continuations} (anglais,
+supérieur \emph{avec continuations} (anglais:
 \emph{continuation-passing style}, ou CPS). Le principal avantage est
 que les programmes sont plus courts. Le premier exemple était
 \erlcode{flat/1}: \verbatiminput{flat.def} En appliquant l'algorithme

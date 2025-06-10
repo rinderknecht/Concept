@@ -84,7 +84,7 @@ avons ainsi (les clés comparées sont soulignées):
 \right.
 %\quad\text{etc.}
 \end{equation*}
-La fonction \fun{mrg/2}\index{mrg@\fun{mrg/2}} (anglais, \emph{merge})
+La fonction \fun{mrg/2}\index{mrg@\fun{mrg/2}} (anglais: \emph{merge})
 à la \fig~\vref{fig:mrg}
 \begin{figure}[b]
 \begin{equation*}
@@ -757,7 +757,7 @@ sont atteints, nous savons que \(t\)~est la seconde moitié de la pile
 initiale et \(s\)~est la première moitié retournée (de longueur
 \(\floor{n/2}\) si \(n\)~est la longueur de la pile originelle).
 
-Dans la première règle de~\fun{tms/1} (anglais, \emph{top-down merge
+Dans la première règle de~\fun{tms/1} (anglais: \emph{top-down merge
   sort}), nous économisons un appel récursif à \fun{cutr/3} et un peu
 de mémoire en appelant \(\fun{cutr}([x],\cons{y}{t}, t)\) au lieu de
 \(\fun{cutr}(\el,\cons{x,y}{t},\cons{x,y}{t})\). De plus, de cette
@@ -1634,7 +1634,7 @@ nommée \emph{ascendante}, coïncide avec celle du tri par
 interclassement descendant, ce qui, en termes de coût, s'exprime
 ainsi: \(\OC{\fun{bms}}{2^p} = \OC{\fun{tms}}{2^p} = \C{\Join}{p}\),
 où \fun{bms/1}\index{bms@\fun{bms/1}} réalise le \emph{tri par
-  interclassement ascendant} (anglais, \emph{bottom-up merge
+  interclassement ascendant} (anglais: \emph{bottom-up merge
 sort}). La différence entre les tris descendant et ascendant se voit
 aisément à la \fig~\ref{fig:top_vs_bot}.
 \begin{figure}[!b]
@@ -1864,7 +1864,7 @@ est identique.
       \nu_{2k} - 1.
       \label{eq:OWbms_2k_1_tmp}
     \end{equation}
-    La fonction \(\rho_n\) (anglais, \emph{ruler function}) est
+    La fonction \(\rho_n\) (anglais: \emph{ruler function}) est
     étudiée par \cite{GrahamKnuthPatashnik_1994,Knuth_2011}
     \index{rho@$\rho_n$} et satisfait les récurrences suivantes
     \begin{equation}
@@ -3264,7 +3264,7 @@ donnerait \([\fun{zero}(),\fun{one}([4,5]),\fun{one}([3,6,7,9])]\).
 
 Notons que le programme à la \fig~\vref{fig:oms} ne capture pas
 l'usage normal du tri en ligne, car, en pratique, l'argument~\(s\) de
-l'appel \(\fun{oms}(s)\)\index{oms@\fun{oms/1}} (anglais,
+l'appel \(\fun{oms}(s)\)\index{oms@\fun{oms/1}} (anglais:
 \emph{on-line merge sort}) ne serait pas connu dans sa totalité, donc
 \fun{add/2}\index{add@\fun{add/2}} ne serait appelé que quand une clé
 est disponible. Toutefois, dans l'analyse suivante, nous nous
@@ -3272,7 +3272,7 @@ intéressons au nombre de comparaisons d'une série de mises à jour
 par~\fun{sum/2}\index{sum@\fun{sum/2}} (un cadre de travail que nous
 avons déjà rencontré à la section~\ref{sec:queueing}), suivie d'une
 suite d'interclassements déséquilibrés
-par~\fun{unb/2}\index{unb@\fun{unb/2}} (anglais, \emph{unbalanced}),
+par~\fun{unb/2}\index{unb@\fun{unb/2}} (anglais: \emph{unbalanced}),
 avec pour résultat une pile ordonnée; par conséquent, notre programme
 convient à notre objectif qui est d'évaluer
 \(\OC{\fun{oms}}{n}\)\index{oms@$\OC{\fun{oms}}{n}$}.
