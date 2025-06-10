@@ -27,17 +27,15 @@ figurées par des disques (\(\bullet\)).
 
 % Wrapping figure better declared before a paragraph
 %
-%\begin{wrapfigure}[9]{r}[0pt]{0pt}
-\begin{figure}
-% [9] vertical lines
+\begin{wrapfigure}[8]{r}[0pt]{0pt}
+% [8] vertical lines
 % {r} mandatory right placement
 % [0pt] of margin overhang
 \centering
-\includegraphics[bb=71 648 177 723]{leaf_tree}
+\includegraphics[bb=71 648 177 710]{leaf_tree}%723]{leaf_tree}
 \caption{Un arbre feuillu}
 \label{fig:leaf_tree}
-\end{figure}
-%\end{wrapfigure}
+\end{wrapfigure}
 Les nœuds internes sont d'habitude associés avec quelque
 information, alors que les nœuds externes ne le sont pas, comme
 celui montré à la \fig~\vref{fig:bt_ex1}:
@@ -181,14 +179,13 @@ d'un nœud avant ses frères\index{arbre!nœud!frère} (deux
 nœuds internes sont frères s'ils ont le même parent), elle est un
 \emph{parcours en profondeur}.\index{arbre binaire!parcours en
   profondeur} Une simple fonction le réalisant est \fun{pre\(_0\)/1}:
-\begin{equation}
-\fun{pre}_0(\fun{ext}()) \xrightarrow{\smash{\gamma}} \el;
-\;\;
-\fun{pre}_0(\fun{int}(x,t_1,t_2)) \xrightarrow{\smash{\delta}}
- \cons{x}{\fun{cat}(\fun{pre}_0(t_1),\fun{pre}_0(t_2))}.
+\begin{align}
+\fun{pre}_0(\fun{ext}()) &\xrightarrow{\smash{\gamma}} \el; \nonumber\\
+\fun{pre}_0(\fun{int}(x,t_1,t_2)) &\xrightarrow{\smash{\delta}}
+\cons{x}{\fun{cat}(\fun{pre}_0(t_1),\fun{pre}_0(t_2))}.
 \label{eq:pre0}
 \index{pre0@\fun{pre\(_0\)/1}}
-\end{equation}
+\end{align}
 Nous avons utilisé la concaténation\index{pile!concaténation} de piles
 réalisée par \fun{cat/2}\index{cat@\fun{cat/2}}, définie
 en~\eqref{def:cat} \vpageref{def:cat}, pour ordonner les valeurs des
@@ -214,7 +211,7 @@ résolvent séparément les parties ainsi obtenues (ici, de tailles~\(p\)
 et \(n-p\)) et, finalement, combinent les solutions des parties en une
 solution de la partition. Le coût supplémentaire dû à la composition
 des solutions partielles (ici, \(p+2\)) est appelé le
-\emph{péage}\index{péage} (anglais, \emph{toll}) et l'existence d'une
+\emph{péage}\index{péage} (anglais: \emph{toll}) et l'existence d'une
 forme close pour la solution, ainsi que son comportement asymptotique,
 dépendent de manière cruciale de la sorte de péage.
 
@@ -274,14 +271,14 @@ gauche etc. donc ces nœuds sont concaténés encore et encore en
 chemin vers la racine (c'est-à-dire, au retour de chaque appel
 récursif), entraînant un coût quadratique. La forme d'un tel arbre est
 montrée à la \fig~\vref{fig:max_pre0}.
-\begin{figure}
+\begin{figure}[b]
 \centering
 \subfloat[Maximum\label{fig:max_pre0}]{
   \includegraphics{max_pre0}}
 \qquad
 \subfloat[Minimum\label{fig:min_pre0}]{
   \includegraphics{min_pre0}}
-\caption{Arbres extrêmes pour \(\C{\fun{pre}_0}{n}\)}
+\caption{Arbres extrémaux pour \(\C{\fun{pre}_0}{n}\)}
 \label{fig:tree_stack}
 \end{figure}
 
@@ -313,10 +310,10 @@ de~\eqref{eq:min_pre0_rec}. La forme de l'arbre correspondant est
 montrée à la \fig~\vref{fig:min_pre0}. Notez que les deux arbres
 extrêmes sont isomorphes à une pile (c'est-à-dire à l'arbre de syntaxe
 abstraite\index{arbre!$\sim$ de syntaxe abstraite} d'une pile) et, en
-tant que tels, il sont des \emph{arbres dégénérés}.\index{arbre
-  binaire!$\sim$ dégénéré} Par ailleurs, le coût maximal de
-\fun{pre\(_0\)/1}\index{pre0@\fun{pre\(_0\)/1}} est quadratique, ce
-qui nécessite une amélioration.
+tant que tels, il sont des \emph{arbres dégénérés}, aussi appelés
+\emph{peignes}.\index{arbre binaire!$\sim$ dégénéré} Par ailleurs, le
+coût maximal de \fun{pre\(_0\)/1}\index{pre0@\fun{pre\(_0\)/1}} est
+quadratique, ce qui nécessite une amélioration.
 
 Nous pouvons parvenir à une autre conception à grands
 pas\index{conception!grands pas} en n'utilisant pas
@@ -325,7 +322,7 @@ pas\index{conception!grands pas} en n'utilisant pas
 à la \fig~\vref{fig:flat}, \emph{une seule fois à la fin}. La
 \fig~\vref{fig:pre1} montre qu'une nouvelle version du parcours
 préfixe, appelée \fun{pre\(_1\)/1}\index{pre1@\fun{pre\(_1\)/1}}.
-\begin{figure}[b]
+\begin{figure}
 \begin{equation*}
 \boxed{
 \begin{array}{r@{\;}c@{\;}l}
@@ -469,9 +466,11 @@ comme montré à la \fig~\ref{fig:pre5}.
 \caption{Longue définition d'un parcours préfixe}
 \label{fig:pre5}
 \end{figure}
-Nous avons alors \(\C{\fun{pre}_5}{n} = \C{\fun{pre}_3}{n} - (n+1) = n
-+
-2\).\index{pre6@\fun{pre\(_6\)/1}}\index{pre5@\fun{pre\(_5\)/1}}\index{pre5@$\C{\fun{pre}_5}{n}$}
+Nous avons alors
+\begin{equation*}
+\C{\fun{pre}_5}{n} = \C{\fun{pre}_3}{n} - (n+1) = n + 2.
+\end{equation*}
+\index{pre6@\fun{pre\(_6\)/1}}\index{pre5@\fun{pre\(_5\)/1}}\index{pre5@$\C{\fun{pre}_5}{n}$}
 Malgré le gain, le nouveau programme est significativement plus long
 et les membres droits sont des évaluations partielles\index{langage
   fonctionnel!évaluation!$\sim$ partielle} de la règle~\(\delta\). La
@@ -537,8 +536,10 @@ lequel le contenu des nœuds est empilé dans l'ordre attendu:
 \(\fun{pre}(t) \rightarrow \fun{pre}(t,\el)\).\index{pre@\fun{pre/2}}
 Maintenant, nous devrions nous demander quelle est l'interprétation de
 cet accumulateur\index{langage fonctionnel!accumulateur} en
-considérant le motif \(\fun{pre}(t,s)\). Examinons le nœud interne
-\(t=\fun{int}(x,t_1,t_2)\) à la \fig~\vref{fig:pre_tree}.
+considérant le motif \(\fun{pre}(t,s)\).
+
+Examinons le nœud interne \(t=\fun{int}(x,t_1,t_2)\) à la
+\fig~\vref{fig:pre_tree}.
 \begin{figure}
 \centering
 \subfloat[Préfixe avec \fun{pre/1}\label{fig:pre_tree}]{
@@ -566,7 +567,7 @@ s_2\). Finalement, la racine est associée à l'évaluation
 règle pour les nœuds externes n'est pas montrée et consiste
 simplement à laisser la pile invariante. Nous pouvons finalement
 rédiger le programme fonctionnel à la \fig~\vref{fig:pre}.
-\begin{figure}[b]
+\begin{figure}
 \begin{equation*}
 \boxed{
 \begin{array}{r@{\;}c@{\;}l}
@@ -609,7 +610,7 @@ terminale\index{langage fonctionnel!forme terminale}, mais pas
 \paragraph{Numérotation préfixe}
 
 La \fig~\vref{fig:preorder}
-\begin{figure}
+\begin{figure}[b]
 \centering
 \subfloat[Préfixe\label{fig:preorder}]{\includegraphics{preorder}}
 \;
@@ -617,7 +618,7 @@ La \fig~\vref{fig:preorder}
 \;
 \subfloat[Infixe\label{fig:inorder}]{\includegraphics{inorder}}
 \;
-\subfloat[Par niveau\label{fig:lorder}]{\includegraphics{lorder}}
+\subfloat[Nivelé\label{fig:lorder}]{\includegraphics{lorder}}
 \caption{Numérotations classiques d'un arbre binaire taillé}
 \label{fig:orders}
 \end{figure}
@@ -628,7 +629,7 @@ arbre est \([0,1,2,3,4,5,6]\). Ce type d'arbre est une
 \emph{numérotation préfixe}\index{arbre binaire!numérotation préfixe}
 d'un arbre donné. Un exemple complet est montré à la
 \fig~\vref{fig:bt_ex3},
-\begin{figure}[b]
+\begin{figure}
 \centering
 \includegraphics{bt_ex3}
 \caption{Rangs préfixes en exposant}
@@ -643,7 +644,7 @@ nous avons besoin de comprendre comment calculer le rang correct pour
 un nœud donné; ensuite, nous devons utiliser les rangs pour
 construire un arbre. Le plan pour la première partie est montré à
 l'œuvre sur les nœuds internes à la \fig~\vref{fig:prenum1}.
-\begin{figure}[t]
+\begin{figure}[b]
 \centering
 \subfloat[Rangs seuls\label{fig:prenum1}]{%
 \includegraphics[bb=71 668 170 721]{prenum1}}
@@ -677,7 +678,7 @@ en la valeur attendue) et nous inférons la valeur de l'appel sur la
 totalité de la structure courante, ici
 \(\pair{k}{\fun{int}(i,t'_1,t'_2)}\).
 
-La fonction \fun{npre/1}\index{npre@\fun{npre/1}} (anglais,
+La fonction \fun{npre/1}\index{npre@\fun{npre/1}} (anglais:
 \emph{number in preorder}) à la \fig~\vref{fig:npre}
 \begin{figure}[t]
 \abovedisplayskip=0pt
@@ -766,12 +767,15 @@ de~\(s\) (page~\pageref{par:well-founded}). D'après la définition à la
 \fig~\vref{fig:pre}, nous voyons que la règle~\(\theta\) conserve la
 terminaison si \fun{pre/2}\index{pre@\fun{pre/2}} termine; la
 règle~\(\iota\) termine trivialement; finalement, la règle~\(\kappa\)
-réécrit un appel en des appels plus petits selon \((\succ)\):
-\(\fun{pre}(\fun{int}(x,t_1,t_2),s) \succ \fun{pre}(t_2,s)\) et
-\(\fun{pre}(\fun{int}(x,t_1,t_2),s) \succ \fun{pre}(t_1,u)\), pour
-tout~\(u\), en particulier si \(\fun{pre}(t_2,s) \twoheadrightarrow
-u\). En conséquence, \fun{pre/1}\index{pre@\fun{pre/1}} termine pour
-toutes les données.\index{arbre
+réécrit un appel en des appels plus petits:
+\begin{align*}
+  \fun{pre}(\fun{int}(x,t_1,t_2),s) &\succ \fun{pre}(t_2,s),\\
+  \fun{pre}(\fun{int}(x,t_1,t_2),s) &\succ \fun{pre}(t_1,u),\; \text{for
+    all~\(u\),}
+\end{align*}
+en particulier si \(\fun{pre}(t_2,s) \twoheadrightarrow u\). En
+conséquence, \fun{pre/1}\index{pre@\fun{pre/1}} termine pour toutes
+les données.\index{arbre
   binaire!préfixe!terminaison|)}\index{terminaison!parcours
   préfixe|)}\hfill\(\Box\)
 
@@ -793,10 +797,14 @@ Nous devons donc établir
     x.\pred{Pre}{\fun{int}(x,t_1,t_2)}\).
 
 \end{itemize}
-La base est aisée car \(\fun{pre}_0(\fun{ext}())
-\xrightarrow{\smash{\gamma}} \el \xleftarrow{\smash{\iota}}
-\fun{pre}(\fun{ext}(),\el) \xleftarrow{\smash{\theta}}
-\fun{pre}(\fun{ext}())\). Voir la définition de \fun{pre\(_0\)/1} à
+La base est aisée car
+\begin{equation*}
+  \fun{pre}_0(\fun{ext}())
+  \xrightarrow{\smash{\gamma}} \el \xleftarrow{\smash{\iota}}
+  \fun{pre}(\fun{ext}(),\el) \xleftarrow{\smash{\theta}}
+  \fun{pre}(\fun{ext}()).
+\end{equation*}
+Voir la définition de \fun{pre\(_0\)/1} à
 l'équation~\eqref{eq:pre0} \vpageref{eq:pre0}, et celle de
 \fun{cat/2}\index{cat@\fun{cat/2}}:
 \begin{equation*}
@@ -829,11 +837,18 @@ membre ou bien nous soyons arrêtés. Posons \(t :=
 \end{array}
 \end{equation*}
 À l'arrêt, nous réécrivons alors le membre opposé, le plus loin
-possible: \(\fun{pre}(t) = \fun{pre}(\fun{int}(x,t_1,t_2))
+possible:
+\begin{equation*}
+%\begin{array}{@{}r@{\;}l@{\;}l@{\;\;}r@{\!}}
+  \fun{pre}(t) = \fun{pre}(\fun{int}(x,t_1,t_2))
 \xrightarrow{\smash{\theta}} \fun{pre}(\fun{int}(x,t_1,t_2),\el)
 \xrightarrow{\smash{\kappa}}
-\cons{x}{\fun{pre}(t_1,\fun{pre}(t_2,\el))}\)\index{pre@\fun{pre/1}}\index{pre@\fun{pre/2}}. La
-comparaison des deux expressions sur lesquelles nous nous sommes
+\cons{x}{\fun{pre}(t_1,\fun{pre}(t_2,\el))}.
+\index{pre@\fun{pre/1}}
+\index{pre@\fun{pre/2}}
+%\end{array}
+\end{equation*}
+La comparaison des deux expressions sur lesquelles nous nous sommes
 arrêtés suggère un sous-but à atteindre.
 
 Soit \(\pred{CatPre}{t,s} \colon \fun{cat}(\fun{pre}(t,\el),s) \equiv
@@ -869,25 +884,28 @@ d'induction bien fondée requiert alors que nous établissions
     \pred{CatPre}{t,s}\).
 
 \end{itemize}
-La base est aisée: \(\fun{cat}(\fun{pre}(\fun{ext}(),\el),\el)
-\xrightarrow{\smash{\iota}} \fun{cat}(\el,\el)
-\xrightarrow{\smash{\alpha}} \el \xleftarrow{\smash{\iota}}
-\fun{pre}(\fun{ext}(),\el)\).\index{cat@\fun{cat/2}} Nous supposons
-alors \(\forall t',s'.(t,s) \succ_{B \times S} (t',s') \Rightarrow
-\pred{CatPre}{t',s'}\), ce qui est l'hypothèse d'induction, et nous
-poursuivons en réécrivant le membre gauche après avoir posé \(t :=
-\fun{int}(x,t_1,t_2)\):
-%. Le résultat est montré à la
-%\fig~\vref{fig:CatPre},\index{CatPre@\predName{CatPre}}
-%\begin{figure}[t]
+La base est aisée:
 \begin{equation*}
-%\boxed{%
-\begin{array}{r@{\;}c@{\;}l}
+  \fun{cat}(\ufun{pre}(\fun{ext}(),\el),\el)
+  \xrightarrow{\smash{\iota}} \fun{cat}(\el,\el)
+  \xrightarrow{\smash{\alpha}} \el \xleftarrow{\smash{\iota}}
+  \fun{pre}(\fun{ext}(),\el).
+\index{cat@\fun{cat/2}}
+\end{equation*}
+Nous supposons alors \(\forall t',s'.(t,s) \succ_{B \times S} (t',s')
+\Rightarrow \pred{CatPre}{t',s'}\), ce qui est l'hypothèse
+d'induction, et nous poursuivons en réécrivant le membre gauche après
+avoir posé \(t := \fun{int}(x,t_1,t_2)\). Le résultat est montré à la
+\fig~\vref{fig:CatPre},\index{CatPre@\predName{CatPre}}
+\begin{figure}[t]
+\begin{equation*}
+\boxed{%
+\begin{array}{@{}r@{\;}c@{\;}l@{\qquad}}
   \fun{cat}(\fun{pre}(t,\el),s)
 & =
-& \fun{cat}(\fun{pre}(\fun{int}(x,t_1,t_2),\el),s)\\
+& \fun{cat}(\ufun{pre}(\fun{int}(x,t_1,t_2),\el),s)\\
 & \xrightarrow{\smash{\kappa}}
-& \fun{cat}(\cons{x}{\fun{pre}(t_1,\fun{pre}(t_2,\el))},s)\\
+& \ufun{cat}(\cons{x}{\fun{pre}(t_1,\fun{pre}(t_2,\el))},s)\\
 & \xrightarrow{\smash{\beta}}
 & \cons{x}{\fun{cat}(\fun{pre}(t_1,\fun{pre}(t_2,\el)),s)}\\
 & \equiv_0
@@ -901,14 +919,13 @@ poursuivons en réécrivant le membre gauche après avoir posé \(t :=
 & \xleftarrow{\smash{\kappa}}
 & \fun{pre}(\fun{int}(x,t_1,t_2),s)\\
 & =
-& \fun{pre}(t,s).\hfill\Box
-\end{array}
-%}
+& \fun{pre}(t,s). \hfill\Box
+\end{array}}
 \end{equation*}
-%\caption{Preuve de \(\pred{CatPre}{t} \colon
-%  \fun{cat}(\fun{pre}(t,\el),s) \equiv
-%  \fun{pre}(t,s)\)\label{fig:CatPre}}
-%\end{figure}
+\caption{Preuve de \(\pred{CatPre}{t} \colon
+ \fun{cat}(\fun{pre}(t,\el),s) \equiv \fun{pre}(t,s)\)}
+\label{fig:CatPre}
+\end{figure}
 où
 \begin{itemize}
 
@@ -934,11 +951,10 @@ où
   \succ_{B \times S} (t_1,s')\), pour toutes les piles~\(s'\), en
   particulier si \(s' = \fun{pre}(t_2,s)\).\index{pre@\fun{pre/2}}
 \end{itemize}
-Nous pouvons maintenant conclure:
-%We can resume conclusively in \fig~\vref{fig:pre0_pre}.\hfill\(\Box\)
-%\begin{figure}
+Nous pouvons maintenant conclure à la \fig~\vref{fig:pre0_pre}.\hfill\(\Box\)
+\begin{figure}
 \begin{equation*}
-%\boxed{%
+\boxed{%
 \begin{array}{r@{\;}c@{\;}l@{\qquad}r}
 \fun{pre}_0(t)
 & = & \fun{pre}_0(\fun{int}(x,t_1,t_2))\\
@@ -946,10 +962,10 @@ Nous pouvons maintenant conclure:
 & \cons{x}{\fun{cat}(\fun{pre}_0(t_1), \fun{pre}_0(t_2))}\\
 & \equiv & \cons{x}{\fun{cat}(\fun{pre}(t_1), \fun{pre}_0(t_2))}
 & (\pred{Pre}{t_1})\\
-& \equiv & \cons{x}{\fun{cat}(\fun{pre}(t_1), \fun{pre}(t_2))}
+& \equiv & \cons{x}{\fun{cat}(\ufun{pre}(t_1), \fun{pre}(t_2))}
 & (\pred{Pre}{t_2})\\
 & \xrightarrow{\smash{\theta}}
-& \cons{x}{\fun{cat}(\fun{pre}(t_1,\el), \fun{pre}(t_2))}\\
+& \cons{x}{\fun{cat}(\fun{pre}(t_1,\el), \ufun{pre}(t_2))}\\
 & \xrightarrow{\smash{\theta}}
 & \cons{x}{\fun{cat}(\fun{pre}(t_1,\el), \fun{pre}(t_2,\el))}\\
 & \equiv
@@ -960,40 +976,35 @@ Nous pouvons maintenant conclure:
 & \xleftarrow{\smash{\theta}}
 & \fun{pre}(\fun{int}(x,t_1,t_2))\\
 & = & \fun{pre}(t). & \hfill\Box
-\end{array}
-%}
+\end{array}}
 \end{equation*}
-%\caption{Proof of \(\pred{Pre}{t} \colon \fun{pre}_0(t) \equiv
-%  \fun{pre}(t)\) \label{fig:pre0_pre}}
-%\end{figure}
+\caption{Preuve de \(\pred{Pre}{t} \colon \fun{pre}_0(t) \equiv
+  \fun{pre}(t)\)}
+\label{fig:pre0_pre}
+\end{figure}
 
 \paragraph{Aplatissement revu}
 \index{pile!aplatissement|(}
 
 À la section~\vref{sec:flattening}, nous avons défini deux fonctions
-pour aplatir des piles\index{pile!aplatissement} (voir
-\fig~\ref{fig:flat0} à la page~\pageref{fig:flat0} et la
-\fig~\ref{fig:flat} à la page~\pageref{fig:flat}). Avec le parcours
+pour aplatir des piles\index{pile!aplatissement}
+(\fig~\vref{fig:flat0} et \fig~\vref{fig:flat}). Avec le parcours
 préfixe en tête, nous pourrions voir qu'aplatir une pile équivaut à
 parcourir en préfixe un arbre feuillu\index{arbre binaire!$\sim$
-  feuillu} (voir \fig~\vref{fig:leaf_tree} pour un exemple), en
-laissant de côté les piles vides. L'essentiel est de voir une pile,
-contenant peut-être d'autres piles arbitrairement imbriquées, comme
-étant un arbre binaire feuillu; un exemple est montré à la
-\fig~\vref{fig:stacks},
-\begin{figure}[b]
+  feuillu} (voir \fig~\vref{fig:leaf_tree}), en laissant de côté les
+piles vides. L'essentiel est de voir une pile, contenant peut-être
+d'autres piles imbriquées, comme étant un arbre binaire
+feuillu; un exemple est montré à la \fig~\vref{fig:stacks},
+\begin{figure}
 \centering
 \includegraphics[bb=71 643 186 721]{stacks}
 \caption{Piles imbriquées vues comme un arbre feuillu}
 \label{fig:stacks}
 \end{figure}
-où les nœuds internes (\texttt{|}) sont
-des nœuds d'empilage.
-
-La première étape consiste à définir inductivement l'ensemble des
-arbres binaires feuillus comme le plus petit ensemble~\(L\) engendré
-par l'application déductive (descendante) du système d'inférence
-suivant:
+où les nœuds internes (\texttt{|}) sont des nœuds d'empilage. La
+première étape consiste à définir inductivement l'ensemble des arbres
+binaires feuillus comme le plus petit ensemble~\(L\) engendré par
+l'application déductive (descendante) du système d'inférence suivant:
 \begin{mathpar}
 \inferrule*{}{\fun{leaf}(x) \in L}
 \qquad
@@ -1002,7 +1013,7 @@ suivant:
 En d'autres termes, une feuille contenant la donnée~\(x\)
 est notée \(\fun{leaf}(x)\)\index{leaf@\fun{leaf/1}} et les autres
 nœuds internes sont des \emph{fourches}\index{arbre
-  binaire!fourche} (anglais, \emph{fork}), écrites
+  binaire!fourche} (anglais: \emph{fork}), écrites
 \(\fun{fork}(t_1,t_2)\)\index{fork@\fun{fork/2}}, où
 \(t_1\)~et~\(t_2\) sont des arbres binaires feuillus aussi. La seconde
 étape requiert la modification de \fun{pre/1}, définie à la
@@ -1087,14 +1098,19 @@ seule différence avec la \fig~\ref{fig:pre_tree} est le moment où la
 racine~\(x\) est empilée sur l'accumulateur\index{langage
   fonctionnel!accumulateur}: entre les parcours infixes des
 sous-arbres \(t_1\)~et~\(t_2\). Les réécritures implicites dans la
-figure sont \(\fun{in}(t_2,s) \twoheadrightarrow
-s_1\),\index{in@\fun{in/2}} \(\fun{in}(t_1,\cons{x}{s_1})
-\twoheadrightarrow s_2\) et \(\fun{in}(t,s) \twoheadrightarrow s_2\),
+figure sont
+\begin{align*}
+  \fun{in}(t_2,s) &\twoheadrightarrow s_1,\index{in@\fun{in/2}}\\
+  \fun{in}(t_1,\cons{x}{s_1}) &\twoheadrightarrow s_2,\\
+  \fun{in}(t,s) &\twoheadrightarrow s_2,
+\end{align*}
 où \(t=\fun{int}(x,t_1,t_2)\). En éliminant les variables
 intermédiaires \(s_1\)~et~\(s_2\), nous obtenons l'équivalence
-\(\fun{in}(t_1,\cons{x}{\fun{in}(t_2,s)}) \equiv \fun{in}(t,s)\). Le
-cas des nœuds externes est le même qu'avec un parcours préfixe. Ce
-raisonnement aboutit donc à la fonction définie à la
+\begin{equation*}
+  \fun{in}(t_1,\cons{x}{\fun{in}(t_2,s)}) \equiv \fun{in}(t,s).
+\end{equation*}
+Le cas des nœuds externes est le même que celui d'un parcours
+préfixe. Ce raisonnement aboutit donc à la fonction définie à la
 \fig~\vref{fig:in},
 \begin{figure}
 \begin{equation*}
@@ -1125,7 +1141,7 @@ les nœuds dans son sous-arbre droit ont des rangs supérieurs.
 Soit \fun{nin/1}\index{nin@\fun{nin/1}}\index{nin@\fun{nin/2}} la
 fonction qui calcule la numérotation infixe d'un arbre donnée à la
 \fig~\vref{fig:nin},
-\begin{figure}[b]
+\begin{figure}
 \centering
 \framebox[0.75\columnwidth]{\vbox{%
 \begin{gather*}
@@ -1153,17 +1169,16 @@ rang dans~\(t_1\).
 \label{par:rotation}
 
 La conception de
-\fun{flat/1}\index{stack!flattening}\index{flat@\fun{flat/1}} à la
+\fun{flat/1}\index{pile!applatissement}\index{flat@\fun{flat/1}} à la
 \fig~\vref{fig:flat} peut suggérer une nouvelle approche du parcours
 infixe. En composant des rotations à droite\index{arbre
   binaire!rotation|(}, vues aux \figs~\vrefrange{fig:lift1}{fig:lift2}
-(l'inverse est, bien entendu, une \emph{rotation à gauche}), le
-nœud à visiter en premier en infixe peut être amené à devenir la
-racine d'un arbre dont le sous-arbre gauche est vide. Récursivement,
-le sous-arbre droit est traité, d'une façon descendante. Cet
-algorithme est correct parce \emph{les parcours infixes sont
-  invariants par rotation}, ce qui est symboliquement exprimé comme
-suit.
+(l'inverse est, bien entendu, une \emph{rotation à gauche}), le nœud à
+visiter en premier en infixe peut être amené à devenir la racine d'un
+arbre dont le sous-arbre gauche est vide. Récursivement, le sous-arbre
+droit est traité, d'une façon descendante. Cet algorithme est correct
+parce \emph{les parcours infixes sont invariants par rotation}, ce qui
+est symboliquement exprimé comme suit.
 \begin{equation*}
 \pred{Rot}{x,y,t_1,t_2,t_3} \colon
 \fun{in}(\fun{int}(y,\fun{int}(x,t_1,t_2),t_3))
@@ -1172,10 +1187,10 @@ suit.
 \label{def:Rot}
 \end{equation*}
 À la \fig~\vref{fig:rot}, nous montrons comment un arbre binaire
-devient un arbre dégénéré\index{arbre binaire!$\sim$ dégénéré}
-penchant à droite, isomorphe à une pile, en répétant des rotations à
-droite, de manière descendante.
-\begin{figure}[b]
+devient un arbre dégénéré\index{arbre binaire!$\sim$ dégénéré} (ou
+\emph{peigne}) penchant à droite, isomorphe à une pile, en répétant
+des rotations à droite, de manière descendante.
+\begin{figure}
 \centering
 \includegraphics{rot}
 \caption{Rotations à droite descendantes}
@@ -1223,9 +1238,13 @@ branche la plus à droite\index{arbre!branche} est \([\fun{e}, \fun{g},
 \fun{h}]\)). Par conséquent, si nous voulons maximiser l'usage de la
 règle~\(\beta\), nous avons besoin d'un arbre dont le sous-arbre droit
 est vide, donc le sous-arbre gauche contient \(n-1\) nœuds (la
-racine appartient, par définition à la branche la plus à droite): ceci
-entraîne \(\W{\fun{in}_1}{n} = (n-1) + (n+1) =
-2n\).\index{in1@$\W{\fun{in}_1}{n}$}\index{arbre binaire!rotation|)}
+racine appartient, par définition à la branche la plus à droite). Ceci
+entraîne:
+\begin{equation*}
+  \W{\fun{in}_1}{n} = (n-1) + (n+1) = 2n.
+  \index{in1@$\W{\fun{in}_1}{n}$}
+  \index{arbre binaire!rotation|)}
+\end{equation*}
 
 \paragraph{Exercice}
 
@@ -1234,11 +1253,11 @@ Prouvez \(\forall x,y,t_1,t_2,t_3.\pred{Rot}{x,y,t_1,t_2,t_3}\).
 
 \paragraph{Réflexion}
 
-Définissons une fonction \fun{mir/1}\index{mir@\fun{mir/1}} (anglais,
+Définissons une fonction \fun{mir/1}\index{mir@\fun{mir/1}} (anglais:
 \emph{mirror}) telle que \(\fun{mir}(t)\) est l'arbre symétrique à
 l'arbre binaire~\(t\), par rapport à une ligne extérieure
 verticale. Un exemple est montré à la \fig~\vref{fig:mirror}.
-\begin{figure}[b]
+\begin{figure}
 \centering
 \subfloat[\(t\)]{\includegraphics[bb=77 660 163 723]{bt_ex2}}
 \qquad
@@ -1263,10 +1282,14 @@ où \fun{rev/1}\index{rev@\fun{rev/1}}
 retourne\index{pile!retournement} la pile en argument (voir
 définition~\eqref{def:rev} \vpageref{def:rev}). Cette propriété est
 utile parce que le membre gauche de l'équivalence est plus coûteux que
-le membre droit: \(\Call{\fun{in}(\fun{mir}(t))} = \C{\fun{mir}}{n} +
-\C{\fun{in}}{n} = (2n+1) + (2n+2) = 4n + 3\), à comparer avec
-\(\Call{\fun{rev}(\fun{in}(t))} = \C{\fun{in}}{n} + \C{\fun{rev}}{n} =
-(2n+2) + (n+2) = 3n + 4\).\index{mir@$\C{\fun{mir}}{n}$}
+le membre droit:
+\begin{equation*}
+  \Call{\fun{in}(\fun{mir}(t))} =
+  \C{\fun{mir}}{n} + \C{\fun{in}}{n} = (2n+1) + (2n+2) = 4n + 3,
+\end{equation*}
+à comparer avec \(\Call{\fun{rev}(\fun{in}(t))} = \C{\fun{in}}{n} +
+\C{\fun{rev}}{n} = (2n+2) + (n+2) = 3n +
+4\).\index{mir@$\C{\fun{mir}}{n}$}
 
 L'induction sur la structure des sous-arbres immédiats exige que nous
 établissions
@@ -1280,14 +1303,38 @@ L'induction sur la structure des sous-arbres immédiats exige que nous
   x.\pred{InMir}{\fun{int}(x,t_1,t_2)}.\)
 
 \end{itemize}
-La base: \(\fun{in}(\fun{mir}(\fun{ext}()))
-\xrightarrow{\smash{\sigma}} \fun{in}(\fun{ext}())
-\xrightarrow{\smash{\xi}} \fun{in}(\fun{ext}(),\el)
-\xrightarrow{\smash{\pi}} \el \xleftarrow{\smash{\zeta}}
-\fun{rcat}(\el,\el) \xleftarrow{\smash{\epsilon}} \fun{rev}(\el)
-\xleftarrow{\smash{\pi}} \fun{rev}(\fun{in}(\fun{ext}(),\el))
-\xleftarrow{\smash{\xi}}
-\fun{rev}(\fun{in}(\fun{ext}()))\).\index{rcat@\fun{rcat/2}}\index{rev@\fun{rev/1}}
+La base est obtenue par la dérivation suivante:
+\begin{equation*}
+\begin{array}{@{}r@{\;}c@{\;}l@{\qquad}}
+  \fun{in}(\ufun{mir}(\fun{ext}()))
+  & \xrightarrow{\smash{\sigma}}
+  & \ufun{in}(\fun{ext}())\\
+  & \xrightarrow{\smash{\xi}}
+  & \fun{in}(\fun{ext}(),\el)\\
+  & \xrightarrow{\smash{\pi}}
+  & \el\\
+  & \xleftarrow{\smash{\zeta}}
+  & \fun{rcat}(\el,\el)\\
+  & \xleftarrow{\smash{\epsilon}}
+  & \fun{rev}(\el)\\
+  & \xleftarrow{\smash{\pi}}
+  & \fun{rev}(\ufun{in}(\fun{ext}(),\el))\\
+  & \xleftarrow{\smash{\xi}}
+  & \fun{rev}(\ufun{in}(\fun{ext}())).
+  \index{rcat@\fun{rcat/2}}\index{rev@\fun{rev/1}}
+\end{array}
+\end{equation*}
+
+%% La base: \(\fun{in}(\fun{mir}(\fun{ext}()))
+%% \xrightarrow{\smash{\sigma}} \fun{in}(\fun{ext}())
+%% \xrightarrow{\smash{\xi}} \fun{in}(\fun{ext}(),\el)
+%% \xrightarrow{\smash{\pi}} \el \xleftarrow{\smash{\zeta}}
+%% \fun{rcat}(\el,\el) \xleftarrow{\smash{\epsilon}} \fun{rev}(\el)
+%% \xleftarrow{\smash{\pi}} \fun{rev}(\fun{in}(\fun{ext}(),\el))
+%% \xleftarrow{\smash{\xi}}
+%% \fun{rev}(\fun{in}(\fun{ext}()))\).\index{rcat@\fun{rcat/2}}\index{rev@\fun{rev/1}}
+
+
 Supposons ensuite \(\pred{InMir}{t_1}\) et \(\pred{InMir}{t_2}\), puis
 posons \(t := \fun{int}(x,t_1,t_2)\), pour tout~\(x\). Nous réécrivons
 le membre gauche de l'équivalence à prouver jusqu'à atteindre le
@@ -1295,21 +1342,21 @@ membre droit ou bien être bloqué:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{\qquad}r@{}}
 \fun{in}(\fun{mir}(t)) & = &
-\fun{in}(\fun{mir}(\fun{int}(x,t_1,t_2)))\\
+\fun{in}(\ufun{mir}(\fun{int}(x,t_1,t_2)))\\
 & \xrightarrow{\smash{\tau}}
-& \fun{in}(\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)))\\
+& \ufun{in}(\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)))\\
 & \xrightarrow{\smash{\xi}}
-& \fun{in}(\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)),\el)\\
-& \Rra{\rho}
+& \ufun{in}(\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)),\el)\\
+& \xrightarrow{\smash{\rho}}
 & \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{in}(\fun{mir}(t_1),\el)})\\
-& \Lla{\xi}
-& \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{in}(\fun{mir}(t_1))})\\
+& \xleftarrow{\smash{\zeta}}
+& \fun{in}(\fun{mir}(t_2),\cons{x}{\ufun{in}(\fun{mir}(t_1))})\\
 & \equiv
-& \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{rev}(\fun{in}(t_1))})
+& \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{rev}(\ufun{in}(t_1))})
 & (\pred{InMir}{t_1})\\
 & \xrightarrow{\smash{\xi}}
-& \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{rev}(\fun{in}(t_1,\el))})\\
-& \Rra{\epsilon}
+& \fun{in}(\fun{mir}(t_2),\cons{x}{\ufun{rev}(\fun{in}(t_1,\el))})\\
+& \xrightarrow{\smash{\epsilon}}
 & \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{rcat}(\fun{in}(t_1,\el),\el)}).
 \end{array}
 \end{equation*}
@@ -1327,19 +1374,18 @@ Nous avons \(\pred{InMir}{t,\el} \Leftrightarrow
 \begin{array}{@{}r@{\;}l@{\;}l@{\qquad}r@{}}
 \fun{in}(\fun{mir}(t),s)
 & =
-& \fun{in}(\fun{mir}(\fun{int}(x,t_1,t_2)),s)\\
+& \fun{in}(\ufun{mir}(\fun{int}(x,t_1,t_2)),s)\\
 & \xrightarrow{\smash{\tau}}
-& \fun{in}(\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)),s)\\
-& \Rra{\rho}
+& \ufun{in}(\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)),s)\\
+& \xrightarrow{\smash{\rho}}
 & \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{in}(\fun{mir}(t_1),s)})\\
 & \equiv
 & \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{rcat}(\fun{in}(t_1,\el),s)})
 & (\pred{InMir}{t_1,s})\\
 & \equiv_0
 & \fun{rcat}(\fun{in}(t_2,\el),\cons{x}{\fun{rcat}(\fun{in}(t_1,\el),s)})\\
-& \Lla{\eta}
-& \fun{rcat}(\cons{x}{\fun{in}(t_2,\el)},
-\fun{rcat}(\fun{in}(t_1,\el),s)),
+& \xleftarrow{\smash{\eta}}
+& \ufun{rcat}(\cons{x}{\fun{in}(t_2,\el)},\fun{rcat}(\fun{in}(t_1,\el),s)),
 \end{array}
 \end{equation*}
 où (\(\equiv_0\)) est
@@ -1349,7 +1395,7 @@ Le membre droit maintenant:
 %\begin{array}{@{}r@{\;}c@{\;}l@{\qquad}r@{}}
 \fun{rcat}(\fun{in}(t,\el),s)
 \! = \!
- \fun{rcat}(\fun{in}(\fun{int}(x,t_1,t_2),\el),s)
+ \fun{rcat}(\ufun{in}(\fun{int}(x,t_1,t_2),\el),s)
 \! \xrightarrow{\smash{\rho}}\!
  \fun{rcat}(\fun{in}(t_1,\cons{x}{\fun{in}(t_2,\el)}),s).
 %\end{array}
@@ -1458,7 +1504,7 @@ nœuds internes à la \fig~\vref{fig:post_tree}. La différence avec
 \fun{pre/1}\index{pre@\fun{pre/1}} et \fun{in/1}\index{in@\fun{in/1}}
 réside dans le moment où la racine est empilée sur l'accumulateur. La
 définition de la fonction est donnée à la \fig~\vref{fig:post}.
-\begin{figure}
+\begin{figure}[b]
 %\abovedisplayskip=0pt
 %\belowdisplayskip=0pt
 \begin{equation*}
@@ -1523,9 +1569,17 @@ en cela l'organisation d'un parcours postfixe.
 Soit \(\pred{PreMir}{t} \colon \fun{pre}(\fun{mir}(t)) \equiv
 \fun{rev}(\fun{post}(t))\).\index{PreMir@\predName{PreMir}|(}
 L'expérience acquise en prouvant \(\pred{InMir}{t}\) nous suggère
-d'affaiblir (généraliser) la propriété: \(\pred{PreMir}{t,s} \colon
-\fun{pre}(\fun{mir}(t),s) \equiv
-\fun{rcat}(\fun{post}(t,\el),s)\).\index{rcat@\fun{rcat/2}}
+d'affaiblir (c'est-à-dire de généraliser) la propriété:
+\begin{equation*}
+  \pred{PreMir}{t,s} \colon
+  \fun{pre}(\fun{mir}(t),s) \equiv
+  \fun{rcat}(\fun{post}(t,\el),s).
+  \index{rcat@\fun{rcat/2}}
+\end{equation*}
+%% \(\pred{PreMir}{t,s} \colon
+%% \fun{pre}(\fun{mir}(t),s) \equiv
+%% \fun{rcat}(\fun{post}(t,\el),s)\).
+%% \index{rcat@\fun{rcat/2}}
 Clairement, \(\pred{PreMir}{t,\el} \Leftrightarrow
 \pred{PreMir}{t}\). Définissons alors
 \begin{equation*}
@@ -1547,23 +1601,27 @@ preuve de
     \pred{PreMir}{t,s}\).
 
 \end{itemize}
-Pour la base: \index{mir@\fun{mir/1}|(}
-\(\fun{pre}(\fun{mir}(\fun{ext}()),\el) \xrightarrow{\smash{\sigma}}
-\fun{pre}(\fun{ext}(),\el) \xrightarrow{\smash{\iota}} \el
-\xleftarrow{\smash{\zeta}} \fun{rcat}(\el,\el)
-\xleftarrow{\smash{\mu}}
-\fun{rcat}(\fun{post}(\fun{ext}(),\el),\el)\). Posons \(t :=
-\fun{int}(x,t_1,t_2)\). %À la \fig~\vref{fig:premir},
-Nous avons les réécritures du membre gauche suivantes:
-%\begin{figure}
+La base est établie comme suit:
+\index{mir@\fun{mir/1}|(}
+\begin{align*}
+  \fun{pre}(\ufun{mir}(\fun{ext}()),\el)
+  &\xrightarrow{\smash{\sigma}} \fun{pre}(\fun{ext}(),\el)\\
+  &\xrightarrow{\smash{\iota}} \el\\
+  &\xleftarrow{\smash{\zeta}} \fun{rcat}(\el,\el)\\
+  &\xleftarrow{\smash{\mu}}
+  \fun{rcat}(\ufun{post}(\fun{ext}(),\el),\el).
+\end{align*}
+Posons \(t := \fun{int}(x,t_1,t_2)\). À la \fig~\vref{fig:premir},
+nous avons les réécritures du membre gauche,
+\begin{figure}
 \begin{equation*}
-%\boxed{
+\boxed{
 \begin{array}{@{}r@{\;}l@{\;}l@{\qquad}r@{}}
 \fun{pre}(\fun{mir}(t),s)
-& = & \fun{pre}(\fun{mir}(\fun{int}(x,t_1,t_2)),s)\\
+& = & \fun{pre}(\ufun{mir}(\fun{int}(x,t_1,t_2)),s)\\
 & \xrightarrow{\smash{\tau}}
-& \fun{pre}(\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)),s)\\
-& \Rra{\kappa}
+& \ufun{pre}(\fun{int}(x,\fun{mir}(t_2),\fun{mir}(t_1)),s)\\
+& \xrightarrow{\smash{\kappa}}
 & \cons{x}{\fun{pre}(\fun{mir}(t_2),\fun{pre}(\fun{mir}(t_1),s))}\\
 & \equiv_0
 & \cons{x}{\fun{pre}(\fun{mir}(t_2),
@@ -1572,22 +1630,14 @@ Nous avons les réécritures du membre gauche suivantes:
 & \cons{x}{\fun{rcat}(\fun{post}(t_2,\el),
            \fun{rcat}(\fun{post}(t_1,\el),s))}\\
 & \equiv_2
-& \cons{x}{\fun{rcat}(\fun{cat}(\fun{post}(t_1,\el),
-                                 \fun{post}(t_2,\el)),
-                      s)}\\
-& \Lla{\zeta}
-& \fun{rcat}(\el,\cons{x}{\fun{rcat}(\fun{cat}(\fun{post}(t_1,\el),
-                                       \fun{post}(t_2,\el)),
-                            s)})\\
-& \Lla{\eta}
-& \fun{rcat}([x],\fun{rcat}(\fun{cat}(\fun{post}(t_1,\el),
-                                       \fun{post}(t_2,\el)),
-                            s))\\
+& \cons{x}{\fun{rcat}(\fun{cat}(\fun{post}(t_1,\el), \fun{post}(t_2,\el)), s)}\\
+& \xleftarrow{\smash{\zeta}}
+& \ufun{rcat}(\el,\cons{x}{\fun{rcat}(\fun{cat}(\fun{post}(t_1,\el),
+                                       \fun{post}(t_2,\el)), s)})\\
+& \xleftarrow{\smash{\eta}}
+& \ufun{rcat}([x],\fun{rcat}(\fun{cat}(\fun{post}(t_1,\el), \fun{post}(t_2,\el)), s))\\
 & \equiv_3
-& \fun{rcat}(\fun{cat}(\fun{cat}(\fun{post}(t_1,\el),
-                                  \fun{post}(t_2,\el)),
-                       [x]),
-             s)\\
+& \fun{rcat}(\fun{cat}(\fun{cat}(\fun{post}(t_1,\el), \fun{post}(t_2,\el)), [x]), s)\\
 & \equiv_4
 & \fun{rcat}(\fun{cat}(\fun{post}(t_1,\el),
                        \fun{cat}(\fun{post}(t_2,\el),
@@ -1600,14 +1650,17 @@ Nous avons les réécritures du membre gauche suivantes:
 & \equiv_6
 & \fun{rcat}(\fun{post}(t_1,\fun{post}(t_2,[x])),s)\\
 & \xleftarrow{\smash{\nu}}
-& \fun{rcat}(\fun{post}(\fun{int}(x,t_1,t_2),\el),s)\\
+& \fun{rcat}(\ufun{post}(\fun{int}(x,t_1,t_2),\el),s)\\
 & =
-& \fun{rcat}(\fun{post}(t,\el),s).\hfill\Box
+& \fun{rcat}(\fun{post}(t,\el),s).
+& \hfill\Box
 \end{array}
-%}
+}
 \end{equation*}
-%\caption{Preuve de \(\fun{pre}(\fun{mir}(t),s) \equiv %\fun{rcat}(\fun{post}(t,\el),s)\)\label{fig:premir}}
-%\end{figure}
+\caption{Preuve de \(\fun{pre}(\fun{mir}(t),s) \equiv
+  \fun{rcat}(\fun{post}(t,\el),s)\)}
+\label{fig:premir}
+\end{figure}
 où
 \begin{itemize}
 
@@ -1660,6 +1713,8 @@ seconde méthode et commençons par considérer
 puis continuons en recherchant des expressions équivalentes aux deux
 membres, jusqu'à atteindre \(\pred{PostMir}{t}\):
 \begin{equation*}
+\abovedisplayskip=0pt
+\belowdisplayskip=0pt
 \begin{array}{@{}r@{\;}c@{\;}l@{\qquad}r@{}}
           \fun{pre}(\fun{mir}(\fun{mir}(t)))
 & \equiv
@@ -1684,6 +1739,7 @@ où\index{InvMir@\predName{InvMir}} \(\pred{InvMir}{t} \colon
 \pred{EqRev}{s}\).\hfill\(\Box\)
 
 \paragraph{Exercices}
+\nopagebreak
 \begin{enumerate}
 
   \item Prouvez le lemme\index{CatPost@\predName{CatPost}}
@@ -1705,7 +1761,7 @@ où\index{InvMir@\predName{InvMir}} \(\pred{InvMir}{t} \colon
 \end{enumerate}
 \index{arbre binaire!postfixe|)}
 
-\mypar{Parcours des niveaux}
+\mypar{Parcours par niveaux}
 \index{arbre binaire!parcours des niveaux|(}
 
 Le \emph{niveau}~\(l\)\index{arbre!niveau} d'un arbre est une
@@ -1753,7 +1809,7 @@ une conception à petits pas est nécessaire, en contraste avec, par
 exemple, \fun{size/1}\index{size@\fun{size/1}} dans~\eqref{eq:size}
 \vpageref{eq:size}.
 
-Soit \fun{bf\(_0\)/1}\index{bf0@\fun{bf\(_0\)/1}} (anglais,
+Soit \fun{bf\(_0\)/1}\index{bf0@\fun{bf\(_0\)/1}} (anglais:
 \emph{breadth-first}) la fonction telle que \(\fun{bf}_0(t)\)
 calcule la pile de nœuds de~\(t\) par niveaux. Elle est
 partiellement définie à la \fig~\vref{fig:lo0}.
@@ -1770,7 +1826,7 @@ nous devrions travailler avec des forêts\index{arbre!forêt} au lieu
 d'arbres isolément.
 
 La fonction de coupe est \fun{def/1}\index{def@\fun{def/1}}
-(anglais, \emph{deforest}), définie à la \fig~\vref{fig:def},
+(anglais: \emph{deforest}), définie à la \fig~\vref{fig:def},
 \begin{figure}
 \abovedisplayskip=0pt
 \belowdisplayskip=0pt
@@ -2006,7 +2062,7 @@ est montré à la \fig~\vref{fig:bf}.
 \caption{Raffinement de la \fig~\vref{fig:bf3}}
 \label{fig:bf}
 \end{figure}
-Souvenons-nous que \fun{rcat/2}\index{rcat@\fun{rcat/2}} (anglais,
+Souvenons-nous que \fun{rcat/2}\index{rcat@\fun{rcat/2}} (anglais:
 \emph{reverse and catenate}) est définie à l'équation~\eqref{def:rev}
 \vpageref{def:rev}. Remarquons que
 \(\fun{bf}_4(\fun{enq}(t,\fun{q}(\el,\el)))\)\index{bf4@\fun{bf\(_4\)/1}}
@@ -2211,7 +2267,7 @@ compteur, initialisé à~\(0\), à chaque fois qu'un arbre non-vide est
 défilé.
 
 Considérons \fun{bfn\(_1\)/1}\index{bfn1@\fun{bfn\(_1\)/1}} et
-\fun{bfn\(_2\)/2}\index{bfn2@\fun{bfn\(_2\)/2}} (anglais,
+\fun{bfn\(_2\)/2}\index{bfn2@\fun{bfn\(_2\)/2}} (anglais:
 \emph{breadth-first numbering}) à la \fig~\vref{fig:bfn1},
 \begin{figure}
 \abovedisplayskip=0pt
@@ -2458,7 +2514,7 @@ revenir sans ambiguïté vers l'arbre initial.
 
 La fonction de codage
 \fun{epost/1}\index{epost@\fun{epost/1}}\index{epost@\fun{epost/2}}
-(anglais, \emph{extended postorder})\index{arbre binaire!parcours
+(anglais: \emph{extended postorder})\index{arbre binaire!parcours
   postfixe!codage} à la \fig~\vref{fig:epost},
 \begin{figure}[b]
 \begin{equation*}
@@ -2495,7 +2551,7 @@ contenu d'une racine apparaît dans le code (tout sauf
 premiers sous-arbres dans la pile auxilaire.
 
 La définition de \fun{post2b/1}\index{post2b@\fun{post2b/1}}
-(anglais, \emph{extended postorder to binary tree}) est donnée à la
+(anglais: \emph{extended postorder to binary tree}) est donnée à la
 \fig~\vref{fig:post2b}.\index{arbre binaire!postfixe!décodage}
 \begin{figure}
 \begin{equation*}
@@ -2528,7 +2584,7 @@ entendu,
 
 En passant au codage préfixe, la fonction de codage
 \fun{epre/1}\index{epre@\fun{epre/1}}\index{epre@\fun{epre/2}}
-(anglais, \emph{extended preorder}) à la \fig~\vref{fig:epre}
+(anglais: \emph{extended preorder}) à la \fig~\vref{fig:epre}
 \begin{figure}[b]
 \begin{equation*}
 \boxed{
@@ -2897,9 +2953,9 @@ de chaque pas.
 Si nous suivons la même convention qu'au
 chapitre~\ref{chap:factoring}, nous dirions ici qu'un \emph{mot de
   Dyck}\index{mot de Dyck|see{chemin de Dyck}} est un mot fini sur
-l'alphabet contenant les lettres~\fun{r} (montée; anglais,
+l'alphabet contenant les lettres~\fun{r} (montée; anglais:
 \emph{rise}\index{chemin de Dyck!montée}) et~\fun{f} (descente;
-anglais, \emph{fall}\index{chemin de Dyck!descente}), de telle manière
+anglais: \emph{fall}\index{chemin de Dyck!descente}), de telle manière
 que tous ses préfixes\index{recherche de motif!préfixe} contiennent
 plus de lettres~\fun{r} que~\fun{f}, ou un nombre égal. Cette
 condition équivaut à la caractérisation géométrique «~au-dessus de
@@ -3036,7 +3092,7 @@ qu'elle code un arbre binaire en un chemin de Dyck\index{chemin de
   Dyck}, mais nous devrions enlever le dernier élément de la pile
 résultante, donc il est plus efficace de mettre en œuvre
 directement \(\delta\) comme la fonction
-\fun{dpre/1}\index{dpre@\fun{dpre/1}} (anglais, \emph{Dyck path as
+\fun{dpre/1}\index{dpre@\fun{dpre/1}} (anglais: \emph{Dyck path as
   preorder}) à la \fig~\vref{fig:dpre}.
 \begin{figure}
 \begin{equation*}
