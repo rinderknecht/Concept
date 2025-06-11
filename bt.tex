@@ -1967,7 +1967,7 @@ exemple qu'à la \fig~\vref{fig:pre3_abcde}.
 \end{figure}
 Gardons à l'esprit que les arbres sont défilés du côté droit de la
 forêt et enfilés à gauche. (Certains auteurs préfèrent l'autre sens.)
-La racine du prochain arbre à défiler est encerclée.
+La racine du prochain arbre à défiler est cerclée.
 
 En vue d'une comparaison avec
 \fun{pre\(_4\)/1}\index{pre4@\fun{pre\(_4\)/1}} à la
@@ -2067,11 +2067,10 @@ Souvenons-nous que \fun{rcat/2}\index{rcat@\fun{rcat/2}} (anglais:
 \vpageref{def:rev}. Remarquons que
 \(\fun{bf}_4(\fun{enq}(t,\fun{q}(\el,\el)))\)\index{bf4@\fun{bf\(_4\)/1}}
 a été optimisé en \(\fun{bf}(\el,[t])\)\index{bf@\fun{bf/2}} de
-manière à éviter un retournement de pile.
-
-La définition de \fun{bf/1}\index{bf@\fun{bf/1}} peut être considérée
-comme le plus \emph{concret} des raffinements, le programme le plus
-\emph{abstrait} étant la définition originelle de
+manière à éviter un retournement de pile. La définition de
+\fun{bf/1}\index{bf@\fun{bf/1}} peut être considérée comme le plus
+\emph{concret} des raffinements, le programme le plus \emph{abstrait}
+étant la définition originelle de
 \fun{bf\(_1\)/1}\index{bf1@\fun{bf\(_1\)/1}}. La première est plus
 courte que \fun{bf\(_0\)/1}\index{bf0@\fun{bf\(_0\)/1}}, mais le gain
 véritable est le coût. Soit \(n\)~la taille de l'arbre binaire en
@@ -2104,8 +2103,8 @@ La somme de toutes ces sommes partielles donne
 \C{\fun{bf}}{n,h} = 4n + 3h + 3.\index{bf@$\C{\fun{bf}}{n,h}$}
 \end{equation*}
 Comme avec \fun{bf\(_0\)/1}\index{bf0@\fun{bf\(_0\)/1}}, le coût
-minimal se produit ici si \(h = \lg(n+1)\), donc \(\B{\fun{bf}}{n} =
-4n + 3\lg(n+1) + 3 \sim 4n\).\index{bf@$\B{\fun{bf}}{n,h}$} Le coût
+minimal se produit quand \(h = \lg(n+1)\), donc \(\B{\fun{bf}}{n} = 4n
++ 3\lg(n+1) + 3 \sim 4n\).\index{bf@$\B{\fun{bf}}{n,h}$} Le coût
 maximal se produit quand \(h=n\), d'où \(\W{\fun{bf}}{n} = 7n + 3 \sim
 7n\). Nous pouvons maintenant comparer
 \fun{bf\(_0\)/1}\index{bf0@\fun{bf\(_0\)/1}} et
@@ -2113,8 +2112,8 @@ maximal se produit quand \(h=n\), d'où \(\W{\fun{bf}}{n} = 7n + 3 \sim
 \C{\fun{bf}_0}{n,h}\)\index{bf@$\C{\fun{bf}}{n,h}$}
 \index{bf0@$\C{\fun{bf}_0}{n,h}$} et la différence de coût est la plus
 notable dans leur cas le plus défavorable, qui est, pour les deux, un
-arbre dégénéré. Par conséquent, \fun{bf/1} est préférable dans tous
-les cas.
+arbre dégénéré (un peigne). Par conséquent, \fun{bf/1} est préférable
+dans tous les cas.
 
 \paragraph{Terminaison}
 \hspace*{-1pt}
@@ -2206,13 +2205,13 @@ final \((\el,\el)\), par exemple, \(\nu\rho^p\sigma^q\pi\rho\xi\),
 avec \(p \geqslant 0\) et \(q \geqslant 2\). Cet automate est appelé
 \emph{automate fini non-déterministe}\index{automate fini!$\sim$
   non-déterministe|(} (AFN) parce qu'un état peut avoir plus d'une
-transition sortante avec le même label (considérons l'état initial et
-les deux transitions de label~\(\sigma\), par exemple).
+transition sortante avec la même étiquette (voir l'état initial et les
+deux transitions d'étiquette~\(\sigma\), par exemple).
 
 Il est toujours possible de construire un \emph{automate fini
-  déterministe} (AFD) équivalent à un automate fini non-déterministe
+déterministe} (AFD) équivalent à un automate fini non-déterministe
 donné \citep{VanLeeuwen_1990c,HopcroftMotwaniUllman_2003}. Les
-transitions sortant de chaque état du premier ont un label
+transitions sortant de chaque état du premier ont une étiquette
 distinct. L'équivalence signifie que l'ensemble des traces de chaque
 automate est le même. Si «~\texttt{?}~» dénote une pile, vide ou non,
 alors la \fig~\vref{fig:lo_dfa} montre un AFD équivalent pour les
@@ -2226,8 +2225,8 @@ sauf~\(\pi\), pour laquelle \(x =_{S^2} y\) est vrai (le nombre total
 de nœuds est invariant). Nous pouvons néanmoins conclure que
 \fun{bf/2} termine parce que la seule façon de ne pas terminer serait
 l'existence d'un \emph{circuit}~\(\pi\), à savoir, une suite de
-transitions successives d'un état vers lui-même, toutes portant le
-label~\(\pi\), donc le long de laquelle le nombre de nœuds est
+transitions successives d'un état vers lui-même, toutes portant
+l'étiquette~\(\pi\), donc le long de laquelle le nombre de nœuds est
 constant. En fait, toutes les traces contiennent~\(\pi\) suivie
 de~\(\rho\) ou~\(\sigma\).
 
@@ -2300,7 +2299,7 @@ sont enfilés au lieu d'être écartés, parce qu'il sont ultérieurement
 nécessaires pour construire l'arbre numéroté.
 
 À la \fig~\vref{fig:bf2_ex}
-\begin{figure}[t]
+\begin{figure}
 \centering
 \includegraphics{bf2_abcd_0}
 \includegraphics{bf2_abcd_1}
@@ -2358,8 +2357,6 @@ ce qui pourrait être contrasté avec la \fig~\vref{fig:bf3}.
 \index{arbre binaire!numérotation en largeur|)}
 \index{arbre binaire!parcours des niveaux|)}
 
-\clearpage
-
 \section{Formes classiques}
 
 Dans cette section, nous passons brièvement en revue quelques arbres
@@ -2415,11 +2412,6 @@ Un raffinement sans règles d'inférence est montré à la
 
 \paragraph{Complétude}
 
-Un arbre binaire est \emph{complet}\index{arbre binaire!$\sim$
-  complet} si les enfants de chaque nœud interne sont deux
-nœuds externes ou deux nœuds internes. Un exemple est illustré
-à la \fig~\ref{fig:complete}. Récursivement, un arbre donné est
-complet si, et seulement si, ses sous-arbres immédiats sont complets.
 % Wrapping figure better declared before a paragraph
 %
 \begin{wrapfigure}[7]{r}[0pt]{0pt}
@@ -2427,15 +2419,20 @@ complet si, et seulement si, ses sous-arbres immédiats sont complets.
 % {r} mandatory right placement
 % [0pt] of margin overhang
 \centering
-\includegraphics{complete}
+\includegraphics[bb=71 653 147 709]{complete}
 \caption{}
 \label{fig:complete}
 \end{wrapfigure}
-Ceci est la même règle que nous avons utilisée pour la perfection. En
-d'autres termes, la perfection et la complétude sont propagées de
-façon ascendante. Par conséquent, nous devons décider que dire à
-propos des nœuds externes, en particulier, l'arbre vide. Si nous
-décidons que ce dernier est complet, alors
+Un arbre binaire est \emph{complet}\index{arbre binaire!$\sim$
+  complet} si les enfants de chaque nœud interne sont deux nœuds
+externes ou deux nœuds internes. Un exemple est illustré à la
+\fig~\ref{fig:complete}. Récursivement, un arbre donné est complet si,
+et seulement si, ses sous-arbres immédiats sont complets. Ceci est la
+même règle que nous avons utilisée pour la perfection. En d'autres
+termes, la perfection et la complétude sont propagées de façon
+ascendante. Par conséquent, nous devons décider que dire à propos des
+nœuds externes, en particulier, l'arbre vide. Si nous décidons que ce
+dernier est complet, alors
 \(\fun{int}(x,\fun{ext}(),\fun{int}(y,\fun{ext}(),\fun{ext}()))\)
 serait, incorrectement, considéré complet. Sinon, les
 feuilles\index{arbre binaire!feuille}
@@ -2459,15 +2456,15 @@ dernière règle s'applique si \(t=\fun{ext}()\) ou
 
 \paragraph{Équilibre}
 
-La dernière sorte d'arbre binaire intéressante est celle des
-\emph{arbres équilibrés}.\index{arbre binaire!$\sim$ équilibré} Il y a
-deux espèces de critères pour définir l'équilibre:
 \begin{wrapfigure}[7]{r}[0pt]{0pt}
 \centering
-\includegraphics[bb=71 653 153 721]{bal}
+\includegraphics[bb=71 653 153 709]{bal}
 \caption{}
 \label{fig:bal}
 \end{wrapfigure}
+La dernière sorte d'arbre binaire intéressante est celle des
+\emph{arbres équilibrés}.\index{arbre binaire!$\sim$ équilibré} Il y a
+deux espèces de critères pour définir l'équilibre:
 la hauteur ou la taille
 \citep{NievergeltReingold_1972,HiraiYamamoto_2011}. Dans ce dernier
 cas, les enfants d'un même parent sont les racines d'arbres de tailles
@@ -2479,16 +2476,17 @@ les hauteurs diffèrent au plus de~\(1\) sont de hauteurs
 similaires. Voir la \fig~\vref{fig:bal} pour un exemple. Commençons
 avec une définition de la hauteur\index{arbre
   binaire!hauteur}\index{height@\fun{height/1}} d'un arbre binaire et
-modifions-la pour obtenir une fonction vérifiant l'équilibre de
-l'arbre:
+modifions-la pour en vérifier l'équilibre:
 \begin{equation*}
+\abovedisplayskip=4pt
+\belowdisplayskip=3pt
 \fun{height}(\fun{ext}()) \rightarrow 0;
 \;
 \fun{height}(\fun{int}(x,t_1,t_2)) \rightarrow 1 +
 \max\{\fun{height}(t_1), \fun{height}(t_2)\}.
 \end{equation*}
 La modification est montrée à la \fig~\vref{fig:balance},
-\begin{figure}
+\begin{figure}[!b]
 \centering
 \includegraphics{balance}
 \caption{Vérification de l'équilibre}
@@ -2538,7 +2536,10 @@ la \fig~\vref{fig:post}. Par exemple, l'arbre à la
 \(\fun{ext}()\). Puisqu'un arbre binaire avec \(n\)~nœuds internes
 a \(n+1\) nœuds externes (voir théorème~\ref{thm_int_ext}
 \vpageref{thm_int_ext}), le coût est très facile à déterminer:
-\(\C{\fun{epost}}{n} = 2n + 2\).\index{epost@$\C{\fun{epost}}{n}$}
+\begin{equation*}
+  \C{\fun{epost}}{n} = 2n + 2.
+  \index{epost@$\C{\fun{epost}}{n}$}
+\end{equation*}
 
 En ce qui concerne le décodage, nous avons déjà remarqué que la
 numérotation postfixe augmente le long de chemins ascendants, ce qui
@@ -2576,7 +2577,7 @@ déterminer car un code postfixe doit avoir la longueur \(2n+1\), ce
 qui est le nombre total de nœuds d'un arbre binaire avec
 \(n\)~nœuds internes. Par conséquent, \(\C{\fun{post2b}}{n} = 2n +
 3\).\index{post2b@$\C{\fun{post2b}}{n}$} Le théorème attendu est, bien
-entendu,
+entendu:
 \begin{equation}
 \fun{post2b}(\fun{epost}(t)) \equiv t.
 \label{thm_post2b_epost}
@@ -2627,10 +2628,10 @@ Nous devrions étendre la preuve de ce théorème pour avoir
 \label{thm_epre_epost}
 \index{rev@\fun{rev/1}}
 \end{equation}
-À la section~\ref{sec:reversal}, nous avons prouvé
+À la section~\ref{sec:reversal}, nous avons prouvé les propriétés
 \(\pred{Inv}{s}\)\index{Inv@\predName{Inv}} et
-\(\pred{EqRev}{s}\)\index{EqRev@\predName{EqRev}}, soit
-l'involution de
+\(\pred{EqRev}{s}\)\index{EqRev@\predName{EqRev}}, soit l'involution
+de
 \fun{rev/1}\index{rev@\fun{rev/1}}\index{pile!retournement!involution}:
 \begin{equation}
 \abovedisplayskip=7pt
@@ -2676,7 +2677,7 @@ Nous obtenons donc
   binaire!préfixe!décodage} en modifiant
 \fun{post2b/1}\index{post2b@\fun{post2b/1}} à la
 \fig~\vref{fig:pre2b}.
-\begin{figure}[b]
+\begin{figure}
 \begin{equation*}
 \boxed{
 \begin{array}{r@{\;}c@{\;}l}
@@ -2698,9 +2699,11 @@ opposition à \(\fun{pre2b}(\cons{t_1,t_2}{f},\cons{x}{s})\), réalisant
 la fusion de \fun{mir/1} et \fun{post2b/1}. Malheureusement, le coût
 de \(\fun{pre2b}(t)\) \index{pre2b@\fun{pre2b/1}} est plus élevé que
 le coût de \(\fun{post2b}(t)\) à cause du retournement de pile
-\(\fun{rev}(s)\) au début: \(\C{\fun{pre2b}}{n} = 2n + 3 +
-\C{\fun{rev}}{n} = 3n +
-5\).\index{pre2b@$\C{\fun{pre2b}}{n}$}\index{rev@$\C{\fun{rev}}{n}$}
+\(\fun{rev}(s)\) au début:
+\begin{equation*}
+  \C{\fun{pre2b}}{n} = 2n + 3 + \C{\fun{rev}}{n} = 3n + 5.
+  \index{pre2b@$\C{\fun{pre2b}}{n}$}\index{rev@$\C{\fun{rev}}{n}$}
+\end{equation*}
 
 La conception de \fun{pre2b/1}\index{pre2b@\fun{pre2b/1}} est à petits
 pas, avec un accumulateur. Une approche plus directe extrairait le
@@ -2763,7 +2766,7 @@ par~\(1\), donc l'arbre de la \fig~\vref{fig:preorder} donne \([0, 1,
 \((111010010010100)_2\). Nous pouvons aussi écarter le bit le plus à
 droite, car les deux derniers bits sont toujours~\(0\).
 
-\section{Parcours aléatoires}
+\section{Parcours arbitraires}
 
 Certaines applications requièrent un parcours d'arbre qui dépende
 d'une interaction avec un usager ou un autre logiciel, c'est-à-dire
@@ -2785,9 +2788,9 @@ coût amorti plus faible (voir page~\pageref{par:amortised_cost}) ou
 d'un coû moyen inférieur (voir l'insertion bidirectionnelle à la
 section~\ref{sec:2-way} \vpageref{sec:2-way}).
 
-\begin{wrapfigure}[7]{r}[0pt]{0pt}
+\begin{wrapfigure}[6]{r}[0pt]{0pt}
 \centering
-\includegraphics[bb=60 663 120 721]{binzip}
+\includegraphics[bb=62 663 128 702]{binzip}
 \caption{}
 \label{fig:binzip}
 \end{wrapfigure}
@@ -2855,8 +2858,8 @@ de ces déplacements, une nouvelle crémaillère\index{arbre
 \label{fig:zip_move}
 \end{figure}
 
-Au-delà de parcours aléatoires dans un arbre binaire, cette technique,
-qui est un cas particulier de la \emph{crémaillère de Huet}
+Au-delà de parcours arbitraires dans un arbre binaire, cette
+technique, qui est un cas particulier de la \emph{crémaillère de Huet}
 \citep{Huet_1997}, permet aussi d'éditer localement la structure de
 donnée.  Ceci revient en effet a simplement remplacer l'arbre courant
 par un autre:
@@ -2886,8 +2889,9 @@ classiques en \emph{forme terminale}\index{langage fonctionnel!forme
 valeurs ou un appel de fonction dont les arguments ne sont pas des
 appels eux-mêmes. (De telles définitions sont équivalentes à des
 \emph{boucles} dans les langages impératifs et peuvent être optimisées
-par des compilateurs \citep{Appel_1992}.) Un parcours préfixe terminal
-est montré à la \fig~\vref{fig:pre_tail},
+par des compilateurs \citep{Appel_1992}.)
+
+Un parcours préfixe terminal est montré à la \fig~\vref{fig:pre_tail},
 \begin{figure}[b]
 \begin{equation*}
 \boxed{
@@ -2909,7 +2913,10 @@ est montré à la \fig~\vref{fig:pre_tail},
 où, dans \(\fun{pre}_8(s,f,t)\), la pile~\(s\) collecte les nœuds
 visités en ordre préfixe, la pile~\(f\) (forêt) est un accumulateur de
 sous-arbres à visiter et \(t\)~est l'arbre restant à traverser. Le
-coût est: \(\C{\fun{pre}_7}{n} = 3n + 2\).
+coût est:
+\begin{equation*}
+  \C{\fun{pre}_7}{n} = 3n + 2.
+\end{equation*}
 
 \section{Dénombrement}
 
@@ -2988,13 +2995,15 @@ mots de Dyck en mots de Dyck. Si un mot de Dyck a exactement un
 abscisses, alors découper la première montée et cet unique retour (qui
 doit aussi être la dernière descente) produit un autre mot de
 Dyck. Par exemple, \(\fun{rrfrrfff} = \fun{r} \cdot \fun{rfrrff} \cdot
-\fun{f}\). Ces mots sont appelés \emph{premiers}, parce que tout mot
-de Dyck peut être décomposé de façon unique comme la concaténation de
-tels mots (d'où la référence à la décomposition en facteurs premiers
-en théorie élémentaire des nombres): pour tout mot de Dyck
-non-vide~\(d\), il existe \({n > 0}\) mots de Dyck~\(p_i\) premiers et
-uniques tels que \(d = p_1 \cdot p_2 \cdots p_n\). Ceci conduit
-naturellement à la \emph{décomposition en arches}\index{chemin de
+\fun{f}\).
+
+Ces mots sont appelés \emph{premiers}, parce que tout mot de Dyck peut
+être décomposé de façon unique comme la concaténation de tels mots
+(d'où la référence à la décomposition en facteurs premiers en théorie
+élémentaire des nombres): pour tout mot de Dyck non-vide~\(d\), il
+existe \({n > 0}\) mots de Dyck~\(p_i\) premiers et uniques tels que
+\(d = p_1 \cdot p_2 \cdots p_n\). Ceci conduit naturellement à la
+\emph{décomposition en arches}\index{chemin de
   Dyck!décomposition!$\sim$ en arches}, dont le nom provient d'une
 analogie architecturale: pour tout mot de Dyck~\(d\), il y a \({n >
   0}\) mots de Dyck~\(d_i\) et retours~\(\fun{f}_i\) tels que
@@ -3043,14 +3052,17 @@ bien. Symboliquement, si~\(\delta(t)\) est le mot de Dyck en relation
 avec l'arbre binaire~\(t\), alors nous nous attendons aux équations
 suivantes:
 \begin{equation}
-\delta(\fun{ext}()) = \varepsilon; \quad \delta(\fun{int}(x,t_1,t_2))
-= \fun{r}_{x} \cdot \delta(t_1) \cdot \fun{f} \cdot \delta(t_2).
-\label{eq:delta}
+  \abovedisplayskip=6pt
+  \belowdisplayskip=6pt
+  \delta(\fun{ext}()) = \varepsilon; \quad
+  \delta(\fun{int}(x,t_1,t_2)) = \fun{r}_{x} \cdot \delta(t_1) \cdot
+  \fun{f} \cdot \delta(t_2).
+  \label{eq:delta}
 \end{equation}
 Nous avons attaché le contenu du nœud~\(x\) à la montée
 correspondante, donc nous ne perdons pas d'information. Par exemple,
 l'arbre à la \fig~\vref{fig:dyck2bt}
-\begin{figure}[b]
+\begin{figure}
 \centering
 \subfloat[Arbre binaire\label{fig:dyck2bt}]{%
 \includegraphics[bb=71 655 142 721]{dyck2bt}}
@@ -3059,8 +3071,16 @@ l'arbre à la \fig~\vref{fig:dyck2bt}
 \includegraphics[scale=0.9,bb=93 650 330 724]{bt2dyck}}
 \caption{Bijection entre un arbre binaire et un chemin de Dyck}
 \end{figure}
-est \(t=\fun{int}(0, \fun{int}(1, \fun{ext}(), \fun{int}(2,
-\fun{ext}(), \fun{ext}())), \fun{int}(3, \fun{ext}(), \fun{ext}())\)
+est
+\begin{equation*}
+  \abovedisplayskip=6pt
+  \belowdisplayskip=6pt
+  t := \fun{int}(0, \fun{int}(1, \fun{ext}(),
+\fun{int}(2, \fun{ext}(), \fun{ext}())), \fun{int}(3, \fun{ext}(),
+\fun{ext}()),
+\end{equation*}
+% \(t=\fun{int}(0, \fun{int}(1, \fun{ext}(), \fun{int}(2,
+% \fun{ext}(), \fun{ext}())), \fun{int}(3, \fun{ext}(), \fun{ext}())\)
 et mis en correspondance avec le chemin de Dyck à la
 \fig~\vref{fig:bt2dyck}\index{arbre binaire!préordre!codage} de la
 façon suivante:
@@ -3177,12 +3197,8 @@ postfixes en arbres binaires est une simple variation de
 \fig~\vref{fig:post2b}: nous initialisons la pile auxiliaire avec
 \([\fun{ext}()]\). La fonction est nommée
 \fun{d2b/1}\index{d2b@\fun{d2b/1}} et définie à la
-\fig~\vref{fig:d2b}. Le coût est \(\C{\fun{d2b}}{n} = 2n +
-2\).\index{d2b@$\C{\fun{d2b}}{n}$}
-
-\bigskip
-
-\begin{figure}[h]
+\fig~\vref{fig:d2b}.
+\begin{figure}
 \begin{equation*}
 \boxed{
 \begin{array}{r@{\;}c@{\;}l}
@@ -3196,15 +3212,19 @@ postfixes en arbres binaires est une simple variation de
 \caption{Décodage postfixe d'un chemin de Dyck en un arbre}
 \label{fig:d2b}
 \end{figure}
-
-\bigskip
+Le coût est
+\begin{equation*}
+  \C{\fun{d2b}}{n} = 2n + 2.
+  \index{d2b@$\C{\fun{d2b}}{n}$}
+\end{equation*}
 
 Que nous choisissions un codage préfixe ou postfixe, une conséquence
 des bijections est qu'il y a autant d'arbres binaires de taille~\(n\)
 que de chemins de Dyck de longueur~\(2n\). Nous savons déjà, voir le chapitre~\ref{chap:Catalan}, et l'équatio~\eqref{eq:Cn}
-\vpageref{eq:Cn}, qu'il y a \(C_n = \frac{1}{n+1}\binom{2n}{n}
-\sim \frac{4^n}{n\sqrt{\pi n}}\) de ces chemins.
-
+\vpageref{eq:Cn}, qu'il y a \(C_n\) de ces chemins:
+\begin{equation*}
+  C_n = \frac{1}{n+1}\binom{2n}{n} \sim \frac{4^n}{n\sqrt{\pi n}}.
+\end{equation*}
 D'autres encodages des arbres binaires sont proposés dans
 \cite[2.3.3]{Knuth_1997} et \cite[5.11]{SedgewickFlajolet_1996}.
 
@@ -3271,7 +3291,7 @@ la section~5.6.  En utilisant l'équation~\eqref{eq:EI}, nous déduisons
 du parcours d'un arbre binaire aléatoire de taille~\(n\) de la racine
 à un nœud externe est \(\Expected{E_n}/(n+1) \sim \sqrt{\pi
   n}\). De plus, la valeur \(\Expected{I_n}/n\) peut être comprise
-comme le niveau moyen d'un nœud interne choisi au hasard.
+comme le niveau moyen d'un nœud interne choisi uniformément au hasard.
 
 \mypar{Hauteur moyenne}
 
@@ -3298,7 +3318,7 @@ la longueur de son niveau étendu le plus grand\index{arbre
   moyenne}~\(w_n\)\index{arbre binaire} d'un arbre binaire de
 taille~\(n\) satisfait
 \begin{equation*}
-w_n \sim \sqrt{\pi n} \sim \tfrac{1}{2} h_n.
+w_n \sim \sqrt{\pi n} \sim \frac{1}{2} h_n.
 \end{equation*}
 Ce résultat implique, en particulier, que la taille moyenne de la pile
 nécessaire à l'exécution d'un parcours préfixe avec
@@ -3312,6 +3332,8 @@ complet.
 Pour les arbres généraux, \cite{DasarathyYang_1980} ont joliment
 présenté une correspondance bijective avec les arbres binaires et le
 transfert de certains paramètres moyens.
+
+\vspace*{-10pt}
 
 \section*{Exercices}
 
