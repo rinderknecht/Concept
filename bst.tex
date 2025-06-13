@@ -10,15 +10,15 @@ qu'après avoir examiné le contenu de la racine, appelé
 \emph{clé}\index{clé}. La solution la plus simple consiste à
 satisfaire la dernière condition et voir si elle sied à la première.
 
-Un \emph{arbre binaire de recherche} \citep{Mahmoud_1992}\index{arbre
-  binaire de recherche}, noté \(\fun{bst}(x, t_1,
-t_2)\),\index{bst@\fun{bst/3}}
 \begin{wrapfigure}[7]{r}[0pt]{0pt}
 \centering
-\includegraphics[bb=68 661 123 721]{bst_ex}
+\includegraphics[bb=68 661 123 710]{bst_ex}
 \caption{}
 \label{fig:bst_ex}
 \end{wrapfigure}
+Un \emph{arbre binaire de recherche} \citep{Mahmoud_1992}\index{arbre
+  binaire de recherche}, noté \(\fun{bst}(x, t_1,
+t_2)\),\index{bst@\fun{bst/3}}
 est un arbre binaire tel que la clé~\(x\) est supérieure aux clés
 de~\(t_1\) et inférieure aux clés de~\(t_2\). (Le nœud externe
 \(\fun{ext}()\) est un arbre de recherche trivial.) La fonction de
@@ -221,11 +221,15 @@ Le coût d'une recherche linéaire positive est \(\C{\fun{ls}}{n,k} =
 k\), si la clé recherchée est à la position~\(k\), avec la première
 clé à la position~\(1\). Donc, en supposant que chaque clé est
 distincte et également probable, le coût moyen d'une recherche
-linéaire positive est \(\M{\fun{ls}}{n} =
-\frac{1}{n}\sum_{k=1}^{n}\C{\fun{ls}}{n,k} =
-(n+1)/2\).\index{recherche linéaire}\index{ls@$\M{\fun{ls}}{n}$} Ceci
-soulève la question du coût moyen de
-\fun{mem/2}.\index{mem@\fun{mem/2}}
+linéaire positive est
+\begin{equation*}
+  \M{\fun{ls}}{n} = \frac{1}{n}\sum_{k=1}^{n}\C{\fun{ls}}{n,k} =
+  \frac{n+1}{2}.
+  \index{recherche linéaire}
+  \index{ls@$\M{\fun{ls}}{n}$}
+\end{equation*}
+Ceci soulève la question du coût moyen de
+\fun{mem/2}. \index{mem@\fun{mem/2}}
 
 \mypar{Coût moyen}
 
@@ -479,7 +483,7 @@ Puisque toutes les recherches se terminent à un nœud externe, il
 est extrêmement tentant de commencer l'insertion d'une clé distincte
 par une recherche négative et ensuite remplacer le nœud externe
 par une feuille contenant la clé à ajouter. La \fig~\vref{fig:insl}
-\begin{figure}[b]
+\begin{figure}
 \begin{equation*}
 \boxed{
 \begin{array}{r@{\;}l@{\;}l}
@@ -516,13 +520,13 @@ coût \citep{Burge_1976,ArchibaldClement_2006,Pasanen_2010}.  La
 \end{figure}
 montre une variante qui maintient l'unicité des clés, basée sur la
 définition de \fun{mem\(_0\)/2}\index{mem0@\fun{mem\(_0\)/2}} à la
-\fig~\vref{fig:mem0}. Nous pouvons aussi réutiliser la recherche à la
-Andersson pour inspirer une autre solution à la
+\fig~\vref{fig:mem0}. Nous pouvons aussi réutiliser la variante
+d'Andersson pour inspirer une autre solution à la
 \fig~\vref{fig:insl1}.\index{insl1@\fun{insl/1}}
 %\bigskip
 %\bigskip
 %\bigskip
-\begin{figure}
+\begin{figure}[b]
 \begin{equation*}
 \boxed{
 \begin{array}{r@{\;}l@{\;}l}
@@ -559,9 +563,12 @@ insertions de feuilles sont pratiquées. Nous n'allons considérer que
 \fun{insl/2} dans ce qui suit, parce que nous supposerons que les clés
 insérées sont uniques. (L'insertion à la Andersson n'est intéressante
 que si des clés peuvent être répétées en entrée et doivent être
-identifiées, laissant l'arbre de recherche invariant.)
+identifiées comme des doublons, tout en laissant l'arbre de recherche
+invariant.)
 
-\hspace*{-3pt} Définissons une fonction \fun{mkl/1}\index{mkl@\fun{mkl/1}}
+\bigskip
+
+\noindent Définissons une fonction \fun{mkl/1}\index{mkl@\fun{mkl/1}}
 \index{mkl@\fun{mkl/2}} (anglais: \emph{make leaves}) à la
 \fig~\vref{fig:mkl}
 \begin{figure}
@@ -730,11 +737,10 @@ maintenant entraîne
 \index{mem3@$\M{\fun{mem}_3}{n{\scriptscriptstyle (+)}}$}
 \end{equation*}
 Par conséquent, le coût additionnel de la variante d'Andersson dans le
-cas d'une recherche positive est asymptotiquement~\(3\), en moyenne.
-
-Par ailleurs, remplacer \(\M{\fun{mem}}{n{\scriptscriptstyle
-    (-)}}\) et \(\M{\fun{mem}}{n{\scriptscriptstyle (+)}}\) dans
-les équations~\eqref{eq:Mmems} donne
+cas d'une recherche positive est asymptotiquement~\(3\), en
+moyenne. Par ailleurs, remplacer \(\M{\fun{mem}}{n{\scriptscriptstyle
+    (-)}}\) et \(\M{\fun{mem}}{n{\scriptscriptstyle (+)}}\) dans les
+équations~\eqref{eq:Mmems} donne
 \begin{equation}
 \Expected{I_n} = 2(n+1)H_n - 4n
 \quad\text{et}\quad
