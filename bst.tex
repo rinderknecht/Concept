@@ -968,7 +968,7 @@ linéaire: nous avons \(\min_{0 \leqslant x < 1}\theta(x) = \theta(1) =
 3/2\) et \(\max_{0 \leqslant x < 1}\theta(x) = \theta(0) =
 2\). En gardant à l'esprit que \(x=\{\lg n\}\), nous avons
 \begin{equation*}
-(n+1)\lg n - 2n + 2 < \OB{\fun{mkl}}{n} < (n+1)\lg n - \tfrac{3}{2}n + 1.
+(n+1)\lg n - 2n + 2 < \OB{\fun{mkl}}{n} < (n+1)\lg n - \frac{3}{2}n + 1.
 \end{equation*}
 Dans tous les cas, il est clairement établi à ce point que
 \(\OB{\fun{mkl}}{n} \sim n\lg n\).\index{mkl@$\OB{\fun{mkl}}{n}$}
@@ -1041,10 +1041,13 @@ infixe d'un arbre: \(\fun{in}_3(t) \rightarrow \fun{in}_2(t,\el)\), et
 \vpageref{def:Rot}, et il est facile à démontrer, sans recours à
 l'induction. D'abord, nous remarquons que si \(\fun{in}_3(t) \equiv
 \fun{in}_3(\fun{rotl}(t))\), remplacer \(t\) par \(\fun{rotr}(t)\)
-donne \(\fun{in}_3(\fun{rotr}(t)) \equiv
-\fun{in}_3(\fun{rotl}(\fun{rotr}(t))) \equiv \fun{in}_3(t)\), donc
-nous n'avons besoin de prouver que \(\fun{in}_3(\fun{rotl}(t)) \equiv
-\fun{in}_3(t)\). Puisque le membre gauche est plus grand, nous
+donne
+\begin{equation*}
+  \fun{in}_3(\fun{rotr}(t))
+  \equiv \fun{in}_3(\fun{rotl}(\fun{rotr}(t))) \equiv \fun{in}_3(t),
+\end{equation*}
+donc nous n'avons besoin de prouver que \(\fun{in}_3(\fun{rotl}(t))
+\equiv \fun{in}_3(t)\). Puisque le membre gauche est plus grand, nous
 devrions essayer de le réécrire en le membre droit. Les réécritures à
 la \fig~\vref{fig:in_rotr} supposent une rotation gauche, donc l'arbre
 a la forme \(t=\fun{bst}(x,t_1,\fun{bst}(y,t_2,t_3))\).
@@ -1052,19 +1055,19 @@ a la forme \(t=\fun{bst}(x,t_1,\fun{bst}(y,t_2,t_3))\).
   \begin{equation*}
     \boxed{
       \begin{array}{@{}r@{\;}l@{\;}l@{}}
-  \fun{in}_3(\fun{rotl}(t))
+  \ufun{in}_3(\fun{rotl}(t))
   & \rightarrow & \fun{in}_2(\fun{rotl}(t),\el)\\
-  & = & \fun{in}_2(\fun{rotl}(\fun{bst}(x,t_1,\fun{bst}(y,t_2,t_3))),\el)\\
+  & = & \fun{in}_2(\ufun{rotl}(\fun{bst}(x,t_1,\fun{bst}(y,t_2,t_3))),\el)\\
   & \xrightarrow{\smash{\epsilon}} &
-  \fun{in}_2(\fun{bst}(y,\fun{bst}(x,t_1,t_2),t_3),\el)\\
+  \ufun{in}_2(\fun{bst}(y,\fun{bst}(x,t_1,t_2),t_3),\el)\\
   & \rightarrow &
   \fun{in}_2(\fun{bst}(x,t_1,t_2),\cons{y}{\fun{in}_2(t_3,\el)})\\
-  & \Rrightarrow &
+  & \equiv &
  \fun{in}_2(t_1,\cons{x}{\fun{in}_2(t_2,\cons{y}{\fun{in}_2(t_3,\el)})})\\
   & \leftarrow &
-  \fun{in}_2(t_1,\cons{x}{\fun{in}_2(\fun{bst}(y,t_2,t_3),\el)})\\
+  \fun{in}_2(t_1,\cons{x}{\ufun{in}_2(\fun{bst}(y,t_2,t_3),\el)})\\
   & \leftarrow &
-  \fun{in}_2(\fun{bst}(x,t_1,\fun{bst}(y,t_2,t_3)),\el)\\
+  \ufun{in}_2(\fun{bst}(x,t_1,\fun{bst}(y,t_2,t_3)),\el)\\
   & = &
   \fun{in}_2(t,\el)\\
   & \leftarrow &
@@ -1072,8 +1075,7 @@ a la forme \(t=\fun{bst}(x,t_1,\fun{bst}(y,t_2,t_3))\).
 \end{array}
 }
 \end{equation*}
-\caption{Preuve de \(\fun{in}_3(\fun{rotl}(t)) \equiv
-  \fun{in}_3(t)\)}
+\caption{Preuve de \(\fun{in}_3(\fun{rotl}(t)) \equiv \fun{in}_3(t)\)}
 \label{fig:in_rotr}
 \end{figure}
 Si nous appliquons une rotation à des sous-arbres, comme nous l'avons
@@ -1098,7 +1100,7 @@ et en remarquant qu'il est suffisant de prouver
 alors:
 \begin{equation*}
 \fun{bst}_0(\fun{rotl}(t))
-\Rrightarrow \fun{ord}(\fun{in}_2(\fun{rotl}(t),\el))
+\equiv \fun{ord}(\fun{in}_2(\fun{rotl}(t),\el))
 \equiv \fun{ord}(\fun{in}_2(t,\el))
 \leftarrow \fun{bst}_0(t).
 \end{equation*}
@@ -1106,7 +1108,7 @@ alors:
 Considérons maintenant un exemple d'insertion d'une racine à la
 \fig~\vref{fig:insr_ex}, où l'arbre de la \fig~\vref{fig:bst_ex} est
 augmenté avec~\(7\).
-\begin{figure}
+\begin{figure}[b]
 \centering
 \includegraphics[bb=71 641 406 724]{insr_ex}%[bb=71 645 406 718]
 \caption{Insertion de la racine \(7\) dans la \fig~\vref{fig:bst_ex}}
@@ -1140,7 +1142,7 @@ en modifiant \fun{rotl/1} et \fun{rotr/1} de telle sorte qu'elles
 prennent trois arguments (\fun{rotl\(_0\)/3} et \fun{rotr\(_0\)/3}),
 comme on le voit avec la nouvelle version \fun{insr\(_0\)/2} à la
 \fig~\ref{fig:insr0}.
-\begin{figure}[b]
+\begin{figure}
 \begin{equation*}
 \boxed{
 \begin{array}{r@{\;}l@{\;}l}
@@ -1162,16 +1164,16 @@ comme on le voit avec la nouvelle version \fun{insr\(_0\)/2} à la
 \label{fig:insr0}
 \end{figure}
 
-Une comparaison entre les insertions de feuille et de racine révèle
+Une comparaison entre les insertions de feuilles et de racines révèle
 des faits intéressants. Par exemple, puisque l'insertion de feuilles
-ne déplace aucun nœud, les constructions d'un même arbre à partir
-de deux permutations des clés ont le même coût, par exemple
-\((1,3,2,4)\) et \((1,3,4,2)\). D'un autre côté, comme l'ont remarqué
+ne déplace aucun nœud, les constructions d'un même arbre à partir de
+deux permutations des clés ont le même coût, par exemple \((1,3,2,4)\)
+et \((1,3,4,2)\). D'un autre côté, comme l'ont remarqué
 \cite{GeldenhuysVanderMerwe_2009}, fabriquer le même arbre de
 recherche avec des insertions de racine peut mener à des coûts
 différents, comme \((1,2,4,3)\) et \((1,4,2,3)\). Ces auteurs aussi
 prouvent que tous les arbres d'une taille donnée peuvent être obtenus
-par insertion de racines ou de feuilles parce que
+par insertion de racines ou de feuilles car
 \begin{equation}
 \pred{RootLeaf}{s} \colon \fun{mkr}(s) \equiv \fun{mkl}(\fun{rev}(s)),
 \label{thm_RootLeaf}
@@ -1247,7 +1249,7 @@ nous avons besoin de prouver directement (sans induction)
 \!\xrightarrow{\smash{\lambda}}\! \fun{ext}()
 \!\xleftarrow{\smash{\psi}}\! \fun{mkl}(\el,\fun{ext}())
 \!\xleftarrow{\smash{\xi}}\! \fun{mkl}(\el)
-\!\xleftarrow{\smash{\gamma}}\! \fun{mkl}(\fun{rev}_0(\el)\!).
+\!\xleftarrow{\smash{\gamma}}\! \fun{mkl}(\ufun{rev}_0(\el)\!).
 \end{equation*}
 Ensuite, nous posons l'hypothèse d'induction
 \(\pred{RootLeaf\(_0\)}{s}\) et nous passons à la preuve de
@@ -1259,29 +1261,29 @@ forme d'équivalences, qui constituent des lemmes (sous-buts) qui
 devront être démontrés ultérieurement. Nous avons:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{\qquad}r@{}}
-\fun{mkl}(\fun{rev}_0(\cons{x}{s}))
+\fun{mkl}(\ufun{rev}_0(\cons{x}{s}))
 & \xrightarrow{\smash{\delta}} &
   \fun{mkl}(\fun{cat}(\fun{rev}_0(s),[x]))\\
-& \Rra{\xi} &
+& \equiv &
   \fun{mkl}(\fun{cat}(\fun{rev}_0(s),[x]),\fun{ext}())\\
 & \equiv_0 & \fun{mkl}([x],\fun{mkl}(\fun{rev}_0(s),\fun{ext}()))
-& (\text{Lemme})\\
-& \Rra{\omega} &
+& (\text{Lemma})\\
+& \equiv &
   \fun{mkl}(\el,\fun{insl}(x,\fun{mkl}(\fun{rev}_0(s),\fun{ext}())))\\
-& \Rra{\psi} &
+& \equiv &
   \fun{insl}(x,\fun{mkl}(\fun{rev}_0(s),\fun{ext}()))\\
-& \Lla{\xi} &
+& \equiv &
   \fun{insl}(x,\fun{mkl}(\fun{rev}_0(s)))\\
-& \equiv & \fun{insl}(x,\fun{mkr}(s)) & (\pred{RootLeaf\(_0\)}{s}\!)\\
+& \equiv & \fun{insl}(x,\ufun{mkr}(s)) & (\pred{RootLeaf\(_0\)}{s}\!)\\
 & \xrightarrow{\smash{\xi}} &
   \fun{insl}(x,\fun{mkr}(s,\fun{ext}()))\\
-& \equiv_1 & \fun{mkr}(s,\fun{insl}(x,\fun{ext}()))
-& (\text{Lemme})\\
+& \equiv_1 & \fun{mkr}(s,\ufun{insl}(x,\fun{ext}()))
+& (\text{Lemma})\\
 & \xrightarrow{\smash{\phi}} &
   \fun{mkr}(s,\fun{bst}(x,\fun{ext}(),\fun{ext}()))\\
 & \xleftarrow{\smash{\iota}} &
-  \fun{mkr}(s,\fun{insr}(x,\fun{ext}()))\\
-& \xleftarrow{\smash{\mu}} & \fun{mkr}(\cons{x}{s},\fun{ext}())\\
+  \fun{mkr}(s,\ufun{insr}(x,\fun{ext}()))\\
+& \xleftarrow{\smash{\mu}} & \ufun{mkr}(\cons{x}{s},\fun{ext}())\\
 & \xleftarrow{\smash{\kappa}} & \fun{mkr}(\cons{x}{s}).
 & \hfill\Box
 \end{array}
@@ -1300,24 +1302,24 @@ faire sans. Il est suffisant de raisonner par induction sur la
 structure de la pile~\(u\). D'abord, nous vérifions
 \(\pred{MklCat}{\el,v,t}\):
 \begin{equation*}
-\fun{mkl}(\fun{cat}(\el,v),t)
+\fun{mkl}(\ufun{cat}(\el,v),t)
   \xrightarrow{\smash{\alpha}} \fun{mkl}(v,t)
-  \xleftarrow{\smash{\psi}} \fun{mkl}(v,\fun{mkl}(\el,t)).
+  \xleftarrow{\smash{\psi}} \fun{mkl}(v, \ufun{mkl}(\el,t)).
 \end{equation*}
 Ensuite, nous supposons \(\pred{MklCat}{u,v,t}\), pour tout~\(v\)
 et~\(t\), qui est donc l'hypothèse d'induction, et nous prouvons
 \(\pred{MklCat}{\cons{x}{u},v,t}\):
 \begin{equation*}
   \begin{array}{@{}r@{\;}l@{\;}l@{\quad}r@{}}
-      \fun{mkl}(\fun{cat}(\cons{x}{u},v),t)
+  \fun{mkl}(\ufun{cat}(\cons{x}{u},v),t)
 & \xrightarrow{\smash{\beta}} &
   \fun{mkl}(\cons{x}{\fun{cat}(u,v)},t)\\
-& \Rra{\omega} &
+& \equiv &
   \fun{mkl}(\fun{cat}(u,v),\fun{insl}(x,t))\\
 & \equiv_0 & \fun{mkl}(v,\fun{mkl}(u,\fun{insl}(x,t)))
          & \!\!(\pred{MklCat}{u,v,\fun{inst}(x,t)}\!)\\
 & \xleftarrow{\smash{\omega}} &
-  \fun{mkl}(v,\fun{mkl}(\cons{x}{u},t)). & \hfill\Box
+  \fun{mkl}(v,\ufun{mkl}(\cons{x}{u},t)). & \hfill\Box
 \end{array}
 \end{equation*}
 
@@ -1342,9 +1344,9 @@ vérification (Une vérification, par définition, n'implique pas l'usage
 d'un argument inductif.) de la base\index{MkInsr@\predName{MkInsr}}
 \(\pred{MkInsr}{x,\el,t}\):
 \begin{equation*}
-  \fun{insl}(x,\fun{mkr}(\el,t))
+  \fun{insl}(x,\ufun{mkr}(\el,t))
 \xrightarrow{\smash{\lambda}} \fun{insl}(x,t)
-\Lla{\lambda} \fun{mkr}(\el,\fun{insl}(x,t)).
+\equiv \fun{mkr}(\el,\fun{insl}(x,t)).
 \end{equation*}
 Nous supposons maintenant \(\pred{MkrInsr}{x,s,t}\) pour tout~\(x\)
 et~\(t\), et nous tâchons de démontrer
@@ -1353,14 +1355,14 @@ réécrivant les deux membres de l'équivalence et en visant à obtenir le
 même terme:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{\;\;\,}r@{}}
-  \fun{insl}(x,\fun{mkr}(\cons{y}{s},t))
+  \fun{insl}(x,\ufun{mkr}(\cons{y}{s},t))
 & \xrightarrow{\smash{\mu}} &
   \fun{insl}(x,\fun{mkr}(s,\fun{insr}(y,t)))\\
 & \equiv_1 & \fun{mkr}(s,\fun{insl}(x,\fun{insr}(y,t)))
            & (\pred{MkrInsr}{x,s,\fun{insr}(y,t)}\!)\\
 & \equiv_2 & \fun{mkr}(s,\fun{insr}(y,\fun{insl}(x,t)))
-           & (\text{Lemme})\\
-& \Lla{\mu} &
+           & (\text{Lemma})\\
+& \equiv &
   \fun{mkr}(\cons{y}{s},\fun{insl}(x,t)).
 & \hfill\Box
 \end{array}
@@ -1385,7 +1387,7 @@ plutôt longue, en comparaison avec les autres preuves. Nous
 commençons avec
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{\quad}r@{}}
-  \fun{insl}(x,\fun{insr}(y,\fun{ext}()))
+  \fun{insl}(x,\ufun{insr}(y,\fun{ext}()))
 & \xrightarrow{\smash{\iota}} &
   \fun{insl}(x,\fun{bst}(y,\fun{ext}(),\fun{ext}())) & \otimes
 \end{array}
@@ -1402,19 +1404,19 @@ avons l'analyse par cas suivante:
 \begin{array}{@{}r@{\;}l@{\;}l@{\quad}r@{}}
 \otimes
 & \xrightarrow{\smash{\upsilon}} &
-  \fun{bst}(y,\fun{ext}(),\fun{insl}(x,\fun{ext}()))
+  \fun{bst}(y,\fun{ext}(),\ufun{insl}(x,\fun{ext}()))
 & (x \succ y)\\
 & \xrightarrow{\smash{\phi}} &
   \fun{bst}(y,\fun{ext}(),\fun{bst}(x,\fun{ext}(),\fun{ext}()))\\
 & \xleftarrow{\smash{\epsilon}} &
-\fun{rotr}(\fun{bst}(x,\fun{bst}(y,\fun{ext}(),\fun{ext}()),\fun{ext}()))\\
+  \ufun{rotr}(\fun{bst}(x,\fun{bst}(y,\fun{ext}(),\fun{ext}()),\fun{ext}()))\\
 & \xleftarrow{\smash{\iota}} &
-  \fun{rotr}(\fun{bst}(x,\fun{insr}(y,\fun{ext}()),\fun{ext}()))\\
+  \fun{rotr}(\fun{bst}(x,\ufun{insr}(y,\fun{ext}()),\fun{ext}()))\\
 & \xleftarrow{\smash{\eta}} &
-  \fun{insr}(y,\fun{bst}(x,\fun{ext}(),\fun{ext}()))
+  \ufun{insr}(y,\fun{bst}(x,\fun{ext}(),\fun{ext}()))
 & (x \succ y)\\
 & \xleftarrow{\smash{\phi}} &
-  \fun{insr}(y,\fun{insl}(x,\fun{ext}())).
+  \fun{insr}(y,\ufun{insl}(x,\fun{ext}())).
 \end{array}
 \end{equation*}
 
@@ -1422,21 +1424,22 @@ avons l'analyse par cas suivante:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{\qquad}r@{}}
 \otimes & \xrightarrow{\smash{\tau}} &
-  \fun{bst}(y,\fun{insl}(x,\fun{ext}()),\fun{ext}())
+  \fun{bst}(y,\ufun{insl}(x,\fun{ext}()),\fun{ext}())
 & (y \succ x)\\
 & \xrightarrow{\smash{\phi}} &
   \fun{bst}(y,\fun{bst}(x,\fun{ext}(),\fun{ext}()),\fun{ext}())\\
 & \xleftarrow{\smash{\xi}} &
-\fun{rotl}(\fun{bst}(x,\fun{ext}(),\fun{bst}(y,\fun{ext}(),\fun{ext}())))\\
+  \ufun{rotl}(\fun{bst}(x,\fun{ext}(),\fun{bst}(y,\fun{ext}(),\fun{ext}())))\\
 & \xleftarrow{\smash{\iota}} &
-  \fun{rotl}(\fun{bst}(x,\fun{ext}(),\fun{insr}(y,\fun{ext}())))\\
+  \fun{rotl}(\fun{bst}(x,\fun{ext}(),\ufun{insr}(y,\fun{ext}())))\\
 & \xleftarrow{\smash{\theta}} &
-  \fun{insr}(y,\fun{bst}(x,\fun{ext}(),\fun{ext}()))
+  \ufun{insr}(y,\fun{bst}(x,\fun{ext}(),\fun{ext}()))
 & (y \succ x)\\
 & \xleftarrow{\smash{\phi}} &
-  \fun{insr}(y,\fun{insl}(x,\fun{ext}())).
+  \fun{insr}(y,\ufun{insl}(x,\fun{ext}())).
 \end{array}
 \end{equation*}
+
 \end{itemize}
 
 Maintenant, supposons \(\pred{Ins}{x,y,t_1}\) et
@@ -1460,22 +1463,22 @@ Deux cas complémentaires font surface: \(a \succ x\) ou \(x \succ a\).
     \item Si \(a \succ y\), alors
       \begin{equation*}
       \begin{array}{@{}r@{\;}l@{\;}l@{\hspace{-8mm}}r@{}}
-        \otimes & \Rra{\eta} &
+        \otimes & \equiv &
         \fun{rotr}(\fun{bst}(a,\fun{insr}(y,\fun{insl}(x,t_1)),t_2))
         & (a \succ y)\\
         & \equiv_2 & \fun{rotr}(\fun{bst}(a,\fun{insl}(x,
         \fun{insr}(y,t_1)),t_2)) & (\pred{Ins}{x,y,t_1})\\
-        & \Lla{\tau} & \fun{rotr}(\fun{insl}(x,
+        & \equiv & \fun{rotr}(\fun{insl}(x,
         \fun{bst}(a,\fun{insr}(y,t_1),t_2)))\\
         & \equiv & \fun{rotr}(\fun{insl}(x,
         \fun{rotl}(\fun{rotr}(\fun{bst}(a,\fun{insr}(y,t_1),t_2)))))\\
         & \xleftarrow{\smash{\eta}} &
-        \fun{rotr}(\fun{insl}(x,\fun{rotl}(\fun{insr}(y,
+        \fun{rotr}(\fun{insl}(x,\fun{rotl}(\ufun{insr}(y,
         \fun{bst}(a,t_1,t_2)))))\\
         & = & \fun{rotr}(\fun{insl}(x,\fun{rotl}(\fun{insr}(y,t))))
         & (t=\fun{bst}(a,t_1,t_2))\\
         & \equiv_3 & \fun{rotr}(\fun{rotl}(\fun{insl}(x,
-        \fun{insr}(y,t))))) & (\text{Lemme})\\
+        \fun{insr}(y,t)))) & (\text{Lemma})\\
         & \equiv & \fun{insl}(x,\fun{insr}(y,t)).
         & (\fun{rotr}(\fun{rotl}(z)) \equiv z)
       \end{array}
@@ -1491,7 +1494,7 @@ Deux cas complémentaires font surface: \(a \succ x\) ou \(x \succ a\).
       route, nous avons mis au jour une nouvelle équivalence,
       \((\equiv_3)\), en attente de démonstration. L'interprétation de
       ce sous-but est que la rotation à gauche et l'insertion d'une
-      feuille commutent, éclairant davantage le sujet.
+      feuille commutent.
 
     \item Si \(y \succ a\), alors
 \begin{equation*}
@@ -1499,19 +1502,19 @@ Deux cas complémentaires font surface: \(a \succ x\) ou \(x \succ a\).
   \otimes & \xrightarrow{\smash{\theta}} &
   \fun{rotl}(\fun{bst}(a,\fun{insl}(x,t_1),\fun{insr}(y,t_2)))
   & (y \succ a)\\
-  & \Lla{\tau} &
-  \fun{rotl}(\fun{insl}(x,\fun{bst}(a,t_1,\fun{insr}(y,t_2)))\\
+  & \equiv &
+  \fun{rotl}(\fun{insl}(x,\fun{bst}(a,t_1,\fun{insr}(y,t_2))))\\
   & \equiv &
   \fun{rotl}(\fun{insl}(x,\fun{rotr}(\fun{rotl}(\fun{bst}(a,t_1,
   \fun{insr}(y,t_2))))))\\
   & \xleftarrow{\smash{\theta}} &
-  \fun{rotl}(\fun{insl}(x,\fun{rotr}(\fun{insr}(y,
+  \fun{rotl}(\fun{insl}(x,\fun{rotr}(\ufun{insr}(y,
   \fun{bst}(a,t_1,t_2)))))\\
   & = & \fun{rotl}(\fun{insl}(x,\fun{rotr}(\fun{insr}(y,t))))
   & (t=\fun{bst}(a,t_1,t_2))\\
   & \equiv_4 & \fun{rotl}(\fun{rotr}(\fun{insl}(x,\fun{insr}(y,t))))
-  & (\text{Lemme})\\
-  & \equiv & \fun{insl}(x,\fun{insr}(y,t))).
+  & (\text{Lemma})\\
+  & \equiv & \fun{insl}(x,\fun{insr}(y,t)).
   & (\fun{rotl}(\fun{rotr}(z)) \equiv z)
 \end{array}
 \end{equation*}
@@ -1524,8 +1527,8 @@ dans le même ordre que nous les avons fait descendre (comme via une
 file d'attente). Nous avons découvert au passage une nouvelle
 équivalence, \((\equiv_4)\), qui nécessitera une preuve ultérieure et
 qui est reliée par dualité à \((\equiv_3)\) parce qu'elle dit qu'une
-rotation à \emph{droite} et une insertion de feuille
-commutent. Ensemble, elles signifient qu'une rotation commute avec
+rotation à \emph{droite} et une insertion de feuille commutent. Dans
+leur ensemble, elles signifient qu'une rotation commute avec
 l'insertion d'une feuille.
   \end{itemize}
 
@@ -1538,15 +1541,15 @@ l'insertion d'une feuille.
     \item Si \(a \succ y\), alors
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{\hspace{-9mm}}r@{}}
-  \otimes & \Rra{\eta} & \fun{rotr}(\fun{bst}(a,
+  \otimes & \equiv & \fun{rotr}(\fun{bst}(a,
   \fun{bst}(a,\fun{insr}(y,t_1),\fun{insl}(x,t_2))))
   & (a \succ y)\\
-  & \Lla{\upsilon} &
+  & \equiv &
   \fun{rotr}(\fun{insl}(x,\fun{bst}(a,\fun{insr}(y,t_1),t_2)))\\
   & \equiv & \fun{rotr}(\fun{insl}(x,
   \fun{rotl}(\fun{rotr}(\fun{bst}(a,\fun{insr}(y,t_1),t_2)))))\\
   & \xleftarrow{\smash{\eta}} &
-  \fun{rotr}(\fun{insl}(x,\fun{rotl}(\fun{insr}(y,
+  \fun{rotr}(\fun{insl}(x,\fun{rotl}(\ufun{insr}(y,
   \fun{bst}(a,t_1,t_2)))))\\
   & = & \fun{rotr}(\fun{insl}(x,\fun{rotl}(\fun{insr}(y,t))))
   & (t=\fun{bst}(a,t_1,t_2))\\
@@ -1564,16 +1567,16 @@ a pas besoin de l'hypothèse d'induction. La différence est qu'ici
   \item Si \(y \succ a\), alors
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{\qquad}r@{}}
-  \otimes & \Rra{\theta} &
+  \otimes & \equiv &
   \fun{rotl}(\fun{bst}(a,t_1,\fun{insr}(y,\fun{insl}(x,t_2))))\\
   & \equiv_2 & \fun{rotl}(\fun{bst}(a,t_1,\fun{insl}(x,
   \fun{insr}(y,t_2)))) & (\pred{Ins}{x,y,t_2})\\
-  & \Lla{\upsilon} &
+  & \equiv &
   \fun{rotl}(\fun{insl}(x,\fun{bst}(a,t_1,\fun{insr}(y,t_2))))\\
   & \equiv_3 & \fun{insl}(x,\fun{rotl}(\fun{bst}(a,t_1,
   \fun{insr}(y,t_2))))\\
-  & \xleftarrow{\smash{\theta}} & \fun{insl}(x,\fun{insr}(y,
-  \fun{bst}(a,t_1,t_2)))\\
+  & \xleftarrow{\smash{\theta}}
+  & \fun{insl}(x,\ufun{insr}(y,\fun{bst}(a,t_1,t_2)))\\
   & = & \fun{insl}(x,\fun{insr}(y,t)). & (t=\fun{bst}(a,t_1,t_2))
 \end{array}
 \end{equation*}
@@ -1605,10 +1608,10 @@ l'absence d'induction. Nous commençons comme suit:
 \begin{equation*}
 \begin{array}{@{}r@{\;}l@{\;}l@{}}
   \fun{insl}(x,\fun{rotl}(t))
-& = & \fun{insl}(x,\fun{rotl}(\fun{bst}(a, t_1,
-\fun{bst}(b,t_2,t_3))))\\
-& \xrightarrow{\smash{\zeta}} &
-\fun{insl}(x,\fun{bst}(b,\fun{bst}(a,t_1,t_2),t_3)) \quad \otimes
+  & = &
+  \fun{insl}(x,\ufun{rotl}(\fun{bst}(a, t_1,\fun{bst}(b,t_2,t_3))))\\
+  & \xrightarrow{\smash{\zeta}} &
+  \fun{insl}(x,\fun{bst}(b,\fun{bst}(a,t_1,t_2),t_3)) \quad \otimes
 \end{array}
 \end{equation*}
 Deux cas sont à considérer: \(b \succ x\) ou \(x \succ b\).
@@ -1622,11 +1625,11 @@ Deux cas sont à considérer: \(b \succ x\) ou \(x \succ b\).
       \text{\;-- Si \(a \succ x\), alors \(\otimes\)} &
       \xrightarrow{\smash{\tau}} &
       \fun{bst}(b,\fun{bst}(a,\fun{insl}(x,t_1),t_2),t_3)\\
-      & \Lla{\zeta} &
+      & \equiv &
       \fun{rotl}(\fun{bst}(a,\fun{insl}(x,t_1),
       \fun{bst}(b,t_2,t_3)))\\
       & \xleftarrow{\smash{\tau}} &
-      \fun{rotl}(\fun{insl}(x,\fun{bst}(a,t_1,
+      \fun{rotl}(\ufun{insl}(x,\fun{bst}(a,t_1,
       \fun{bst}(b,t_2,t_3))))\\
       & = & \fun{rotl}(\fun{insl}(x,t)).
     \end{array}\)
@@ -1635,12 +1638,12 @@ Deux cas sont à considérer: \(b \succ x\) ou \(x \succ b\).
       \text{\;-- Si \(x \succ a\), alors \(\otimes\)} &
       \xrightarrow{\smash{\upsilon}} &
       \fun{bst}(b,\fun{bst}(a,t_1,\fun{insl}(x,t_2)),t_3)\\
-      & \Lla{\zeta} &
+      & \equiv &
       \fun{rotl}(\fun{bst}(a,t_1,\fun{bst}(b,\fun{insl}(x,t_2),t_3)))\\
       & \xleftarrow{\smash{\tau}} &
-      \fun{rotl}(\fun{bst}(a,t_1,\fun{insl}(x,\fun{bst}(b,t_2,t_3))))\\
+      \fun{rotl}(\fun{bst}(a,t_1,\ufun{insl}(x,\fun{bst}(b,t_2,t_3))))\\
       & \xleftarrow{\smash{\upsilon}} &
-      \fun{rotl}(\fun{insl}(x,\fun{bst}(a,t_1,\fun{bst}(b,t_2,t_3))))\\
+      \fun{rotl}(\ufun{insl}(x,\fun{bst}(a,t_1,\fun{bst}(b,t_2,t_3))))\\
       & = & \fun{rotl}(\fun{insl}(x,t)).
       \end{array}\)
 
@@ -1650,13 +1653,13 @@ Deux cas sont à considérer: \(b \succ x\) ou \(x \succ b\).
   \begin{array}{@{}r@{\;}l@{\;}l@{\qquad}r@{}}
     \otimes & \xrightarrow{\smash{\upsilon}} &
     \fun{bst}(b,\fun{bst}(a,t_1,t_2),\fun{insl}(x,t_3))\\
-    & \Lla{\zeta} &
+    & \equiv &
     \fun{rotl}(\fun{bst}(a,t_1,\fun{bst}(b,t_2,\fun{insl}(x,t_3))))\\
     & \xleftarrow{\smash{\upsilon}} &
-    \fun{rotl}(\fun{bst}(a,t_1,\fun{insl}(x,\fun{bst}(b,t_2,t_3))))
+    \fun{rotl}(\fun{bst}(a,t_1,\ufun{insl}(x,\fun{bst}(b,t_2,t_3))))
     & (x \succ b)\\
     & \xleftarrow{\smash{\upsilon}} &
-    \fun{rotl}(\fun{insl}(x,\fun{bst}(a,t_1,\fun{bst}(b,t_2,t_3))))
+    \fun{rotl}(\ufun{insl}(x,\fun{bst}(a,t_1,\fun{bst}(b,t_2,t_3))))
     & (x \succ a)\\
     & = & \fun{rotl}(\fun{insl}(x,t)). & \hfill\Box
   \end{array}
@@ -1850,22 +1853,22 @@ Nous avons \(\fun{min}(t_2) \twoheadrightarrow
 \pair{m}{t'_2}\),\index{min@\fun{min/1}} où \(m\)~est la clé minimale
 de l'arbre~\(t_2\) et \(t'_2\)~est la reconstruction de~\(t_2\)
 sans~\(m\); en d'autres termes, le nœud interne le plus à gauche
-de~\(t_2\) contient la clé~\(m\) et ce nœud a été remplacé par un
-nœud externe. L'appel à \fun{aux\(_0\)/3} substitue simplement la
-clé~\(x\) à supprimer par son successeur immédiat~\(m\). Le but de la
-fonction auxiliaire \fun{aux\(_1\)/3} est de reconstruire l'arbre dans
-lequel le minimum a été supprimé. Remarquons que le motif de la
-troisième règle n'est pas \(\fun{del}(y,
+de~\(t_2\) contient la clé~\(m\) et ce nœud a été remplacé par un nœud
+externe. L'appel à \fun{aux\(_0\)/3} substitue simplement la clé~\(x\)
+à supprimer par son successeur immédiat~\(m\). Le but de la fonction
+auxiliaire \fun{aux\(_1\)/3} est de reconstruire l'arbre dans lequel
+le minimum a été supprimé. Remarquons que le motif de la troisième
+règle n'est pas \(\fun{del}(y,
 \fun{bst}(y,t_1,t_2))\),\index{del@\fun{del/2}} parce que nous savons
-déjà que \(x=y\) et nous voulons éviter un test d'égalité inutile.
-
-Bien entendu, nous pourrions aussi prendre le maximum du sous-arbre
-gauche et cette symétrie arbitraire est en fait ce qui déséquilibre,
-en moyenne, les arbres obtenus après des suppressions suivies par au
-moins deux insertions. En d'autres termes, ces arbres ne sont pas, en
-moyenne, aussi équilibrés que ceux contenant les mêmes clés et
-construits seulement par insertions. Ce phénomène est difficile à
-comprendre et des exemples sont nécessaire pour le voir à l'œuvre
+déjà que \(x=y\) et nous voulons éviter un test d'égalité
+inutile. Bien entendu, nous pourrions aussi prendre le maximum du
+sous-arbre gauche et cette symétrie arbitraire est en fait ce qui
+déséquilibre, en moyenne, les arbres obtenus après des suppressions
+suivies par au moins deux insertions. En d'autres termes, ces arbres
+ne sont pas, en moyenne, aussi équilibrés que ceux contenant les mêmes
+clés et construits seulement par insertions. Ce phénomène est
+difficile à comprendre et des exemples sont nécessaire pour le voir à
+l'œuvre
 \citep{Eppinger_1983,CulbersonMunro_1989,CulbersonEvans_1994,Knuth_1998a,Heyer_2009}.
 
 Une autre sorte d'asymétrie est que la suppression est bien plus
@@ -1874,17 +1877,15 @@ chercheurs à proposer un cadre commun pour l'insertion et la
 suppression \citep{Andersson_1991,Hinze_2002}. En particulier, quand
 la recherche à la Andersson avec un arbre candidat est modifiée pour
 faire une suppression, le programme est plutôt court si le langage de
-programmation est impératif.
-
-Une autre approche de la suppression consiste à marquer les nœuds
-visés comme supprimés sans vraiment les supprimer. Ils sont toujours
-nécessaires pour de futures comparaisons mais ils ne sont plus
-considérés comme faisant partie de la collection de clés que dénote
-l'arbre binaire de recherche. En tant que tels, ils sont comme des
-zombies, ni vivants ni morts, ou on pourrait parler de suppression
-paresseuse. Plus sérieusement, ceci nécessite deux sortes de nœuds
-internes, \fun{bst/3} et \fun{del/3}.\index{del@\fun{del/3}} Cette
-autre conception est montrée à la \fig~\vref{fig:del0}.
+programmation est impératif. Une autre approche de la suppression
+consiste à marquer les nœuds visés comme supprimés sans vraiment les
+supprimer. Ils sont toujours nécessaires pour de futures comparaisons
+mais ils ne sont plus considérés comme faisant partie de la collection
+de clés que dénote l'arbre binaire de recherche. En tant que tels, ils
+sont comme des zombies, ni vivants ni morts, ou on pourrait parler de
+suppression paresseuse. Plus sérieusement, ceci nécessite deux sortes
+de nœuds internes, \fun{bst/3} et \fun{del/3}.\index{del@\fun{del/3}}
+Cette autre conception est montrée à la \fig~\vref{fig:del0}.
 \begin{figure}
 \begin{equation*}
 \boxed{
