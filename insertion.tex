@@ -214,8 +214,11 @@ est, pour \(i \geqslant 0\),
 \label{eq:ins}
 \end{equation}
 Le coût moyen pour insérer \(n\)~clés dans une pile vide est, par
-conséquent, \(\sum_{i=0}^{n-1}\M{\fun{ins}}{i} = \frac{1}{4}n^2 +
-\frac{3}{4}n\). Enfin, d'après l'équation~\eqref{eq:mean_isrt}
+conséquent,
+\begin{equation*}
+  \sum_{i=0}^{n-1}\M{\fun{ins}}{i} = \frac{1}{4}n^2 + \frac{3}{4}n.
+\end{equation*}
+Enfin, d'après l'équation~\eqref{eq:mean_isrt}
 \vpageref{eq:mean_isrt}, le coût moyen du tri de \(n\)~clés par
 insertion simple est
 \begin{equation*}
@@ -812,8 +815,10 @@ elle. La pile avec doigt virtuel peut être simulée par deux piles,
 courante, correspondant à \(\fun{isrt}(s)\)\index{isrt@\fun{isrt/1}} à
 la règle~\(\nu\). (À la section~\ref{sec:queueing},
 \vpageref{sec:queueing}, nous avions utilisé deux piles pour simuler
-une file.) Appelons \(\fun{rcat}(t,u)\)\index{rcat@\fun{rcat/2}} la
-\emph{pile simulée}\index{pile!$\sim$ simulée}; la pile~\(t\) est un
+une file.)
+
+Appelons \(\fun{rcat}(t,u)\)\index{rcat@\fun{rcat/2}} la \emph{pile
+simulée}\index{pile!$\sim$ simulée}; la pile~\(t\) est un
 \emph{préfixe retourné}\index{pile!préfixe retourné} de la pile
 simulée et la pile~\(u\) est un
 \emph{suffixe}\index{pile!suffixe}. Par exemple, un doigt
@@ -894,7 +899,9 @@ avons préféré une définition plus courte et autonome. La
 règle~\(\sigma\) est utilisée pour déplacer les clés de la pile de
 droite vers la pile de gauche. La règle~\(\tau\) les déplace dans
 l'autre sens. La règle~\(\upsilon\) réalise l'insertion proprement
-dite, au sommet de la pile de droite. La \fig~\vref{fig:i2w2314}
+dite, au sommet de la pile de droite.
+
+La \fig~\vref{fig:i2w2314}
 \begin{figure}
 \centering
 \includegraphics[bb=71 523 257 721]{i2w2314}
@@ -1181,12 +1188,13 @@ originellement vide, avec tous les ordres possibles. Notons comment
 toutes les permutations sont atteintes exactement une fois, aux
 nœuds externes\index{arbre!nœud!$\sim$ externe} (voir
 page~\pageref{def:external_node}). Par exemple, \([a,b,c]\) et
-\([c,b,a]\) sont des nœuds externes. Le coût total est la
-\emph{longueur externe}\index{arbre binaire!longueur
-  externe}\label{external_path_length} de l'arbre, c'est-à-dire la
-somme des longueurs des chemins de la racine à tous les nœuds
-externes, ce qui revient au même que de sommer les longueurs de toutes
-les traces possibles:\index{langage
+\([c,b,a]\) sont des nœuds externes.
+
+Le coût total est la \emph{longueur externe}\index{arbre
+  binaire!longueur externe}\label{external_path_length} de l'arbre,
+c'est-à-dire la somme des longueurs des chemins de la racine à tous
+les nœuds externes, ce qui revient au même que de sommer les longueurs
+de toutes les traces possibles:\index{langage
   fonctionnel!évaluation!trace}\index{arbre!$\sim$ d'évaluation}
 \(\len{\xi\upsilon\sigma\upsilon\sigma\upsilon\rho^2\pi} +
 \len{\xi\upsilon\sigma\upsilon\tau\upsilon\pi} +
@@ -1230,7 +1238,7 @@ En posant \(k := p + q\), nous pouvons exprimer ce coût comme suit:
 La pile gauche est retournée après la dernière insertion, donc les
 traces qui suivent sont \(\rho^{p-k}\pi\), avec \(1 \leqslant k
 \leqslant p\), si la dernière insertion a eu lieu à gauche, sinon
-\(\rho^{p+k}\pi\), avec \(0 \leqslant k \leqslant q\), c'est-à-dire
+\(\rho^{p+k}\pi\), avec \(0 \leqslant k \leqslant q\), soit:
 \(\rho^0\pi\), \(\rho^1\pi\), \ldots, \(\rho^{p+q}\pi\). En d'autres
 termes, après une insertion, toutes les configurations possibles sont
 uniquement réalisées (seule une pile droite vide est invalide, à cause
