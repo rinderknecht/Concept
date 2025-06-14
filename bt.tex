@@ -32,7 +32,7 @@ figurées par des disques (\(\bullet\)).
 % {r} mandatory right placement
 % [0pt] of margin overhang
 \centering
-\includegraphics[bb=71 648 177 710]{leaf_tree}%723]{leaf_tree}
+\includegraphics[bb=71 648 177 720]{leaf_tree}%723]{leaf_tree}
 \caption{Un arbre feuillu}
 \label{fig:leaf_tree}
 \end{wrapfigure}
@@ -827,9 +827,9 @@ membre ou bien nous soyons arrêtés. Posons \(t :=
 & \xrightarrow{\smash{\delta}}
 & \cons{x}{\fun{cat}(\fun{pre}_0(t_1), \fun{pre}_0(t_2))}\\
 & \equiv & \cons{x}{\fun{cat}(\fun{pre}(t_1), \fun{pre}_0(t_2))}
-& (\pred{Pre}{t_1})\\
+& \IH{\pred{Pre}{t_1}}\\
 & \equiv & \cons{x}{\fun{cat}(\fun{pre}(t_1), \fun{pre}(t_2))}
-& (\pred{Pre}{t_2})\\
+& \IH{\pred{Pre}{t_2}}\\
 & \xrightarrow{\smash{\theta}}
 & \cons{x}{\fun{cat}(\fun{pre}(t_1,\el), \fun{pre}(t_2))}\\
 & \xrightarrow{\smash{\theta}}
@@ -961,16 +961,16 @@ Nous pouvons maintenant conclure à la \fig~\vref{fig:pre0_pre}.\hfill\(\Box\)
 & \xrightarrow{\smash{\delta}}
 & \cons{x}{\fun{cat}(\fun{pre}_0(t_1), \fun{pre}_0(t_2))}\\
 & \equiv & \cons{x}{\fun{cat}(\fun{pre}(t_1), \fun{pre}_0(t_2))}
-& (\pred{Pre}{t_1})\\
+& \IH{\pred{Pre}{t_1}}\\
 & \equiv & \cons{x}{\fun{cat}(\ufun{pre}(t_1), \fun{pre}(t_2))}
-& (\pred{Pre}{t_2})\\
+& \IH{\pred{Pre}{t_2}}\\
 & \xrightarrow{\smash{\theta}}
 & \cons{x}{\fun{cat}(\fun{pre}(t_1,\el), \ufun{pre}(t_2))}\\
 & \xrightarrow{\smash{\theta}}
 & \cons{x}{\fun{cat}(\fun{pre}(t_1,\el), \fun{pre}(t_2,\el))}\\
 & \equiv
 & \cons{x}{\fun{pre}(t_1,\fun{pre}(t_2,\el))}
-& (\pred{CatPre}{t_1,\fun{pre}(t_2,\el)})\\
+& \IH{\pred{CatPre}{t_1,\fun{pre}(t_2,\el)}}\\
 & \xleftarrow{\smash{\kappa}}
 & \fun{pre}(\fun{int}(x,t_1,t_2),\el)\\
 & \xleftarrow{\smash{\theta}}
@@ -1353,7 +1353,7 @@ membre droit ou bien être bloqué:
 & \fun{in}(\fun{mir}(t_2),\cons{x}{\ufun{in}(\fun{mir}(t_1))})\\
 & \equiv
 & \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{rev}(\ufun{in}(t_1))})
-& (\pred{InMir}{t_1})\\
+& \IH{\pred{InMir}{t_1}}\\
 & \xrightarrow{\smash{\xi}}
 & \fun{in}(\fun{mir}(t_2),\cons{x}{\ufun{rev}(\fun{in}(t_1,\el))})\\
 & \xrightarrow{\smash{\epsilon}}
@@ -1381,7 +1381,7 @@ Nous avons \(\pred{InMir}{t,\el} \Leftrightarrow
 & \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{in}(\fun{mir}(t_1),s)})\\
 & \equiv
 & \fun{in}(\fun{mir}(t_2),\cons{x}{\fun{rcat}(\fun{in}(t_1,\el),s)})
-& (\pred{InMir}{t_1,s})\\
+& \IH{\pred{InMir}{t_1,s}}\\
 & \equiv_0
 & \fun{rcat}(\fun{in}(t_2,\el),\cons{x}{\fun{rcat}(\fun{in}(t_1,\el),s)})\\
 & \xleftarrow{\smash{\eta}}
@@ -1434,21 +1434,21 @@ Alors, nous avons les équivalences suivantes:
 \begin{array}{@{}r@{\,}c@{\,}l@{\,}r@{}}
 \fun{rcat}(s,\fun{rcat}(t,u))
 & \equiv & \fun{rcat}(s,\fun{cat}(\fun{rev}(t),u))
-& (\pred{RevCat}{t,u}\!)\\
+& \IH{\pred{RevCat}{t,u}}\\
 & \equiv & \fun{rcat}(s,\fun{cat}(\fun{rev}_0(t),u))
-& (\pred{EqRev}{t}\!)\\
+& \IH{\pred{EqRev}{t}}\\
 & \equiv & \fun{cat}(\fun{rev}(s),\fun{cat}(\fun{rev}_0(t),u))
-& (\pred{RevCat}{s,\fun{cat}(\fun{rev}_0(t),u)}\!)\\
+& \IH{\pred{RevCat}{s,\fun{cat}(\fun{rev}_0(t),u)}}\\
 & \equiv & \fun{cat}(\fun{rev}_0(s),\fun{cat}(\fun{rev}_0(t),u)\!)
-& (\pred{EqRev}{s}\!)\\
+& \IH{\pred{EqRev}{s}}\\
 & \equiv & \fun{cat}(\fun{cat}(\fun{rev}_0(s),\fun{rev}_0(t)\!),u)\!\!
-& (\!\pred{CatAssoc}{\fun{rev}(s),\fun{rev}(t),u}\!)\\
+& \IH{\pred{CatAssoc}{\fun{rev}(s),\fun{rev}(t),u}}\\
 & \equiv & \fun{cat}(\fun{rev}_0(\fun{cat}(t,s)),u)
-& (\pred{CatRev}{s,t}\!)\\
+& \IH{\pred{CatRev}{s,t}}\\
 & \equiv & \fun{cat}(\fun{rev}(\fun{cat}(t,s)),u)
-& (\pred{EqRev}{\fun{cat}(t,s)}\!)\\
+& \IH{\pred{EqRev}{\fun{cat}(t,s)}}\\
 & \equiv & \fun{rcat}(\fun{cat}(t,s),u)
-& (\pred{RevCat}{\fun{cat}(t,s),u}\!)
+& \IH{\pred{RevCat}{\fun{cat}(t,s),u}}
 \end{array}
 \end{equation*}
 Reprenons la réécriture de la première expression qui nous a arrêté:
@@ -1719,18 +1719,18 @@ membres, jusqu'à atteindre \(\pred{PostMir}{t}\):
           \fun{pre}(\fun{mir}(\fun{mir}(t)))
 & \equiv
 & \fun{rev}(\fun{post}(\fun{mir}(t)))
-& (\pred{PreMir}{\fun{mir}(t)})\\
+& \IH{\pred{PreMir}{\fun{mir}(t)}}\\
   \fun{pre}(t)
 & \equiv
 & \fun{rev}(\fun{post}(\fun{mir}(t)))
-& (\pred{InvMir}{t})\\
+& \IH{\pred{InvMir}{t}}\\
   \fun{rev}(\fun{pre}(t))
 & \equiv
 & \fun{rev}(\fun{rev}(\fun{post}(\fun{mir}(t))))\\
   \fun{rev}(\fun{pre}(t))
 & \equiv
 & \fun{post}(\fun{mir}(t))
-& (\pred{InvRev}{\fun{post}(\fun{mir}(t))}),
+& \IH{\pred{InvRev}{\fun{post}(\fun{mir}(t))}},
 \end{array}
 \end{equation*}
 où\index{InvMir@\predName{InvMir}} \(\pred{InvMir}{t} \colon
@@ -2419,7 +2419,7 @@ Un raffinement sans règles d'inférence est montré à la
 % {r} mandatory right placement
 % [0pt] of margin overhang
 \centering
-\includegraphics[bb=71 653 147 709]{complete}
+\includegraphics[bb=71 653 147 719]{complete}
 \caption{}
 \label{fig:complete}
 \end{wrapfigure}
@@ -2458,7 +2458,7 @@ dernière règle s'applique si \(t=\fun{ext}()\) ou
 
 \begin{wrapfigure}[7]{r}[0pt]{0pt}
 \centering
-\includegraphics[bb=71 653 153 709]{bal}
+\includegraphics[bb=71 653 153 719]{bal}
 \caption{}
 \label{fig:bal}
 \end{wrapfigure}
@@ -2790,7 +2790,7 @@ section~\ref{sec:2-way} \vpageref{sec:2-way}).
 
 \begin{wrapfigure}[6]{r}[0pt]{0pt}
 \centering
-\includegraphics[bb=62 663 128 702]{binzip}
+\includegraphics[bb=62 663 128 712]{binzip}
 \caption{}
 \label{fig:binzip}
 \end{wrapfigure}

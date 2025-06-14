@@ -140,10 +140,10 @@ l'hypothèse d'induction
 & \fun{cat}(\fun{rev}_0(t),\fun{cat}(\fun{rev}_0(s),[x]))\\
 & \equiv
 & \fun{cat}(\fun{cat}(\fun{rev}_0(t),\fun{rev}_0(s)),[x])
-& (\predName{CatAssoc})\\
+& \IH{\predName{CatAssoc}}\\
 & \equiv
 & \fun{cat}(\fun{rev}_0(\fun{cat}(s,t)),[x])
-& (\pred{CatRev}{s,t})\\
+& \IH{\pred{CatRev}{s,t}}\\
 & \xleftarrow{\smash{\delta}}
 & \fun{rev}_0(\cons{x}{\fun{cat}(s,t)})\\
 & \xleftarrow{\smash{\beta}}
@@ -160,10 +160,10 @@ Reprenons notre preuve de
 & \fun{rev}_0(\fun{cat}(\fun{rev}_0(s),[x]))\\
 & \equiv
 & \fun{cat}(\fun{rev}_0([x]),\fun{rev}_0(\fun{rev}_0(s)))
-& (\pred{CatRev}{\fun{rev}_0(s),[x]})\\
+& \IH{\pred{CatRev}{\fun{rev}_0(s),[x]}}\\
 & \equiv
 & \fun{cat}(\ufun{rev}_0([x]),s)
-& (\pred{Inv}{s})\\
+& \IH{\pred{Inv}{s}}\\
 & \xrightarrow{\smash{\delta}}
 & \fun{cat}(\fun{cat}(\ufun{rev}_0(\el),[x]),s)\\
 & \xrightarrow{\smash{\gamma}}
@@ -259,10 +259,10 @@ Pour le pas inductif, réécrivons \(\fun{rev}_0(\cons{x}{s})\) et
 & \fun{cat}(\fun{rev}_0(s),[x])\\
 & \equiv
 & \fun{cat}(\fun{rev}(s),[x])
-& (\pred{EqRev}{s})\\
+& \IH{\pred{EqRev}{s}}\\
 & \leftrightsquigarrow
 & \fun{rcat}(s,[x])
-& (\text{à déterminer})\\
+& \IH{\emph{à déterminer}}\\
 & \xleftarrow{\smash{\eta}}
 & \fun{rcat}(\cons{x}{s},\el)\\
 & \xleftarrow{\smash{\epsilon}}
@@ -305,17 +305,17 @@ Supposons \(\forall s,t \in S.\pred{RevCat}{s,t}\) et prouvons
 & \fun{rcat}(s,\cons{x}{t})\\
 & \equiv
 & \fun{cat}(\fun{rev}(s),\cons{x}{t})
-& (\pred{RevCat}{s,\cons{x}{t}}) \\
+& \IH{\pred{RevCat}{s,\cons{x}{t}}} \\
 & \xleftarrow{\smash{\alpha}}
 & \fun{cat}(\fun{rev}(s),\cons{x}{\ufun{cat}(\el,t)})\\
 & \xleftarrow{\smash{\beta}}
 & \fun{cat}(\fun{rev}(s),\ufun{cat}([x],t))\\
 & \equiv
 & \fun{cat}(\fun{cat}(\fun{rev}(s),[x]),t)
-& (\pred{CatAssoc}{\fun{rev}(s),[x],t})\\
+& \IH{\pred{CatAssoc}{\fun{rev}(s),[x],t}}\\
 & \equiv
 & \fun{cat}(\fun{rcat}(s,[x]),t)
-& (\pred{RevCat}{s,[x]})\\
+& \IH{\pred{RevCat}{s,[x]}}\\
 & \xleftarrow{\smash{\eta}}
 & \fun{cat}(\ufun{rcat}(\cons{x}{s},\el),t)\\
 & \xleftarrow{\smash{\epsilon}}
@@ -323,8 +323,13 @@ Supposons \(\forall s,t \in S.\pred{RevCat}{s,t}\) et prouvons
 \end{array}
 \end{equation*}
 Finalement, nous avons prouvé \(\forall s.\pred{EqRev}{s}\),
-c'est-à-dire \(\fun{rev/1} =
-\fun{rev\(_0\)/1}\)\index{EqRev@\predName{EqRev}|)}\index{rev@\fun{rev/1}}\index{rev0@\fun{rev\(_0\)/1}}\index{cat@\fun{cat/2}|)}\index{induction!exemple|)}.\hfill\(\Box\)
+c'est-à-dire \(\fun{rev/1} = \fun{rev\(_0\)/1}\)
+\index{EqRev@\predName{EqRev}|)}
+\index{rev@\fun{rev/1}}
+\index{rev0@\fun{rev\(_0\)/1}}
+\index{cat@\fun{cat/2}|)}
+\index{induction!exemple|)}.
+\hfill\(\Box\)
 
 \paragraph{Coût}
 \label{cost_rev0}
@@ -431,7 +436,8 @@ alors
 \begin{align*}
 \Call{\fun{cat}(\fun{cat}(s,t),u)}
   &= (\fun{len}(s) + 1) + (\fun{len}(\fun{cat}(s,t)) + 1)\\
-  &= (\fun{len}(s) + 1) + (\fun{len}(s) + \fun{len}(t) + 1) & (\pred{LenCat}{s,t})\\
+  &= (\fun{len}(s) + 1) + (\fun{len}(s) + \fun{len}(t) + 1)
+  & \IH{\pred{LenCat}{s,t}}\\
   &= 2 \cdot \fun{len}(s) + \fun{len}(t) + 2,
 \end{align*}
 en usant de \(\pred{LenCat}{s,t} \colon \fun{len}(\fun{cat}(s,t)) =
