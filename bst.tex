@@ -1739,11 +1739,12 @@ Puisque la première phase de l'insertion d'une racine est l'insertion
 d'une feuille, les analyses précédentes des extremums du coût de
 \fun{insl/2} et \fun{insl\(_1\)/2} sont valables aussi bien pour
 \fun{insr/2}. Considérons maintenant les coûts amortis de
-\fun{insr/2}, à savoir, les extremums du coût de \fun{mkr/1}.  Soit
-\(\OB{\fun{mkr}}{n}\)\index{mkr@$\OB{\fun{mkr}}{n}$} le nombre minimal
-de comparaisons pour construire un arbre binaire de recherche de
-taille~\(n\) en employant des insertions de racines. Nous avons vu que
-le meilleur cas pour l'insertion d'une feuille (\fun{insl/2}) se
+\fun{insr/2}, à savoir, les extremums du coût de \fun{mkr/1}.
+
+Soit \(\OB{\fun{mkr}}{n}\)\index{mkr@$\OB{\fun{mkr}}{n}$} le nombre
+minimal de comparaisons pour construire un arbre binaire de recherche
+de taille~\(n\) en employant des insertions de racines. Nous avons vu
+que le meilleur cas pour l'insertion d'une feuille (\fun{insl/2}) se
 produit quand la clé insérée devient l'enfant de la racine. Bien que
 cela ne peut conduire au meilleur coût amorti (\fun{mkl/1}), c'est le
 meilleur coût amorti quand des insertions de racines (\fun{mkr/1})
@@ -1756,8 +1757,12 @@ exactement deux arbres de coût minimal, dont les formes sont celles de
 la \fig~\vref{fig:tree_stack}. Il est intéressant de noter que ces
 arbres sont de coût maximal lorsqu'ils sont construits avec des
 insertions de feuilles. La première clé n'est pas comparée, donc nous
-avons \(\OB{\fun{mkr}}{n} = n - 1 \sim \OB{\fun{mkl}}{n}/\lg n\). Il
-est peut-être surprenant que le nombre maximal de comparaisons
+avons
+\begin{equation*}
+  \OB{\fun{mkr}}{n} = n - 1 \sim \OB{\fun{mkl}}{n}/\lg n.
+\end{equation*}
+
+Il est peut-être surprenant que le nombre maximal de comparaisons
 \(\OW{\fun{mkr}}{n}\)\index{mkr@$\OW{\fun{mkr}}{n}$} pour faire un
 arbre de recherche de taille~\(n\) avec \fun{mkr/1}, c'est-à-dire le
 nombre maximal amorti de comparaisons avec \fun{insr/2}, est bien plus
@@ -1817,16 +1822,17 @@ délicate, ce qui contraste avec l'insertion d'une feuille. Bien sûr,
 «~suppression~» est une convention dans le contexte des langages
 fonctionnels, où les structures de données sont persistantes, donc
 suppression signifie que nous reconstruisons un nouvel arbre de
-recherche sans la clé en question. Comme avec l'insertion, nous
-pourrions simplement commencer avec la recherche de la clé: si elle
-est absente, il n'y a rien à faire, sinon nous remplaçons la clé par
-son successeur ou prédécesseur immédiat en ordre infixe, c'est-à-dire
-par la clé minimale du sous-arbre droit ou la clé maximale du
-sous-arbre gauche.
+recherche sans la clé en question.
+
+Comme avec l'insertion, nous pourrions simplement commencer avec la
+recherche de la clé: si elle est absente, il n'y a rien à faire, sinon
+nous remplaçons la clé par son successeur ou prédécesseur immédiat en
+ordre infixe, c'est-à-dire par la clé minimale du sous-arbre droit ou
+la clé maximale du sous-arbre gauche.
 
 Les définitions pour ces deux phases se trouvent à la
 \fig~\vref{fig:del}.
-\begin{figure}[!b]
+\begin{figure}
 \begin{equation*}
 \boxed{
 \begin{array}{r@{\;}l@{\;}l}
@@ -1863,15 +1869,20 @@ le minimum a été supprimé. Remarquons que le motif de la troisième
 règle n'est pas \(\fun{del}(y,
 \fun{bst}(y,t_1,t_2))\),\index{del@\fun{del/2}} parce que nous savons
 déjà que \(x=y\) et nous voulons éviter un test d'égalité
-inutile. Bien entendu, nous pourrions aussi prendre le maximum du
-sous-arbre gauche et cette symétrie arbitraire est en fait ce qui
-déséquilibre, en moyenne, les arbres obtenus après des suppressions
-suivies par au moins deux insertions. En d'autres termes, ces arbres
-ne sont pas, en moyenne, aussi équilibrés que ceux contenant les mêmes
-clés et construits seulement par insertions. Ce phénomène est
-difficile à comprendre et des exemples sont nécessaire pour le voir à
-l'œuvre
-\citep{Eppinger_1983,CulbersonMunro_1989,CulbersonEvans_1994,Knuth_1998a,Heyer_2009}.
+inutile.
+
+Bien entendu, nous pourrions aussi prendre le maximum du sous-arbre
+gauche et cette dissymétrie semble être la cause du déséquilibre, en
+moyenne, des arbres obtenus par la composition arbitraire d'insertions
+et de suppressions. En d'autres termes, la distribution des formes des
+arbres résultant diffère de la distribution des arbres de même taille
+produits uniquement par insertions. Plus surprenant, peut-être, il a
+été démontré que les arbres construits par~\(n\) insertions suivies
+de~\(m\) suppressions (\(n \geq m\)) ont bien la même distribution de
+formes que les arbres construits par \(n-m\) insertions! Ces
+phénomènes sont difficiles à comprendre et des exemples sont
+nécessaires pour les voir à l'œuvre
+\citep{Panny_2010,Eppinger_1983,CulbersonMunro_1989,CulbersonEvans_1994,Knuth_1998a,Heyer_2009}.
 
 Une autre sorte d'asymétrie est que la suppression est bien plus
 compliquée à programmer que l'insertion. Ce fait a conduit certains
@@ -1879,15 +1890,16 @@ chercheurs à proposer un cadre commun pour l'insertion et la
 suppression \citep{Andersson_1991,Hinze_2002}. En particulier, quand
 la recherche à la Andersson avec un arbre candidat est modifiée pour
 faire une suppression, le programme est plutôt court si le langage de
-programmation est impératif. Une autre approche de la suppression
-consiste à marquer les nœuds visés comme supprimés sans vraiment les
-supprimer. Ils sont toujours nécessaires pour de futures comparaisons
-mais ils ne sont plus considérés comme faisant partie de la collection
-de clés que dénote l'arbre binaire de recherche. En tant que tels, ils
-sont comme des zombies, ni vivants ni morts, ou on pourrait parler de
-suppression paresseuse. Plus sérieusement, ceci nécessite deux sortes
-de nœuds internes, \fun{bst/3} et \fun{del/3}.\index{del@\fun{del/3}}
-Cette autre conception est montrée à la \fig~\vref{fig:del0}.
+programmation est impératif.
+
+Une autre approche encore de la suppression consiste à marquer les
+nœuds visés comme supprimés sans vraiment les supprimer. Ils sont
+toujours nécessaires pour de futures comparaisons mais ils ne sont
+plus considérés comme faisant partie de la collection de clés que
+dénote l'arbre binaire de recherche: on parle alors de suppression
+paresseuse. Ceci nécessite deux sortes de nœuds internes, \fun{bst/3}
+et \fun{del/3}.\index{del@\fun{del/3}} Cette autre conception est
+montrée à la \fig~\vref{fig:del0}.
 \begin{figure}
 \begin{equation*}
 \boxed{
