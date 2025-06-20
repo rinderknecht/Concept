@@ -225,9 +225,9 @@ Les traductions de \(\iota\)~et~\(\kappa\) vont dans
 Cette dernière étape révèle une erreur et une limitation de notre
 méthode: dans le but de comparer deux valeurs de la classe
 \texttt{Item} comme \texttt{head} et~\texttt{x}, nous devons spécifier
-que \texttt{Item} étend la classe prédéfinie \texttt{Comparable}. Par
-conséquent, nous devons réécrire nos définitions de classes comme
-suit:
+que le paramètre \texttt{Item} étend la classe prédéfinie
+\texttt{Comparable}. Par conséquent, nous devons réécrire nos
+définitions de classes comme suit:
 \begin{alltt}
 \public \abstractX \class Stack<Item
 \hfill\extends Comparable<? \super Item>> \{

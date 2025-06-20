@@ -623,14 +623,14 @@ Examinons un compteur énumérant les entiers de~\(0\) à~\(n\) en
 binaire en modifiant un tableau contenant des bits
 \cite[\S{}17.1]{CLRS_2009}. Dans le pire des cas, un incrément
 provoque l'inversion de tous les bits. Le nombre~\(m\) de bits
-de~\(n\) est trouvé en posant \(n := \sum_{i=0}^{m-1}{b_i2^i}\), où
-les~\(b_i\) sont les bits et \(b_{m-1}=1\). Par définition
-de~\(b_{m-1}\), la borne inférieur pour~\(n\) est \(2^{m-1}\). La
-borne supérieure est atteinte quand tous les bits sont~\(1\),
-c'est-à-dire, \(2^{m-1} + 2^{m-2} + \ldots + 2^0\). Nommons
-\(S_{m-1}\) cette somme. En simplifiant l'expression \(S_{m-1} = 2
-S_{m-1} - S_{m-1}\), nous obtenons \(S_{m-1} = 2^m - 1\). En regroupant
-les bornes, nous arrivons à:
+de~\(n\) est trouvé comme suit. Posons d'abord \(n :=
+\sum_{i=0}^{m-1}{b_i2^i}\), où les~\(b_i\) sont les bits et
+\(b_{m-1}=1\). Par définition de~\(b_{m-1}\), la borne inférieur
+pour~\(n\) est \(2^{m-1}\). La borne supérieure est atteinte quand
+tous les bits sont~\(1\), soit \(2^{m-1} + 2^{m-2} + \ldots +
+2^0\). Nommons \(S_{m-1}\) cette somme. En simplifiant l'expression
+\(S_{m-1} = 2 S_{m-1} - S_{m-1}\), nous obtenons \(S_{m-1} = 2^m -
+1\). En regroupant les bornes, nous obtenons:
 \begin{equation}
 2^{m-1} \leqslant n < 2^m \Rightarrow m - 1 \leqslant \lg n
 < m \Rightarrow m = \floor{\lg n} + 1,
@@ -673,15 +673,14 @@ F(n) := \sum_{k \geqslant 0}{\left\lfloor\frac{n}{2^k}\right\rfloor}.
 Cette somme est en fait toujours finie, comme on le voit à la
 \fig~\vref{fig:ruler}, où, \emph{en diagonale} les bits à~\(1\) à la
 position~\(j\) sont situés aux positions décroissantes de~\(j-1\)
-jusqu'à~\(0\), donc contribuent \(2^j + 2^{j-1} + \dots + 2^0 =
-2^{j+1}-1\).  En toute généralité, posons \(n := 2^{e_r} + \dots +
-2^{e_1} + 2^{e_0} > 0\), avec \(e_r > \dots > e_1 > e_0 \geqslant 0\)
-et \(r \geqslant 0\). Les entiers naturels \(e_i\) sont les positions
-des bits à~\(1\) dans la notation binaire de~\(n\). L'exponentielle
-\(2^{e_r}\) correspond au bit le plus significatif (le plus à gauche)
-dans la notation binaire de~\(n\), donc \(e_r+1\)~est égal au nombre
-de bits de~\(n\), qui est connu d'après
-l'équation~\eqref{eq:num_of_bits}:
+jusqu'à~\(0\), donc contribuent au total \(2^j + 2^{j-1} + \dots + 2^0
+= 2^{j+1}-1\).  Posons \(n := 2^{e_r} + \dots + 2^{e_1} + 2^{e_0} >
+0\), avec \(e_r > \dots > e_1 > e_0 \geqslant 0\) et \(r \geqslant
+0\). Les entiers naturels \(e_i\) sont les positions des bits à~\(1\)
+dans la notation binaire de~\(n\). L'exponentielle \(2^{e_r}\)
+correspond au bit le plus significatif (le plus à gauche) dans la
+notation binaire de~\(n\), donc \(e_r+1\)~est égal au nombre de bits
+de~\(n\), qui est connu d'après l'équation~\eqref{eq:num_of_bits}:
 \begin{equation}
 e_r = \floor{\lg n}.\label{eq:e_r}
 \end{equation}

@@ -1,4 +1,4 @@
-\chapter{Introduction à \XSLT}
+\chapter{Traduction en \XSLT}
 
 La récursivité est une technique de programmation qui est souvent
 négligée dans les cursus universitaires, vue à la va-vite à la fin du
@@ -207,7 +207,7 @@ d'un <emphasis>devoir</emphasis>.
 \end{alltt}
 L'arbre \XML associé à ce document \XML est
 \begin{center}
-\includegraphics[scale=0.93]{mailtoto}
+\includegraphics[scale=0.91]{mailtoto}
 \end{center}
 Remarquons qu'il y a deux nœuds \texttt{to} et que leur ordre doit
 être le même que dans le document \XML.
@@ -2411,8 +2411,8 @@ comme ici l'unique élément \texttt{title}, ses nœuds textuels
 \emph{descendants} (il n'y a qu'un enfant ici) seraient concaténés en
 ordre documentaire et mis dans un nouveau nœud textuel. Par
 conséquent, \texttt{<xsl:sequence select="title/text()"/>} produit le
-même effet que \texttt{<xsl:value-of select="title"/>}, bien que dans
-ce dernier un nouveau nœud textuel soit alloué (au lieu d'être
+même effet qu'avec \texttt{<xsl:value-of select="title"/>}, bien que
+dans ce dernier un nouveau nœud textuel soit alloué (au lieu d'être
 partagé avec l'entrée). Notons par ailleurs que nous avons décidé de
 spécialiser les types pour les faire coller le plus possible aux
 éléments à traiter, comme \texttt{element(xhtml:html)} qui signifie:
@@ -2462,7 +2462,7 @@ dire: «~L'attribut \texttt{title} du premier élément de la séquence
 \texttt{\$chap}.~» Ici, nous ne pouvons substituer
 \texttt{xsl:sequence}, comme avec le nœud textuel avant. En effet,
 si nous essayons à la place \texttt{<xsl:sequence
-  select="\$chap[1]/@title"/>}, le résultat est
+  select="\$chap[1]/@title"/>}, on a
 \begin{sverb}
        ...
          <li title="Instances and schemas"></li>
@@ -3027,9 +3027,12 @@ Maintenant, nous pouvons ôter le filtrage par motifs:
 \begin{equation*}
 \begin{array}{@{}r@{\;}c@{\;}l@{}}
 \fun{red}(t) & \rightarrow & \fun{if} \; t=\el\; \fun{or} \;
-                             \fun{tl}(t)=\el \; \fun{then} \; t\\
-             &             & \fun{else} \; \fun{if} \; \fun{hd}(t) = \fun{hd}(\fun{tl}(t)) \;
-\fun{then} \; \fun{red}(\fun{tl}(t)) \; \fun{else} \; \cons{\fun{hd}(t)}{\fun{red}(\fun{tl}(t))}.
+                             \fun{tl}(t)=\el\\
+             &             & \fun{then} \; t\\
+             &             & \fun{else}\\
+             &             & \;\;\; \fun{if} \; \fun{hd}(t) = \fun{hd}(\fun{tl}(t))\\
+             &             & \;\;\; \fun{then} \; \fun{red}(\fun{tl}(t))\\
+             &             & \;\;\; \fun{else} \; \cons{\fun{hd}(t)}{\fun{red}(\fun{tl}(t))}.
 \end{array}
 \end{equation*}
 où \(\fun{hd}(t)\) \index{head@\fun{hd/1}} est le sommet de la
@@ -3040,13 +3043,13 @@ traduction en calculant seulement une fois la traduction de
 \(\fun{red}(\fun{tl}(t))\). Nous savons aussi que \(\fun{hd}(t)\) est
 traduit par \texttt{\$t[1]}, où~\texttt{t} est la traduction de~\(t\),
 et \(\fun{tl}(t)\) est traduit en \texttt{\$t[position()>1]} ou
-\texttt{\$t[position()!=1]}. Voici la transformation complète:
-\smallXSLTinUnchecked{red.xsl}
+\texttt{\$t[position()!=1]}.
+
+Voici la transformation complète: \smallXSLTinUnchecked{red.xsl}
 \noindent Nous n'avons pas transtypé la valeur de l'attribut en
 \texttt{xs:integer}, par exemple \texttt{xs:integer(\$t[1]/@val) ne
   xs:integer(\$t[2]/@val)}, car nous voulons permettre la comparaison
 de toutes sortes de valeurs.
-
 
 \mypar{Interclassement}
 \label{par:merging}
@@ -3520,11 +3523,11 @@ s'applique à une section, le parallélisme est perdu, mais nous gagnons
 néanmoins du partage de code.
 
 Les éléments \texttt{xsl:call-template} et
-\texttt{xsl:apply-templates} diffèrent aussi en ce que le premier
-résulte toujours en un appel alors que le dernier peut être une
-non-opération si l'attribut \texttt{select} s'évalue en une séquence
-vide. Autrement dit, \texttt{<xsl:apply-templates select="..."/>} ne
-fait rien si \texttt{"..."} est vide, alors que
+\texttt{xsl:apply-templates} diffèrent par ailleurs en ce que le
+premier résulte toujours en un appel alors que le dernier peut être
+une non-opération si l'attribut \texttt{select} s'évalue en une
+séquence vide. Autrement dit, \texttt{<xsl:apply-templates
+  select="..."/>} ne fait rien si \texttt{"..."} est vide, alors que
 \texttt{<xsl:call-template name="t">} appelle toujours le patron
 nommé~\texttt{t}, même si les paramètres sont des séquences vides. Un
 patron filtrant peut être paramétré en plaçant des éléments
@@ -3554,6 +3557,9 @@ une table des matières et calcule sa hauteur.
   \item La hauteur d'une séquence vide est~\texttt{0}.
 
 \end{itemize}
+
+\bigskip
+
 Par exemple, un livre sans chapitres a la hauteur~\texttt{0} (il est
 vide). Un livre constitué uniquement de chapitres sans sections a pour
 hauteur~\texttt{1} (il est plat). Nous utiliserons la même \DTD que
@@ -3596,8 +3602,11 @@ hauteur. Alors
     analogue au comptage du nombre de sections.)
 
 \end{enumerate}
+
 \noindent Ceci est écrit en \XSLT ainsi:
 \smallXSLTinUnchecked{height2.xsl}
+
+\bigskip
 
 Dans la question précédente, la hauteur est calculée de façon
 \emph{ascendante}, c'est-à-dire que les incréments sur la hauteur sont
@@ -3786,6 +3795,8 @@ manière à ce que les items dans la sélection (chaînes et entiers)
 soient convertis en un nœud textuel sans l'espace séparatrice par
 défaut. Par exemple, si nous essayons \texttt{<xsl:value-of
   select="1,2,3">} le résultat est \texttt{'1 2 3'}.
+
+\bigskip
 
 Finalement, nous pouvons compléter la numérotation pour qu'elle
 devienne ce que nous attendons dans la table des matières. Reprenons

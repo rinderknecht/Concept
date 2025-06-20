@@ -507,11 +507,12 @@ Le principal intérêt des arbres de syntaxe abstraite est qu'aucune
 parenthèse n'est nécessaire, parce qu'une sous-expression est dénotée
 par un sous-arbre, en d'autres termes, un arbre est inclus dans un
 autre. De plus, les espaces sont absentes aussi et ainsi l'essentiel
-est mis en valeur. Pour illustrer le gain en visibilité, considérons à
-nouveau la précédente évaluation dans sa totalité, de gauche à droite
-(le nœud qui va être réécrit est encadré), à la
-\fig~\ref{fig:sum1234}.
-\begin{figure}
+est mis en valeur.
+
+Pour illustrer le gain en visibilité, considérons à nouveau la
+précédente évaluation dans sa totalité, de gauche à droite (le nœud
+qui va être réécrit est encadré), à la \fig~\ref{fig:sum1234}.
+\begin{figure}[b]
 \centering
 \includegraphics[bb=72 620 412 721]{sum1234}
 \caption{Évaluation de \(\fun{sum}([1,2,3,4])\)}
@@ -765,7 +766,7 @@ l'associativité seulement:
 \begin{equation*}
 ((1 + 2) + 3) + 4
   \eqn{\ref{add_assoc}} (1 + 2) + (3 + 4)
-  \eqn{\ref{add_assoc}} 1 + (2 + (3 + 4)).\quad\Box
+  \eqn{\ref{add_assoc}} 1 + (2 + (3 + 4)).\qquad\Box
 \end{equation*}
 Qu'en est-il de l'efficacité et de l'usage de la mémoire par
 \erlcode{sum0/1}? Il est aisé de voir que chaque réécriture par les
@@ -2329,7 +2330,7 @@ Puisque le pire des cas de \erlcode{isrt\_tf/1} et \erlcode{isrt/1}
 sont identiques, nous pouvons comparer leur coût dans ce cas, si
 \(n\geqslant{}0\):
 \begin{equation*}
-\W{\fun{isrt}}{n}     = (n^2 + 3n + 2)/2
+\W{\fun{isrt}}{n} = \frac{1}{2}(n^2 + 3n + 2)
 \quad\text{et}\quad
 \W{\fun{isrt\_tf}}{n} = 2 \cdot \W{\fun{isrt}}{n}  + 3n + 1.
 \end{equation*}
@@ -2346,16 +2347,19 @@ de mieux, parce que nous avons seulement les inégalités évidentes
 \C{\smash[t]{\fun{isrt\_tf}}}{n} \leqslant
 \W{\smash[t]{\fun{isrt\_tf}}}{n}\), qui ne nous permettent pas de
 comparer \(\C{\fun{isrt}}{n}\) et
-\(\C{\smash[t]{\fun{isrt\_tf}}}{n}\). Pour obtenir un résultat plus
-fort, nous avons besoin d'une analyse du coût moyen, de façon à
-départager \erlcode{isrt\_tf/1} et \erlcode{isrt/1}. En effet, il se
-pourrait que, pour une entrée de longueur~\(n\), la plupart des
-configurations de l'entrée mènent à un coût de \erlcode{isrt\_tf/1}
-qui est en fait inférieur à celui de \erlcode{isrt/1}. Notons
-\(\M{\smash[t]{\fun{isrt\_tf}}}{n}\) la nombre moyen de réécritures
-nécessaires pour évaluer \erlcode{isrt\_tf}{(\(S\))}, où la longueur
-de la pile~\(S\) est~\(n\). De façon similaire, nous notons
-\(\M{\fun{ins}}{p,q}\) le coût moyen de l'appel
+\(\C{\smash[t]{\fun{isrt\_tf}}}{n}\).
+
+Pour obtenir un résultat plus fort, nous avons besoin d'une analyse du
+coût moyen, de façon à départager \erlcode{isrt\_tf/1} et
+\erlcode{isrt/1}. En effet, il se pourrait que, pour une entrée de
+longueur~\(n\), la plupart des configurations de l'entrée mènent à un
+coût de \erlcode{isrt\_tf/1} qui est en fait inférieur à celui de
+\erlcode{isrt/1}.
+
+Notons \(\M{\smash[t]{\fun{isrt\_tf}}}{n}\) la nombre moyen de
+réécritures nécessaires pour évaluer \erlcode{isrt\_tf}{(\(S\))}, où
+la longueur de la pile~\(S\) est~\(n\). De façon similaire, nous
+notons \(\M{\fun{ins}}{p,q}\) le coût moyen de l'appel
 \erlcode{ins(\(P\),\(X\),\(Q\))}, où la pile~\(P\) a la longueur~\(p\)
 et la pile~\(Q\) la longueur~\(q\).
 
@@ -2386,8 +2390,8 @@ pouvons comparer maintenant \(\M{\fun{isrt\_tf}}{n}\) à
 \(\M{\fun{isrt}}{n}\), si \(n\geqslant{}0\):
 \begin{equation*}
 \M{\fun{isrt\_tf}}{n}
-  = \tfrac{1}{2}{n^2} + \tfrac{1}{2}{n} + 1
-  \sim \tfrac{1}{2}{n^2} \sim 2 \cdot \M{\fun{isrt}}{n}.
+  = \frac{1}{2}{n^2} + \frac{1}{2}{n} + 1
+  \sim \frac{1}{2}{n^2} \sim 2 \cdot \M{\fun{isrt}}{n}.
 \end{equation*}
 En d'autres termes, \erlcode{isrt\_tf/1}, bien qu'optimisée, est
 néanmoins 50\% plus lente que la fonction originelle, \emph{en
@@ -3564,22 +3568,22 @@ Commençons par le membre gauche de
 \erlcode{foldl(\(F\),\(F\)(\(X\),\(A\)),[\(Y\)|\(S\)])}\\
 \;\equiv
    \erlcode{foldl(\(F\),\(F\)(\(Y\),\(F\)(\(X\),\(A\))),\(S\))}
-& \text{(définition de \erlcode{foldl/3})}\\
+& \text{Définition de \erlcode{foldl/3}}\\
 \;\equiv
    \erlcode{foldl(\(F\),\(F\)(\(F\)(\(Y\),\(X\)),\(A\)),\(S\))}
-& \text{(associativité de~\(F\))}\\
+& \text{Associativité de~\(F\)}\\
 \;\equiv
    \erlcode{foldl(\(F\),\(F\)(\(F\)(\(X\),\(Y\)),\(A\)),\(S\))}
-& \text{(symétrie de~\(F\))}\\
+& \text{Symétrie de~\(F\)}\\
 \;\equiv
    \erlcode{\(F\)(\(F\)(\(X\),\(Y\)),foldr(\(F\),\(A\),\(S\)))}
-& \text{(hypothèse d'induction \(\pred{Fold}{S}\))}\\
+& \text{Hypothèse d'induction \(\pred{Fold}{S}\)}\\
 \;\equiv
    \erlcode{\(F\)(\(X\),\(F\)(\(Y\),foldr(\(F\),\(A\),\(S\))))}
-& \text{(associativité de~\(F\))}\\
+& \text{Associativité de~\(F\)}\\
 \;\equiv
    \erlcode{\(F\)(\(X\),foldr(\(F\),\(A\),[\(Y\)|\(S\)]))}
-& \text{(définition de \erlcode{foldr/3}).}\hfill\Box
+& \text{Définition de \erlcode{foldr/3}.}\hfill\Box
 \end{array}
 \end{equation*}
 Ce raisonnement prouve \(\pred{Fold}{\erlcode{[\(Y\)|\(S\)]}}\). Le
@@ -3605,19 +3609,19 @@ La dérivation précédente prendrait alors ici la forme suivante:
 \erlcode{foldl\_alt(\(F\),\(F\)(\(A\),\(X\)),[\(Y\)|\(S\)])}\\
 \;\equiv
 \erlcode{foldl\_alt(\(F\),\(F\)(\(F\)(\(A\),\(X\)),\(Y\)),\(S\))}
-& \text{(définition)}\\
+& \text{Définition}\\
 \;\equiv
    \erlcode{fold\_alt(\(F\),\(F\)(\(A\),\(F\)(\(X\),\(Y\))),\(S\))}
-& \text{(associativité de~\(F\))}\\
+& \text{Associativité de~\(F\)}\\
 \;\equiv
    \erlcode{\(F\)(\(F\)(\(X\),\(Y\)),foldr(\(F\),\(A\),\(S\)))},
-& \text{(hypothèse d'induction \(\pred{Fold}{S})\)}\\
+& \text{Hypothèse d'induction \(\pred{Fold}{S}\)}\\
 \;\equiv
    \erlcode{\(F\)(\(X\),\(F\)(\(Y\),foldr(\(F\),\(A\),\(S\))))}
-& \text{(associativité de~\(F\))}\\
+& \text{Associativité de~\(F\)}\\
 \;\equiv
    \erlcode{\(F\)(\(X\),foldr(\(F\),\(A\),[\(Y\)|\(S\)]))},
-& \text{(définition de \erlcode{foldr/3}).}\hfill\Box
+& \text{Définition de \erlcode{foldr/3}.}\hfill\Box
 \end{array}
 \end{equation*}
 Nous voyons que la symétrie de~\(F\) n'est plus nécessaire que dans un
@@ -4682,11 +4686,11 @@ allp(S)       -> allp(S,fun(X) -> X end).
 allp(   [],_) -> [];
 allp([X|S],K) -> [K([X])|allp(S,fun(T) -> K([X|T]) end)].
 \end{verbatim}
-Une autre solution d'ordre supérieur s'appuie sur une projection
+Une autre solution d'ordre supérieur emploie une projection
 (page~\pageref{par:maps}):
 \begin{verbatim}
 allp0(   []) -> [];
-allp0([X|S]) -> [[X]|map(fun(T) -> [X|T] end,allp0(S))].
+allp0([X|S]) -> [[X]|map(fun(T) -> [X|T] end, allp0(S))].
 \end{verbatim}
 Nous avons \(\C{\fun{allp}_0}{n} = (n+1) + \sum_{k=1}^{n-1}k =
 \frac{1}{2}n^2 + \frac{1}{2}n + 1\).

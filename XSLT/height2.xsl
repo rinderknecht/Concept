@@ -11,12 +11,14 @@
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
+
   <xsl:template match="book" as="xs:integer">
     <xsl:call-template name="height">
       <xsl:with-param name="seq" select="chapter"/>
       <xsl:with-param name="cur" select="0"/>
     </xsl:call-template>
   </xsl:template>
+
 
   <xsl:template name="height" as="xs:integer">
     <xsl:param name="seq" as="element()*"/>
@@ -32,7 +34,7 @@
           <xsl:with-param name="cur" as="xs:integer">
             <xsl:variable name="sub" as="xs:integer">
               <xsl:call-template name="height">
-                <xsl:with-param name="seq" 
+                <xsl:with-param name="seq"
                                 select="$seq[1]/section"/>
                 <xsl:with-param name="cur" select="0"/>
               </xsl:call-template>
