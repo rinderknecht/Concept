@@ -5,6 +5,7 @@
 <book title="Definitive XML Schema">
   <author first="Priscilla" last="Walmsley"/>
 
+
   <chapter title="[I] A quick tour of XML Schema">
     <section title="[I.1] An example schema"/>
     <section title="[I.2] The components of XML Schema">
@@ -15,6 +16,7 @@
       <section title="[I.3.1] The tag/type distinction"/>
     </section>
   </chapter>
+
 
   <chapter title="[II] Instances and schemas">
     <section title="[II.1] Using the instance attributes"/>
