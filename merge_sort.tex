@@ -1423,17 +1423,15 @@ Si nous procédons comme avec les extremums du coût, nous obtenons
 \frac{2}{p+1},\; \OM{\fun{tms}}{2p+1} = \OM{\fun{tms}}{p} +
 \OM{\fun{tms}}{p+1} + 2p - 1 + \frac{2}{p+2}.
 \end{equation*}
-Ces récurrences sont assez délicates. Poser \(\Delta_n :=
+Ces récurrences sont plutôt difficiles. Poser \(\Delta_n :=
 \OM{\fun{tms}}{n+1} - \OM{\fun{tms}}{n}\) mène à
 \begin{equation*}
-\Delta_{2p} = \Delta_p + 1 + \frac{2}{p+2} - \frac{2}{p+1},
-\quad
-\Delta_{2p+1} = \Delta_{p} + 1.
+\Delta_{2p+1} = \Delta_{2p} + \frac{2}{(p+1)(p+2)}.
 \end{equation*}
 Contrairement aux équations aux différences que nous avons dérivées
-pour les extremums du coût, celles-ci ne sont pas d'une grande aide,
-par conséquent nous devrions opter pour une approche inductive, comme
-nous l'avons fait pour trouver l'encadrement serré de
+pour les extremums du coût, celle-ci n'est pas d'une grande aide, par
+conséquent nous devrions opter pour une approche inductive, comme nous
+l'avons fait pour trouver l'encadrement serré de
 \(\OB{\fun{tms}}{n}\). Les inéquations~\eqref{ineq:M_join}
 \vpageref{ineq:M_join} sont équivalentes à
 \begin{equation*}

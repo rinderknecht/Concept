@@ -606,9 +606,9 @@ parce que toutes les formes sont créées par \(\fun{mkl}(s)
 nœuds externes de~\(t\) ont une égale probabilité d'être remplacés
 par une feuille contenant~\(x\). Précisément:
 \begin{equation}
-\abovedisplayskip=2pt
-\abovedisplayshortskip=2pt
-\belowdisplayskip=4pt
+%\abovedisplayskip=2pt
+%\abovedisplayshortskip=2pt
+%\belowdisplayskip=4pt
 \M{\fun{mkl}}{n} = 2 + \sum_{k=0}^{n-1}\M{\fun{insl}}{k}.
 \label{eq:Mmkl0}
 \end{equation}
@@ -640,8 +640,8 @@ Nous souvenant de l'équation~\eqref{eq:Mmems} \vpageref{eq:Mmems},
 et aussi des équations~\eqref{eq:Mmkl0}, \eqref{eq:n_EIn}
 et~\eqref{eq:n_plus_EIn}, il vient:
 \begin{equation*}
-\abovedisplayskip=2pt
-\belowdisplayskip=4pt
+%\abovedisplayskip=2pt
+%\belowdisplayskip=4pt
 \M{\fun{mem}}{n{\scriptscriptstyle(+)}}
 = 1 + \frac{1}{n}\Expected{I_n}
 = \frac{1}{n}(\M{\fun{mkl}}{n} - 2)
@@ -651,8 +651,8 @@ et~\eqref{eq:n_plus_EIn}, il vient:
 Finalement, en utilisant l'équation~\eqref{eq:Mmem}
 \vpageref{eq:Mmem}, nous déduisons
 \begin{equation*}
-\abovedisplayskip=0pt
-\belowdisplayskip=0pt
+%\abovedisplayskip=4pt
+%\belowdisplayskip=5pt
 \frac{1}{n}\sum_{k=0}^{n-1}\M{\fun{mem}}{k{\scriptscriptstyle (-)}}
 =
 \left(1 + \frac{1}{n}\right)
@@ -660,15 +660,15 @@ Finalement, en utilisant l'équation~\eqref{eq:Mmem}
 \end{equation*}
 De manière équivalente:
 \begin{equation*}
-\abovedisplayskip=-7pt
-\abovedisplayshortskip=-7pt
+%\abovedisplayskip=-7pt
+%\abovedisplayshortskip=-7pt
 2n + 1 + \sum_{k=0}^{n-1}\M{\fun{mem}}{k{\scriptscriptstyle (-)}}
 = (n+1) \M{\fun{mem}}{n{\scriptscriptstyle (-)}}.
 \end{equation*}
 Cette équation est facile si nous soustrayons son instance \(n-1\):
 \begin{equation*}
-\abovedisplayskip=6pt
-\belowdisplayskip=6pt
+%\abovedisplayskip=6pt
+%\belowdisplayskip=6pt
 2 + \M{\fun{mem}}{n-1{\scriptscriptstyle(-)}} =
 (n+1) \M{\fun{mem}}{n{\scriptscriptstyle (-)}}
 - n \M{\fun{mem}}{n-1{\scriptscriptstyle (-)}}.
@@ -676,16 +676,16 @@ Cette équation est facile si nous soustrayons son instance \(n-1\):
 En remarquant que \(\M{\fun{mem}}{0{\scriptscriptstyle (-)}} = 1\),
 l'équation devient
 \begin{equation*}
-\abovedisplayskip=0pt
-\belowdisplayskip=0pt
+%\abovedisplayskip=0pt
+%\belowdisplayskip=0pt
 \M{\fun{mem}}{0{\scriptscriptstyle (-)}} = 1,\quad
 \M{\fun{mem}}{n{\scriptscriptstyle (-)}}
 = \M{\fun{mem}}{n-1{\scriptscriptstyle (-)}} + \frac{2}{n+1},
 \end{equation*}
 donc
 \begin{equation}
-\abovedisplayskip=-6pt
-\abovedisplayshortskip=-6pt
+%\abovedisplayskip=-6pt
+%\abovedisplayshortskip=-6pt
 \M{\fun{mem}}{n{\scriptscriptstyle (-)}} =
 1 + 2 \sum_{k=2}^{n+1}\frac{1}{k} = 2H_{n+1} - 1,
 \index{mem@$\M{\fun{mem}}{n{\scriptscriptstyle (-)}}$}
@@ -979,8 +979,8 @@ de taille~\(n\) par insertion de feuilles. Si nous maximisons chaque
 insertion, nous devons faire croître un arbre dégénéré et insérer à un
 nœud de longueur externe maximale:
 \begin{equation*}
-\abovedisplayskip=4pt
-\belowdisplayskip=0pt
+%\abovedisplayskip=4pt
+%\belowdisplayskip=0pt
 \OW{\fun{mkl}}{n} =
 \sum_{k=1}^{n-1}k = \frac{n(n-1)}{2} \sim \frac{1}{2}n^2.
 \end{equation*}
@@ -1006,7 +1006,7 @@ de ces rotations fait monter la feuille jusqu'à la racine. La rotation
 \emph{rotate left}),\index{arbre binaire!rotation} ont été discutées à
 la section~\ref{sec:traversals} \vpageref{par:rotation} et sont
 définies à la \fig~\vref{fig:rotations}.
-\begin{figure}[b]
+\begin{figure}
 \begin{equation*}
 \boxed{
 \begin{array}{r@{\;}l@{\;}l}
@@ -1022,14 +1022,14 @@ définies à la \fig~\vref{fig:rotations}.
 \end{figure}
 Clairement, elles commutent et sont inverses l'une de l'autre:
 \begin{equation*}
-\abovedisplayskip=5pt
-\belowdisplayskip=5pt
+%\abovedisplayskip=5pt
+%\belowdisplayskip=5pt
 \fun{rotl}(\fun{rotr}(t)) \equiv \fun{rotr}(\fun{rotl}(t)) \equiv t.
 \end{equation*}
 De plus, bien que moins évident, elle préservent les parcours infixes:
 \begin{equation*}
-  \abovedisplayskip=5pt
-  \belowdisplayskip=5pt
+%  \abovedisplayskip=5pt
+%  \belowdisplayskip=5pt
   \fun{in}_3(\fun{rotl}(t)) \equiv \fun{in}_3(\fun{rotr}(t)) \equiv
   \fun{in}_3(t),
 \end{equation*}
@@ -1039,9 +1039,9 @@ infixe d'un arbre: \(\fun{in}_3(t) \rightarrow \fun{in}_2(t,\el)\), et
 \fig~\vref{fig:bst0}. Ce théorème est relié de façon inhérente à
 \(\pred{Rot}{x,y,t_1,t_2,t_3}\)\index{Rot@\predName{Rot}},
 \vpageref{def:Rot}, et il est facile à démontrer, sans recours à
-l'induction. D'abord, nous remarquons que si \(\fun{in}_3(t) \equiv
-\fun{in}_3(\fun{rotl}(t))\), remplacer \(t\) par \(\fun{rotr}(t)\)
-donne
+l'induction. D'abord, si \(\fun{in}_3(t) \equiv
+\fun{in}_3(\fun{rotl}(t))\), alors remplacer \(t\) par
+\(\fun{rotr}(t)\) donne
 \begin{equation*}
   \fun{in}_3(\fun{rotr}(t))
   \equiv \fun{in}_3(\fun{rotl}(\fun{rotr}(t))) \equiv \fun{in}_3(t),
@@ -1085,8 +1085,8 @@ que le parcours infixe de l'arbre en entier est invariant.
 Un corollaire est que les rotations laissent inchangée la propriété
 d'être un arbre binaire de recherche (\fig~\vref{fig:bst}):
 \begin{equation*}
-\abovedisplayskip=5pt
-\belowdisplayskip=5pt
+%\abovedisplayskip=5pt
+%\belowdisplayskip=5pt
 \fun{bst}(\fun{rotl}(t)) \equiv \fun{bst}(\fun{rotr}(t)) \equiv \fun{bst}(t).
 \end{equation*}
 En effet, en supposant que \fun{bst/1} est la spécification de
@@ -1769,15 +1769,15 @@ nombre maximal amorti de comparaisons avec \fun{insr/2}, est bien plus
 difficile a déterminer que le coût minimal ou moyen.
 \cite{GeldenhuysVanderMerwe_2009} montrent que
 \begin{equation*}
-\abovedisplayskip=4pt
-\belowdisplayskip=4pt
+%\abovedisplayskip=4pt
+%\belowdisplayskip=4pt
 \OW{\fun{mkr}}{n} = \frac{1}{4}n^2 + n - 2 - c,
 \end{equation*}
 où \(c = 0\) si \(n\)~est pair, et \(c=\myfrac{1}/{4}\) si
 \(n\)~est impair. Ceci implique
 \begin{equation*}
-\abovedisplayskip=4pt
-\belowdisplayskip=-8pt
+%\abovedisplayskip=4pt
+%\belowdisplayskip=-8pt
 \OW{\fun{mkr}}{n} = \frac{1}{2}\OW{\fun{mkl}}{n} + \frac{5}{4}n - 2 -
 c \sim \frac{1}{2}\OW{\fun{mkl}}{n}.
 \end{equation*}
