@@ -472,11 +472,11 @@ la suite, nous surlignons les variables du système d'inférence.
   \(\cons{\overline{x}}{\overline{t}} \approx
   \cons{\overline{x}}{\overline{s}}\), c'est-à-dire, \(t \approx s\).
 
-  \item Si \(\Delta\) se termine avec \TirName{Trans}, alors l'hypothèse
-  d'induction appliquée aux prémisses impliquent \(u \approx s\) et
-  \(t \approx u\), qui peuvent être les prémisses de la règle
-  \TirName{Trans} elle-même et conduisent à \(t \approx
-  s\).\hfill\(\Box\)
+  \item Si \(\Delta\) se termine avec \TirName{Trans}, alors
+    l'hypothèse d'induction appliquée aux prémisses impliquent \(u
+    \approx s\) et \(t \approx u\), qui peuvent être les prémisses de
+    la règle \TirName{Trans} et conduisent à \(t \approx
+    s\).\hfill\(\Box\)
 
 \end{itemize}
 
@@ -837,8 +837,8 @@ t = & 0 & 2 & 4 & & & & 5 & 7 & 8 & 9 & = u\\
 \cline{2-5}\cline{7-11}
 \end{array}
 \end{equation*}
-Étant donné une clé~\(x\), elle est alors aisément insérée simplement
-soit dans~\(t\) (en faisant attention que l'ordre est inverse) ou bien
+Étant donnée une clé~\(x\), elle est alors aisément insérée soit
+dans~\(t\) (en faisant attention que l'ordre est inversé), ou bien
 dans~\(u\). Si nous voulons insérer~\(1\), nous devrions dépiler~\(4\)
 et l'empiler sur la pile de droite (le suffixe), idem pour~\(2\) et
 enfin nous pouvons empiler~\(1\) sur la pile de droite, car, par
@@ -862,8 +862,9 @@ valeur est la pile triée contenant toutes les clés de~\(s\), \(t\)
 et~\(u\), où \(s\)~est un suffixe de la pile originelle (probablement
 pas triée) et \(\fun{rcat}(t,u)\)\index{rcat@\fun{rcat/2}} est la pile
 simulée courante, c'est-à-dire que \(t\)~est la pile de gauche
-(préfixe retourné) et \(u\)~est la pile de droite (le suffixe). La
-fonction \fun{i2w/1}\index{i2w@\fun{i2w/1}} est définie à la
+(préfixe retourné) et \(u\)~est la pile de droite (le suffixe).
+
+La fonction \fun{i2w/1}\index{i2w@\fun{i2w/1}} est définie à la
 \fig~\vref{fig:i2w_def}.
 \begin{figure}[b]
 \begin{equation*}

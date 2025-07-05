@@ -65,7 +65,7 @@ tout~\(x\).  Si nous débutons frontalement avec
 nous sommes coincés.  Mais le terme à réécrire implique à la fois
 \fun{rev$_0$/1} et \fun{cat/2}, ce qui nous incite à concevoir un
 lemme où le schéma de l'obstacle
-\(\fun{cat}(\fun{rev}_0(\dots), \dots)\) est présent et est équivalent
+\(\fun{cat}(\fun{rev}_0(\,\dots), \dots)\) est présent et est équivalent
 à un terme plus simple.\par\vskip\baselineskip
 
 Posons
@@ -322,14 +322,11 @@ Supposons \(\forall s,t \in S.\pred{RevCat}{s,t}\) et prouvons
 & \fun{cat}(\ufun{rev}(\cons{x}{s}),t).
 \end{array}
 \end{equation*}
-Finalement, nous avons prouvé \(\forall s.\pred{EqRev}{s}\),
-c'est-à-dire \(\fun{rev/1} = \fun{rev\(_0\)/1}\)
-\index{EqRev@\predName{EqRev}|)}
-\index{rev@\fun{rev/1}}
-\index{rev0@\fun{rev\(_0\)/1}}
-\index{cat@\fun{cat/2}|)}
-\index{induction!exemple|)}.
-\hfill\(\Box\)
+Finalement, nous avons prouvé \(\forall s.\pred{EqRev}{s}\), soit
+\(\fun{rev/1} = \fun{rev\(_0\)/1}\).\hfill\(\Box\)
+\index{EqRev@\predName{EqRev}|)} \index{rev@\fun{rev/1}}
+\index{rev0@\fun{rev\(_0\)/1}} \index{cat@\fun{cat/2}|)}
+\index{induction!exemple|)}
 
 \paragraph{Coût}
 \label{cost_rev0}

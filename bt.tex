@@ -1672,21 +1672,21 @@ où
   l'hypothèse d'induction;\index{PreMir@\predName{PreMir}}
 
   \item (\(\equiv_2\)) est
-    \(\pred{Rcat}{\fun{post}(t_2,\el),\fun{post}(t_1,\el),s}\);
+    \(\pred{Rcat}{\fun{post}(t_2,\el),\fun{post}(t_1,\el),s}\),
     \index{Rcat@\predName{Rcat}}
 
   \item (\(\equiv_3\)) est
     \(\pred{Rcat}{[x],\fun{cat}(\fun{post}(t_1,\el),
-      \fun{post}(t_2,\el)),s}\);
+      \fun{post}(t_2,\el)),s}\),
     \index{Rcat@\predName{Rcat}}
 
   \item (\(\equiv_4\)) est \(\pred{CatAssoc}{\fun{post}(t_1,\el),
-    \fun{post}(t_2,\el),[x]}\);\index{CatAssoc@\predName{CatAssoc}}
+    \fun{post}(t_2,\el),[x]}\),\index{CatAssoc@\predName{CatAssoc}}
 
   \item (\(\equiv_5\)) est
   \(\pred{CatPost}{t_2,[x]}\)\index{CatPost@\predName{CatPost}} si
   \(\pred{CatPost}{t,s} \colon \fun{cat}(\fun{post}(t),s) \equiv
-  \fun{post}(t,s)\)\!;\index{cat@\fun{cat/2}}
+  \fun{post}(t,s)\)\!,\index{cat@\fun{cat/2}}
 
   \item (\(\equiv_6\)) est \(\pred{CatPost}{t_1,\fun{post}(t_2,[x])}\).
   \index{post@\fun{post/2}}\index{CatPost@\predName{CatPost}}
@@ -2478,24 +2478,26 @@ avec une définition de la hauteur\index{arbre
   binaire!hauteur}\index{height@\fun{height/1}} d'un arbre binaire et
 modifions-la pour en vérifier l'équilibre:
 \begin{equation*}
-\abovedisplayskip=4pt
-\belowdisplayskip=3pt
+%\abovedisplayskip=13pt
+%\belowdisplayskip=13pt
 \fun{height}(\fun{ext}()) \rightarrow 0;
 \;
 \fun{height}(\fun{int}(x,t_1,t_2)) \rightarrow 1 +
 \max\{\fun{height}(t_1), \fun{height}(t_2)\}.
 \end{equation*}
-La modification est montrée à la \fig~\vref{fig:balance},
-\begin{figure}[!b]
+La modification est montrée à la \fig~\vref{fig:balance}, où la règle
+d'inférence de \fun{bal\(_0\)/1}\index{bal0@\fun{bal\(_0\)/1}} est
+requise pour vérifier la condition \(|h_1 - h_2| \leqslant
+1\). Remarquons qu'un arbre parfait est équilibré (\(h_1 = h_2\)).
+
+\bigskip
+
+\begin{figure}[H]
 \centering
 \includegraphics{balance}
 \caption{Vérification de l'équilibre}
 \label{fig:balance}
 \end{figure}
-où la règle d'inférence de
-\fun{bal\(_0\)/1}\index{bal0@\fun{bal\(_0\)/1}} est requise pour
-vérifier la condition \(|h_1 - h_2| \leqslant 1\). Remarquons qu'un
-arbre parfait est équilibré (\(h_1 = h_2\)).
 
 \section{Codages d'arbres}
 

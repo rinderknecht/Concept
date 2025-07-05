@@ -244,12 +244,12 @@ nœud de l'autre. Un groupe d'arbres est une
 
 % Wrapping figure better declared before a paragraph
 %
-\begin{wrapfigure}[7]{r}[0pt]{0pt}
-% [7] vertical lines
+\begin{wrapfigure}[8]{r}[0pt]{0pt}
+% [8] vertical lines
 % {r} mandatory right placement
 % [0pt] of margin overhang
 \centering
-\includegraphics[bb=68 652 123 708]{tree}% normal is [.. .. .. 715]
+\includegraphics[bb=68 652 123 715]{tree}% normal is [.. .. .. 715]
 \caption{}\label{fig:tree}
 \end{wrapfigure}
 Les arbres peuvent figurer les termes de la façon suivante. Un appel
@@ -424,7 +424,7 @@ d'après la convention du langage de programmation \Prolog
 \citep{SterlingShapiro_1994,Bratko_2000}. Ainsi, nous pouvons écrire
 \(\cons{1}{\cons{2}{\cons{3}{\el}}}\) au lieu de
 \(\fun{cons}(1,\fun{cons}(2,\fun{cons}(3,\fun{nil}())))\). Nous
-pouvons de plus abréger les notations comme suit:
+pouvons de plus écourter les notations comme suit:
 \begin{itemize}
 
   \item \(\cons{x_1,x_2,\dots,x_n}{s} := \cons{x_1}{\cons{x_2}{\dots
@@ -544,33 +544,32 @@ configurations des données qui minimisent ou maximisent le coût,
 respectivement appelées \emph{meilleur des cas} et \emph{pire des
   cas}. Par exemple, le pire des cas pour certains algorithmes de tri
 se produit lorsque les clés sont déjà triées dans l'ordre attendu,
-alors que pour d'autres ce peut être l'ordre inverse etc.
+alors que pour d'autres ce peut être l'ordre inverse.
 
 \mypar{Coût moyen}
 \label{par:mean_sort}
 \index{coût!$\sim$ moyen}
 
 Une fois obtenu l'encadrement d'un coût, la question du \emph{coût
-  moyen} \citep{VitterFlajolet_1990} \citep[\S{}1.2.10]{Knuth_1997} se
+moyen} \citep{VitterFlajolet_1990} \citep[\S{}1.2.10]{Knuth_1997} se
 pose. Celui-ci est la moyenne arithmétique des coûts pour toutes les
-données possible d'une taille fixe. De la prudence s'impose, parce
-qu'il faut alors un nombre fini de configurations. Par exemple, pour
-trouver le coût moyen d'un algorithme de tri opérant par comparaison
-de clés, il est habituel de supposer que les \(n\)~clés sont
-\emph{distinctes deux à deux}\index{tri!clé!unicité} et de prendre la
-moyenne des coûts de toutes leurs
-\emph{permutations}\index{permutation} (au nombre de~\(n!\), comme on
-montrera plus loin). La contrainte d'unicité permet à l'analyse de se
-ramener à la prise en compte des permutations de \((1,2,\dots,n)\). Le
-coût moyen de quelques algorithmes de tri, tel le \emph{tri par
-  interclassement} \cite[\S{}5.2.4]{Knuth_1998}
+données possible d'une taille fixe. La prudence s'impose alors, parce
+qu'il faut un nombre fini de configurations. Par exemple, pour trouver
+le coût moyen d'un algorithme de tri opérant par comparaison de clés,
+on suppose habituellement que les \(n\)~clés sont \emph{distinctes
+deux à deux}\index{tri!clé!unicité}, et l'on prend la moyenne des coûts
+de toutes leurs \emph{permutations}\index{permutation} (au nombre
+de~\(n!\), comme on montrera plus loin). La contrainte d'unicité
+permet à l'analyse de se ramener à la prise en compte des permutations
+de \((1,2,\dots,n)\). Le coût moyen de quelques algorithmes de tri,
+tel le \emph{tri par interclassement} \cite[\S{}5.2.4]{Knuth_1998}
 \cite[\S{}2.3]{CLRS_2009} ou le \emph{tri par insertion}
 \cite[\S{}5.2.1]{Knuth_1998} \cite[\S{}2.1]{CLRS_2009}, égale, à
 l'asymptote, leur coût maximal, c'est-à-dire que, pour un nombre
 croissant de clés, le ratio des deux coûts approche arbitrairement
 près l'unité\index{coût!$\sim$ asymptotique}. L'ordre de grandeur du
 coût moyen d'autres tris, tel le \emph{tri de Hoare}, connu aussi sous
-le nom de \emph{tri rapide} \cite[\S{}5.2.2]{Knuth_1998}
+le nom anglais de \emph{Quicksort} \cite[\S{}5.2.2]{Knuth_1998}
 \cite[\S{}7]{CLRS_2009}, est inférieur à leur coût maximal, sur une
 échelle asymptotique \cite[\S{}9]{GrahamKnuthPatashnik_1994}.
 
@@ -978,7 +977,7 @@ travaillons avec des équivalences et nous supposons que le système
 termine et est confluent, donc \emph{toute stratégie de réduction
 convient}.
 
-\section{Réalisation de logiciel}
+\section{Programmation}
 \label{sec:implementation}
 
 \mypar{Traduction en \Erlang}
