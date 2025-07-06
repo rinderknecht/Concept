@@ -2427,9 +2427,13 @@ terminale sont, dans leur cas le plus général, des piles ou des
 \(n\)-uplets. Bien que l'usage d'une pile incarne bien la fonction de
 l'accumulateur, il encoure une pénalité proportionnelle à la mémoire
 nécessaire parce que, dans les arbres de syntaxe abstraite, un
-empilage correspond à un nœud, tout comme un \(n\)-uplet. \emph{En
-  utilisant des \(n\)-uplets dans des \(n\)-uplets, nous pouvons nous
-  passer de la pile complètement.} Ainsi, au lieu de
+empilage correspond à un nœud, tout comme un \(n\)-uplet.
+
+\begin{center}
+\emph{En utilisant des \(n\)-uplets dans des \(n\)-uplets, nous
+pouvons nous passer de la pile complètement.}
+\end{center}
+Ainsi, au lieu de
 \erlcode{[\{k3,\(X_1\)\},\{k1,\(V\),\(E\)\},\{k3,\(X_2\)\}]}, nous
 écririons les \(n\)-uplets imbriqués
 \erlcode{\{k3,\(X_1\),\{k1,\(V\),\(E\),\{k3,\(X_2\),\{\}\}\}\}}. Les
@@ -2450,12 +2454,13 @@ Le codage d'une pile d'accumulation par le biais de \(n\)-uplets
 uniquement suppose d'ajouter une composante à chaque \(n\)-uplet, qui
 contient ce qui était le «~prochain~» \(n\)-uplet dans la pile. La
 mémoire ainsi économisée consiste en une référence (arc) pour chaque
-\(n\)-uplet initial, plus tous les nœuds d'empilage, c'est-à-dire
-que s'il y avait \(m\)~\(n\)-uplets, nous économisons \(m\)~références
+\(n\)-uplet initial, plus tous les nœuds d'empilage, c'est-à-dire que
+s'il y avait \(m\)~\(n\)-uplets, nous économiserions \(m\)~références
 (souvent appelées \emph{pointeurs} dans les langages impératifs) et
-\(m\)~nœuds. Ceci est un gain significatif. Pour l'illustrer,
-améliorons donc le programme que nous avons obtenu précédemment:
-\index{pile!aplatissement|(}
+\(m\)~nœuds. Ceci est un gain significatif.
+
+Pour l'illustrer, améliorons donc le programme que nous avons obtenu
+précédemment: \index{pile!aplatissement|(}
 \begin{alltt}
 flat0\_tf(T)          \(\smashedrightarrow{\alpha}\) flat0(T,[]).
 flat0(         [],A) \(\smashedrightarrow{\gamma}\) appk([],A);
@@ -2506,8 +2511,7 @@ Les équations définissant le coût de cette fonction sont simplement
 \C{\fun{fib}}{n} := 1 + \C{\fun{fib}}{n-1} +
 \C{\fun{fib}}{n-2},\,\; \text{avec} \,\; n > 1.
 \end{equation*}
-Ajoutons~\(1\) aux deux côtés de la dernière équation et réordonnons
-les termes:
+Ajoutons~\(1\) aux deux côtés et réordonnons les termes:
 \begin{equation*}
 \C{\fun{fib}}{n} + 1
   = (\C{\fun{fib}}{n-1} + 1) + (\C{\fun{fib}}{n-2} + 1).
@@ -2626,7 +2630,7 @@ Nous devons résister la tentation de la transformer en forme terminale
 parce que cela ne rendrait service qu'à la pile de contrôle, pas au
 coût, en général. En regardant l'arbre des appels de \erlcode{fib(5)}
 à la \fig~\vref{fig:fib5tree},
-\begin{figure}[b]
+\begin{figure}
 \centering
 \includegraphics{fib5tree}
 \caption{Arbre des appels de \texttt{fib(5)}}
@@ -3031,7 +3035,7 @@ où nous trions des piles par leur longueurs non-croissantes:
                fun({K1,_},{K2,_}) -> K1 < K2 end))
 \end{verbatim}
 où \erlcode{len0/1} est définie à la \fig~\vref{fig:len0}.
-\begin{figure}[b]
+\begin{figure}
 \begin{equation*}
 \boxed{
 \begin{array}{@{}r@{\;}l@{\;}l@{}}
@@ -4508,10 +4512,11 @@ d'identifier certaines possibilités d'optimisation
 \fig~\vref{fig:sfst0} était motivé par la nécessité de partager
 l'entrée au cas où l'élément recherché était absent. Cette sorte
 d'amélioration est fréquente dans les algorithmes qui combinent une
-recherche et une mise à jour locale optionnelle. Par exemple,
-considérons à nouveau l'insertion de feuilles \emph{sans doublons}
-dans un arbre binaire de recherche\index{arbre binaire de recherche} à
-la \fig~\vref{fig:insl0}:
+recherche et une mise à jour locale optionnelle.
+
+Par exemple, considérons à nouveau l'insertion de feuilles \emph{sans
+doublons} dans un arbre binaire de recherche\index{arbre binaire de
+  recherche} à la \fig~\vref{fig:insl0}:
 \begin{alltt}
 insl0(Y,\{bst,X,T1,T2\}) when X > Y -> \{bst,X,insl0(Y,T1),T2\};
 insl0(Y,\{bst,X,T1,T2\}) when Y > X -> \{bst,X,T1,insl0(Y,T2)\};
@@ -4522,11 +4527,12 @@ Au cas où \erlcode{Y}~est présent dans l'arbre, la dernière clause
 partagera le sous-arbre sous l'occurrence trouvée de~\erlcode{Y} dans
 l'arbre d'entrée, mais les deux premières clauses, correspondant à la
 phase de recherche, dupliquerons tous les nœuds de la racine
-à~\erlcode{Y} (exclue). Ceci peut être évité en passant d'appel en
-appel l'arbre originel et en transformant la fonction en forme
-terminale, de telle sorte que si~\erlcode{Y} est trouvée, l'entrée
-complète est partagée et l'évaluation s'interrompt immédiatement (pas
-de contextes en attente).
+à~\erlcode{Y} (exclue).
+
+Ceci peut être évité en passant d'appel en appel l'arbre originel et
+en transformant la fonction en forme terminale, de telle sorte que
+si~\erlcode{Y} est trouvée, l'entrée complète est partagée et
+l'évaluation s'interrompt immédiatement (pas de contextes en attente).
 
 D'abord, transformons la définition en style avec continuations
 (nouvelles continuations en gras):
@@ -4565,7 +4571,7 @@ Dans les langages fonctionnels qui ont des
 \emph{exceptions}\index{langage fonctionnel!Erlang@\Erlang!exception},
 comme \Erlang, le même effet peut être obtenu sans continuations:
 \begin{alltt}
-insl0(Y,T)\hfill{}-> \textbf{try insl\_(Y,T) catch throw:dup -> T end}.
+insl0(Y,T) -> \textbf{try insl\_(Y,T) catch throw:dup -> T end}.
 insl\_(Y,\{bst,X,T1,T2\}) when X > Y -> \{bst,X,insl\_(Y,T1),T2\};
 insl\_(Y,\{bst,X,T1,T2\}) when Y > X -> \{bst,X,T1,insl\_(Y,T2)\};
 insl\_(Y,          ext)            -> \{bst,Y,ext,ext\};
