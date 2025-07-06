@@ -2535,7 +2535,7 @@ la place: «~\texttt{0'',1'',A'',B'',C''.}~».
 Parvenus à ce point, il peut être pertinent de tirer au clair les
 relations entre les différents types que nous avons rencontrés, et d'en
 apprendre quelques autres encore. Considérons l'arbre dans la \fig~\vref{fig:tests}.
-\begin{figure}
+\begin{figure}[b]
 \includegraphics{tests}
 \caption{Sous-types \XPath}
 \label{fig:tests}
@@ -3892,10 +3892,10 @@ L'objectif de cet exercice est de produire une transformation \XSLT
 qui prend un document représentant un arbre binaire dont les feuilles
 contiennent un entier et les trie en ordre non-décroissant. Les
 entiers dans la séquence ordonnée doivent être séparés par des
-virgules et conclus par un point dans le texte final. Par exemple, le
-document \XML
+virgules et conclus par un point dans le texte final. Par exemple,
+considérons le document \XML suivant:
 \smallXMLinUnchecked{num.xml}
-\noindent mène au résultat suivant:
+\noindent Il mène au résultat suivant:
 {\small\verbatiminput{num_out.txt}}
 Le format de la sortie devrait nous rappeler des valeurs ponctuées,
 \vpageref{par:CSV}, et l'ordonnancement de l'interclassement de

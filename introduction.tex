@@ -730,13 +730,13 @@ des entiers de~\(0\) à~\(n\) \citep{Bush_1940}.
 
 Remarquons que \(\fun{cat}([1], [2,3,4]) \twoheadrightarrow [1,2,3,4]
 \twoheadleftarrow \fun{cat}([1,2],
-[3,4])\)\index{cat@\fun{cat/2}|(}. Il est éclairant de créer des
-\emph{classes d'équivalence} de termes qui sont joignables, fondée
-sur~\((\equiv)\) \index{équivalence@$a \equiv b$|see{équivalence
-    d'expressions}} \index{équivalence!$\sim$ d'expressions} définie
-ainsi:
+[3,4])\)\index{cat@\fun{cat/2}|(}. On gagne en clarté en créant des
+\emph{classes d'équivalence} de termes qui sont joignables. La
+relation \((\equiv)\) est définie ainsi:
+\index{équivalence@$a \equiv b$|see{équivalence d'expressions}}
+\index{équivalence!$\sim$ d'expressions}
 \begin{center}
-  \(a \equiv b\) si'il existe une valeur~\(v\) telle que \(a
+  \(a \equiv b\) s'il existe une valeur~\(v\) telle que \(a
   \xrightarrow{\smash[t]{*}} v\) et \(b \xrightarrow{\smash{*}} v\).
 \end{center}
 Par exemple, \(\fun{cat}([1,2], [3,4]) \equiv \fun{cat}([1],
