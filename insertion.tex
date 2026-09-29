@@ -418,36 +418,29 @@ Les arbres de preuves\index{arbre!$\sim$ de preuve}, à la différence
 des autres arbres, sont dessinés avec leur racine vers le bas de la
 figure.
 
-Nous devons maintenant prouver la \emph{réflexivité} de~\((\approx)\),
-c'est-à-dire\index{Refl@\predName{Refl}|(} \(\pred{Refl}{s} \colon s
-\approx s\), par induction\index{induction!exemple|(} sur la structure
-de la dérivation. La différence avec la preuve de la correction de
-\fun{cut/2}\index{cut@\fun{cut/2}}, \vpageref{par:cut_sound}, est que
-l'hypothèse d'induction s'applique aux deux prémisses de
-\TirName{Trans}. Par ailleurs, le théorème n'est pas explicitement une
-implication. Tout d'abord, nous établissons la véracité de
-\predName{Refl} aux axiomes (les feuilles de l'arbre de preuve) et
-nous continuons avec l'induction sur les autres règles d'inférence,
-qui démontre que la réflexivité est préservée lorsque l'on se déplace
-vers la racine.
+Nous voulons prouver que \((\approx)\) est une relation d'équivalence,
+soit une relation binaire qui est réflexive, symétrique et
+transitive. La transitivité est incluse dans les règles d'inférence,
+précisément \TirName{Trans}. La
+réflexivité\index{Refl@\predName{Refl}|(} \(\pred{Refl}{s} \colon s
+\approx s\). Elle est très simple a établir par induction sur la
+structure de~\(s\):
 \begin{itemize}
 
-  \item Les axiomes \TirName{Pnil} et \TirName{Swap} prouvent
-    \(\pred{Refl}{\el}\) et \(\pred{Refl}{\cons{x,x}{s}}\).
+  \item La règle \TirName{Pnil} est \(\pred{Refl}{\el}\).
 
-  \item Supposons alors que \predName{Refl} soit vrai pour la prémisse
-    de \TirName{Push}, c'est-à-dire, \(s = t\). Clairement, la
-    conclusion implique \(\pred{Refl}{\cons{x}{s}}\).
-
-  \item Supposons que \predName{Refl} soit vrai pour les \emph{deux}
-    antécédents de \TirName{Push}, c'est-à-dire, \(s=u=t\). La
-    conclusion conduit à
-    \(\pred{Refl}{s}\)\index{Refl@\predName{Refl}|)}.\hfill\(\Box\)
+  \item Sinon, supposons \(\pred{Refl}{s}\) (hypothèse d'induction):
+    alors la conclusion immédiate de la règle \TirName{Push} est
+    \(\pred{Refl}{\cons{x}{s}}\).
 
 \end{itemize}
 
-Prouvons maintenant la \emph{symétrie} de~\((\approx)\) en employant
-la même technique. Soit\index{Sym@\predName{Sym}}
+Prouvons maintenant la \emph{symétrie} de~\((\approx)\) par
+induction\index{induction!exemple|(} sur la structure de la
+dérivation. La différence avec la preuve de la correction de
+\fun{cut/2}\index{cut@\fun{cut/2}}, \vpageref{par:cut_sound}, est que
+l'hypothèse d'induction s'applique aux deux prémisses de
+\TirName{Trans}. Soit\index{Sym@\predName{Sym}}
 \(\pred{Sym}{s,t}\colon s \approx t \Rightarrow t \approx s\). Nous
 avons affaire à une implication ici, donc supposons \(s \approx t\),
 c'est-à-dire que nous avons un arbre de preuve~\(\Delta\) dont la
