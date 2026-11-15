@@ -2797,30 +2797,40 @@ récursifs qui ont abouti au curseur, mais retournée, et les
 cette façon, en un coup, il devient possible de visiter les enfants
 dans n'importe quel ordre, le parent ou le frère. Considérons la
 \fig~\ref{fig:binzip}, où le curseur est le nœud~\fun{d}. La
-crémaillère est la paire
+sous-structure est
 \begin{equation*}
-\pair{\fun{int}(\fun{d}(),\fun{int}(\fun{e}(),\fun{ext}(),\fun{ext}()),
-\fun{int}(\fun{f}(),\fun{ext}(),\fun{ext}()))}%
-{[p_1,p_2]},
+  s := \fun{int}(\fun{d}(),\fun{int}(\fun{e}(),\fun{ext}(),\fun{ext}()),
+       \fun{int}(\fun{f}(),\fun{ext}(),\fun{ext}())).
 \end{equation*}
-où \(p_1 := \fun{right}(\fun{b}(), \fun{int}(\fun{c}(), \fun{ext}(),
-\fun{ext}()))\) signifie que le nœud~\fun{b} possède un enfant à
-gauche~\fun{c} qui n'a pas été visité (ou, de manière équivalente,
-nous avons bifurqué à droite lorsque nous sommes descendu
-jusqu'à~\fun{d}), et \(p_2 := \fun{left}(\fun{a}(),
-\fun{int}(\fun{g}(), \fun{ext}(), \fun{ext}()))\) signifie que le
-nœud~\fun{a} a un enfant à droite~\fun{g} qui n'a pas été
-visité. La pile \([p_1,p_2]\) est le chemin du nœud~\fun{d} vers
-le haut, jusqu'à la racine. Bien sûr, puisque \fun{b}~est le premier
-dans le chemin ascendant, il est le parent du curseur~\fun{d}.
+Pour définir les chemins enracinés de la crémaillère, nous avons
+besoin de trois constructeurs de données: un dénotant le chemin vide,
+\(\fun{top}()\), un autre dénotant un virage à gauche,
+\(\fun{left}(x,t,p)\), où \(x\)~est un nœud du chemin, \(t\)~est the
+sous-arbre droit de~\(x\), et \(p\)~est le reste du chemin
+jusqu'à la racine en haut, et puis un dernier constructeur dénotant un
+virage à droite, \(\fun{right}(x,t,p)\), où \(t\)~est le
+sous-arbre gauche de~\(x\).
 
-Au début, la crémaillère ne contient que l'arbre originel~\(t\):
-\(\pair{t}{\el}\). Ensuite, les opérations que nous désirons pour
-parcourir un arbre binaire à la demande sont
-\fun{up/1}\index{up@\fun{up/1}} (se déplacer jusqu'au parent),
-\fun{left/1}\index{left@\fun{left/1}} (visiter l'enfant à gauche),
-\fun{right/1}\index{right@\fun{right/1}} (voir l'enfant à droite) et
-\fun{sibling/1}\index{sibling@\fun{sibling/1}} (aller au frère).
+Dans notre example plus haut, la crémaillère est la paire
+\(\pair{p}{s}\), où le chemin~\(p\) est \(\fun{right}(\fun{b}(),
+\fun{int}(\fun{c}(), \fun{ext}(), \fun{ext}()),p_1)\), ce qui veut
+dire que le nœud \fun{b}~a un fils gauche~\fun{c} pas encore visité
+(ou, de manière équivalente, nous avons tourné à droite en
+descendant), et où le reste du chemin est \(p_1 :=
+\fun{left}(\fun{a}(), \fun{int}(\fun{g}(), \fun{ext}(), \fun{ext}()),
+\fun{top}())\), ce qui signifie que le nœud~\fun{a} possède un fils
+droit~\fun{g} pas encore visité, et il est la racine de l'arbre
+global, car nous concluons \(\fun{top}()\). Notons que, puisque
+\fun{b}~est le premier nœud dans le chemin ascendant, il est le parent
+du curseur~\fun{d}.
+
+Au début, l'arbre originel~\(t\) est injecté dans une crémaillère
+\(\pair{\fun{top}()}{t}\). Ensuite, les opérations que nous désirons
+pour parcourir un arbre binaire à la demande sont
+\fun{up/2}\index{up@\fun{up/2}} (se déplacer jusqu'au parent),
+\fun{left/2}\index{left@\fun{left/2}} (visiter l'enfant à gauche),
+\fun{right/2}\index{right@\fun{right/2}} (voir l'enfant à droite) et
+\fun{sibling/2}\index{sibling@\fun{sibling/2}} (aller au frère).
 Toutes prennent une crémaillère en argument et, après n'importe lequel
 de ces déplacements, une nouvelle crémaillère\index{arbre
   binaire!crémaillère} est assemblée. Voir le programme à la
@@ -2829,21 +2839,21 @@ de ces déplacements, une nouvelle crémaillère\index{arbre
 \begin{equation*}
 \boxed{
 \begin{array}{r@{\;}c@{\;}l}
-\fun{up}(\pair{t_1}{\cons{\fun{left}(x,t_2)}{p}}) & \rightarrow &
-  \pair{\fun{int}(x,t_1,t_2)}{p};\\
-\fun{up}(\pair{t_2}{\cons{\fun{right}(x,t_1)}{p}}) & \rightarrow &
-\pair{\fun{int}(x,t_1,t_2)}{p}.\\
+\fun{up}(\fun{left}(x,t_2,p), t_1) & \rightarrow &
+  \pair{p}{\fun{int}(x,t_1,t_2)};\\
+\fun{up}(\fun{right}(x,t_1,p), t_2) & \rightarrow &
+\pair{p}{\fun{int}(x,t_1,t_2)}.\\
 \\
-\fun{left}(\pair{\fun{int}(x,t_1,t_2)}{p}) & \rightarrow &
-  \pair{t_1}{\cons{\fun{left}(x,t_2)}{p}}.\\
+\fun{left}(p, \fun{int}(x,t_1,t_2)) & \rightarrow &
+  \pair{\fun{left}(x,t_2,p)}{t_1}.\\
 \\
-\fun{right}(\pair{\fun{int}(x,t_1,t_2)}{p}) & \rightarrow &
-  \pair{t_2}{\cons{\fun{right}(x,t_1)}{p}}.\\
+\fun{right}(p, \fun{int}(x,t_1,t_2)) & \rightarrow &
+  \pair{\fun{right}(x,t_1,p)}{t_2}.\\
 \\
-\fun{sibling}(\pair{t_1}{\cons{\fun{left}(x,t_2)}{p}}) & \rightarrow &
-  \pair{t_2}{\cons{\fun{right}(x,t_1)}{p}};\\
-\fun{sibling}(\pair{t_2}{\cons{\fun{right}(x,t_1)}{p}}) & \rightarrow&
-  \pair{t_1}{\cons{\fun{left}(x,t_2)}{p}}.
+\fun{sibling}(\fun{left}(x,t_2,p), t_1) & \rightarrow &
+  \pair{\fun{right}(x,t_1,p)}{t_2};\\
+\fun{sibling}(\fun{right}(x,t_1,p), t_2) & \rightarrow &
+  \pair{\fun{left}(x,t_2,p)}{t_1}.
 \end{array}}
 \end{equation*}
 \caption{Déplacements dans un arbre binaire}
@@ -2853,20 +2863,20 @@ de ces déplacements, une nouvelle crémaillère\index{arbre
 Au-delà de parcours arbitraires dans un arbre binaire, cette
 technique, qui est un cas particulier de la \emph{crémaillère de Huet}
 \citep{Huet_1997}, permet aussi d'éditer localement la structure de
-donnée.  Ceci revient en effet a simplement remplacer l'arbre courant
+donnée.  Ceci revient en effet à simplement remplacer l'arbre courant
 par un autre:
 \begin{equation*}
-\fun{graft}(t',\pair{t}{p}) \rightarrow \pair{t'}{p}.
+\fun{prune\_and\_graft}(t',\pair{t}{p}) \rightarrow \pair{t'}{p}.
 \end{equation*}
 Si nous ne souhaitons changer que le curseur, nous utiliserions
 \begin{equation*}
-\fun{slider}(x',\pair{\fun{int}(x,t_1,t_2)}{p}) \rightarrow
+\fun{new\_slider}(x',\pair{\fun{int}(x,t_1,t_2)}{p}) \rightarrow
 \pair{\fun{int}(x',t_1,t_2)}{p}.
 \end{equation*}
 Si nous voulons monter jusqu'à la racine et extraire le nouvel arbre:
 \begin{equation*}
-\fun{zip}(\pair{t}{\el}) \rightarrow t;\quad
-\fun{zip}(z) \rightarrow \fun{zip}(\fun{up}(z)).
+\fun{zip}(\fun{top}(), t) \rightarrow t;\quad
+\fun{zip}(p, t) \rightarrow \fun{zip}(\fun{up}(p, t)).
 \end{equation*}
 
 Nous n'avons pas besoin d'une crémaillère\index{arbre
@@ -2877,8 +2887,8 @@ arbre, à la manière d'une crémaillère dans un vêtement. Néanmoins, si
 nous retenons un aspect de sa conception, à savoir l'accumulation de
 nœuds et sous-arbres à visiter, nous pouvons définir les parcours
 classiques en \emph{forme terminale}\index{langage fonctionnel!forme
-  terminale}, c'est-à-dire que les membres droits sont soit des
-valeurs ou un appel de fonction dont les arguments ne sont pas des
+  terminale}, c'est-à-dire que les membres droits sont soit
+des valeurs ou un appel de fonction dont les arguments ne sont pas des
 appels eux-mêmes. (De telles définitions sont équivalentes à des
 \emph{boucles} dans les langages impératifs et peuvent être optimisées
 par des compilateurs \citep{Appel_1992}.)
