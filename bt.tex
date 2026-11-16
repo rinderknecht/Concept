@@ -2738,47 +2738,44 @@ d'inférence\index{système d'inférence} sont traduites dans le noyau du
 langage fonctionnel (donc deux appels supplémentaires filtrant
 \(\pair{t_1}{s_1}\) et \(\pair{t_2}{s_2}\) sont implicites).
 
-Les codages d'arbres montrent qu'il est possible de représenter de
-façon compacte des arbres binaires, du moment que nous ne nous
-soucions pas du contenu des nœuds internes. Par exemple, nous
-avons mentionné que l'arbre à la \fig~\vref{fig:postorder} a pour
-parcours postfixe étendu\index{arbre binaire!parcours postfixe!codage}
-\([\Box, \Box, \Box, 0, 1, \Box, \Box, 2, 3, \Box, \Box, \Box, 4, 5,
-6]\). Si nous ne souhaitons retenir que la forme de l'arbre, nous
-pourrions remplacer le contenu des nœuds internes par~\(0\) et les
+Les codages d'arbres montrent qu'il est possible de représenter de façon
+compacte des arbres binaires, du moment que nous ne nous soucions pas du contenu
+des nœuds internes. Par exemple, nous avons mentionné que l'arbre à la
+\fig~\vref{fig:postorder} a pour parcours postfixe étendu\index{arbre
+  binaire!parcours postfixe!codage} \([\Box, \Box, \Box, 0, 1, \Box, \Box, 2, 3,
+  \Box, \Box, \Box, 4, 5, 6]\). Si nous ne souhaitons retenir que la forme de
+l'arbre, nous pourrions remplacer le contenu des nœuds internes par~\(0\) et les
 nœuds externes par~\(1\), dont nous tirons le code
-\([1,1,1,0,0,1,1,0,0,1,1,1,0,0,0]\). Un arbre binaire de taille~\(n\)
-peut être représenté de manière unique par un nombre binaire de
-\(2n+1\) bits. En fait, nous pouvons écarter le premier bit parce que
-les deux premiers bits sont toujours~\(1\), donc \(2n\) bits sont en
-fait suffisants. Pour un parcours préfixe étendu, nous choisissons de
-coder les nœuds externes par~\(0\) et les nœuds internes
-par~\(1\), donc l'arbre de la \fig~\vref{fig:preorder} donne \([0, 1,
-2, \Box, 3, \Box, \Box, 4, \Box, \Box, 5, \Box, 6, \Box, \Box]\) et
-\((111010010010100)_2\). Nous pouvons aussi écarter le bit le plus à
-droite, car les deux derniers bits sont toujours~\(0\).
+\([1,1,1,0,0,1,1,0,0,1,1,1,0,0,0]\). Un arbre binaire de taille~\(n\) peut être
+représenté de manière unique par un nombre binaire de \(2n+1\) bits. En fait,
+nous pouvons écarter le premier bit parce que les deux premiers bits sont
+toujours~\(1\), donc \(2n\) bits sont en fait suffisants. Pour un parcours
+préfixe étendu, nous choisissons de coder les nœuds externes par~\(0\) et les
+nœuds internes par~\(1\), donc l'arbre de la \fig~\vref{fig:preorder} donne
+\([0, 1, 2, \Box, 3, \Box, \Box, 4, \Box, \Box, 5, \Box, 6, \Box, \Box]\) et
+\((111010010010100)_2\). Nous pouvons aussi écarter le bit le plus à droite, car
+les deux derniers bits sont toujours~\(0\).
 
 \section{Parcours arbitraires}
 
-Certaines applications requièrent un parcours d'arbre qui dépende
-d'une interaction avec un usager ou un autre logiciel, c'est-à-dire
-qu'à l'arbre est adjointe une notion de nœud courant, donc le
-prochain nœud a être visité peut être choisi parmi n'importe
-lequel de ses enfants, le parent ou même un frère. Cette interactivité
-contraste avec les parcours en préfixe, infixe et postfixe, où l'ordre
-de visite est prédéterminé et ne peut être changé durant le parcours.
+Certaines applications requièrent un parcours d'arbre qui dépende d'une
+interaction avec un usager ou un autre logiciel, c'est-à-dire qu'à l'arbre est
+adjointe une notion de nœud courant, donc le prochain nœud a être visité peut
+être choisi parmi n'importe lequel de ses enfants, le parent ou même un
+frère. Cette interactivité contraste avec les parcours préfixe, infixe et
+postfixe, où l'ordre de visite est prédéterminé et ne peut être changé durant le
+parcours.
 
-Normalement, la visite d'une structure de donnée fonctionnelle
-commence toujours à la même place, par exemple, dans le cas d'une
-pile, il s'agit de l'élément au sommet, et, dans le cas d'un arbre, la
-racine. Parfois, mettre à jour une structure de donnée avec un
-algorithme en-ligne (voir \vpageref{par:online_vs_offline} et
-section~\ref{sec:online} \vpageref{sec:online}) nécessite de garder un
-accès direct «~dans~» la structure de donnée, habituellement là où la
-dernière mise à jour a eu lieu, ou près d'elle, dans l'optique d'un
-coût amorti plus faible (voir page~\pageref{par:amortised_cost}) ou
-d'un coû moyen inférieur (voir l'insertion bidirectionnelle à la
-section~\ref{sec:2-way} \vpageref{sec:2-way}).
+Normalement, la visite d'une structure de donnée fonctionnelle commence toujours
+à la même place, par exemple, dans le cas d'une pile, il s'agit de l'élément au
+sommet, et, dans le cas d'un arbre, la racine. Parfois, mettre à jour une
+structure de donnée avec un algorithme en ligne (voir
+\vpageref{par:online_vs_offline} et section~\ref{sec:online}
+\vpageref{sec:online}) nécessite de garder un accès direct «~dans~» la structure
+de donnée, habituellement là où la dernière mise à jour a eu lieu, ou près
+d'elle, dans l'optique d'un coût amorti plus faible (voir
+page~\pageref{par:amortised_cost}) ou d'un coû moyen inférieur (voir l'insertion
+bidirectionnelle à la section~\ref{sec:2-way} \vpageref{sec:2-way}).
 
 \begin{wrapfigure}[6]{r}[0pt]{0pt}
 \centering
@@ -2786,43 +2783,37 @@ section~\ref{sec:2-way} \vpageref{sec:2-way}).
 \caption{}
 \label{fig:binzip}
 \end{wrapfigure}
-Appelons le nœud courant le \emph{curseur}\index{arbre
-  binaire!curseur}. Une \emph{crémaillère}\index{arbre
-  binaire!crémaillère} dans un arbre binaire est faite d'un
-sous-arbre, dont la racine est le curseur, et d'un \emph{chemin} de
-celui-ci jusqu'à la racine. Ce chemin est la réification de la
-\emph{pile des appels}\index{langage fonctionnel!pile des appels}
-récursifs qui ont abouti au curseur, mais retournée, et les
-\emph{sous-arbres qui n'ont pas été visités lors de la descente}.  De
-cette façon, en un coup, il devient possible de visiter les enfants
-dans n'importe quel ordre, le parent ou le frère. Considérons la
-\fig~\ref{fig:binzip}, où le curseur est le nœud~\fun{d}. La
-sous-structure est
+Appelons le nœud courant le \emph{curseur}\index{arbre binaire!curseur}. Une
+\emph{crémaillère}\index{arbre binaire!crémaillère} dans un arbre binaire est
+faite d'un sous-arbre dont la racine est le curseur, et d'un \emph{chemin} de
+celui-ci jusqu'à la racine. Ce chemin est la réification de la \emph{pile des
+appels}\index{langage fonctionnel!pile des appels} récursifs qui ont abouti au
+curseur, mais retournée, et les \emph{sous-arbres qui n'ont pas été visités lors
+de la descente}.  De cette façon, d'un seul coup, il devient possible de visiter
+les enfants dans n'importe quel ordre, le parent ou un frère. Considérons la
+\fig~\ref{fig:binzip}, où le curseur est le nœud~\fun{d}. La sous-structure est
 \begin{equation*}
   s := \fun{int}(\fun{d}(),\fun{int}(\fun{e}(),\fun{ext}(),\fun{ext}()),
        \fun{int}(\fun{f}(),\fun{ext}(),\fun{ext}())).
 \end{equation*}
-Pour définir les chemins enracinés de la crémaillère, nous avons
-besoin de trois constructeurs de données: un dénotant le chemin vide,
-\(\fun{top}()\), un autre dénotant un virage à gauche,
-\(\fun{left}(x,t,p)\), où \(x\)~est un nœud du chemin, \(t\)~est the
-sous-arbre droit de~\(x\), et \(p\)~est le reste du chemin
-jusqu'à la racine en haut, et puis un dernier constructeur dénotant un
-virage à droite, \(\fun{right}(x,t,p)\), où \(t\)~est le
-sous-arbre gauche de~\(x\).
+Pour définir les chemins enracinés de la crémaillère, nous avons besoin de trois
+constructeurs de données: un dénotant le chemin vide, \(\fun{top}()\), un autre
+dénotant un virage à gauche, \(\fun{left}(x,t,p)\), où \(x\)~est un nœud du
+chemin, \(t\)~est the sous-arbre droit de~\(x\), et \(p\)~est le reste du chemin
+ascendant jusqu'à la racine, et finalement un dernier constructeur dénotant un
+virage à droite, \(\fun{right}(x,t,p)\), où \(t\)~est le sous-arbre gauche
+de~\(x\).
 
-Dans notre example plus haut, la crémaillère est la paire
-\(\pair{p}{s}\), où le chemin~\(p\) est \(\fun{right}(\fun{b}(),
-\fun{int}(\fun{c}(), \fun{ext}(), \fun{ext}()),p_1)\), ce qui veut
-dire que le nœud \fun{b}~a un fils gauche~\fun{c} pas encore visité
-(ou, de manière équivalente, nous avons tourné à droite en
-descendant), et où le reste du chemin est \(p_1 :=
-\fun{left}(\fun{a}(), \fun{int}(\fun{g}(), \fun{ext}(), \fun{ext}()),
+Dans notre example plus haut, la crémaillère est la paire \(\pair{p}{s}\), où le
+chemin~\(p\) est \(\fun{right}(\fun{b}(), \fun{int}(\fun{c}(), \fun{ext}(),
+\fun{ext}()),p_1)\), ce qui veut dire que le nœud \fun{b}~a un fils
+gauche~\fun{c} pas encore visité (ou, de manière équivalente, nous avons tourné
+à droite en descendant), et où le reste du chemin~\(p_1\) est
+\(\fun{left}(\fun{a}(), \fun{int}(\fun{g}(), \fun{ext}(), \fun{ext}()),
 \fun{top}())\), ce qui signifie que le nœud~\fun{a} possède un fils
-droit~\fun{g} pas encore visité, et il est la racine de l'arbre
-global, car nous concluons \(\fun{top}()\). Notons que, puisque
-\fun{b}~est le premier nœud dans le chemin ascendant, il est le parent
-du curseur~\fun{d}.
+droit~\fun{g} pas encore visité, et il est la racine de l'arbre global, car nous
+concluons \(\fun{top}()\). Notons que, puisque \fun{b}~est le premier nœud dans
+le chemin ascendant, il est le parent du curseur~\fun{d}.
 
 Au début, l'arbre originel~\(t\) est injecté dans une crémaillère
 \(\pair{\fun{top}()}{t}\). Ensuite, les opérations que nous désirons
